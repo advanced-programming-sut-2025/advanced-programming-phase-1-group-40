@@ -19,16 +19,16 @@ public class AnimalProduct extends Item {
         this.setPrice((int) (this.basePrice * ((double) this.producerAnimal.getFriendshipLevel() / 1000 + 0.3)));
     }
 
-    public AnimalProduct(models.enums.types.AnimalProductType type) {
+    public AnimalProduct(AnimalProductType type) {
         this.type = type;
     }
 
-    public AnimalProduct(models.enums.types.AnimalProductType type, Animal producerAnimal, int basePrice, Quality quality) {
-        this.type = type;
-        this.producerAnimal = producerAnimal;
-        this.basePrice = basePrice;
-        this.quality = quality;
-    }
+//    public AnimalProduct(models.enums.types.AnimalProductType type, Animal producerAnimal, int basePrice, Quality quality) {
+//        this.type = type;
+//        this.producerAnimal = producerAnimal;
+//        this.basePrice = basePrice;
+//        this.quality = quality;
+//    }
 
     public AnimalProductType getType() {
         return this.type;
