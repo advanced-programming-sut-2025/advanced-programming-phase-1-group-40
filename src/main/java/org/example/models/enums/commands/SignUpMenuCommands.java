@@ -8,15 +8,9 @@ import org.example.models.farming.*;
 import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
-import java.util.regex.*;
+import java.util.regex.Matcher;
 
-public interface Command {
-
-
-    default Matcher getMatcher(String input) {
-        Pattern pattern = Pattern.compile();
-        return pattern.matcher(input);
-    }
+public enum SignUpMenuCommands implements Command{
 
 
 }
