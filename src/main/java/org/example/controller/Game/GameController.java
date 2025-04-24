@@ -1,11 +1,12 @@
-package org.example.Controller.Game;
+package org.example.controller.Game;
 
-import Model.*;
+
+import models.Result;
+import models.User;
+import models.App;
 import models.enums.SkillUpTypes;
-import models.enums.types.*;
 import models.enums.types.FarmBuildingType;
 import models.tools.Tool;
-import models.enums.environment.*;
 
 import java.util.ArrayList;
 

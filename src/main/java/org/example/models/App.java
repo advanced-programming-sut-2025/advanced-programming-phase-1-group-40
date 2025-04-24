@@ -1,7 +1,8 @@
 package models;
 
 import models.enums.Menu;
-
+import models.User;
+import models.Game;
 import java.util.ArrayList;
 
 public class App {
