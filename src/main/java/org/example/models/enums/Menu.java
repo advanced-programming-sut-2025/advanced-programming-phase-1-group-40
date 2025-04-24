@@ -18,6 +18,7 @@ public enum Menu {
     MAIN_MENU(new MainMenu(), "Main Menu"),
     GAME_MENU(new GameMenu(), "Game Menu"),
     PROFILE_MENU(new ProfileMenu(), "Profile Menu"),
+    SIGNUP_MENU(new SignUpMenu(), "Sign up Menu"),
     EXIT(new ExitMenu(), "Exit");
 
     private final AppMenu menu;
