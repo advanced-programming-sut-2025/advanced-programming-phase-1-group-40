@@ -10,7 +10,7 @@ public class ProfileMenu implements AppMenu {
     private final ProfileController controller = new ProfileController();
 
     @Override
-    public void getInput(Scanner scanner) {
+    public void getInput(String input, Scanner scanner) {
 
     }
 }

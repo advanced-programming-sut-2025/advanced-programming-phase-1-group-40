@@ -11,7 +11,7 @@ public class MainMenu implements AppMenu {
     private final MainMenuController controller = new MainMenuController();
 
     @Override
-    public void getInput(Scanner scanner) {
+    public void getInput(String input, Scanner scanner) {
 
     }
 }

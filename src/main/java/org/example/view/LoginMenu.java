@@ -11,7 +11,7 @@ public class LoginMenu implements AppMenu {
     private final LoginController controller = new LoginController();
 
     @Override
-    public void getInput(Scanner scanner) {
+    public void getInput(String input, Scanner scanner) {
 
     }
 }

@@ -9,6 +9,7 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 
+import org.example.view.*;
 
 import java.util.Scanner;
 
@@ -27,24 +28,11 @@ public enum Menu {
         this.displayName = displayName;
     }
 
-    @Override
-    public String toString() {
+    public AppMenu getMenu() {
+        return menu;
+    }
+
+    public String getDisplayName() {
         return displayName;
     }
-
-    public void checkCommand(Scanner scanner) {
-        this.menu.check(scanner);
-    }
-
-    public static Menu getMenuFromDisplayName(String displayName) {
-        return switch (displayName) {
-            case "Login Menu" -> LOGIN_MENU;
-            case "Main Menu" -> MAIN_MENU;
-            case "Profile Menu" -> PROFILE_MENU;
-            case "Game Menu" -> GAME_MENU;
-            case "Exit" -> EXIT;
-            default -> null;
-        };
-    }
-
 }

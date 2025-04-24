@@ -8,7 +8,7 @@ import java.util.*;
 public class TradeMenu implements AppMenu {
 
     @Override
-    public void getInput(Scanner scanner){
+    public void getInput(String input, Scanner scanner){
 
 
 

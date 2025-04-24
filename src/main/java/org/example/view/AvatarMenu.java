@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class AvatarMenu implements AppMenu {
 
     @Override
-    public void getInput(Scanner scanner) {
+    public void getInput(String input, Scanner scanner) {
 
     }
 

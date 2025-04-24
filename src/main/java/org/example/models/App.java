@@ -1,19 +1,15 @@
 package org.example.models;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
+
 import java.util.ArrayList;
 
 public class App {
-    private static final ArrayList<User> users = new ArrayList<>();
-    private static final ArrayList<Game> games = new ArrayList<>();
-    private static User loggedIn = null;
+
+
+    private static ArrayList<User> users = new ArrayList<>();
+    private static ArrayList<Game> games = new ArrayList<>();
+    private static User currentUser = null;
     private static Menu currentMenu = Menu.LOGIN_MENU;
 
     public static Menu getCurrentMenu() {
@@ -24,11 +20,13 @@ public class App {
         App.currentMenu = currentMenu;
     }
 
-    public static User getLoggedIn() {
-        return loggedIn;
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
-    public static void setLoggedIn(User user) {
-        App.loggedIn = user;
+    public static void setCurrentUser(User user) {
+        App.currentUser = user;
     }
+
+
 }

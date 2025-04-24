@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class GameMenu implements AppMenu {
 
     @Override
-    public void getInput(Scanner scanner) {
+    public void getInput(String input, Scanner scanner) {
 
     }
 

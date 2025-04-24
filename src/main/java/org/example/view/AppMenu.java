@@ -7,6 +7,6 @@ import java.util.Scanner;
 
 public interface AppMenu {
 
-    public abstract void getInput(Scanner scanner);
+    public abstract void getInput(String input, Scanner scanner);
 
 }
