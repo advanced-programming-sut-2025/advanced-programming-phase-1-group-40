@@ -1,8 +1,14 @@
-package models.tools;
+package org.example.models.tools;
 
-import models.Item;
-import models.enums.Skill;
-import models.enums.environment.Direction;
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
+
 
 public class Tool extends Item {
     private int energyNeeded;

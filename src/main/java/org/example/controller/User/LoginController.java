@@ -1,11 +1,13 @@
-package controllers.user;
+package org.example.controller.User;
 
-import models.Result;
-import models.User;
-import models.enums.SecurityQuestion;
-import models.enums.types.Gender;
-
-import java.util.HashMap;
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
 
 public class LoginController {
     public static User getUserByUsername(String username) {

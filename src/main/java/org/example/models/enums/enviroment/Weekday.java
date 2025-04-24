@@ -1,4 +1,5 @@
-package org.example.models.enums.commands;
+package org.example.models.enums.enviroment;
+
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
@@ -9,7 +10,12 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 
-
-public enum MainMenuCommands implements Command{
-    
+public enum Weekday {
+    MERCDAY,
+    VENDAY,
+    EARTHDAY,
+    MARSADY,
+    JUPYDAY,
+    URANDAY,
+    NEPDAY;
 }

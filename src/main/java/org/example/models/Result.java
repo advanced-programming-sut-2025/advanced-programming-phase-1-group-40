@@ -1,5 +1,4 @@
-package models;
-
+package org.example.models;
 
 public record Result(boolean success, String message) {
     public Result(boolean success, String message) {

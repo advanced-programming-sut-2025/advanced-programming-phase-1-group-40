@@ -1,8 +1,13 @@
-package org.example.Models;
+package org.example.models;
 
-import models.enums.environment.Time;
-import models.enums.types.AnimalType;
-import 
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
 
 import java.util.ArrayList;
 
@@ -15,8 +20,8 @@ public class Animal {
     private Time LastpettingTime;
     private Time lastProductTime;
     private boolean isFedToday;
-    private ArrayList<models.AnimalProduct> producedProducts;
-    private models.AnimalLivingSpace animalLivingSpace;
+    private ArrayList<AnimalProduct> producedProducts;
+    private AnimalLivingSpace animalLivingSpace;
     private boolean stayedInSide;
     private boolean isFedHay;
 

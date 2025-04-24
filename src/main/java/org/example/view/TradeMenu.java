@@ -1,5 +1,17 @@
-package views;
+package org.example.view;
 
-public class TradeMenu {
+
+import org.example.controller.Game.*;
+import org.example.controller.User.*;
+import java.util.*;
+
+public class TradeMenu implements AppMenu {
+
+    @Override
+    public void getInput(Scanner scanner){
+
+
+
+    }
 
 }

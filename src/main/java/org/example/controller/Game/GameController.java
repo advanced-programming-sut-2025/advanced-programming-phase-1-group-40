@@ -1,12 +1,14 @@
 package org.example.controller.Game;
 
 
-import models.Result;
-import models.User;
-import models.App;
-import models.enums.SkillUpTypes;
-import models.enums.types.FarmBuildingType;
-import models.tools.Tool;
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
 
 import java.util.ArrayList;
 
@@ -14,8 +16,6 @@ public class GameController {
     User player = App.getLoggedIn();
 
     public void skillUp(SkillUpTypes skillUpType) {
-
-
 
     }
 

@@ -1,6 +1,14 @@
-package controllers.player;
+package org.example.controller.Game;
 
-import models.Result;
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
+
 
 public class TrademenuController {
     public Result tradeWithMoney(String targetUsername, String type, String itemName, int amount, int price) { // type?

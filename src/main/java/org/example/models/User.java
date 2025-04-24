@@ -1,11 +1,13 @@
-package models;
+package org.example.models;
 
-import models.enums.SecurityQuestion;
-import models.enums.Skill;
-import models.enums.SkillLevel;
-import models.enums.environment.Direction;
-import models.enums.types.Food;
-import models.tools.Tool;
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

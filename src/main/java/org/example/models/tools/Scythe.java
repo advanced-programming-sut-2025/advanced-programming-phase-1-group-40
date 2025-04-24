@@ -1,12 +1,14 @@
-package models.tools;
-import models.enums.types.ToolTypes;
-
+package org.example.models.tools;
+import org.example.models.*;
+import org.example.models.enums.types.*;
+import org.example.models.enums.enviroment.*;
+import org.example.models.enums.*;
+import org.example.models.farming.*;
+import org.example.models.inventory.*;
+import org.example.models.tools.*;
+import org.example.models.*;
 public class Scythe extends Tool {
-    public Scythe() {
-        super("Scythe", ToolTypes.SCYTHE, 2); // Fixed energy cost
-    }
 
-    public void cutGrass() {
-        System.out.println("Scythe is cutting grass.");
-    }
+
+
 }

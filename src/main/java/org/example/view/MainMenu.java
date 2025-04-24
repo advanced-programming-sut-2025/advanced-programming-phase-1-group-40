@@ -1,6 +1,9 @@
-package views;
+package org.example.view;
 
-import controllers.user.MainMenuController;
+
+import org.example.controller.Game.*;
+import org.example.controller.User.*;
+
 
 import java.util.Scanner;
 
@@ -8,7 +11,7 @@ public class MainMenu implements AppMenu {
     private final MainMenuController controller = new MainMenuController();
 
     @Override
-    public void check(Scanner scanner) {
+    public void getInput(Scanner scanner) {
 
     }
 }

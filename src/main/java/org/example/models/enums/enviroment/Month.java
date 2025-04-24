@@ -1,4 +1,5 @@
-package org.example.models.enums.commands;
+package org.example.models.enums.enviroment;
+
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
@@ -10,6 +11,17 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public enum MainMenuCommands implements Command{
-    
+public enum Month {
+    PISCES,
+    ARIES,
+    TAURUS,
+    GEMINI,
+    CANCER,
+    LEO,
+    VIRGO,
+    LIBRA,
+    SCORPIUS,
+    SAGITTARIUS,
+    CAPRICORNUS,
+    AQUARIUS;
 }
