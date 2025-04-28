@@ -9,14 +9,13 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public interface Command {
 
 
-    default Matcher getMatcher(String input) {
-        Pattern pattern = Pattern.compile();
-        return pattern.matcher(input);
-    }
-
+    public Matcher getMatcher(String input);
 
 }
