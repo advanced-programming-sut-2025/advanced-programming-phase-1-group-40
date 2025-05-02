@@ -8,6 +8,7 @@ import org.example.models.farming.*;
 import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
+import java.util.*;
 
 public class LoginController {
     public static User getUserByUsername(String username) {

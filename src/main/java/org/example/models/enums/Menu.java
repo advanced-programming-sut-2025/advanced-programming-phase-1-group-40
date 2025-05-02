@@ -36,4 +36,18 @@ public enum Menu {
     public String getDisplayName() {
         return displayName;
     }
+
+    public Menu getMenuFromDisplayName(String MenuName) {
+        if (MenuName.equals("Login Menu")) {
+            return LOGIN_MENU;
+        } else if (MenuName.equals("Main Menu")) {
+            return MAIN_MENU;
+        } else if (MenuName.equals("Game Menu")) {
+            return GAME_MENU;
+        } else if (MenuName.equals("Profile Menu")) {
+            return PROFILE_MENU;
+        } else if (MenuName.equals("Sign up Menu")) {
+        }
+        return null;
+    }
 }

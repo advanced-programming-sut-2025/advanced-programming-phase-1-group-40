@@ -76,7 +76,59 @@ public enum GameCommands implements Command{
     GIFT_NPC("\\s*gift\\s+NPC\\s+(?<npcName>.+)\\s+-i\\s+(?<item>.+)\\s*"),
     SHOW_FRIENDSHIP_WITH_NPC("\\s*friendship\\s+NPC\\s+list\\s*"),
     SHOW_QUESTS_LIST("\\s*quests\\s+list\\s*"),
-    FINISH_QUESTS("\\s*quests\\s+finish\\s+-i\\s+(?<index>.+)\\s*");
+    FINISH_QUESTS("\\s*quests\\s+finish\\s+-i\\s+(?<index>.+)\\s*"),
+
+
+    //  COMMAND HAYE ENERGY
+
+
+    SHOW_ENERGY("\\s*energy\\s+show\\s*"),
+    SET_ENERGY("\\s*energy\\s+set\\s+-v\\s+(?<value>\\d+)\\s*"),
+    SET_UNLIMITED_ENERGY("\\s*energy\\s+unlimited\\s*"),
+
+
+    //  COMMAND HAYE INVENTORY
+
+
+    SHOW_INVENTORY("\\s*inventory\\s+show\\s*"),
+    TRASH_ITEM("\\s*inventory\\s+trash\\s+-i\\s+(?<itemName>.+)(?:\\s+-n\\s+(?<number>\\d+))?\\s*"),
+
+
+    // COMMAND HAYE TOOLS
+
+
+    TOOLS_EQUIP("\\s*tools\\s+equip\\s+(?<toolName>.+)\\s*"),
+    TOOLS_SHOW_CURRENT("\\s*tools\\s+show\\s+current\\s*"),
+    TOOLS_SHOW_AVAILABLE("\\s*tools\\s+show\\s+available\\s*"),
+    TOOLS_UPGRADE("\\s*tools\\s+upgrade\\s+(?<toolName>.+)\\s*"),
+
+
+    // COMMAND HAYE PISHRAFT BAAZI
+
+    SHOW_PRODUCT_DETAIL("\\s*craftino\\s+-n\\s+(?<craft_name>.+)\\s*"),
+
+
+    // COMMAND HAYE AGRICULTURE 
+
+
+    PLANT("\\s*plant\\s+-s\\s+(?<seed>.+)\\s+-d\\s+(?<direction>.+)\\s*"),
+    SHOW_PLANT("\\s*showplant\\s+-l\\s+(?<x>\\S+)\\s*,\\s*(?<y>\\S+)\\s*"),
+    FERTILIZE("\\s*fertilize\\s+-f\\s+(?<fertilizer>.+)\\s+-d\\s+(?<direction>.+)\\s*"),
+    CHECK_WATER("\\s*howmuch\\s+water\\s*"),
+
+
+    // COMMAND HAYE CRAFTING
+
+
+    SHOW_CRAFTING_RECIPES("\\s*crafting\\s+show\\s+recipes\\s*"),
+    CRAFT_ITEM("\\s*crafting\\s+craft\\s+(?<itemName>.+)\\s*"),
+    PLACE_ITEM("\\s*place\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-d\\s+(?<direction>.+)\\s*"),
+    CHEAT_ADD_ITEM("\\s*cheat\\s+add\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-c\\s+(?<count>\\d+)\\s*"),
+
+
+
+    
+    
 
 
     private final String regexString;
