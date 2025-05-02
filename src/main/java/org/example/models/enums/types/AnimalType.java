@@ -1,41 +1,56 @@
 package org.example.models.enums.types;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public enum AnimalType {
 
-    CHICKEN(Arrays.asList(AnimalProductType.CHICKEN_EGG, AnimalProductType.LARGE_CHICKEN_EGG), true),
-    DUCK(Arrays.asList(AnimalProductType.DUCK_EGG, AnimalProductType.DUCK_FEATHER), true),
-    RABBIT(Arrays.asList(AnimalProductType.RABBIT_WOOL, AnimalProductType.RABBIT_FOOT), true),
-    DINOSAUR(Arrays.asList(AnimalProductType.DINOSAUR_EGG), true),
-    COW(Arrays.asList(AnimalProductType.COW_MILK, AnimalProductType.LARGE_COW_MILK), false),
-    GOAT(Arrays.asList(AnimalProductType.GOAT_MILK, AnimalProductType.LARGE_GOAT_MILK), false),
-    SHEEP(Arrays.asList(AnimalProductType.WOOL), false),
-    PIG(Arrays.asList(AnimalProductType.TRUFFLE), false);
 
-    private final List<AnimalProductType> animalProducts;
-    private final boolean livesInCage;
+    Chicken(new ArrayList<>(List.of(AnimalProducts.EGG,AnimalProducts.LARGE_EGG)), 800, 1,
+            new ArrayList<>(List.of(FarmBuildingType.COOP, FarmBuildingType.BIG_COOP, FarmBuildingType.DELUXE_COOP)),1),
 
-    AnimalType(List<AnimalProductType> animalProducts, boolean livesInCage) {
-        this.animalProducts = animalProducts;
-        this.livesInCage = livesInCage;
+
+    Duck(new ArrayList<>(List.of(AnimalProducts.DUCK_EGG, AnimalProducts.DUCK_FEATHER)), 1200, 2,
+            new ArrayList<>(List.of(FarmBuildingType.BIG_COOP, FarmBuildingType.DELUXE_COOP)),2),
+
+
+    Rabbit(new ArrayList<>(List.of(AnimalProducts.WOOL, AnimalProducts.RABBIT_LEG)), 8000, 4,
+            new ArrayList<>(List.of(FarmBuildingType.DELUXE_COOP)),4),
+
+
+    Dinosaur(new ArrayList<>(List.of(AnimalProducts.DINOSAUR_EGG)), 14000, 7,
+            new ArrayList<>(List.of(FarmBuildingType.BIG_COOP)),7),
+
+
+    Cow(new ArrayList<>(List.of(AnimalProducts.COW_MILK, AnimalProducts.LARGE_COW_MILK)), 1500, 1,
+            new ArrayList<>(List.of(FarmBuildingType.BARN, FarmBuildingType.BIG_BARN, FarmBuildingType.DELUXE_BARN)),1),
+
+
+    Goat(new ArrayList<>(List.of(AnimalProducts.GOAT_MILK, AnimalProducts.LARGE_GOAT_MILK)), 4000, 2,
+            new ArrayList<>(List.of(FarmBuildingType.BIG_BARN, FarmBuildingType.DELUXE_BARN)),2),
+
+
+    Sheep(new ArrayList<>(List.of(AnimalProducts.WOOL)), 8000, 3,
+            new ArrayList<>(List.of(FarmBuildingType.DELUXE_BARN)),3),
+
+
+    Pig(new ArrayList<>(List.of(AnimalProducts.TRUFFLE)), 16000, null,
+            new ArrayList<>(List.of(FarmBuildingType.DELUXE_BARN)),null);
+
+
+    private final ArrayList<AnimalProducts> products;
+    private final int price;
+    private final Integer maxNumberInOnePlace;
+    private final ArrayList<FarmBuildingType> properLivingSpace;
+    private final Integer productsCycle;
+
+    AnimalType(ArrayList<AnimalProducts> products, int price, Integer maxNumberInOnePlace, ArrayList<FarmBuildingType> appropriateFarmType,Integer productsCycle) {
+        this.products = products;
+        this.price = price;
+        this.maxNumberInOnePlace = maxNumberInOnePlace;
+        this.properLivingSpace = appropriateFarmType;
+        this.productsCycle = productsCycle;
     }
 
-    public List<AnimalProductType> getAnimalProducts() {
-        return animalProducts;
-    }
-
-    public boolean isLivesInCage() {
-        return livesInCage;
-    }
 
 }

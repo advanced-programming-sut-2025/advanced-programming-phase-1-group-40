@@ -1,16 +1,10 @@
 package org.example.models;
 
-import org.example.models.*;
 import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 public class AnimalProduct extends Item {
-    private AnimalProductType type;
+    private AnimalProducts type;
     private int basePrice;
     private Quality quality;
     private Animal producerAnimal;
@@ -19,7 +13,7 @@ public class AnimalProduct extends Item {
         this.setPrice((int) (this.basePrice * ((double) this.producerAnimal.getFriendshipLevel() / 1000 + 0.3)));
     }
 
-    public AnimalProduct(AnimalProductType type) {
+    public AnimalProduct(AnimalProducts type) {
         this.type = type;
     }
 
@@ -30,7 +24,7 @@ public class AnimalProduct extends Item {
 //        this.quality = quality;
 //    }
 
-    public AnimalProductType getType() {
+    public AnimalProducts getType() {
         return this.type;
     }
 
