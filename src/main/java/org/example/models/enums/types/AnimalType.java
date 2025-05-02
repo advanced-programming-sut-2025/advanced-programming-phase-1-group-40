@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum AnimalType {
+
     CHICKEN(Arrays.asList(AnimalProductType.CHICKEN_EGG, AnimalProductType.LARGE_CHICKEN_EGG), true),
     DUCK(Arrays.asList(AnimalProductType.DUCK_EGG, AnimalProductType.DUCK_FEATHER), true),
     RABBIT(Arrays.asList(AnimalProductType.RABBIT_WOOL, AnimalProductType.RABBIT_FOOT), true),
@@ -36,4 +37,5 @@ public enum AnimalType {
     public boolean isLivesInCage() {
         return livesInCage;
     }
+
 }

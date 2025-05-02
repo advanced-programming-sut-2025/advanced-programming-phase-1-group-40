@@ -11,7 +11,8 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public enum FarmBuildingType {
-    // TODO: modify all of the values
+
+
     BARN(7, 4, "Houses 4 barn-dwelling animals.", 350,150, 6000, false),
     BIG_BARN(7, 4, "Houses 8 barn-dwelling animals. Unlocks goats.", 450, 200, 12000, false),
     DELUXE_BARN(7, 4, "Houses 12 barn-dwelling animals. Unlocks sheep and pigs.", 550, 300, 25000, false),

@@ -12,6 +12,8 @@ import org.example.models.*;
 
 
 public enum AnimalProductType {
+
+
     CHICKEN_EGG(50, 800),
     LARGE_CHICKEN_EGG(95, 800),
     DUCK_EGG(95, 1200),
@@ -25,7 +27,8 @@ public enum AnimalProductType {
     LARGE_GOAT_MILK(345, 4000),
     WOOL(340, 8000),
     TRUFFLE(625, 16000);
-    
+
+
     private final int basePrice;
     private final int purchasePrice;
 

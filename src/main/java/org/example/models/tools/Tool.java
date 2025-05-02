@@ -10,7 +10,8 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public class Tool extends Item {
+public abstract class Tool implements Item {
+
     private int energyNeeded;
     private Skill relatedSkill;
 
