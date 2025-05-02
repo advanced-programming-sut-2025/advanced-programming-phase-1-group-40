@@ -13,6 +13,7 @@ import org.example.models.*;
 
 
 public class Position {
+
     private int x;
     private int y;
 
@@ -20,4 +21,5 @@ public class Position {
     public String toString() {
         return "(" + this.x + "," + this.y + ")";
     }
+
 }

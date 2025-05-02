@@ -12,6 +12,7 @@ import org.example.models.*;
 
 
 public class Tile {
+
     private TileType type;
     private Position position;
 
@@ -30,4 +31,5 @@ public class Tile {
     public void setPosition(Position position) {
         this.position = position;
     }
+
 }

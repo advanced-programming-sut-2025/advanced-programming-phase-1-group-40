@@ -1,4 +1,5 @@
-package org.example.models;
+package org.example.models.Map;
+
 import org.example.models.*;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
@@ -9,9 +10,8 @@ import org.example.models.tools.*;
 import org.example.models.*;
 import java.util.ArrayList;
 
-public class Greenhouse {
+public class Cabin extends MapComponents {
 
-    private ArrayList<Position> tiles;
 
 
 }

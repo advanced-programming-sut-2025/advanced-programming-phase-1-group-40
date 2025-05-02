@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.models.Map;
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
@@ -10,6 +10,8 @@ import org.example.models.tools.*;
 import org.example.models.*;
 import java.util.ArrayList;
 
-public class Lake {
-    private ArrayList<Position> tiles;
+public class Lake extends MapComponents {
+
+
+
 }

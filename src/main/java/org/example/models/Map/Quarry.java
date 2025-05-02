@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.models.Map;
 
 import java.util.ArrayList;
 import org.example.models.*;
@@ -13,6 +13,8 @@ import org.example.models.*;
 
 
 
-public class Quarry {
-    private ArrayList<Tile> tiles;
+public class Quarry extends MapComponents {
+
+
+
 }
