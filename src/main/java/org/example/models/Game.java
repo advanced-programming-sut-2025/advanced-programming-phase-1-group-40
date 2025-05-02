@@ -10,6 +10,7 @@ import org.example.models.*;
 import java.util.ArrayList;
 
 public class    Game {
+
     private ArrayList<Farm> farms;
     private ArrayList<Shop> shops;
     private ArrayList<User> players; // The 3 players

@@ -1,17 +1,11 @@
 package org.example.models.enums.types;
 
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 
 public enum FishType {
+
     SALMON("Salmon", 75, Season.FALL, false),
     SARDINE ("Sardine", 40, Season.FALL, false),
     SHAD ("Shad", 60, Season.FALL, false),
@@ -23,15 +17,16 @@ public enum FishType {
     FLOUNDER ("Flounder", 100, Season.SPRING, false),
     LIONFISH ("Lionfish", 100, Season.SPRING, false),
     HERRING ("Herring", 30, Season.SPRING, false),
-    GHOSTFISH ("Ghostfish", 45, Season.SPRING, false),
+    GHOST_FISH("Ghost fish", 45, Season.SPRING, false),
     TILAPIA ("Tilapia", 75, Season.SUMMER, false),
     DORADO ("Dorado", 100, Season.SUMMER, false),
     SUNFISH ("Sunfish", 30, Season.SUMMER, false),
     RAINBOW_TROUT ("Rainbow Trout", 65, Season.SUMMER, false),
     LEGEND ("Legend", 5000, Season.SPRING, true),
-    GLACIERFISH ("Glacierfish", 1000, Season.WINTER, true),
+    GLACIER_FISH ("Glacier fish", 1000, Season.WINTER, true),
     ANGLER ("Angler", 900, Season.FALL, true),
-    CRIMSONFISH ("Crimsonfish", 1500, Season.SUMMER, true);
+    CRIMSON_FISH("Crimson fish", 1500, Season.SUMMER, true);
+
 
     String name;
     int basePrice;
@@ -43,5 +38,21 @@ public enum FishType {
         this.basePrice = basePrice;
         this.season = season;
         this.isLegendary = isLegendary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public boolean isLegendary() {
+        return isLegendary;
     }
 }

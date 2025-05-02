@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.models.Animal;
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
@@ -12,91 +12,109 @@ import org.example.models.*;
 import java.util.ArrayList;
 
 public class Animal {
+
     private String name;
     private AnimalType animalType;
-    private int purchaseCost;
-    private int friendshipLevel;
-    private Time LastFeedingTime;
-    private Time LastpettingTime;
-    private Time lastProductTime;
-    private boolean isFedToday;
-    private ArrayList<AnimalProduct> producedProducts;
-    private AnimalLivingSpace animalLivingSpace;
-    private boolean stayedInSide;
-    private boolean isFedHay;
 
-    public Animal(String name, AnimalType animalType) {
+    private int friendship;
+
+    private boolean petToday;
+    private boolean sleptOutside;
+    private boolean fedWithHayToday;
+
+    private ArrayList<AnimalProducts> products;
+
+    private FarmBuildingType animalLivingSpace;
+    private Integer price;
+
+    Animal(String name, AnimalType animalType){
+
         this.name = name;
         this.animalType = animalType;
-        this.friendshipLevel = 0;
+
+        this.petToday = false;
+        this.sleptOutside = false;
+        this.fedWithHayToday = false;
+
+        this.products = new ArrayList<>();
+
+        this.animalLivingSpace = animalType.getProperLivingSpace().get(0);          /// ino bayad fix koni!!!
+        this.price = animalType.getPrice();
+
+
     }
 
-    public void feedHay() {
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void collectProduce() {
+    public void setAnimalType(AnimalType animalType) {
+        this.animalType = animalType;
     }
 
-    private void updateFriendship() {
+    public void setFriendship(int friendship) {
+        this.friendship = friendship;
+    }
+
+    public void setPetToday(boolean petToday) {
+        this.petToday = petToday;
+    }
+
+    public void setSleptOutside(boolean sleptOutside) {
+        this.sleptOutside = sleptOutside;
+    }
+
+    public void setFedWithHayToday(boolean fedWithHayToday) {
+        this.fedWithHayToday = fedWithHayToday;
+    }
+
+    public void setProducts(ArrayList<AnimalProducts> products) {
+        this.products = products;
+    }
+
+    public void setAnimalLivingSpace(FarmBuildingType animalLivingSpace) {
+        this.animalLivingSpace = animalLivingSpace;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public String getName() {
-        return this.name;
-    }
-
-    public AnimalLivingSpace getLivingSpace() {
-        return this.animalLivingSpace;
-    }
-
-    public ArrayList<AnimalProduct> getProducedProducts() {
-        return this.producedProducts;
-    }
-
-    public Time getLastProductTime() {
-        return this.lastProductTime;
-    }
-
-    public Time getLastpettingTime() {
-        return this.LastpettingTime;
-    }
-
-    public Time getLastFeedingTime() {
-        return this.LastFeedingTime;
-    }
-
-    public int getFriendshipLevel() {
-        return this.friendshipLevel;
+        return name;
     }
 
     public AnimalType getAnimalType() {
-        return this.animalType;
+        return animalType;
     }
 
-    public AnimalLivingSpace getAnimalLivingSpace() {
-        return this.animalLivingSpace;
+    public int getFriendship() {
+        return friendship;
     }
 
-    public int getPurchaseCost() {
-        return this.purchaseCost;
+    public boolean isPetToday() {
+        return petToday;
     }
 
-    public boolean isFedToday() {
-        return isFedToday;
+    public boolean isSleptOutside() {
+        return sleptOutside;
     }
 
-    public boolean isStayedInSide() {
-        return stayedInSide;
+    public boolean isFedWithHayToday() {
+        return fedWithHayToday;
     }
 
-    public void setStayedInSide(boolean stayedInSide) {
-        this.stayedInSide = stayedInSide;
+    public ArrayList<AnimalProducts> getProducts() {
+        return products;
     }
 
-    public void setFedToday(boolean fedToday) {
-        isFedToday = fedToday;
+    public FarmBuildingType getAnimalLivingSpace() {
+        return animalLivingSpace;
     }
 
-
+    public Integer getPrice() {
+        return price;
+    }
 }
 
 

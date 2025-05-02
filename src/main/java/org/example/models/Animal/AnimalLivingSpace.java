@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.models.Animal;
 import org.example.models.*;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;

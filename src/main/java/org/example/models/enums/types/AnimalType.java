@@ -42,15 +42,33 @@ public enum AnimalType {
     private final int price;
     private final Integer maxNumberInOnePlace;
     private final ArrayList<FarmBuildingType> properLivingSpace;
-    private final Integer productsCycle;
+    private final Integer productCycle;
 
     AnimalType(ArrayList<AnimalProducts> products, int price, Integer maxNumberInOnePlace, ArrayList<FarmBuildingType> appropriateFarmType,Integer productsCycle) {
         this.products = products;
         this.price = price;
         this.maxNumberInOnePlace = maxNumberInOnePlace;
         this.properLivingSpace = appropriateFarmType;
-        this.productsCycle = productsCycle;
+        this.productCycle = productsCycle;
     }
 
+    public ArrayList<AnimalProducts> getProducts() {
+        return products;
+    }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public Integer getMaxNumberInOnePlace() {
+        return maxNumberInOnePlace;
+    }
+
+    public ArrayList<FarmBuildingType> getProperLivingSpace() {
+        return properLivingSpace;
+    }
+
+    public Integer getProductCycle() {
+        return productCycle;
+    }
 }
