@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public abstract class Harvestable {
 
     private String name;
-    private models.farming.PlantSource source;
+    private PlantSource source;
     private int numOfStages;
     private ArrayList<Integer> stages;
     private int totalHarvestTime;

@@ -2,26 +2,23 @@ package org.example.controller.User;
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
+import org.example.models.enums.commands.*;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class LoginController {
     public static User getUserByUsername(String username) {
-        for (User user : App.getusers()) {
-            if (user.getUsername().equal(username))
+        for (User user : App.getUsers()) {
+            if (user.getUsername().equals(username))
                 return user;
         }
         return null;
     }
     public static User getUserByEmail(String email){
-        for(User user: App.getusers()){
-            if(user.getEmail().equal(Email)){
+        for(User user: App.getUsers()){
+            if(user.getEmail().equals(email)){
                 return user;
             }
 
@@ -34,7 +31,7 @@ public class LoginController {
                                String password,
                                String email,
                                Gender gender) {
-        if (!LoginCommands.VALID_USERNAME.matches(username)) {
+        if (!LoginCommands.USERNAME_REGEX.matches(username)) {
             return new Result(false, "Username is not valid.");
         }
         if(getUserByUsername(username) != null) {
@@ -43,10 +40,10 @@ public class LoginController {
        /* if(!LoginCommands.VALID_NICKNAME.matches(nickname)){
             return new Result(false, "Nickname is not valid.");
         }*/
-        if (!LoginCommands.VALID_PASSWORD.matches(password)) {
+        if (!LoginCommands.PASSWORD_REGEX.matches(password)) {
             return new Result(false, "Password is not valid.");
         }
-        if (!LoginCommands.VALID_EMAIL.matches(email)) {
+        if (!LoginCommands.EMAIL_REGEX.matches(email)) {
             return new Result(false, "Email format is not valid.");
         }
         if(getUserByEmail(email) != null) {
@@ -64,8 +61,8 @@ public class LoginController {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             sb.append(characters.charAt(rand.nextInt(characters.length())));
-            return new Result(true , sb.toString());
         }
+        return new Result(true , sb.toString());
     }
 
     public Result showSecurityQuestions() {
@@ -149,9 +146,9 @@ public class LoginController {
             SecurityQuestion question = user.getQAndA().keySet().iterator().next();
             return new Result(true, question.name());
         }
-        //result rand = randomPasswordGenerator();
+        Result rand = randomPasswordGenerator();
         // String newpass = rand.getMessage();
-
+        return new Result(true, rand.toString());
     }
 
 }

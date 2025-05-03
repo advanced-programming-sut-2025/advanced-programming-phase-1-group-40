@@ -27,7 +27,7 @@ public class Animal {
     private FarmBuildingType animalLivingSpace;
     private Integer price;
 
-    Animal(String name, AnimalType animalType){
+    public Animal(String name, AnimalType animalType){
 
         this.name = name;
         this.animalType = animalType;

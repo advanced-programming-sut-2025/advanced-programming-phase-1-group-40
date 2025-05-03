@@ -24,6 +24,14 @@ public class App {
         return currentUser;
     }
 
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public static ArrayList<Game> getGames() {
+        return games;
+    }
+
     public static void setCurrentUser(User user) {
         App.currentUser = user;
     }

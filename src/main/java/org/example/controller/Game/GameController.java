@@ -2,6 +2,7 @@ package org.example.controller.Game;
 
 
 import org.example.models.*;
+import org.example.models.Animal.Animal;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;

@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
+    private String username;
+    private String password;
+    private String email;
     private int energy;
     private boolean isEnergyUnlimited;
     private Position position;
@@ -35,6 +38,50 @@ public class User {
         } else {
             this.energy = energyAmount;
         }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public HashMap<Skill, SkillLevel> getSkillLevels() {
+        return SkillLevels;
+    }
+
+    public ArrayList<Farm> getFarms() {
+        return farms;
+    }
+
+    public ArrayList<CraftRecipe> getLearntCraftRecipes() {
+        return learntCraftRecipes;
+    }
+
+    public ArrayList<Food> getLearntCookingRecipes() {
+        return learntCookingRecipes;
+    }
+
+    public Map<SecurityQuestion, String> getqAndA() {
+        return qAndA;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public Farm getChosenFarm() {
+        return chosenFarm;
     }
 
     public boolean isEnergyUnlimited() {

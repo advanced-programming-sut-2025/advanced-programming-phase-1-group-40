@@ -123,7 +123,7 @@ public enum GameCommands implements Command{
     SHOW_CRAFTING_RECIPES("\\s*crafting\\s+show\\s+recipes\\s*"),
     CRAFT_ITEM("\\s*crafting\\s+craft\\s+(?<itemName>.+)\\s*"),
     PLACE_ITEM("\\s*place\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-d\\s+(?<direction>.+)\\s*"),
-    CHEAT_ADD_ITEM("\\s*cheat\\s+add\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-c\\s+(?<count>\\d+)\\s*"),
+    CHEAT_ADD_ITEM("\\s*cheat\\s+add\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-c\\s+(?<count>\\d+)\\s*");
 
 
 
