@@ -55,4 +55,6 @@ public enum FishType {
     public boolean isLegendary() {
         return isLegendary;
     }
+
+
 }

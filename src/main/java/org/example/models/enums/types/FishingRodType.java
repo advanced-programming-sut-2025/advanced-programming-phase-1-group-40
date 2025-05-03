@@ -10,6 +10,23 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public enum FishingRodType {
-    TRAINING, BAMBOO, FIBERGLASS, IRIDIUM;
+
+    TRAINING_ROD(0.1),
+    BAMBOO_POLE(0.5),
+    FIBERGLASS_ROD(0.9),
+    IRIDIUM(1.2);
+
+    private final double poleCoefficient;
+
+    FishingRodType(double poleCoefficient) {
+
+        this.poleCoefficient = poleCoefficient;
+
+    }
+
+    public double getPoleCoefficient() {
+        return poleCoefficient;
+    }
+
 }
 
