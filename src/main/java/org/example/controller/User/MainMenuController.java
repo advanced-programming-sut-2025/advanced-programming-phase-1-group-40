@@ -17,7 +17,7 @@ public class MainMenuController {
             return new Result(false, "Invalid menu name!");
         }
         if (!canSwitchMenu(newMenu)) {
-            return new Result(false, "You can't switch to " + menuName + " from here!");
+            return new Result(false, "You can not switch to " + menuName + " from here!");
         }
         App.setCurrentMenu(newMenu);
         return new Result(true, "Menu switched to " + menuName);
@@ -28,7 +28,7 @@ public class MainMenuController {
             App.setCurrentMenu(Menu.EXIT);
         }
         App.setCurrentMenu(Menu.MAIN_MENU);
-        return new Result(true, "You are now in Main Menu");
+        return new Result(true, "You are now in the Main Menu");
     }
 
     public Result showCurrentMenu() {

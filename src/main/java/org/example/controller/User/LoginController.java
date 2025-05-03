@@ -8,23 +8,64 @@ import org.example.models.farming.*;
 import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
-import java.util.*;
+
+import java.util.Random;
 
 public class LoginController {
     public static User getUserByUsername(String username) {
-            User user = new User();
-            return user;
+        for (User user : App.getusers()) {
+            if (user.getUsername().equal(username))
+                return user;
+        }
+        return null;
+    }
+    public static User getUserByEmail(String email){
+        for(User user: App.getusers()){
+            if(user.getEmail().equal(Email)){
+                return user;
+            }
+
+        }
+        return null;
     }
 
     public Result registerUser(String username,
+                               String nickname,
                                String password,
                                String email,
                                Gender gender) {
-        return null;
+        if (!LoginCommands.VALID_USERNAME.matches(username)) {
+            return new Result(false, "Username is not valid.");
+        }
+        if(getUserByUsername(username) != null) {
+            return new Result(false, "Username is already in use.");
+        }
+       /* if(!LoginCommands.VALID_NICKNAME.matches(nickname)){
+            return new Result(false, "Nickname is not valid.");
+        }*/
+        if (!LoginCommands.VALID_PASSWORD.matches(password)) {
+            return new Result(false, "Password is not valid.");
+        }
+        if (!LoginCommands.VALID_EMAIL.matches(email)) {
+            return new Result(false, "Email format is not valid.");
+        }
+        if(getUserByEmail(email) != null) {
+            return new Result(false, "Email is already in use.");
+        }
+
+
+        return new Result(true, "Successfully registered.");
     }
 
     public Result randomPasswordGenerator() {
-        return null;
+        int length = 10;
+        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!\n";
+        Random rand = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(characters.charAt(rand.nextInt(characters.length())));
+            return new Result(true , sb.toString());
+        }
     }
 
     public Result showSecurityQuestions() {
@@ -91,7 +132,7 @@ public class LoginController {
         String correctAnswer = user.getQAndA().get(question);
 
         if (correctAnswer.equalsIgnoreCase(answerToSecurityQuestion)) {
-            return new Result(true, "Security question validated successfully.");
+            return new Result(true, "Security question has been validated successfully.");
         } else {
             return new Result(false, "Incorrect answer.");
         }
@@ -99,7 +140,17 @@ public class LoginController {
 
 
     public Result forgotPassword(String username, String email) {
-        return null;
+        User user = getUserByUsername(username);
+        if (user == null) {
+            return new Result(false, "User not found");
+        }
+        if(user.getQAndA() != null && !user.getQAndA().isEmpty()) {
+            SecurityQuestion question = user.getQAndA().keySet().iterator().next();
+            return new Result(true, question.name());
+        }
+        //result rand = randomPasswordGenerator();
+        // String newpass = rand.getMessage();
+
     }
 
 }
