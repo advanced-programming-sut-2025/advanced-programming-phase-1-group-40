@@ -9,21 +9,35 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class LoginController {
-    public static User getUserByUsername(String username) {
+
+    public User getUserByUsername(String username) {
+
         for (User user : App.getUsers()) {
+
             if (user.getUsername().equals(username))
                 return user;
+
         }
+
         return null;
+
     }
-    public static User getUserByEmail(String email){
+
+
+    public User getUserByEmail(String email){
+
         for(User user: App.getUsers()){
+
             if(user.getEmail().equals(email)){
+
                 return user;
+
             }
 
         }
+
         return null;
+
     }
 
     public Result registerUser(String username,
@@ -31,9 +45,12 @@ public class LoginController {
                                String password,
                                String email,
                                Gender gender) {
+
+
         if (!LoginCommands.USERNAME_REGEX.matches(username)) {
             return new Result(false, "Username is not valid.");
         }
+
         if(getUserByUsername(username) != null) {
             return new Result(false, "Username is already in use.");
         }
@@ -55,6 +72,7 @@ public class LoginController {
     }
 
     public Result randomPasswordGenerator() {
+
         int length = 10;
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!\n";
         Random rand = new Random();
@@ -63,6 +81,7 @@ public class LoginController {
             sb.append(characters.charAt(rand.nextInt(characters.length())));
         }
         return new Result(true , sb.toString());
+
     }
 
     public Result showSecurityQuestions() {

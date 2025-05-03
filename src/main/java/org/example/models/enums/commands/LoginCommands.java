@@ -11,6 +11,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public enum LoginCommands implements Command {
+
     USERNAME_REGEX("^[a-zA-Z0-9-]+$"),
     PASSWORD_REGEX("^[a-zA-Z0-9?<>,\"';:\\\\/|\\[\\] {}+=)(*&^%\\$#!]+$"),
     EMAIL_REGEX("^(?!.*\\.\\.)[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z]{2,}$");
