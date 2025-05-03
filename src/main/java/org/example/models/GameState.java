@@ -1,0 +1,14 @@
+package org.example.models;
+
+import java.util.HashMap;
+
+public class GameState {
+    private int cropGrowthRate;
+    private boolean automaticIrrigation;
+    private int energyUsageRate;
+    private boolean possibilityOfThor;
+
+    public void modifyState(String key, int value) {
+
+    }
+}
