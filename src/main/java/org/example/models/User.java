@@ -28,6 +28,8 @@ public class User {
     private Map<SecurityQuestion, String> qAndA;
     private Farm farm;
     private Farm chosenFarm;
+    private Backpack backpack;
+
     public int getEnergy() {
         return this.energy;
     }
@@ -93,6 +95,10 @@ public class User {
     }
 
     public void faint() {
+        // Set energy to 150 for the next day
+        this.energy = 150;
+        // Additional logic for skipping to the next day would go here
+        // This might involve updating the game time, etc.
     }
 
     public Tool getCurrentTool() {
@@ -131,5 +137,21 @@ public class User {
 
     public void setQAndA(Map<SecurityQuestion, String> qAndA) {
         this.qAndA = qAndA;
+    }
+
+    public Inventory getInventory() {
+        return backpack;
+    }
+
+    public void addItemToInventory(Item item, int quantity) {
+        backpack.addToInventory(item, quantity);
+    }
+
+    public void removeItemFromInventory(Item item, int quantity) {
+        backpack.removeFromInventory(item, quantity);
+    }
+
+    public void cheatAddItemToInventory(Item item, int quantity) {
+        backpack.CheatAddToInventory(item, quantity);
     }
 }

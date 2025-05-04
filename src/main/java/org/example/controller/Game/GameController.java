@@ -44,11 +44,6 @@ public class GameController {
         return new Result(true, "Energy set to " + energyAmount);
     }
 
-    public Result cheatSetPlayerEnergy(int energyAmount) {
-        player.setEnergy(energyAmount);
-        return new Result(true, "Energy set to " + energyAmount);
-    }
-
     public Result setUnlimitedEnergy() {
         player.setEnergyUnlimited(true);
         return new Result(true, "Unlimited Energy activated!");
@@ -56,7 +51,9 @@ public class GameController {
 
     public Result faint() {
         player.faint();
-        return new Result(true, "");
+        // Skip to next day logic would go here
+        // For now, we'll just set energy to 150 as specified
+        return new Result(true, "You fainted and woke up the next day with 150 energy.");
     }
 
     public Result showCurrentTool() {
@@ -89,12 +86,139 @@ public class GameController {
 
     // === INVENTORY === //
     public Result inventoryShow() {
-        return new Result(true, "");
+        // Get the player's inventory contents
+        Backpack playerBackpack = player.getBackpack();
+        
+        if (playerBackpack == null) {
+            return new Result(false, "You don't have a backpack yet!");
+        }
+        
+        // Get inventory contents as a formatted string
+        String inventoryContents = playerBackpack.getInventoryContents();
+        
+        // If inventory is empty
+        if (inventoryContents.isEmpty()) {
+            return new Result(true, "Your inventory is empty.");
+        }
+        
+        // Build a detailed response with capacity information
+        StringBuilder response = new StringBuilder();
+        response.append("=== YOUR INVENTORY ===\n");
+        response.append(inventoryContents);
+        response.append("\n");
+        response.append("Backpack type: ").append(playerBackpack.getType()).append("\n");
+        response.append("Used slots: ").append(playerBackpack.getUsedCapacity());
+        
+        // Only show capacity info if the backpack isn't unlimited
+        if (!playerBackpack.getType().isUnlimited()) {
+            response.append("/").append(playerBackpack.getType().getCapacity());
+        }
+        
+        return new Result(true, response.toString());
     }
 
     public Result throwItemToTrash(Item item, int number) {
         // command: inventory trash ...
-        return new Result(true, "");
+        if (item == null) {
+            return new Result(false, "Invalid item specified.");
+        }
+        
+        Backpack playerBackpack = player.getBackpack();
+        
+        // Check if player has the item
+        if (!playerBackpack.hasItem(item)) {
+            return new Result(false, "You don't have any " + item.toString() + " in your inventory.");
+        }
+        
+        int availableQuantity = playerBackpack.getItemQuantity(item);
+        
+        // If number is not specified or is 0, remove all of that item
+        if (number <= 0) {
+            number = availableQuantity;
+        }
+        
+        // Check if player has enough of the item
+        if (availableQuantity < number) {
+            return new Result(false, "You only have " + availableQuantity + " " + item.toString() + " in your inventory.");
+        }
+        
+        // Remove the specified quantity
+        playerBackpack.removeFromInventory(item, number);
+        
+        return new Result(true, "Successfully trashed " + number + " " + item.toString() + ".");
+    }
+
+    public Result cheatAddItem(Item item, int count) {
+        if (item == null) {
+            return new Result(false, "Invalid item specified.");
+        }
+        
+        if (count <= 0) {
+            return new Result(false, "Count must be a positive number.");
+        }
+        
+        Backpack playerBackpack = player.getBackpack();
+        playerBackpack.CheatAddToInventory(item, count);
+        
+        return new Result(true, "Added " + count + " " + item.toString() + " to your inventory.");
+    }
+
+    public Result upgradeBackpack(String backpackTypeName) {
+        // Try to parse the backpack type from the input string
+        BackpackType newType;
+        try {
+            newType = BackpackType.valueOf(backpackTypeName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return new Result(false, "Invalid backpack type. Available types: INITIAL, LARGE, DELUXE");
+        }
+        
+        Backpack currentBackpack = player.getBackpack();
+        BackpackType currentType = currentBackpack.getType();
+        
+        // Check if this would be a downgrade
+        if (currentType == BackpackType.DELUXE || 
+            (currentType == BackpackType.LARGE && newType == BackpackType.INITIAL)) {
+            return new Result(false, "You cannot downgrade your backpack.");
+        }
+        
+        // Check if it's the same type (no change)
+        if (currentType == newType) {
+            return new Result(false, "You already have this backpack type.");
+        }
+        
+        // Upgrade the backpack
+        player.upgradeBackpack(newType);
+        
+        return new Result(true, "Your backpack has been upgraded to " + newType + "!");
+    }
+
+    public Result showBackpackInfo() {
+        Backpack playerBackpack = player.getBackpack();
+        
+        if (playerBackpack == null) {
+            return new Result(false, "You don't have a backpack yet!");
+        }
+        
+        BackpackType type = playerBackpack.getType();
+        StringBuilder info = new StringBuilder();
+        info.append("Backpack Type: ").append(type).append("\n");
+        
+        if (type.isUnlimited()) {
+            info.append("Capacity: Unlimited\n");
+        } else {
+            info.append("Capacity: ").append(type.getCapacity()).append("\n");
+        }
+        
+        info.append("Used Slots: ").append(playerBackpack.getUsedCapacity()).append("\n");
+        info.append("Available Slots: ");
+        
+        if (type.isUnlimited()) {
+            info.append("Unlimited");
+        } else {
+            info.append(playerBackpack.getRemainingCapacity());
+        }
+        
+        return new Result(true, info.toString());
     }
 
     // === TOOLS, FOODS, ITEMS, AND CRAFTS === //
@@ -132,10 +256,6 @@ public class GameController {
 
     public Result showCraftInfo(String craftName) {
         return new Result(true, "");
-    }
-
-    public Result cheatAddItem(Item item, int count) {
-        return new Result(true, "Item added to inventory.");
     }
 
     // or name it cook() ?
