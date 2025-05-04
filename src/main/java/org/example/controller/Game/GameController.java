@@ -629,4 +629,28 @@ public class GameController {
     private NPC geNPCByName(String NPCName) {
         return null;
     }
+
+    public void handleSkillXPGain(Skill skill) {
+        boolean leveledUp = false;
+        
+        switch (skill) {
+            case FARMING:
+                leveledUp = player.addSkillXP(Skill.FARMING, 5);
+                break;
+            case MINING:
+                leveledUp = player.addSkillXP(Skill.MINING, 10);
+                break;
+            case FORAGING:
+                leveledUp = player.addSkillXP(Skill.FORAGING, 10);
+                break;
+            case FISHING:
+                leveledUp = player.addSkillXP(Skill.FISHING, 5);
+                break;
+        }
+        
+        // If player leveled up, we could notify them or apply effects
+        if (leveledUp) {
+            // Could send a notification or apply immediate effects
+        }
+    }
 }

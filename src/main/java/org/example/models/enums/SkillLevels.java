@@ -11,7 +11,7 @@ import org.example.models.*;
 
 
 
-public enum SkillLevel {
+public enum SkillLevels {
     LEVEL_ZERO,
     LEVEL_ONE, 
     LEVEL_TWO,
