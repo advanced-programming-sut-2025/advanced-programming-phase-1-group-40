@@ -11,20 +11,21 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public enum Weather {
-    SUNNY,
-    RAINY,
-    STORM,
-    SNOW;
+    SUNNY(1.5),
+    RAINY(1.2),
+    STORM(0.5),
+    SNOW(0.5);
 
-    private ArrayList<Season> seasonsAvailable;
+    private final double weatherCoEfficient;
 
-    Weather(ArrayList<Season> seasonsAvailable) {
-        this.seasonsAvailable = seasonsAvailable;
+    Weather(double weatherCoEfficient) {
+
+        this.weatherCoEfficient = weatherCoEfficient;
+
     }
 
-    public ArrayList<Season> getSeasonsAvailable() {
-        return seasonsAvailable;
+    public double getWeatherCoEfficient() {
+        return weatherCoEfficient;
     }
-
 
 }

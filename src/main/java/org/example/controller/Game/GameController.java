@@ -9,6 +9,7 @@ import org.example.models.enums.*;
 import org.example.models.tools.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameController {
     Player player = App.getCurrentPlayer();
@@ -471,7 +472,11 @@ public class GameController {
 
     public Result fishing(String fishingPoleName) {
 
-        if ( closeToSea() )
+        if ( true ){            ///  check close to sea
+
+            int numberOfFishes = numberOfCaughtFish();
+
+        }
 
         return new Result(true, "");
     }
@@ -483,7 +488,9 @@ public class GameController {
     }
 
     public int numberOfCaughtFish() {
-        return 0;
+
+        return (new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App. );
+
     }
 
     public int qualityOfCaughtFish() {

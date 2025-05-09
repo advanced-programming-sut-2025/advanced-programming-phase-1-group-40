@@ -17,23 +17,27 @@ public class Player {
     private String email;
     private int energy;
     private boolean isEnergyUnlimited;
-    private Position position;
+    private Position currentPosition;
     private Tool currentTool;
-    private HashMap<Skill, SkillLevel> skillLevels;
+    private HashMap<Skill, SkillLevels> skillLevels =  new HashMap<>();
     private ArrayList<Farm> farms;
     private ArrayList<CraftRecipe> learntCraftRecipes;
     private ArrayList<Food> learntCookingRecipes;
     private Map<SecurityQuestion, String> qAndA;
     private Farm farm;
     private Farm chosenFarm;
-    private Position currentPosition;
-    private Backpack backpack;
+//    private Backpack backpack;
 
     Player(String username, String password, String email){
 
         this.username = username;
         this.password = password;
         this.email = email;
+
+        this.skillLevels.put(Skill.FARMING, SkillLevels.LEVEL_ZERO);
+        this.skillLevels.put(Skill.MINING, SkillLevels.LEVEL_ZERO);
+        this.skillLevels.put(Skill.FORAGING, SkillLevels.LEVEL_ZERO);
+        this.skillLevels.put(Skill.FISHING, SkillLevels.LEVEL_ZERO);
 
     }
 
@@ -53,8 +57,8 @@ public class Player {
         return username;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setCurrentPosition(Position currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     public String getPassword() {
@@ -65,8 +69,8 @@ public class Player {
         return email;
     }
 
-    public Position getPosition() {
-        return position;
+    public Position getCurrentPosition() {
+        return currentPosition;
     }
 
     public HashMap<Skill, SkillLevel> getSkillLevels() {
@@ -121,7 +125,7 @@ public class Player {
     }
 
     public void changePosition(Position newPosition) {
-        this.position = newPosition;
+        this.currentPosition = newPosition;
     }
 
 

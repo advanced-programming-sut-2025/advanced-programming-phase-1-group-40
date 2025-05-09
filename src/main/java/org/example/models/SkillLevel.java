@@ -3,6 +3,7 @@ package org.example.models;
 import org.example.models.enums.Skill;
 
 public class SkillLevel {
+
     private int currentXP;
     private int level;
     private Skill skillType;

@@ -1,6 +1,7 @@
 package org.example.models;
 
 import org.example.models.enums.*;
+import org.example.models.enums.enviroment.Weather;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class App {
     public static ArrayList<Game> games = new ArrayList<>();
     public static Player currentPlayer = null;
     public static Menu currentMenu = Menu.LOGIN_MENU;
+    public static Weather currentWeather = Weather.SUNNY;
 
     public static Menu getCurrentMenu() {
         return currentMenu;
