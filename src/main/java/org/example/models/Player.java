@@ -29,6 +29,14 @@ public class Player {
     private Position currentPosition;
     private Backpack backpack;
 
+    Player(String username, String password, String email){
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
+    }
+
     public int getEnergy() {
         return this.energy;
     }
