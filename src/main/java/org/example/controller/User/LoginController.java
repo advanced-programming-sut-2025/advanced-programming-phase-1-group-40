@@ -54,9 +54,7 @@ public class LoginController {
         if(getUserByUsername(username) != null) {
             return new Result(false, "Username is already in use.");
         }
-       /* if(!LoginCommands.VALID_NICKNAME.matches(nickname)){
-            return new Result(false, "Nickname is not valid.");
-        }*/
+
         if (!LoginCommands.PASSWORD_REGEX.matches(password)) {
             return new Result(false, "Password is not valid.");
         }
@@ -66,6 +64,10 @@ public class LoginController {
         if(getUserByEmail(email) != null) {
             return new Result(false, "Email is already in use.");
         }
+
+
+        Player newPlayer = new Player();
+
 
 
         return new Result(true, "Successfully registered.");

@@ -37,7 +37,7 @@ public enum Menu {
         return displayName;
     }
 
-    public Menu getMenuFromDisplayName(String MenuName) {
+    public static Menu getMenuFromDisplayName(String MenuName) {
         if (MenuName.equals("Login Menu")) {
             return LOGIN_MENU;
         } else if (MenuName.equals("Main Menu")) {
