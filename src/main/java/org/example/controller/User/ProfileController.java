@@ -26,6 +26,10 @@ public class ProfileController {
         return new Result(true, "Nickname successfully changed");
     }
 
+    private boolean getUserByUsername(String newNickname) {
+        return false;
+    }
+
     public Result changeEmail(String newEmail) {
         if(getUserByUsername(newEmail)!= null){
             return new Result(false, "Email already exists");

@@ -66,16 +66,15 @@ public class LoginController {
         }
 
 
-        Player newPlayer = new Player();
-
-
-
+        Player newPlayer = new Player(username, password,email);
+        App.currentPlayer = newPlayer;
+        App.users.add(newPlayer);
         return new Result(true, "Successfully registered.");
     }
 
     public Result randomPasswordGenerator() {
 
-        int length = 10;
+        int length = new Random().nextInt(13)+8;
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!\n";
         Random rand = new Random();
         StringBuilder sb = new StringBuilder();
