@@ -472,12 +472,12 @@ public class GameController {
 
     public Result fishing(String fishingPoleName) {
 
-        FishingRodType fishingRod = getFishingPoleByName()
+        FishingRodType fishingRod = getFishingPoleByName();
 
         if ( true ){            ///  check close to sea
 
             int numberOfFishes = numberOfCaughtFish() + 1;
-
+            
 
         }
 

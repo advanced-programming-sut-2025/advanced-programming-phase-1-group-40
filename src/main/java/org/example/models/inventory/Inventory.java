@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Inventory {
+
     protected int capacity;
     protected boolean isCapacityUnlimited;
+
     // Add a map to store items and their quantities
     protected Map<Item, Integer> items = new HashMap<>();
 
