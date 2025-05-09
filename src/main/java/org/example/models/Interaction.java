@@ -8,6 +8,7 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 public class Interaction {
+
     InteractionType type;
     int XPEffect;
 
@@ -23,4 +24,5 @@ public class Interaction {
     public int getXPEffect() {
         return XPEffect;
     }
+
 }

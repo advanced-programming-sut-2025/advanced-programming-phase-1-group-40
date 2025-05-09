@@ -4,6 +4,7 @@ import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 import org.example.models.inventory.*;
+import org.example.models.inventory.Backpack;
 import org.example.models.tools.*;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Player {
     private Map<SecurityQuestion, String> qAndA;
     private Farm farm;
     private Farm chosenFarm;
-//    private Backpack backpack;
+    private Backpack backpack;
 
     public Player(String username, String password, String email){
 
@@ -73,7 +74,7 @@ public class Player {
         return currentPosition;
     }
 
-    public HashMap<Skill, SkillLevel> getSkillLevels() {
+    public HashMap<Skill, SkillLevels> getSkillLevels() {
         return skillLevels;
     }
 

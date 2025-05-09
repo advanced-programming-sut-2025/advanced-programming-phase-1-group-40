@@ -472,9 +472,12 @@ public class GameController {
 
     public Result fishing(String fishingPoleName) {
 
+        FishingRodType fishingRod =
+
         if ( true ){            ///  check close to sea
 
-            int numberOfFishes = numberOfCaughtFish();
+            int numberOfFishes = numberOfCaughtFish() + 1;
+
 
         }
 
@@ -487,9 +490,11 @@ public class GameController {
 
     }
 
+    public int calculateFishQuality(FishingPole) {}
+
     public int numberOfCaughtFish() {
 
-        return (new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.);
+        return  (int) ((new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevelCoEfficient() + 2));
 
     }
 
@@ -497,8 +502,19 @@ public class GameController {
         return 0;
     }
 
-    private Tool getFishingPoleByName(String name) {
-        return null;
+    private FishingRodType getFishingPoleByName(String name) {
+
+        if ( FishingRodType.TRAINING_ROD.getPoleName().equals(name) ) {
+            return FishingRodType.TRAINING_ROD;
+        }
+        else if ( FishingRodType.BAMBOO_POLE.getPoleName().equals(name) ) {
+            return FishingRodType.BAMBOO_POLE;
+        }
+        else if ( FishingRodType.FIBERGLASS_ROD.getPoleName().equals(name) ) {
+            return FishingRodType.FIBERGLASS_ROD;
+        }
+        return FishingRodType.IRIDIUM;
+
     }
 
     // === ARTISAN === //
