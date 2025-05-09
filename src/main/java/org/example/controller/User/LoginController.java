@@ -48,7 +48,7 @@ public class LoginController {
 
 
         if (!LoginCommands.USERNAME_REGEX.matches(username)) {
-            return new Result(false, "Username is not valid.");
+            return new Result(false, "Username is invalid.");
         }
 
         if(getUserByUsername(username) != null) {
@@ -56,26 +56,34 @@ public class LoginController {
         }
 
         if (!LoginCommands.PASSWORD_REGEX.matches(password)) {
-            return new Result(false, "Password is not valid.");
+            return new Result(false, "Password is invalid.");
         }
         if (!LoginCommands.EMAIL_REGEX.matches(email)) {
-            return new Result(false, "Email format is not valid.");
+            return new Result(false, "Email format is invalid.");
         }
         if(getUserByEmail(email) != null) {
             return new Result(false, "Email is already in use.");
         }
 
 
-        Player newPlayer = new Player();
 
+        Player newPlayer = createUser(username,password,email);
 
-
+        App.currentPlayer = newPlayer;
+        App.users.add(newPlayer);
         return new Result(true, "Successfully registered.");
     }
 
+
+    public Player createUser(String username, String password, String email){
+        Player newPlayer = new Player(username, password,email);
+    };
+
+
+
     public Result randomPasswordGenerator() {
 
-        int length = 10;
+        int length = new Random().nextInt(13) + 8;
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!\n";
         Random rand = new Random();
         StringBuilder sb = new StringBuilder();

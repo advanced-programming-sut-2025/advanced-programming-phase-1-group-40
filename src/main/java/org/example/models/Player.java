@@ -28,7 +28,7 @@ public class Player {
     private Farm chosenFarm;
 //    private Backpack backpack;
 
-    Player(String username, String password, String email){
+    public Player(String username, String password, String email){
 
         this.username = username;
         this.password = password;
@@ -230,7 +230,7 @@ public class Player {
     public void upgradeBackpack(BackpackType newType) {
         // Create a new backpack with the new type
         Backpack newBackpack = new Backpack(newType);
-        
+
         // Transfer all items from old backpack to new backpack
         if (this.backpack != null) {
             Map<Item, Integer> oldItems = this.backpack.getItems();
@@ -238,7 +238,7 @@ public class Player {
                 newBackpack.CheatAddToInventory(entry.getKey(), entry.getValue());
             }
         }
-        
+
         // Replace old backpack with new one
         this.backpack = newBackpack;
     }

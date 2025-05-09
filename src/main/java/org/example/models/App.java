@@ -39,4 +39,6 @@ public class App {
     }
 
 
+    public static Object getLoggedIn() {
+    }
 }
