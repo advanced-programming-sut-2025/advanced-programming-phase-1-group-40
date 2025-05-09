@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class LoginController {
 
-    public User getUserByUsername(String username) {
+    public Player getUserByUsername(String username) {
 
-        for (User user : App.getUsers()) {
+        for (Player user : App.getUsers()) {
 
             if (user.getUsername().equals(username))
                 return user;
@@ -24,9 +24,9 @@ public class LoginController {
     }
 
 
-    public User getUserByEmail(String email){
+    public Player getUserByEmail(String email){
 
-        for(User user: App.getUsers()){
+        for(Player user: App.getUsers()){
 
             if(user.getEmail().equals(email)){
 
@@ -91,7 +91,7 @@ public class LoginController {
         return null;
     }
 
-    public Result pickAndAnswerSecurityQuestion(User user, int questionNumber, String answer) {
+    public Result pickAndAnswerSecurityQuestion(Player user, int questionNumber, String answer) {
         if (user == null) {
             return new Result(false, "User not found");
         }
@@ -135,7 +135,7 @@ public class LoginController {
     }
 
 
-    public Result askSecurityQuestion(User user) {
+    public Result askSecurityQuestion(Player user) {
         if (user == null || user.getQAndA() == null || user.getQAndA().isEmpty()) {
             return new Result(false, "No security question set for this user.");
         }
@@ -144,7 +144,7 @@ public class LoginController {
         return new Result(true, "question");
     }
 
-    public Result validateSecurityQuestion(User user, String answerToSecurityQuestion) {
+    public Result validateSecurityQuestion(Player user, String answerToSecurityQuestion) {
         SecurityQuestion question = user.getQAndA().keySet().iterator().next();
         String correctAnswer = user.getQAndA().get(question);
 
@@ -157,7 +157,7 @@ public class LoginController {
 
 
     public Result forgotPassword(String username, String email) {
-        User user = getUserByUsername(username);
+        Player user = getUserByUsername(username);
         if (user == null) {
             return new Result(false, "User not found");
         }

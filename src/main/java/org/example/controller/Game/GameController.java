@@ -11,7 +11,7 @@ import org.example.models.tools.*;
 import java.util.ArrayList;
 
 public class GameController {
-    User player = App.getCurrentUser();
+    Player player = App.getCurrentPlayer();
 
     public void skillUp(SkillUpTypes skillUpType) {
 
@@ -470,8 +470,16 @@ public class GameController {
     // === FISHING === //
 
     public Result fishing(String fishingPoleName) {
-        Tool fishingPole = getFishingPoleByName(fishingPoleName);
+
+        if ( closeToSea() )
+
         return new Result(true, "");
+    }
+
+    public boolean closeToSea(Position position) {
+
+        return true;
+
     }
 
     public int numberOfCaughtFish() {

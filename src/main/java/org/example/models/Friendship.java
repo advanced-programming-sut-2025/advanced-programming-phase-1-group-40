@@ -1,22 +1,15 @@
 package org.example.models;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 public class Friendship {
-    private User friend1;
+    private Player friend1;
     private NPC friend2;
     private FriendshipLevel level;
     private int currentXP;
     private int maxXP;
 
-    public Friendship(User friend1, NPC friend2, FriendshipLevel level, int currentXP, int maxXP) {
+    public Friendship(Player friend1, NPC friend2, FriendshipLevel level, int currentXP, int maxXP) {
         this.friend1 = friend1;
         this.friend2 = friend2;
         this.level = level;
@@ -24,7 +17,7 @@ public class Friendship {
         this.maxXP = maxXP;
     }
 
-    public User getFriend1() {
+    public Player getFriend1() {
         return friend1;
     }
 

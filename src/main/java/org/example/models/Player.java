@@ -1,19 +1,16 @@
 package org.example.models;
 
-import org.example.models.*;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
-import org.example.models.farming.*;
 import org.example.models.inventory.*;
 import org.example.models.tools.*;
-import org.example.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User {
+public class Player {
 
     private String username;
     private String password;
@@ -29,6 +26,7 @@ public class User {
     private Map<SecurityQuestion, String> qAndA;
     private Farm farm;
     private Farm chosenFarm;
+    private Position currentPosition;
     private Backpack backpack;
 
     public int getEnergy() {
@@ -45,6 +43,10 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public String getPassword() {

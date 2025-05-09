@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class App {
 
 
-    private static ArrayList<User> users = new ArrayList<>();
-    private static ArrayList<Game> games = new ArrayList<>();
-    private static User currentUser = null;
-    private static Menu currentMenu = Menu.LOGIN_MENU;
+    public static ArrayList<Player> users = new ArrayList<>();
+    public static ArrayList<Game> games = new ArrayList<>();
+    public static Player currentPlayer = null;
+    public static Menu currentMenu = Menu.LOGIN_MENU;
 
     public static Menu getCurrentMenu() {
         return currentMenu;
@@ -20,11 +20,11 @@ public class App {
         App.currentMenu = currentMenu;
     }
 
-    public static User getCurrentUser() {
-        return currentUser;
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public static ArrayList<User> getUsers() {
+    public static ArrayList<Player> getUsers() {
         return users;
     }
 
@@ -32,8 +32,8 @@ public class App {
         return games;
     }
 
-    public static void setCurrentUser(User user) {
-        App.currentUser = user;
+    public static void setCurrentPlayer(Player user) {
+        App.currentPlayer = user;
     }
 
 
