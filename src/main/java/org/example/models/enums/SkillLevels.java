@@ -12,8 +12,20 @@ import org.example.models.*;
 
 
 public enum SkillLevels {
-    LEVEL_ZERO,
-    LEVEL_ONE, 
-    LEVEL_TWO,
-    LEVEL_THREE;
+    LEVEL_ZERO(0),
+    LEVEL_ONE(1),
+    LEVEL_TWO(2),
+    LEVEL_THREE(3);
+
+    private final int levelCoEfficient;
+
+    SkillLevels(int levelCoEfficient) {
+
+        this.levelCoEfficient = levelCoEfficient;
+
+    }
+
+    public int getLevelCoEfficient() {
+        return levelCoEfficient;
+    }
 }

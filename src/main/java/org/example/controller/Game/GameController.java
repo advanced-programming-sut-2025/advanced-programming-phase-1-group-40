@@ -489,7 +489,7 @@ public class GameController {
 
     public int numberOfCaughtFish() {
 
-        return (new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App. );
+        return (new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.);
 
     }
 
