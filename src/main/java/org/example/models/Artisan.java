@@ -11,6 +11,7 @@ import org.example.models.*;
 import java.util.ArrayList;
 
 public class Artisan {
+
     ArtisanType type;
 
     public Artisan(ArtisanType type) {
