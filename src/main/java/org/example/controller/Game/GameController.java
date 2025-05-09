@@ -472,7 +472,7 @@ public class GameController {
 
     public Result fishing(String fishingPoleName) {
 
-        FishingRodType fishingRod =
+        FishingRodType fishingRod = getFishingPoleByName()
 
         if ( true ){            ///  check close to sea
 
@@ -488,18 +488,18 @@ public class GameController {
 
         return true;
 
-    }
+    }       /// KAMEL BESHE!!
 
-    public int calculateFishQuality(FishingPole) {}
+    public int calculateFishQuality(FishingRodType fishingRod) {
+
+        return (int) ( (new Random().nextInt(2)) * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevelCoEfficient() + 2) * fishingRod.getPoleCoefficient() / (7 -App.currentWeather.getWeatherCoEfficient() ) );
+
+    }
 
     public int numberOfCaughtFish() {
 
         return  (int) ((new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevelCoEfficient() + 2));
 
-    }
-
-    public int qualityOfCaughtFish() {
-        return 0;
     }
 
     private FishingRodType getFishingPoleByName(String name) {
