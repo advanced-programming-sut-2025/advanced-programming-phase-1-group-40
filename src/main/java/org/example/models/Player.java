@@ -11,29 +11,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Player {
+public class Player extends User{
 
-    private String username;
-    private String password;
-    private String email;
     private int energy;
     private boolean isEnergyUnlimited;
     private Position currentPosition;
     private Tool currentTool;
     private HashMap<Skill, SkillLevels> skillLevels =  new HashMap<>();
-    private ArrayList<Farm> farms;
-    private ArrayList<CraftRecipe> learntCraftRecipes;
-    private ArrayList<Food> learntCookingRecipes;
     private Map<SecurityQuestion, String> qAndA;
-    private Farm farm;
-    private Farm chosenFarm;
     private Backpack backpack;
 
-    public Player(String username, String password, String email){
+    public Player(User user){
 
-        this.username = username;
-        this.password = password;
-        this.email = email;
+        super(user.getUsername(), user.getPassword(), user.getNickname(), user.getEmail(), user.getGender());
 
         this.skillLevels.put(Skill.FARMING, SkillLevels.LEVEL_ZERO);
         this.skillLevels.put(Skill.MINING, SkillLevels.LEVEL_ZERO);
@@ -54,21 +44,10 @@ public class Player {
         }
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setCurrentPosition(Position currentPosition) {
         this.currentPosition = currentPosition;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 
     public Position getCurrentPosition() {
         return currentPosition;
@@ -78,29 +57,11 @@ public class Player {
         return skillLevels;
     }
 
-    public ArrayList<Farm> getFarms() {
-        return farms;
-    }
-
-    public ArrayList<CraftRecipe> getLearntCraftRecipes() {
-        return learntCraftRecipes;
-    }
-
-    public ArrayList<Food> getLearntCookingRecipes() {
-        return learntCookingRecipes;
-    }
 
     public Map<SecurityQuestion, String> getqAndA() {
         return qAndA;
     }
 
-    public Farm getFarm() {
-        return farm;
-    }
-
-    public Farm getChosenFarm() {
-        return chosenFarm;
-    }
 
     public boolean isEnergyUnlimited() {
         return this.isEnergyUnlimited;
