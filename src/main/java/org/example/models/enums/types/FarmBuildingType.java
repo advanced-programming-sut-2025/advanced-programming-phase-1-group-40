@@ -65,4 +65,6 @@ public enum FarmBuildingType {
     public int getDailyLimit() {
         return dailyLimit;
     }
+
+
 }

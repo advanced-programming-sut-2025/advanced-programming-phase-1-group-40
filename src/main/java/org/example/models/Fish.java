@@ -9,7 +9,7 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 
-public class Fish implements Item{
+public class Fish extends Item {
 
     FishType name;
     int basePrice;

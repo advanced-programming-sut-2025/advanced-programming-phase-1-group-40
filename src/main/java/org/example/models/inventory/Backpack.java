@@ -11,7 +11,7 @@ import org.example.models.*;
 import java.util.Map;
 
 public class Backpack extends Inventory {
-    private BackpackType type;
+    private final BackpackType type;
 
     public Backpack(BackpackType type) {
         super(type.getCapacity(), type.isUnlimited());

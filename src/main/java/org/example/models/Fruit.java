@@ -11,6 +11,4 @@ import org.example.models.*;
 
 public class Fruit extends Harvestable {
 
-
-
 }

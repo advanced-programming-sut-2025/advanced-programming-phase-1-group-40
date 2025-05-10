@@ -25,7 +25,7 @@ public class FarmBuilding {
         this.positionOfUpperLeftCorner = positionOfUpperLeftCorner;
         this.width = farmBuildingType.getWidth();
         this.length = farmBuildingType.getLength();
-        this.description = farmBuildingType.getDescription();
+        //this.description = farmBuildingType.getDescription();
     }
 
 }
