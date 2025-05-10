@@ -11,6 +11,9 @@ import org.example.models.*;
 import java.util.Map;
 
 public class Backpack extends Inventory {
+
+
+
     private final BackpackType type;
 
     public Backpack(BackpackType type) {
@@ -21,4 +24,6 @@ public class Backpack extends Inventory {
     public BackpackType getType() {
         return this.type;
     }
+
+
 }

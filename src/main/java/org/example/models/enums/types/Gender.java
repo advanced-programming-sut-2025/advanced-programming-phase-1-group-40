@@ -11,8 +11,12 @@ import org.example.models.*;
 
 
 public enum Gender {
+
+
     WOMAN,
     MAN,
     RATHER_NOT_SAY,
     OTHERS;
+
+
 }
