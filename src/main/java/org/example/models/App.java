@@ -12,8 +12,11 @@ public class App {
     public static ArrayList<User> items = new ArrayList<>();
     public static ArrayList<Game> games = new ArrayList<>();
     public static Player currentPlayer = null;
+    public static User currentUser = null;
     public static Menu currentMenu = Menu.LOGIN_MENU;
     public static Weather currentWeather = Weather.SUNNY;
+    private User user;
+
 
     public static Menu getCurrentMenu() {
         return currentMenu;
@@ -40,8 +43,8 @@ public class App {
     }
 
 
-    public static Object getLoggedIn() {
-        return null;
+    public User getLoggedIn() {
+        return user;
     }
 
 

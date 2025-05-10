@@ -89,19 +89,19 @@ public class GameController {
     public Result inventoryShow() {
         // Get the player's inventory contents
         Backpack playerBackpack = player.getBackpack();
-        
+
         if (playerBackpack == null) {
             return new Result(false, "You don't have a backpack yet!");
         }
-        
+
         // Get inventory contents as a formatted string
         String inventoryContents = playerBackpack.getInventoryContents();
-        
+
         // If inventory is empty
         if (inventoryContents.isEmpty()) {
             return new Result(true, "Your inventory is empty.");
         }
-        
+
         // Build a detailed response with capacity information
         StringBuilder response = new StringBuilder();
         response.append("=== YOUR INVENTORY ===\n");
@@ -109,12 +109,12 @@ public class GameController {
         response.append("\n");
         response.append("Backpack type: ").append(playerBackpack.getType()).append("\n");
         response.append("Used slots: ").append(playerBackpack.getUsedCapacity());
-        
+
         // Only show capacity info if the backpack isn't unlimited
         if (!playerBackpack.getType().isUnlimited()) {
             response.append("/").append(playerBackpack.getType().getCapacity());
         }
-        
+
         return new Result(true, response.toString());
     }
 
@@ -123,29 +123,29 @@ public class GameController {
         if (item == null) {
             return new Result(false, "Invalid item specified.");
         }
-        
+
         Backpack playerBackpack = player.getBackpack();
-        
+
         // Check if player has the item
         if (!playerBackpack.hasItem(item)) {
             return new Result(false, "You don't have any " + item.toString() + " in your inventory.");
         }
-        
+
         int availableQuantity = playerBackpack.getItemQuantity(item);
-        
+
         // If number is not specified or is 0, remove all of that item
         if (number <= 0) {
             number = availableQuantity;
         }
-        
+
         // Check if player has enough of the item
         if (availableQuantity < number) {
             return new Result(false, "You only have " + availableQuantity + " " + item.toString() + " in your inventory.");
         }
-        
+
         // Remove the specified quantity
         playerBackpack.removeFromInventory(item, number);
-        
+
         return new Result(true, "Successfully trashed " + number + " " + item.toString() + ".");
     }
 
@@ -153,14 +153,14 @@ public class GameController {
         if (item == null) {
             return new Result(false, "Invalid item specified.");
         }
-        
+
         if (count <= 0) {
             return new Result(false, "Count must be a positive number.");
         }
-        
+
         Backpack playerBackpack = player.getBackpack();
         playerBackpack.CheatAddToInventory(item, count);
-        
+
         return new Result(true, "Added " + count + " " + item.toString() + " to your inventory.");
     }
 
@@ -172,53 +172,53 @@ public class GameController {
         } catch (IllegalArgumentException e) {
             return new Result(false, "Invalid backpack type. Available types: INITIAL, LARGE, DELUXE");
         }
-        
+
         Backpack currentBackpack = player.getBackpack();
         BackpackType currentType = currentBackpack.getType();
-        
+
         // Check if this would be a downgrade
-        if (currentType == BackpackType.DELUXE || 
+        if (currentType == BackpackType.DELUXE ||
             (currentType == BackpackType.LARGE && newType == BackpackType.INITIAL)) {
             return new Result(false, "You cannot downgrade your backpack.");
         }
-        
+
         // Check if it's the same type (no change)
         if (currentType == newType) {
             return new Result(false, "You already have this backpack type.");
         }
-        
+
         // Upgrade the backpack
         player.upgradeBackpack(newType);
-        
+
         return new Result(true, "Your backpack has been upgraded to " + newType + "!");
     }
 
     public Result showBackpackInfo() {
         Backpack playerBackpack = player.getBackpack();
-        
+
         if (playerBackpack == null) {
             return new Result(false, "You don't have a backpack yet!");
         }
-        
+
         BackpackType type = playerBackpack.getType();
         StringBuilder info = new StringBuilder();
         info.append("Backpack Type: ").append(type).append("\n");
-        
+
         if (type.isUnlimited()) {
             info.append("Capacity: Unlimited\n");
         } else {
             info.append("Capacity: ").append(type.getCapacity()).append("\n");
         }
-        
+
         info.append("Used Slots: ").append(playerBackpack.getUsedCapacity()).append("\n");
         info.append("Available Slots: ");
-        
+
         if (type.isUnlimited()) {
             info.append("Unlimited");
         } else {
             info.append(playerBackpack.getRemainingCapacity());
         }
-        
+
         return new Result(true, info.toString());
     }
 
@@ -297,7 +297,7 @@ public class GameController {
     }
 
 
-    // === WALK === //
+
     public Result walk(Path path, boolean playerConfirmed) {
         if (!playerConfirmed) {
             return new Result(false, "You denied the walk.");
@@ -313,16 +313,10 @@ public class GameController {
             return new Result(false, "No valid path found!");
         }
         return new Result(true, "Do you confirm the walk?");
-        // [we can also show the path and then ask for confirmation]
 
-        /*
-        In View: after calling this method, we expect the player to confirm/deny
-        Then, we call the walk() method.
-        */
     }
 
     private Path findValidPath(Position origin, Position destination) {
-        // give FarmsMap as argument?
         if (!isDestinationAllowed(destination)) {
             return null;
         }
@@ -332,8 +326,6 @@ public class GameController {
     private boolean isDestinationAllowed(Position destination) {
         return false;
     }
-
-    // === PRINT MAP === //
 
     public Result printMap() {
         return new Result(true, "");
@@ -347,12 +339,6 @@ public class GameController {
         return new Result(true, "");
     }
 
-
-    // === GAME STATUS === //
-
-    // public Result cheatAdvanceTime(int howManyHours) {
-    //     return new Result(true, "");
-    // }
 
     public Result cheatAdvanceDate(int howManyDays) {
         return new Result(true, "");
@@ -386,8 +372,6 @@ public class GameController {
     }
 
 
-    // === PLANTS === //
-
     public Result plant(Direction direction, Seed seed) {
         return new Result(true, "");
     }
@@ -400,9 +384,6 @@ public class GameController {
     public Result fertilize(FertilizerType fertilizer, Direction direction) {
         return new Result(true, "");
     }
-
-    // === FARM BUILDINGS & ANIMALS === //
-
     public Result build(FarmBuildingType farmBuildingType, Position position) {
         return new Result(true, "");
     }
@@ -431,10 +412,7 @@ public class GameController {
     }
 
     public Result milkAnimal(Animal animal){
-
-
         return null;
-
     }
 
     public Result feedOutside(Animal animal){
@@ -468,16 +446,16 @@ public class GameController {
         return null;
     }
 
-    // === FISHING === //
+
 
     public Result fishing(String fishingPoleName) {
 
         FishingRodType fishingRod = getFishingPoleByName();
 
-        if ( true ){            ///  check close to sea
+        if (true){
 
             int numberOfFishes = numberOfCaughtFish() + 1;
-            
+
 
         }
 
@@ -488,7 +466,7 @@ public class GameController {
 
         return true;
 
-    }       /// KAMEL BESHE!!
+    }
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
@@ -517,7 +495,6 @@ public class GameController {
 
     }
 
-    // === ARTISAN === //
 
     public Result artisanUse(String artisanName, ArrayList<String> itemsNames) { // gets ingredients
         ArrayList<Item> ingredientItems = new ArrayList<>();
@@ -540,7 +517,7 @@ public class GameController {
         return null;
     }
 
-    // === SHOPS === //
+
 
     public Result showAllProducts() {
         return new Result(true, "");
@@ -551,7 +528,6 @@ public class GameController {
     }
 
     public Result purchase(String productName, Integer count) {
-        // count is optional and might be null. In that case:
         if (count == null) {
             count = 1;
         }
@@ -564,14 +540,11 @@ public class GameController {
     }
 
     public Result sell(String productName, Integer count) {
-        // count is optional and might be null. In that case we sell the entire available in inventory
         if (count == null) {
-            // Set default count
         }
         return new Result(true, "");
     }
 
-    // === FRIENDSHIPS === //
 
     public Result showFriendshipLevels() {
         return new Result(true, "");
@@ -613,29 +586,21 @@ public class GameController {
         return new Result(true, "");
     }
 
-    // === TRADE === //
 
-//    public Result tradeWithMoney(String targetUsername, String type, String itemName, int amount, int price) { // type?
-//        return new Result(true, "");
-//    }
-//
-//    public Result tradeWithItem(String targetUsername, String type, String itemName, int amount, String targetItemName, int targetAmount) { // type?
-//        return new Result(true, "");
-//    }
 
     public Result showTradeList(String targetUsername, String type, String itemName, int amount, int price) { // type?
         return new Result(true, "");
     }
 
-    public Result tradeResponse(int id) { // type?
+    public Result tradeResponse(int id) {
         return new Result(true, "");
     }
 
-    public Result showTradeHistory() { // type?
+    public Result showTradeHistory() {
         return new Result(true, "");
     }
 
-    // === NPC === //
+
 
     public Result meetNPC(String NCPName) {
         return new Result(true, "");
@@ -663,7 +628,7 @@ public class GameController {
 
     public void handleSkillXPGain(Skill skill) {
         boolean leveledUp = false;
-        
+
         switch (skill) {
             case FARMING:
                 leveledUp = player.addSkillXP(Skill.FARMING, 5);
@@ -678,7 +643,7 @@ public class GameController {
                 leveledUp = player.addSkillXP(Skill.FISHING, 5);
                 break;
         }
-        
+
         // If player leveled up, we could notify them or apply effects
         if (leveledUp) {
             // Could send a notification or apply immediate effects

@@ -4,14 +4,14 @@ import org.example.models.enums.types.Gender;
 
 public class User {
 
-    private String username;
-    private String password;
-    private String nickname;
-    private String email;
-    private Gender gender;
+    private final String username;
+    private final String password;
+    private final String nickname;
+    private final String email;
+    private final Gender gender;
 
 
-    public User(String username, String password, String nickname, String email, Gender gender) {
+    public User(String username, String password, String nickname, String email, String gender) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;

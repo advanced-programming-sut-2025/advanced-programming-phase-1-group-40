@@ -39,12 +39,21 @@ public class LoginController {
         return null;
 
     }
+    public Gender getGenderByString(String gender){
+        return switch (gender) {
+            case "woman" -> Gender.WOMAN;
+            case "man" -> Gender.MAN;
+            case "rather_not_say" -> Gender.RATHER_NOT_SAY;
+            default -> Gender.OTHERS;
+        };
+    }
+
 
     public Result registerUser(String username,
                                String nickname,
                                String password,
                                String email,
-                               Gender gender) {
+                               String gender) {
 
 
         if (!LoginCommands.USERNAME_REGEX.matches(username)) {
@@ -67,17 +76,18 @@ public class LoginController {
 
 
 
-        Player newPlayer = createUser(username,password,email);
+        User newUser = createUser(username,password,email,nickname,gender);
 
-        App.currentPlayer = newPlayer;
-        App.users.add(newPlayer);
+        App.currentUser = newUser;
+        App.users.add((Player) newUser);
         return new Result(true, "Successfully registered.");
     }
 
 
-    public Player createUser(String username, String password, String email){
-        Player newPlayer = new Player(username, password,email);
-    };
+    public User createUser(String username, String password, String email,String nickname, String gender) {
+        User newUser = new User(username, password, email, nickname, gender);
+        return newUser;
+    }
 
 
 

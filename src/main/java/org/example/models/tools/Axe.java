@@ -11,6 +11,10 @@ import org.example.models.*;
 import java.util.Map;
 
 public class Axe extends Tool {
+    public Axe(ToolTypes toolType) {
+        int energyUsage = 0;
+       // super();
+    }
 
 
 }

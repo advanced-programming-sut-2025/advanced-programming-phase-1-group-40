@@ -10,7 +10,8 @@ import org.example.models.*;
 import java.util.Map;
 
 public class Hoe extends Tool {
-
+    public Hoe(ToolTypes toolType) {
+    }
 
 
 }

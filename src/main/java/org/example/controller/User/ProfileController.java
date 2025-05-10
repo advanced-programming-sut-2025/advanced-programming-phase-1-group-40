@@ -13,7 +13,7 @@ public class ProfileController {
     public Result changeNickname(String newNickname) {
         if(getUserByUsername(newNickname)!= null)
             return new Result(false, "Nickname already exists.");
-        App.getLoggedIn().setusername(newUsername);
+        App.getLoggedIn().setUsername(newUsername);
         return new Result(true, "Nickname successfully changed.");
     }
 
