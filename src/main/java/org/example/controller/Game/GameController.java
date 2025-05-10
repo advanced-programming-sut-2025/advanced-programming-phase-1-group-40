@@ -28,8 +28,6 @@ public class GameController {
 
     public Result crowAttack(){
 
-
-
         return null;
 
     }

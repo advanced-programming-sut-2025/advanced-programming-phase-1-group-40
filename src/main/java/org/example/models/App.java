@@ -2,12 +2,13 @@ package org.example.models;
 
 import org.example.models.enums.*;
 import org.example.models.enums.enviroment.Weather;
+import org.example.models.persistence.DataManager;
 
 import java.util.ArrayList;
 
 public class App {
-
-
+    // These fields are kept for backward compatibility
+    // Eventually, they should be accessed only through DataManager
     public static ArrayList<Player> users = new ArrayList<>();
     public static ArrayList<User> items = new ArrayList<>();
     public static ArrayList<Game> games = new ArrayList<>();
@@ -15,34 +16,48 @@ public class App {
     public static Menu currentMenu = Menu.LOGIN_MENU;
     public static Weather currentWeather = Weather.SUNNY;
 
+    // Initialize the DataManager when the app starts
+    static {
+        DataManager.getInstance().initializeFromApp();
+    }
+
     public static Menu getCurrentMenu() {
-        return currentMenu;
+        return DataManager.getInstance().getCurrentMenu();
     }
 
     public static void setCurrentMenu(Menu currentMenu) {
-        App.currentMenu = currentMenu;
+        DataManager.getInstance().setCurrentMenu(currentMenu);
+        App.currentMenu = currentMenu; // For backward compatibility
     }
 
     public static Player getCurrentPlayer() {
-        return currentPlayer;
+        return DataManager.getInstance().getCurrentPlayer();
     }
 
     public static ArrayList<Player> getUsers() {
-        return users;
+        return DataManager.getInstance().getAllUsers();
     }
 
     public static ArrayList<Game> getGames() {
-        return games;
+        return DataManager.getInstance().getAllGames();
     }
 
     public static void setCurrentPlayer(Player user) {
-        App.currentPlayer = user;
+        DataManager.getInstance().setCurrentPlayer(user);
+        App.currentPlayer = user; // For backward compatibility
     }
-
 
     public static Object getLoggedIn() {
-        return null;
+        return DataManager.getInstance().getCurrentPlayer();
     }
 
+    // Method to save all data
+    public static boolean saveAllData() {
+        return DataManager.getInstance().saveAllData();
+    }
 
+    // Method to load all data
+    public static boolean loadAllData() {
+        return DataManager.getInstance().loadAllData();
+    }
 }
