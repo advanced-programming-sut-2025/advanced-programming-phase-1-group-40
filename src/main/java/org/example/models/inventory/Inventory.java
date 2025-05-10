@@ -1,63 +1,72 @@
 package org.example.models.inventory;
 
 import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Inventory {
 
-    protected int capacity;
-    protected boolean isCapacityUnlimited;
+    protected Integer capacity;
 
-    protected Map<Item, Integer> items = new HashMap<>();
+    protected ArrayList<Item> items = new ArrayList<>();
 
-    public Inventory(int capacity, boolean isCapacityUnlimited) {
+    public Inventory(int capacity) {
         this.capacity = capacity;
-        this.isCapacityUnlimited = isCapacityUnlimited;
     }
 
     public void addToInventory(Item item, int n) {
-        if (!isCapacityUnlimited && getUsedCapacity() + n > capacity) {
-            // Handle capacity exceeded - could throw exception or return false
-            return;
+
+
+        ///  CHECK KON BEBIN SAKHTE ITEMO
+
+        if ( this.getItems().size()  + n <= this.capacity ) {
+
+            this.items.add(item);
+
         }
 
-        if (items.containsKey(item)) {
-            items.put(item, items.get(item) + n);
-        } else {
-            items.put(item, n);
-        }
+
     }
 
     public void CheatAddToInventory(Item item, int n) {
-        if (items.containsKey(item)) {
-            items.put(item, items.get(item) + n);
-        } else {
-            items.put(item, n);
+
+        if ( this.getItems().size()  + n <= this.capacity ) {
+
+            this.items.add(item);
+
         }
+
+    }
+
+    public int getItemCount(Item item){
+
+        int count = 0;
+        for ( Item itemInInventory : this.items ){
+
+            if ( itemInInventory.equals(item) ){
+
+                count ++;
+
+            }
+
+        }
+
+        return count;
+
     }
 
     public void removeFromInventory(Item item, int n) {
-        // Check if item exists and in sufficient quantity
-        if (!items.containsKey(item) || items.get(item) < n) {
-            // Handle insufficient items - could throw exception or return false
-            return;
+
+        int count = this.getItemCount(item);
+
+        for ( int i = 0 ; i < Math.min(n,count) ; i++ ){
+
+            this.items.remove(item);
+
         }
 
-        int newQuantity = items.get(item) - n;
-        if (newQuantity <= 0) {
-            items.remove(item);
-        } else {
-            items.put(item, newQuantity);
-        }
     }
 
     public int getUsedCapacity() {
@@ -68,31 +77,14 @@ public abstract class Inventory {
         return capacity - getUsedCapacity();
     }
 
-    public String getInventoryContents() {
-        if (items.isEmpty()) {
-            return "";
-        }
-
-        StringBuilder contents = new StringBuilder();
-        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
-            contents.append(entry.getKey().toString())
-                   .append(": ")
-                   .append(entry.getValue())
-                   .append("\n");
-        }
-        return contents.toString();
-    }
 
     public boolean hasItem(Item item) {
-        return items.containsKey(item);
+        return this.items.contains(item);
     }
 
-    public int getItemQuantity(Item item) {
-        return items.getOrDefault(item, 0);
-    }
 
-    public Map<Item, Integer> getItems() {
-        return new HashMap<>(items);
+    public ArrayList<Item> getItems() {
+        return items;
     }
 
     public boolean isEmpty() {
@@ -100,21 +92,40 @@ public abstract class Inventory {
     }
 
     public int getTotalItemCount() {
-        int total = 0;
-        for (int quantity : items.values()) {
-            total += quantity;
-        }
-        return total;
+        return items.size();
     }
 
     public void clear() {
         items.clear();
     }
 
-    public void transferAllItemsTo(Inventory targetInventory) {
-        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
-            targetInventory.CheatAddToInventory(entry.getKey(), entry.getValue());
+    public String getInventoryContents(){
+
+        String contents = "";
+        for ( Item item : items ){
+
+            if ( ! contents.contains(item.toString())  ){
+
+                contents += item.toString();
+                contents += "\n";
+
+            }
+
         }
-        this.clear();
+
+        return contents;
+
     }
+
+    public void transferAllItemsTo(Inventory targetInventory) {
+
+        for (Item item : this.items) {
+            targetInventory.CheatAddToInventory(item, 1);
+        }
+
+        this.clear();
+
+    }
+
+
 }

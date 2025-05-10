@@ -20,6 +20,7 @@ public class Player extends User{
     private HashMap<Skill, SkillLevels> skillLevels =  new HashMap<>();
     private Map<SecurityQuestion, String> qAndA;
     private Backpack backpack;
+    private ArrayList<Item> items = new ArrayList<>();
 
     public Player(User user){
 
@@ -177,7 +178,7 @@ public class Player extends User{
     // Get a formatted string with all skill levels
     public String getSkillLevelsString() {
         StringBuilder sb = new StringBuilder("Skill Levels:\n");
-        for (Map.Entry<Skill, SkillLevel> entry : skillLevels.entrySet()) {
+        for (Map.Entry<Skill, SkillLevels> entry : skillLevels.entrySet()) {
             sb.append(entry.getValue().toString()).append("\n");
         }
         return sb.toString();
@@ -189,13 +190,13 @@ public class Player extends User{
     }
 
     // Method to upgrade backpack
-    public void upgradeBackpack(BackpackType newType) {
+    public void upgradeBackpack(InventoryType newType) {
         // Create a new backpack with the new type
         Backpack newBackpack = new Backpack(newType);
 
         // Transfer all items from old backpack to new backpack
         if (this.backpack != null) {
-            Map<Item, Integer> oldItems = this.backpack.getItems();
+            ArrayList<Item> oldItems = this.backpack.getItems();
             for (Map.Entry<Item, Integer> entry : oldItems.entrySet()) {
                 newBackpack.CheatAddToInventory(entry.getKey(), entry.getValue());
             }

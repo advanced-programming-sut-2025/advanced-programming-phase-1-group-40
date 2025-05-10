@@ -7,6 +7,8 @@ import java.util.Random;
  * Builder pattern implementation for creating farm maps
  */
 public class MapBuilder {
+
+
     private static final int DEFAULT_WIDTH = 50;
     private static final int DEFAULT_HEIGHT = 50;
     

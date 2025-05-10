@@ -11,7 +11,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public class PlantSource{
+public class PlantSource extends Item{
     private String name;
     private boolean isMixedSeed;
 }

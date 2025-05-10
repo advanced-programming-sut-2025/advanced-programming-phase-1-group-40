@@ -12,7 +12,7 @@ import org.example.models.*;
 
 import java.util.ArrayList;
 
-public abstract class Harvestable {
+public abstract class Harvestable extends Item {
 
     private String name;
     private PlantSource source;

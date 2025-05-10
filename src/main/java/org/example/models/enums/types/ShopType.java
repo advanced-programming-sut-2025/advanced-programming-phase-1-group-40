@@ -11,6 +11,7 @@ import org.example.models.*;
 
 
 public enum ShopType {
+
     BLACKSMITH,
     MARNIE_RANCH,
     THE_STARDROP_SALLON,
@@ -18,4 +19,5 @@ public enum ShopType {
     JOJAMART,
     PIERRE_GENERAL_STORE,
     FISH_SHOP;
+
 }
