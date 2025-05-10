@@ -1,26 +1,20 @@
 package org.example.models.inventory;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
+import org.example.models.enums.types.InventoryType;
 
 public class Refrigerator extends Inventory {
-    public Refrigerator(int capacity, boolean isCapacityUnlimited) {
-        super(capacity, isCapacityUnlimited);
+
+
+    private final InventoryType type;
+
+    public Refrigerator(InventoryType type) {
+        super(type.getCapacity());
+        this.type = type;
     }
 
-    private Result pick(Item item) {
-        return null;
+    public InventoryType getType() {
+        return this.type;
     }
 
-    private Result put(Item item){
-
-        return null;
-    }
 
 }

@@ -166,19 +166,19 @@ public class GameController {
 
     public Result upgradeBackpack(String backpackTypeName) {
         // Try to parse the backpack type from the input string
-        BackpackType newType;
+        InventoryType newType;
         try {
-            newType = BackpackType.valueOf(backpackTypeName.toUpperCase());
+            newType = InventoryType.valueOf(backpackTypeName.toUpperCase());
         } catch (IllegalArgumentException e) {
             return new Result(false, "Invalid backpack type. Available types: INITIAL, LARGE, DELUXE");
         }
 
         Backpack currentBackpack = player.getBackpack();
-        BackpackType currentType = currentBackpack.getType();
+        InventoryType currentType = currentBackpack.getType();
 
         // Check if this would be a downgrade
-        if (currentType == BackpackType.DELUXE ||
-            (currentType == BackpackType.LARGE && newType == BackpackType.INITIAL)) {
+        if (currentType == InventoryType.DELUXE ||
+            (currentType == InventoryType.LARGE && newType == InventoryType.INITIAL)) {
             return new Result(false, "You cannot downgrade your backpack.");
         }
 
@@ -200,7 +200,7 @@ public class GameController {
             return new Result(false, "You don't have a backpack yet!");
         }
 
-        BackpackType type = playerBackpack.getType();
+        InventoryType type = playerBackpack.getType();
         StringBuilder info = new StringBuilder();
         info.append("Backpack Type: ").append(type).append("\n");
 

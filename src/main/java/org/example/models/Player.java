@@ -190,7 +190,7 @@ public class Player extends User{
     }
 
     // Method to upgrade backpack
-    public void upgradeBackpack(BackpackType newType) {
+    public void upgradeBackpack(InventoryType newType) {
         // Create a new backpack with the new type
         Backpack newBackpack = new Backpack(newType);
 
