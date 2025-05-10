@@ -93,12 +93,11 @@ public class GameController {
         StringBuilder response = new StringBuilder();
         response.append("=== YOUR INVENTORY ===\n");
         response.append(inventoryContents);
-        response.append("\n");
         response.append("Backpack type: ").append(playerBackpack.getType()).append("\n");
         response.append("Used slots: ").append(playerBackpack.getUsedCapacity());
 
         // Only show capacity info if the backpack isn't unlimited
-        if (!playerBackpack.getType().isUnlimited()) {
+        if ( ! (playerBackpack.getType().getCapacity() == Integer.MAX_VALUE) ) {
             response.append("/").append(playerBackpack.getType().getCapacity());
         }
 
@@ -118,7 +117,7 @@ public class GameController {
             return new Result(false, "You don't have any " + item.toString() + " in your inventory.");
         }
 
-        int availableQuantity = playerBackpack.getItemQuantity(item);
+        int availableQuantity = playerBackpack.getItemCount(item);
 
         // If number is not specified or is 0, remove all of that item
         if (number <= 0) {
@@ -191,7 +190,7 @@ public class GameController {
         StringBuilder info = new StringBuilder();
         info.append("Backpack Type: ").append(type).append("\n");
 
-        if (type.isUnlimited()) {
+        if ( type.getCapacity() == Integer.MAX_VALUE ) {
             info.append("Capacity: Unlimited\n");
         } else {
             info.append("Capacity: ").append(type.getCapacity()).append("\n");
@@ -200,7 +199,7 @@ public class GameController {
         info.append("Used Slots: ").append(playerBackpack.getUsedCapacity()).append("\n");
         info.append("Available Slots: ");
 
-        if (type.isUnlimited()) {
+        if ( type.getCapacity() == Integer.MAX_VALUE ) {
             info.append("Unlimited");
         } else {
             info.append(playerBackpack.getRemainingCapacity());
@@ -435,7 +434,7 @@ public class GameController {
 
     public Result fishing(String fishingPoleName) {
 
-        FishingRodType fishingRod = getFishingPoleByName();
+        FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
 
         int numberOfFishes = numberOfCaughtFish() + 1;
@@ -452,13 +451,13 @@ public class GameController {
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ( (new Random().nextInt(2)) * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevelCoEfficient() + 2) * fishingRod.getPoleCoefficient() / (7 -App.currentWeather.getWeatherCoEfficient() ) );
+        return (int) ( (new Random().nextInt(2)) * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 -App.currentWeather.getWeatherCoEfficient() ) );
 
     }
 
     public int numberOfCaughtFish() {
 
-        return  (int) ((new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevelCoEfficient() + 2));
+        return  (int) ((new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 

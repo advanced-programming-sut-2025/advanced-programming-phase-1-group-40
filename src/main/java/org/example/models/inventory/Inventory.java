@@ -99,6 +99,24 @@ public abstract class Inventory {
         items.clear();
     }
 
+    public String getInventoryContents(){
+
+        String contents = "";
+        for ( Item item : items ){
+
+            if ( ! contents.contains(item.toString())  ){
+
+                contents += item.toString();
+                contents += "\n";
+
+            }
+
+        }
+
+        return contents;
+
+    }
+
     public void transferAllItemsTo(Inventory targetInventory) {
 
         for (Item item : this.items) {
