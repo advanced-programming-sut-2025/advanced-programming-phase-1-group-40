@@ -20,6 +20,7 @@ public class Player extends User{
     private HashMap<Skill, SkillLevels> skillLevels =  new HashMap<>();
     private Map<SecurityQuestion, String> qAndA;
     private Backpack backpack;
+//    private
 
     public Player(User user){
 

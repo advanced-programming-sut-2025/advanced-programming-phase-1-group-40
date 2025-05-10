@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.models.Stores;
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
@@ -14,6 +14,7 @@ import org.example.models.*;
 import java.util.HashMap;
 
 public class Shop {
+
     String name;
     ShopType type;
     HashMap<Item, Integer> shopInventory;

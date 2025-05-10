@@ -10,7 +10,7 @@ import org.example.models.*;
 
 
 
-public class Stone {
+public class Stone extends Item {
     private StoneType type;
     private Position position;
 }

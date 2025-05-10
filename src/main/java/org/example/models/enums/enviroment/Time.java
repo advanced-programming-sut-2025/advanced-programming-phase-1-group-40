@@ -19,7 +19,7 @@ public class Time {
     private static Weekday weekday;
     private static int hour;
     private static int minute;
-    private static int second;
+//    private static int second;
     public static Time currentTime;
 
     public static void increaseTime(Time increasedAmount) {
