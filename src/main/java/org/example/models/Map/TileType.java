@@ -15,5 +15,8 @@ public enum TileType {
     TREE,           // Tree (various types)
     STONE,          // Stone (various types)
     FORAGEABLE,     // Forageable item
-    PATH            // Constructed path
+    PATH;            // Constructed path
+
+
+
 }
