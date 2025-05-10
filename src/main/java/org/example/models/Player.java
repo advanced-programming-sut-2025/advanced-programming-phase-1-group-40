@@ -121,14 +121,6 @@ public class Player extends User{
         return backpack;
     }
 
-    public void addItemToInventory(Item item, int quantity) {
-        backpack.addToInventory(item, quantity);
-    }
-
-    public void removeItemFromInventory(Item item, int quantity) {
-        backpack.removeFromInventory(item, quantity);
-    }
-
     public void cheatAddItemToInventory(Item item, int quantity) {
         backpack.CheatAddToInventory(item, quantity);
     }
@@ -197,7 +189,7 @@ public class Player extends User{
         // Transfer all items from old backpack to new backpack
         if (this.backpack != null) {
             ArrayList<Item> oldItems = this.backpack.getItems();
-            for (Map.Entry<Item, Integer> entry : oldItems.entrySet()) {
+            for (Map.Entry<Item, Integer> entry : oldItems) {
                 newBackpack.CheatAddToInventory(entry.getKey(), entry.getValue());
             }
         }
@@ -216,12 +208,6 @@ public class Player extends User{
     public void removeItemFromInventory(Item item, int quantity) {
         if (backpack != null) {
             backpack.removeFromInventory(item, quantity);
-        }
-    }
-
-    public void cheatAddItemToInventory(Item item, int quantity) {
-        if (backpack != null) {
-            backpack.CheatAddToInventory(item, quantity);
         }
     }
 

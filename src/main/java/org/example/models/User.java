@@ -11,7 +11,7 @@ public class User {
     private final Gender gender;
 
 
-    public User(String username, String password, String nickname, String email, Gender gender) {
+    public User(String username, String password, String nickname, String email, String gender) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;

@@ -6,8 +6,8 @@ import org.example.models.Animal.Animal;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
+import org.example.models.inventory.Backpack;
 import org.example.models.tools.*;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,24 +18,17 @@ public class GameController {
 
     }
 
-
-    // === PLAYER'S STATUS === //
-
     public Result showPlayerEnergy() {
         int playerEnergy = player.getEnergy();
         return new Result(true, "Your energy is: " + playerEnergy);
     }
 
     public Result crowAttack(){
-
-
-
         return null;
 
     }
 
     public int howMuchWater(){
-
         return 0;
 
     }
@@ -63,11 +56,7 @@ public class GameController {
     }
 
     public Result showAvailableTools() {
-
-        ///  SHOWS AVAIBLE TOOLS
-
         return null;
-
     }
 
     public Result showLearntCookingRecipes() {
@@ -85,9 +74,7 @@ public class GameController {
         return new Result(true, learntRecipes);
     }
 
-    // === INVENTORY === //
     public Result inventoryShow() {
-        // Get the player's inventory contents
         Backpack playerBackpack = player.getBackpack();
 
         if (playerBackpack == null) {
@@ -221,8 +208,6 @@ public class GameController {
 
         return new Result(true, info.toString());
     }
-
-    // === TOOLS, FOODS, ITEMS, AND CRAFTS === //
 
     public Result equipTool(String toolName) {
         return new Result(true, "");
@@ -452,12 +437,9 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName();
 
-        if (true){
 
-            int numberOfFishes = numberOfCaughtFish() + 1;
+        int numberOfFishes = numberOfCaughtFish() + 1;
 
-
-        }
 
         return new Result(true, "");
     }

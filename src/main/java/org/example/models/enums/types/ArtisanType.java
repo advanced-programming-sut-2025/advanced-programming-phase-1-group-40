@@ -15,7 +15,7 @@ import java.util.List;
 public enum ArtisanType {
 
     HONEY(75,96,new ArrayList<ProcessedItemType>(),350);
-    CHEESE(100,3,,)
+    // CHEESE(100,3,,)
 
     private final Integer energy;
     private final Integer processingTimeInHours;

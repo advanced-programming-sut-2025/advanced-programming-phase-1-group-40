@@ -30,14 +30,25 @@ public class MainMenuController {
         App.setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "You are now in the Main Menu");
     }
+    public Result logOut(){
+        return null;
+    }
 
     public Result showCurrentMenu() {
         return new Result(true, "You are now in " + App.getCurrentMenu().toString());
     }
 
     private boolean canSwitchMenu(Menu newMenu) {
-        // TODO: check if it is allowed to switch to that menu from the current menu
-        return false;
+        if(newMenu == App.currentMenu){
+            return false;
+        }
+        else if(App.currentMenu ==Menu.LOGIN_MENU && newMenu==Menu.GAME_MENU){
+            return false;
+        }
+        else if(App.currentMenu == Menu.GAME_MENU && newMenu ==Menu.LOGIN_MENU){
+            return false;
+        }
+        return true;
     }
 
 
