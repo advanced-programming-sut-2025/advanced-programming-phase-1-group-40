@@ -178,7 +178,7 @@ public class Player extends User{
     // Get a formatted string with all skill levels
     public String getSkillLevelsString() {
         StringBuilder sb = new StringBuilder("Skill Levels:\n");
-        for (Map.Entry<Skill, SkillLevel> entry : skillLevels.entrySet()) {
+        for (Map.Entry<Skill, SkillLevels> entry : skillLevels.entrySet()) {
             sb.append(entry.getValue().toString()).append("\n");
         }
         return sb.toString();
@@ -196,7 +196,7 @@ public class Player extends User{
 
         // Transfer all items from old backpack to new backpack
         if (this.backpack != null) {
-            Map<Item, Integer> oldItems = this.backpack.getItems();
+            ArrayList<Item> oldItems = this.backpack.getItems();
             for (Map.Entry<Item, Integer> entry : oldItems.entrySet()) {
                 newBackpack.CheatAddToInventory(entry.getKey(), entry.getValue());
             }
