@@ -1,81 +1,97 @@
 package org.example.models.enums.enviroment;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
+import java.time.LocalTime;
 
 
 public class Time {
 
 
-    private static int year;
-    private static Season Season;
-    private static Month month;
-    private static Weekday weekday;
-    private static int hour;
-    private static int minute;
-//    private static int second;
-    public static Time currentTime;
+
+
+
+    private int year;
+    private Season season;
+    private Month month;
+    private Weekday weekday;
+    private int date;
+    private int hour;
     private int daysPassed;
-    private int day = 0;
+    private LocalTime currentTime = LocalTime.of(hour,0);
 
-    public static void increaseTime(Time increasedAmount) {
+
+    public Time(){
+
+        year = 2025;
+        hour = 9;
+        daysPassed = 0;
+        date = 1;
+        season = Season.SPRING;
+        month = Month.JANUARY;
+        weekday = Weekday.MONDAY;
 
     }
 
-    public static void cheatAdvanceTime(int hourIncrease, Time currentTime) {
+    public int getDate() {
+        return date;
     }
 
-    public static void cheatAdvanceDate(int dayIncrease, Time currentTime) {
+    public void setDate(int date) {
+        this.date = date;
     }
 
-    public static int getYear() {
+    public int getYear() {
         return year;
     }
 
-    public static Season getSeason() {
-        return Season;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public static Month getMonth() {
+    public Season getSeason() {
+        return season;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    public Month getMonth() {
         return month;
     }
 
-    public static Weekday getWeekday() {
+    public void setMonth(Month month) {
+        this.month = month;
+    }
+
+    public Weekday getWeekday() {
         return weekday;
     }
 
-    public static int getHour() {
+    public void setWeekday(Weekday weekday) {
+        this.weekday = weekday;
+    }
+
+    public int getHour() {
         return hour;
     }
 
-    public static int getMinute() {
-        return minute;
+    public void setHour(int hour) {
+        this.hour = hour;
     }
 
-    public static int getSecond() {
-        return second;
+    public int getDaysPassed() {
+        return daysPassed;
     }
 
-    public static void nextYear() {
-
+    public void setDaysPassed(int daysPassed) {
+        this.daysPassed = daysPassed;
     }
 
-    public static void nextSeason(){
-
-    }
-    public static void nextMonth(){
-
+    public LocalTime getCurrentTime() {
+        return currentTime;
     }
 
-    public static void nextWeekday(){
-
+    public void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
     }
-
-
 }

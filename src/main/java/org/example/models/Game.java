@@ -1,6 +1,9 @@
 package org.example.models;
 
 import org.example.models.Map.Farm;
+import org.example.models.enums.enviroment.Month;
+import org.example.models.enums.enviroment.Time;
+import org.example.models.enums.enviroment.Weekday;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,37 +14,61 @@ import java.util.Map;
  * Represents a game session with multiple players
  */
 public class Game {
-    private static int nextGameId = 1;
-    
-    private int gameId;
-    private List<Player> players;
-    private List<Farm> farms;
+
+    private final ArrayList<Player> players;
+    private ArrayList<Farm> farms;
     private Player currentTurnPlayer;
-    private int currentDay;
-    private int currentHour;
+    private final int numberOfPlayers;
+    private boolean everyOnePlayed;
     private boolean active;
     private Map<String, Boolean> terminationVotes;
     private Player creator;
-    
-    public Game() {
-        this.gameId = nextGameId++;
+    private Time time;
+
+
+    public Game(Player... players) {
+
+        everyOnePlayed = false;
+
         this.players = new ArrayList<>();
+
+        for (Player player : players) {
+            this.players.add(player);
+        }
+
+        numberOfPlayers = players.length;
+
+
+        time = new Time();
+
         this.farms = new ArrayList<>();
-        this.currentDay = 1;
-        this.currentHour = 6; // Start at 6 AM
         this.active = true;
         this.terminationVotes = new HashMap<>();
+
     }
-    
-    public int getGameId() {
-        return gameId;
+
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
-    
-    public List<Player> getPlayers() {
+
+    public boolean isEveryOnePlayed() {
+        return everyOnePlayed;
+    }
+
+    public Map<String, Boolean> getTerminationVotes() {
+        return terminationVotes;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public ArrayList<Player> getPlayers() {
         return players;
     }
     
-    public List<Farm> getFarms() {
+    public ArrayList<Farm> getFarms() {
         return farms;
     }
     
@@ -53,22 +80,7 @@ public class Game {
         this.currentTurnPlayer = player;
     }
     
-    public int getCurrentDay() {
-        return currentDay;
-    }
-    
-    public void setCurrentDay(int currentDay) {
-        this.currentDay = currentDay;
-    }
-    
-    public int getCurrentHour() {
-        return currentHour;
-    }
-    
-    public void setCurrentHour(int currentHour) {
-        this.currentHour = currentHour;
-    }
-    
+
     public boolean isActive() {
         return active;
     }
@@ -106,17 +118,49 @@ public class Game {
      * @return The player whose turn it is now
      */
     public Player nextTurn() {
+
         int currentIndex = players.indexOf(currentTurnPlayer);
-        int nextIndex = (currentIndex + 1) % players.size();
+        int nextIndex = (currentIndex + 1) % numberOfPlayers;
         
-        // If we've gone through all players, increment the hour
+
         if (nextIndex == 0) {
-            currentHour++;
-            
-            // If it's past midnight, increment the day and reset to 6 AM
-            if (currentHour >= 24) {
-                currentDay++;
-                currentHour = 6;
+
+            if ( time.getHour() >= 22) {
+
+                time.setHour(9);
+
+                if ( time.getWeekday().getDayIndex() >= 6 ){
+                    time.setWeekday(Weekday.MONDAY);
+                }
+                else{
+                    time.setWeekday(Weekday.values()[time.getWeekday().getDayIndex()+1]);
+                }
+
+                if ( time.getDate() >= 28 ){
+
+                    time.setDate(1);
+
+                    if ( time.getMonth().getMonthIndex() >= 11 ){
+                        time.setYear(time.getYear()+1);
+                        time.setMonth(Month.JANUARY);
+                    }
+                    else{
+                        time.setMonth(Month.values()[time.getMonth().getMonthIndex()+1]);
+                    }
+
+
+                }
+                else{
+                    time.setDate(time.getDate()+1);
+                }
+
+
+
+            }
+            else{
+
+                time.setHour( time.getHour() + 1 );
+
             }
         }
         

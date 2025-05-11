@@ -12,7 +12,7 @@ import org.example.models.*;
 
 public enum ShopType {
 
-    BLACKSMITH,
+    BLACKSMITH(),
     MARNIE_RANCH,
     THE_STARDROP_SALLON,
     CARPENTER_SHOP,
