@@ -43,4 +43,5 @@ public enum TreeType {
     public boolean isFruitTree() {
         return name.contains("Tree");
     }
+
 }

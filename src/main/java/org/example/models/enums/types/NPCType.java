@@ -2,13 +2,6 @@ package org.example.models.enums.types;
 
 
 import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 
 import java.util.ArrayList;
@@ -39,7 +32,7 @@ public enum NPCType {
     CLINT(
             Role.BLACKSMITH,
             new HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>>() {{
-                put(new HashMap<Item, Integer>() {{ put(GoodsType.IRON_ORE, 50); }},
+                put(new HashMap<Item, Integer>() {{ put(ShopItemTypes.IRON_ORE, 50); }},
                         new HashMap<Item, Integer>() {{ put(StoneType.DIAMOND, 2); }}
                 );
             }},
