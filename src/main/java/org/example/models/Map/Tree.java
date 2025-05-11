@@ -5,8 +5,14 @@ import org.example.models.enums.types.FruitType;
 import org.example.models.enums.types.TreeType;
 
 import java.util.Map;
+import java.util.Random;
 
 public class Tree extends MapComponents {
+
+    @Override
+    public void update(){
+
+    }
 
     private final TreeType treeType;
     private final Position position;
@@ -15,11 +21,17 @@ public class Tree extends MapComponents {
 
     public Tree(Position position) {
 
-        super(position.getX(), position.getY(), 1,1);
-        this.treeType = treeType;
 
+
+        super(position.getX(), position.getY(), 1,1);
+        this.position = position;
         this.isFullyGrown = false;
         this.isBurnt = false;
+
+        ///  GENERATING RANDOM TYPE OF TREE
+
+        this.treeType = TreeType.values()[(new Random().nextInt(TreeType.values().length))];
+
     }
 
     public void setFullyGrown(boolean fullyGrown) {
