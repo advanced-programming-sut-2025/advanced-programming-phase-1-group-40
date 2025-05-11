@@ -10,10 +10,10 @@ import org.example.models.inventory.Backpack;
 import org.example.models.tools.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
-import static org.example.models.App.games;
-import static org.example.models.App.getGames;
+import static org.example.models.App.*;
 
 public class GameController {
     Player player = App.getCurrentPlayer();
@@ -555,7 +555,7 @@ public class GameController {
          */
 
         StringBuilder message = new StringBuilder("Friendship w other Players: ");
-        for(Player otherPlayer : game.getPlayers()){
+        for(Player otherPlayer : App.games().){
             if(!player.equals(otherPlayer)){
                 Friendship friendship = game.getUserByFriendship(player,otherPlayer);
                 message.append(otherPlayer.getUsername()).append(": \n").append("Friendship Level: \n").append(friendship.getLevel()).append("\n").append("XP: \n").append(friendship.getCurrentXP());
@@ -581,19 +581,46 @@ public class GameController {
     }
 
     public Result showTalkHistoryWithUser(String username) {
+        User targetPlayer = game.getPlayerByUsername;
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        StringBuilder historyMessage = new StringBuilder("Your talk history with "+username+": ");
+        HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(player).get(targetPlayer);
+        historyMessage.append("You: ").append(sentMessages).append("\n");
+        HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(player).get(targetPlayer);
+        historyMessage.append(username).append(": \n").append(receivedMessages).append("\n");
+        return new Result(true, historyMessage.toString().trim());
+    }
+
+    public Result giveGift(String username, String itemName, int amount) {
         User targetPlayer = game.getPlayerByUsername(username);
         if(targetPlayer == null){
             return new Result(false,"User not found.");
         }
-        StringBuilder historyMessage = new StringBuilder()
-    }
-
-    public Result giveGift(String username, String itemName, int amount) {
-        return new Result(true, "");
+        if(!isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())){
+            return new Result(false,"You must get near to "+username+" to be able to give them a gift.");
+        }
+        Item item = player.getBackpack().getItemFromInventoryByName(itemName);
+        //get item from backpack
+        if(targetItem == null){
+            return new Result(false,"Item not found.");
+        }
     }
 
     public Result giftList() {
-        return new Result(true, "");
+        StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
+        for(Gift gift: player.getGift()){
+            giftListMessage.append(gift.getId()).append('\n').append(gift.getItem()).append(" (x").append(gift.getAmount()).append(") given by").append(gift.getSender().getUsername()).append("\n");
+            if(gift.getRating()==0){
+                giftListMessage.append("You have not rated this gift yet!");
+            }
+            else{
+                giftListMessage.append("the rate you have given to this gift is: ").append(gift.getRating()).append("\n");
+            }
+
+        }
+        return new Result(true, giftListMessage.toString());
     }
 
     public Result giftRate(int giftNumber, int rate) {

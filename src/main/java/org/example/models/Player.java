@@ -220,4 +220,8 @@ public class Player extends User{
     public int getItemQuantity(Item item) {
         return backpack != null ? backpack.getItemQuantity(item) : 0;
     }
+
+    public Iterable<? extends Gift> getGift() {
+        return null;
+    }
 }

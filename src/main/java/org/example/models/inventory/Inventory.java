@@ -3,8 +3,6 @@ package org.example.models.inventory;
 import org.example.models.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Inventory {
 
@@ -57,7 +55,7 @@ public abstract class Inventory {
 
     }
 
-    public void removeFromInventory(Item item, int n) {
+    public Result removeFromInventory(Item item, int n) {
 
         int count = this.getItemCount(item);
 
@@ -67,6 +65,7 @@ public abstract class Inventory {
 
         }
 
+        return null;
     }
 
     public int getUsedCapacity() {
