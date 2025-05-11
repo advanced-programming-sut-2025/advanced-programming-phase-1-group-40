@@ -1,4 +1,4 @@
-package org.example.models.Map;
+package org.example.models.Map.SecondaryMapComponents;
 
 import org.example.models.Item;
 
