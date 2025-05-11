@@ -16,7 +16,7 @@ public class Tree extends MapComponents {
     public Tree(Position position) {
 
         super(position.getX(), position.getY(), 1,1);
-//        this.treeType = treeType;
+        this.treeType = treeType;
 
         this.isFullyGrown = false;
         this.isBurnt = false;
