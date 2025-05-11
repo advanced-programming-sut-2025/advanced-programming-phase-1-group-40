@@ -66,6 +66,11 @@ public enum GameCommands implements Command{
     FLOWER_USER("\\s*flower\\s+-u\\s+(?<username>.+)\\s*"),
     ASK_MARRIAGE("\\s*ask\\s+marriage\\s+-u\\s+(?<username>.+)\\s+-r\\s+(?<ring>.+)\\s*"),
     RESPOND_TO_MARRIAGE("\\s*respond\\s+(-accept|-reject)\\s+-u\\s+(?<username>.+)\\s*"),
+
+
+    ///  COMMAND HAYE TRADE(TRADE MENU)
+
+
     START_TRADE("\\s*start\\s+trade\\s*"),
     TRADE_WITH_MONEY("\\s*trade\\s+-u\\s+(?<username>.+)\\s+-t\\s+(?<type>.+)\\s+-i\\s+(?<item>.+)\\s+-a\\s+(?<amount>.+)\\s+-p\\s+(?<price>.+)\\s*"),
     TRADE_WITH_ITEM("\\s*trade\\s+-u\\s+(?<username>.+)\\s+-t\\s+(?<type>.+)\\s+-i\\s+(?<item>.+)\\s+-a\\s+(?<amount>.+)\\s+-ti\\s+(?<targetItem>.+)\\s+-ta\\s+(?<targetItem>.+)\\s*"),
