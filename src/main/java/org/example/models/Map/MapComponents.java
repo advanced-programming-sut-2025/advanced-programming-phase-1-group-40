@@ -18,11 +18,7 @@ public abstract class MapComponents {
         this.height = height;
     }
     
-    public MapComponents(int x, int y, int width, int height) {
-        this.position = new Position(x, y);
-        this.width = width;
-        this.height = height;
-    }
+    
     
     public int getX() {
         return position.getX();

@@ -6,6 +6,7 @@ import org.example.models.enums.types.StoneType;
 import org.example.models.enums.types.TreeType;
 import org.example.models.farming.Crop;
 import org.example.models.Position;
+import org.example.models.Map.SecondaryMapComponents.Tree;
 
 import java.util.ArrayList;
 import java.util.List;

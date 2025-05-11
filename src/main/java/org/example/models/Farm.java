@@ -7,6 +7,7 @@ import org.example.models.enums.*;
 import org.example.models.farming.*;
 import org.example.models.inventory.*;
 import org.example.models.Map.*;
+import org.example.models.Map.SecondaryMapComponents.Tree;
 import org.example.models.tools.*;
 import org.example.models.*;
 

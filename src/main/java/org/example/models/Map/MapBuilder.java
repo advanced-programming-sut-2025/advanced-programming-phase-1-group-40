@@ -1,6 +1,7 @@
 package org.example.models.Map;
 
 import org.example.models.Position;
+import org.example.models.Map.SecondaryMapComponents.Tree;
 import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.types.ForagingType;
 import org.example.models.enums.types.StoneType;
