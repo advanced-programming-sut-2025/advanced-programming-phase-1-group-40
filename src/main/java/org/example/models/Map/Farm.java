@@ -2,7 +2,7 @@ package org.example.models.Map;
 
 import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.types.ForagingType;
-import org.example.models.enums.types.StoneType;
+import org.example.models.enums.types.ForagingMineralTypes;
 import org.example.models.enums.types.TreeType;
 import org.example.models.farming.Crop;
 import org.example.models.Position;
@@ -365,13 +365,13 @@ public class Farm implements Serializable {
     /**
      * Adds a stone to the farm at the specified location
      * @param position Position to add the stone
-     * @param stoneType Type of stone to add
+     * @param foragingMineralTypes Type of stone to add
      * @return true if successful, false otherwise
      */
-    public boolean addStone(Position position, StoneType stoneType) {
+    public boolean addStone(Position position, ForagingMineralTypes foragingMineralTypes) {
         MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            Stone stone = new Stone(position, stoneType);
+            Stone stone = new Stone(position, foragingMineralTypes);
             addComponent(stone);
             return true;
         }

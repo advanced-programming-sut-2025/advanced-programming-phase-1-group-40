@@ -1,16 +1,10 @@
 package org.example.models.enums.types;
 
 import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
 import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 
-public enum StoneType implements Item{
+public enum ForagingMineralTypes implements Item{
 
     QUARTZ(25),
     EARTH_CRYSTAL(50),
@@ -32,7 +26,7 @@ public enum StoneType implements Item{
 
     private final int sellPrice;
 
-    StoneType(int sellPrice) {
+    ForagingMineralTypes(int sellPrice) {
         this.sellPrice = sellPrice;
     }
 

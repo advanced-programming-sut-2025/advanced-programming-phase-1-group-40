@@ -1,7 +1,7 @@
 package org.example.models.Map;
 
 import org.example.models.Position;
-import org.example.models.enums.types.StoneType;
+import org.example.models.enums.types.ForagingMineralTypes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Random;
  * Represents a quarry on the farm where mining can be done
  */
 public class Quarry extends MapComponents {
-    private Map<StoneType, Integer> stoneDistribution;
+    private Map<ForagingMineralTypes, Integer> stoneDistribution;
     private int miningQuality; // 1-10 scale
     private Random random;
     
@@ -33,11 +33,11 @@ public class Quarry extends MapComponents {
     
     private void initializeStoneDistribution() {
         stoneDistribution = new HashMap<>();
-        stoneDistribution.put(StoneType.REGULAR, 60);
-        stoneDistribution.put(StoneType.COPPER, 20);
-        stoneDistribution.put(StoneType.IRON, 10);
-        stoneDistribution.put(StoneType.GOLD, 7);
-        stoneDistribution.put(StoneType.IRIDIUM, 3);
+        stoneDistribution.put(ForagingMineralTypes.REGULAR, 60);
+        stoneDistribution.put(ForagingMineralTypes.COPPER, 20);
+        stoneDistribution.put(ForagingMineralTypes.IRON, 10);
+        stoneDistribution.put(ForagingMineralTypes.GOLD, 7);
+        stoneDistribution.put(ForagingMineralTypes.IRIDIUM, 3);
     }
     
     public int getMiningQuality() {
@@ -52,7 +52,7 @@ public class Quarry extends MapComponents {
      * Gets a random stone type based on the quarry's distribution
      * @return A randomly selected stone type
      */
-    public StoneType getRandomStoneType() {
+    public ForagingMineralTypes getRandomStoneType() {
         int roll = random.nextInt(100) + 1;
         int cumulativeProbability = 0;
         
@@ -60,21 +60,21 @@ public class Quarry extends MapComponents {
         int qualityBonus = miningQuality / 2;
         
         // Adjust probabilities based on mining quality
-        Map<StoneType, Integer> adjustedDistribution = new HashMap<>();
-        adjustedDistribution.put(StoneType.REGULAR, Math.max(40, stoneDistribution.get(StoneType.REGULAR) - qualityBonus * 2));
-        adjustedDistribution.put(StoneType.COPPER, stoneDistribution.get(StoneType.COPPER));
-        adjustedDistribution.put(StoneType.IRON, stoneDistribution.get(StoneType.IRON) + qualityBonus);
-        adjustedDistribution.put(StoneType.GOLD, stoneDistribution.get(StoneType.GOLD) + qualityBonus);
-        adjustedDistribution.put(StoneType.IRIDIUM, stoneDistribution.get(StoneType.IRIDIUM) + qualityBonus);
+        Map<ForagingMineralTypes, Integer> adjustedDistribution = new HashMap<>();
+        adjustedDistribution.put(ForagingMineralTypes.REGULAR, Math.max(40, stoneDistribution.get(ForagingMineralTypes.REGULAR) - qualityBonus * 2));
+        adjustedDistribution.put(ForagingMineralTypes.COPPER, stoneDistribution.get(ForagingMineralTypes.COPPER));
+        adjustedDistribution.put(ForagingMineralTypes.IRON, stoneDistribution.get(ForagingMineralTypes.IRON) + qualityBonus);
+        adjustedDistribution.put(ForagingMineralTypes.GOLD, stoneDistribution.get(ForagingMineralTypes.GOLD) + qualityBonus);
+        adjustedDistribution.put(ForagingMineralTypes.IRIDIUM, stoneDistribution.get(ForagingMineralTypes.IRIDIUM) + qualityBonus);
         
-        for (Map.Entry<StoneType, Integer> entry : adjustedDistribution.entrySet()) {
+        for (Map.Entry<ForagingMineralTypes, Integer> entry : adjustedDistribution.entrySet()) {
             cumulativeProbability += entry.getValue();
             if (roll <= cumulativeProbability) {
                 return entry.getKey();
             }
         }
         
-        return StoneType.REGULAR; // Default fallback
+        return ForagingMineralTypes.REGULAR; // Default fallback
     }
     
     @Override

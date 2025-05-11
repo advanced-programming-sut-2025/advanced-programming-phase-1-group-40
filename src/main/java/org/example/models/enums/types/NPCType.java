@@ -33,7 +33,7 @@ public enum NPCType {
             Role.BLACKSMITH,
             new HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>>() {{
                 put(new HashMap<Item, Integer>() {{ put(ShopItemTypes.IRON_ORE, 50); }},
-                        new HashMap<Item, Integer>() {{ put(StoneType.DIAMOND, 2); }}
+                        new HashMap<Item, Integer>() {{ put(ForagingMineralTypes.DIAMOND, 2); }}
                 );
             }},
             new ArrayList<Item>() {{ add(ProcessedItemType.IRON_BAR); add(ProcessedItemType.GOLD_BAR); }}
