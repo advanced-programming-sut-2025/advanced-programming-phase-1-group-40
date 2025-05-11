@@ -1,9 +1,12 @@
 package org.example.models.Map;
 
 import org.example.models.enums.enviroment.Season;
+import org.example.models.enums.types.ForagingType;
 import org.example.models.enums.types.StoneType;
 import org.example.models.enums.types.TreeType;
 import org.example.models.farming.Crop;
+import org.example.models.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
@@ -21,12 +24,20 @@ public class Farm implements Serializable {
     private Season currentSeason;
     private List<MapComponents> components;
     
+    // New lists for specific component types
+    private List<Tree> trees;
+    private List<Stone> stones;
+    private List<ForagingCrop> foragingItems;
+    
     public Farm(String name, int width, int height) {
         this.name = name;
         this.width = width;
         this.height = height;
         this.tiles = new MapTile[height][width];
         this.components = new ArrayList<>();
+        this.trees = new ArrayList<>();
+        this.stones = new ArrayList<>();
+        this.foragingItems = new ArrayList<>();
         this.currentSeason = Season.SPRING; // Default season
         
         // Initialize all tiles as GROUND
@@ -39,6 +50,18 @@ public class Farm implements Serializable {
     
     public String getName() {
         return name;
+    }
+    
+    public List<Tree> getTrees() {
+        return trees;
+    }
+    
+    public List<Stone> getStones() {
+        return stones;
+    }
+    
+    public List<ForagingCrop> getForagingItems() {
+        return foragingItems;
     }
     
     public void setName(String name) {
@@ -76,6 +99,15 @@ public class Farm implements Serializable {
     public void addComponent(MapComponents component) {
         components.add(component);
         
+        // Add to specific list based on component type
+        if (component instanceof Tree) {
+            trees.add((Tree) component);
+        } else if (component instanceof Stone) {
+            stones.add((Stone) component);
+        } else if (component instanceof ForagingCrop) {
+            foragingItems.add((ForagingCrop) component);
+        }
+        
         // Update tiles covered by this component
         for (int y = component.getY(); y < component.getY() + component.getHeight(); y++) {
             for (int x = component.getX(); x < component.getX() + component.getWidth(); x++) {
@@ -88,6 +120,15 @@ public class Farm implements Serializable {
                         tiles[y][x] = new MapTile(TileType.QUARRY);
                     } else if (component instanceof Lake) {
                         tiles[y][x] = new MapTile(TileType.WATER);
+                    } else if (component instanceof Tree) {
+                        tiles[y][x] = new MapTile(TileType.TREE);
+                        tiles[y][x].setTreeType(((Tree) component).getTreeType());
+                    } else if (component instanceof Stone) {
+                        tiles[y][x] = new MapTile(TileType.STONE);
+                        tiles[y][x].setStoneType(((Stone) component).getStoneType());
+                    } else if (component instanceof ForagingCrop) {
+                        tiles[y][x] = new MapTile(TileType.FORAGEABLE);
+                        tiles[y][x].setForageableItem(component);
                     }
                 }
             }
@@ -306,15 +347,15 @@ public class Farm implements Serializable {
 
     /**
      * Adds a tree to the farm at the specified location
-     * @param x X coordinate
-     * @param y Y coordinate
+     * @param position Position to add the tree
      * @param treeType Type of tree to add
      * @return true if successful, false otherwise
      */
-    public boolean addTree(int x, int y, TreeType treeType) {
-        MapTile tile = getTileAt(x, y);
+    public boolean addTree(Position position, TreeType treeType) {
+        MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            tile.setTreeType(treeType);
+            Tree tree = new Tree(position, treeType);
+            addComponent(tree);
             return true;
         }
         return false;
@@ -322,15 +363,15 @@ public class Farm implements Serializable {
 
     /**
      * Adds a stone to the farm at the specified location
-     * @param x X coordinate
-     * @param y Y coordinate
+     * @param position Position to add the stone
      * @param stoneType Type of stone to add
      * @return true if successful, false otherwise
      */
-    public boolean addStone(int x, int y, StoneType stoneType) {
-        MapTile tile = getTileAt(x, y);
+    public boolean addStone(Position position, StoneType stoneType) {
+        MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            tile.setStoneType(stoneType);
+            Stone stone = new Stone(position, stoneType);
+            addComponent(stone);
             return true;
         }
         return false;
@@ -338,15 +379,15 @@ public class Farm implements Serializable {
 
     /**
      * Adds a forageable item to the farm at the specified location
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @param item The forageable item to add
+     * @param position Position to add the forageable item
+     * @param foragingType The type of forageable item to add
      * @return true if successful, false otherwise
      */
-    public boolean addForageable(int x, int y, Object item) {
-        MapTile tile = getTileAt(x, y);
+    public boolean addForageable(Position position, ForagingType foragingType) {
+        MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            tile.setForageableItem(item);
+            ForagingCrop foragingCrop = new ForagingCrop(position, foragingType, currentSeason);
+            addComponent(foragingCrop);
             return true;
         }
         return false;
@@ -354,51 +395,95 @@ public class Farm implements Serializable {
 
     /**
      * Chops down a tree at the specified location
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @return The type of tree that was chopped, or null if no tree was present
+     * @param position Position of the tree
+     * @return The tree that was chopped, or null if no tree was present
      */
-    public TreeType chopTree(int x, int y) {
+    public Tree chopTree(Position position) {
+        int x = position.getX();
+        int y = position.getY();
         MapTile tile = getTileAt(x, y);
+        
         if (tile != null && tile.getType() == TileType.TREE) {
-            TreeType treeType = tile.getTreeType();
-            tile.setTreeType(null);
-            tile.setType(TileType.GROUND);
-            return treeType;
+            // Find the tree at this position
+            for (int i = 0; i < trees.size(); i++) {
+                Tree tree = trees.get(i);
+                if (tree.contains(x, y)) {
+                    // Remove from lists
+                    trees.remove(i);
+                    components.removeIf(component -> component == tree);
+                    
+                    // Update tile
+                    tile.setTreeType(null);
+                    tile.setType(TileType.GROUND);
+                    
+                    return tree;
+                }
+            }
         }
         return null;
     }
 
     /**
      * Mines a stone at the specified location
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @return The type of stone that was mined, or null if no stone was present
+     * @param position Position of the stone
+     * @return The stone that was mined, or null if no stone was present
      */
-    public StoneType mineStone(int x, int y) {
+    public Stone mineStone(Position position) {
+        int x = position.getX();
+        int y = position.getY();
         MapTile tile = getTileAt(x, y);
+        
         if (tile != null && tile.getType() == TileType.STONE) {
-            StoneType stoneType = tile.getStoneType();
-            tile.setStoneType(null);
-            tile.setType(TileType.GROUND);
-            return stoneType;
+            // Find the stone at this position
+            for (int i = 0; i < stones.size(); i++) {
+                Stone stone = stones.get(i);
+                if (stone.contains(x, y)) {
+                    // Decrease resources
+                    stone.decreaseResources();
+                    
+                    // If fully mined, remove it
+                    if (stone.isMined()) {
+                        stones.remove(i);
+                        components.removeIf(component -> component == stone);
+                        
+                        // Update tile
+                        tile.setStoneType(null);
+                        tile.setType(TileType.GROUND);
+                    }
+                    
+                    return stone;
+                }
+            }
         }
         return null;
     }
 
     /**
      * Collects a forageable item at the specified location
-     * @param x X coordinate
-     * @param y Y coordinate
+     * @param position Position of the forageable item
      * @return The forageable item that was collected, or null if no item was present
      */
-    public Object collectForageable(int x, int y) {
+    public ForagingCrop collectForageable(Position position) {
+        int x = position.getX();
+        int y = position.getY();
         MapTile tile = getTileAt(x, y);
+        
         if (tile != null && tile.getType() == TileType.FORAGEABLE) {
-            Object item = tile.getForageableItem();
-            tile.setForageableItem(null);
-            tile.setType(TileType.GROUND);
-            return item;
+            // Find the forageable at this position
+            for (int i = 0; i < foragingItems.size(); i++) {
+                ForagingCrop foragingCrop = foragingItems.get(i);
+                if (foragingCrop.contains(x, y)) {
+                    // Remove from lists
+                    foragingItems.remove(i);
+                    components.removeIf(component -> component == foragingCrop);
+                    
+                    // Update tile
+                    tile.setForageableItem(null);
+                    tile.setType(TileType.GROUND);
+                    
+                    return foragingCrop;
+                }
+            }
         }
         return null;
     }
@@ -507,4 +592,6 @@ public class Farm implements Serializable {
         }
     }
 }
+
+
 
