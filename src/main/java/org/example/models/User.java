@@ -8,7 +8,7 @@ public class User {
     private final String password;
     private final String nickname;
     private final String email;
-    private final Gender gender;
+    private final String gender;
 
 
     public User(String username, String password, String nickname, String email, String gender) {
@@ -35,7 +35,9 @@ public class User {
         return email;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
+
+
 }

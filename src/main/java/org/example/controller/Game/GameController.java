@@ -20,7 +20,6 @@ public class GameController {
     }
 
 
-    // === PLAYER'S STATUS === //
 
     public Result showPlayerEnergy() {
         int playerEnergy = player.getEnergy();
@@ -63,8 +62,6 @@ public class GameController {
 
     public Result showAvailableTools() {
 
-        ///  SHOWS AVAIBLE TOOLS
-
         return null;
 
     }
@@ -84,7 +81,7 @@ public class GameController {
         return new Result(true, learntRecipes);
     }
 
-    // === INVENTORY === //
+
     public Result inventoryShow() {
         // Get the player's inventory contents
         Backpack playerBackpack = player.getBackpack();
@@ -93,22 +90,18 @@ public class GameController {
             return new Result(false, "You don't have a backpack yet!");
         }
 
-        // Get inventory contents as a formatted string
         String inventoryContents = playerBackpack.getInventoryContents();
 
-        // If inventory is empty
         if (inventoryContents.isEmpty()) {
             return new Result(true, "Your inventory is empty.");
         }
 
-        // Build a detailed response with capacity information
         StringBuilder response = new StringBuilder();
         response.append("=== YOUR INVENTORY ===\n");
         response.append(inventoryContents);
         response.append("Backpack type: ").append(playerBackpack.getType()).append("\n");
         response.append("Used slots: ").append(playerBackpack.getUsedCapacity());
 
-        // Only show capacity info if the backpack isn't unlimited
         if ( ! (playerBackpack.getType().getCapacity() == Integer.MAX_VALUE) ) {
             response.append("/").append(playerBackpack.getType().getCapacity());
         }
@@ -124,24 +117,20 @@ public class GameController {
 
         Backpack playerBackpack = player.getBackpack();
 
-        // Check if player has the item
         if (!playerBackpack.hasItem(item)) {
             return new Result(false, "You don't have any " + item.toString() + " in your inventory.");
         }
 
         int availableQuantity = playerBackpack.getItemCount(item);
 
-        // If number is not specified or is 0, remove all of that item
         if (number <= 0) {
             number = availableQuantity;
         }
 
-        // Check if player has enough of the item
         if (availableQuantity < number) {
             return new Result(false, "You only have " + availableQuantity + " " + item.toString() + " in your inventory.");
         }
 
-        // Remove the specified quantity
         playerBackpack.removeFromInventory(item, number);
 
         return new Result(true, "Successfully trashed " + number + " " + item.toString() + ".");

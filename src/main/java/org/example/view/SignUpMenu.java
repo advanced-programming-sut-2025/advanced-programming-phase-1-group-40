@@ -26,19 +26,19 @@ public class SignUpMenu implements AppMenu {
                 String nickname = matcher.group(4);
                 String email = matcher.group(5);
                 String genderStr = matcher.group(6);
-                
+
                 // Check if passwords match
                 if (!password.equals(confirmPassword)) {
                     System.out.println("Passwords do not match!");
                     return;
                 }
-                
+
                 // Convert gender string to enum
-                Gender gender = genderStr.equalsIgnoreCase("male") ? Gender.MALE : Gender.FEMALE;
-                
+                Gender gender = genderStr.equalsIgnoreCase("male") ? Gender.WOMAN : Gender.MAN;
+
                 Result result = controller.registerUser(username, nickname, password, email, gender);
                 System.out.println(result.getMessage());
-                
+
                 if (result.isSuccess()) {
                     System.out.println("Registration successful! You can now set a security question.");
                 }
@@ -55,12 +55,12 @@ public class SignUpMenu implements AppMenu {
             if (matcher.find()) {
                 int questionNumber = Integer.parseInt(matcher.group(1));
                 String answer = matcher.group(2);
-                
+
                 if (App.getCurrentPlayer() == null) {
                     System.out.println("You need to register first before picking a security question.");
                     return;
                 }
-                
+
                 Result result = controller.pickAndAnswerSecurityQuestion(App.getCurrentPlayer(), questionNumber, answer);
                 System.out.println(result.getMessage());
             }
@@ -82,7 +82,7 @@ public class SignUpMenu implements AppMenu {
             System.out.println("Invalid command. Type 'help' to see available commands.");
         }
     }
-    
+
     private void showHelp() {
         System.out.println("=== SIGNUP MENU COMMANDS ===");
         System.out.println("register -u <username> -p <password> <password_confirm> -n <nickname> -e <email> -g <male|female> : Register with full details");

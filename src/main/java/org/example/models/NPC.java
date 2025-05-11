@@ -10,6 +10,8 @@ public class NPC{
     private Position position;
     private Role role;
     private ArrayList<String> dialog;
+    private ArrayList<Item> favorites;
+
 
 }
 

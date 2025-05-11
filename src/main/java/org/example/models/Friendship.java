@@ -7,14 +7,13 @@ public class Friendship {
     private NPC friend2;
     private FriendshipLevel level;
     private int currentXP;
-    private int maxXP;
+    private final int maxXP = 799;
 
     public Friendship(Player friend1, NPC friend2, FriendshipLevel level, int currentXP, int maxXP) {
         this.friend1 = friend1;
         this.friend2 = friend2;
         this.level = level;
         this.currentXP = currentXP;
-        this.maxXP = maxXP;
     }
 
     public Player getFriend1() {
@@ -37,21 +36,24 @@ public class Friendship {
         return maxXP;
     }
 
+
     public void increaseXP(int amount) {
-        // TODO
+        currentXP = Math.min(currentXP + amount, maxXP);
+        updateLevel();
     }
-
     public void decreaseXP(int amount) {
-        // TODO
+        currentXP = Math.max(currentXP - amount, 0);
+        updateLevel();
     }
-
+    private void updateLevel(){
+        int newLevel = currentXP/200;
+        this.level = FriendshipLevel.fromInt(newLevel);
+    }
     public int requiredXPForNextLevel() {
-        // TODO:
-        return 0;
+        int nextLevelXp = (level.ordinal()+1)/200;
+        return Math.min(nextLevelXp, maxXP) - currentXP;
     }
-
-    public boolean isMaxLevel() {
-        // TODO
-        return false;
+    public Boolean isMaxLevel(){
+        return currentXP > maxXP;
     }
 }
