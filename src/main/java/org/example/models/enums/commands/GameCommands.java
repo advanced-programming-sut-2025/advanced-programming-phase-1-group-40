@@ -40,6 +40,11 @@ public enum GameCommands implements Command{
 
     ARTISAN_USE("\\s*artisan\\s+use\\s+(?<artisanName>.+)\\s+(?<itemName>.+)\\s*"),
     ARTISAN_GET("\\s*artisan\\s+get\\s+(?<artisanName>.+)\\s*"),
+
+
+    ///  COMMAND HAYE SHOP
+
+
     SHOW_ALL_PRODUCTS_IN_STORE("\\s*show\\s+all\\s+products\\s*"),
     SHOW_AVAILABLE_PRODUCTS_IN_STORE("\\s+show\\s+all\\s+available\\s+products\\s*"),
     PURCHASE_ITEM("\\s*purchase\\s+(?<productName>.+)\\s+-n\\s+(?<count>.+)\\s*"),
