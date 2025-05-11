@@ -7,8 +7,7 @@ import org.example.models.persistence.DataManager;
 import java.util.ArrayList;
 
 public class App {
-    // These fields are kept for backward compatibility
-    // Eventually, they should be accessed only through DataManager
+
     public static ArrayList<Player> users = new ArrayList<>();
     public static ArrayList<User> items = new ArrayList<>();
     public static ArrayList<Game> games = new ArrayList<>();
@@ -46,7 +45,20 @@ public class App {
         DataManager.getInstance().setCurrentPlayer(user);
         App.currentPlayer = user; // For backward compatibility
     }
-
+    public static void addUser(Player player) {
+        App.users.add(player);
+    }
+    public static void addGame(Game game) {
+        App.games.add(game);
+    }
+    public static Player getPlayerByUsername(String username) {
+        for (Player player : App.users) {
+            if (player.getUsername().equals(username)) {
+                return player;
+            }
+        }
+        return null;
+    }
     public static Object getLoggedIn() {
         return DataManager.getInstance().getCurrentPlayer();
     }

@@ -12,6 +12,9 @@ import org.example.models.tools.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static org.example.models.App.games;
+import static org.example.models.App.getGames;
+
 public class GameController {
     Player player = App.getCurrentPlayer();
 
@@ -531,18 +534,58 @@ public class GameController {
         }
         return new Result(true, "");
     }
-
-
-    public Result showFriendshipLevels() {
-        return new Result(true, "");
+    //  from here
+    public Boolean isNear(Position positionOne, Position positionTwo) {
+        int x1 = positionOne.getX();
+        int y1 = positionOne.getY();
+        int x2 = positionTwo.getX();
+        int y2 = positionTwo.getY();
+        return Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1;
     }
 
-    public Result talk(String username, String message) {
-        return new Result(true, "");
+    public Result showFriendshipLevels() {
+        /* this is shown like this:
+        Friendship w other Players:
+        Dorsa:
+        Friendship Level: 1
+        XP: 20
+        Aysu:
+        Friendship Level: 2
+        XP: 40
+         */
+
+        StringBuilder message = new StringBuilder("Friendship w other Players: ");
+        for(Player otherPlayer : game.getPlayers()){
+            if(!player.equals(otherPlayer)){
+                Friendship friendship = game.getUserByFriendship(player,otherPlayer);
+                message.append(otherPlayer.getUsername()).append(": \n").append("Friendship Level: \n").append(friendship.getLevel()).append("\n").append("XP: \n").append(friendship.getCurrentXP());
+            }
+        }
+    }
+
+    public Result talk(String username, String message){
+        if(message == null || message.isEmpty()){
+            return new Result(false,"Message is empty.");
+        }
+        Player targetPlayer = game.getPlayerByUsername();
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        if(isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())) {
+            //all conditions passed for sending the message
+            //game error
+
+            return new Result(true, "You have successfully sent a message to: " + targetPlayer.getUsername() + ". Your current friendship level with them is " + game.getUserFriendship(player, targetPlayer)).toString();
+        }
+        return new Result(false, "You must stand next to "+targetPlayer.getUsername()+"to be able to talk to them.");
     }
 
     public Result showTalkHistoryWithUser(String username) {
-        return new Result(true, "");
+        User targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        StringBuilder historyMessage = new StringBuilder()
     }
 
     public Result giveGift(String username, String itemName, int amount) {
@@ -589,8 +632,8 @@ public class GameController {
 
 
 
-    public Result meetNPC(String NCPName) {
-        return new Result(true, "");
+    public Result meetNPC(String npcName){
+    return null;
     }
 
     public Result giftNPC(String NCPName, String itemName) {
@@ -610,6 +653,11 @@ public class GameController {
     }
 
     private NPC geNPCByName(String NPCName) {
+        for(NPC npc : NPC){
+            if(npc.getName().equals(NPCName)){
+                return npc;
+            }
+        }
         return null;
     }
 
