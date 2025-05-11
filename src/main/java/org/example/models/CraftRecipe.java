@@ -11,5 +11,4 @@ public class CraftRecipe {
     private int sellPrice;
     private ArrayList<ShopItemTypes> ingredients;
     private Map<Skill, SkillLevel> source;
-
 }

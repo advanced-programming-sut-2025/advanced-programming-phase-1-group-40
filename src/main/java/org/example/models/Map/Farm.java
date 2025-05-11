@@ -1,6 +1,8 @@
 package org.example.models.Map;
 
 import org.example.models.enums.enviroment.Season;
+import org.example.models.enums.types.StoneType;
+import org.example.models.enums.types.TreeType;
 import org.example.models.farming.Crop;
 import java.util.ArrayList;
 import java.util.List;
