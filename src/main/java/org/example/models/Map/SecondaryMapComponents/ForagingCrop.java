@@ -1,4 +1,4 @@
-package org.example.models.Map;
+package org.example.models.Map.SecondaryMapComponents;
 
 public class ForagingCrop {
 }

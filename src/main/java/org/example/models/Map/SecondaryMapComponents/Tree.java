@@ -1,5 +1,6 @@
-package org.example.models.Map;
+package org.example.models.Map.SecondaryMapComponents;
 
+import org.example.models.Map.MapComponents;
 import org.example.models.Position;
 import org.example.models.enums.types.FruitType;
 import org.example.models.enums.types.TreeType;
