@@ -445,6 +445,10 @@ public class GameController {
         if (true){
 
             int numberOfFishes = numberOfCaughtFish() + 1;
+            FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
+            for (int i = 0; i < numberOfFishes; i++) {
+                ///  add fishtype to arraylist
+            }
 
 
         }
