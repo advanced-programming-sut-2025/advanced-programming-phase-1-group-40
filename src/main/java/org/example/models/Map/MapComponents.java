@@ -4,6 +4,7 @@ package org.example.models.Map;
  * Abstract class representing components that can be placed on the farm map
  */
 public abstract class MapComponents {
+
     protected int x;
     protected int y;
     protected int width;
@@ -41,9 +42,7 @@ public abstract class MapComponents {
         this.name = name;
     }
     
-    /**
-     * Checks if a point is contained within this component
-     */
+
     public boolean contains(int pointX, int pointY) {
         return pointX >= x && pointX < x + width && 
                pointY >= y && pointY < y + height;
