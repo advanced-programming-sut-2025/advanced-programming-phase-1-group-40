@@ -1,6 +1,6 @@
 package org.example.models.Map;
 
-import org.example.models.enums.types.ForagingMineralTypes;
+import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;
 import org.example.models.farming.Crop;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class MapTile implements Serializable {
     private boolean isFertilized;
     private Crop crop;
     private TreeType treeType;
-    private ForagingMineralTypes foragingMineralTypes;
+    private ForagingMineralType foragingMineralType;
     private MapComponents forageableItem;
     
     public MapTile(TileType type) {
@@ -25,7 +25,7 @@ public class MapTile implements Serializable {
         this.isFertilized = false;
         this.crop = null;
         this.treeType = null;
-        this.foragingMineralTypes = null;
+        this.foragingMineralType = null;
         this.forageableItem = null;
     }
     
@@ -79,12 +79,12 @@ public class MapTile implements Serializable {
         this.treeType = treeType;
     }
     
-    public ForagingMineralTypes getStoneType() {
-        return foragingMineralTypes;
+    public ForagingMineralType getStoneType() {
+        return foragingMineralType;
     }
     
-    public void setStoneType(ForagingMineralTypes foragingMineralTypes) {
-        this.foragingMineralTypes = foragingMineralTypes;
+    public void setStoneType(ForagingMineralType foragingMineralType) {
+        this.foragingMineralType = foragingMineralType;
     }
     
     public MapComponents getForageableItem() {

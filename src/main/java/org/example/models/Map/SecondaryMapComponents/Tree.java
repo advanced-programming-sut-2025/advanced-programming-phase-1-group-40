@@ -1,5 +1,6 @@
 package org.example.models.Map.SecondaryMapComponents;
 
+import org.example.models.Item;
 import org.example.models.Map.MapComponents;
 import org.example.models.Position;
 import org.example.models.enums.types.FruitType;
@@ -8,7 +9,7 @@ import org.example.models.enums.types.TreeType;
 import java.util.Map;
 import java.util.Random;
 
-public class Tree extends MapComponents {
+public class Tree extends MapComponents implements Item {
 
     @Override
     public void update(){
