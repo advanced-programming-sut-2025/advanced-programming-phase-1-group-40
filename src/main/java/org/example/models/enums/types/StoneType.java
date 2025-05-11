@@ -10,7 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public enum StoneType {
+public enum StoneType implements Item{
 
     QUARTZ(25),
     EARTH_CRYSTAL(50),

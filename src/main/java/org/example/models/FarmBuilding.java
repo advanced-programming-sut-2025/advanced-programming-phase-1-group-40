@@ -10,7 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public class FarmBuilding {
+public class FarmBuilding implements Item{
     private FarmBuildingType farmBuildingType;
     private Position positionOfUpperLeftCorner;
     private int width;

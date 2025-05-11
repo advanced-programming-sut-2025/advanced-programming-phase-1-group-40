@@ -10,7 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public enum FruitType implements Edible{
+public enum FruitType implements Item{
 
     APRICOT("Apricot",59,38),
     CHERRY("Cherry",80,38),
