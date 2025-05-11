@@ -1,12 +1,10 @@
 package org.example.models.enums.types;
 
-import org.example.models.Item;
 import org.example.models.enums.enviroment.Season;
 
-public enum ForagingCropTypes implements Item {
+public enum ForagingSeedType {
 
-
-    JAZZ_SEEDS("Jazz Seeds",Season.SPRING),
+    JAZZ_SEEDS("Jazz Seeds", Season.SPRING),
     CARROT_SEEDS("Carrot Seeds",Season.SPRING),
     CAULIFLOWER_SEEDS("Cauliflower Seeds",Season.SPRING),
     COFFEE_BEAN("Coffee Bean",Season.SPRING),
@@ -46,14 +44,15 @@ public enum ForagingCropTypes implements Item {
     YAM_SEEDS("Yam Seeds",Season.SPRING),
     RARE_SEED("Rare Seed",Season.SPRING),
     POWDERMELON_SEEDS("Powdermelon Seeds",Season.SPRING),
-    ANCIENT_SEEDS("Ancient Seeds",Season.SPRING),
-    MIXED_SEEDS("Mixed Seeds",Season.SPRING);
+    ANCIENT_SEEDS("Ancient Seeds",Season.SPECIAL),
+    MIXED_SEEDS("Mixed Seeds",Season.SPECIAL);
 
     private final String name;
     private final Season availableSeason;
 
-    ForagingCropTypes(String name, Season availableSeason) {
+    ForagingSeedType(String name, Season availableSeason) {
         this.name = name;
         this.availableSeason = availableSeason;
     }
+
 }

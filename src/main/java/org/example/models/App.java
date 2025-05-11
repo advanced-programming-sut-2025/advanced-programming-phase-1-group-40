@@ -51,6 +51,7 @@ public class App {
     public static void addGame(Game game) {
         App.games.add(game);
     }
+
     public static Player getPlayerByUsername(String username) {
         for (Player player : App.users) {
             if (player.getUsername().equals(username)) {
@@ -72,4 +73,5 @@ public class App {
     public static boolean loadAllData() {
         return DataManager.getInstance().loadAllData();
     }
+
 }

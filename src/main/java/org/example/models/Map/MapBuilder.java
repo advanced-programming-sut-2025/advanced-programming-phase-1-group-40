@@ -4,7 +4,7 @@ import org.example.models.Position;
 import org.example.models.Map.SecondaryMapComponents.Tree;
 import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.types.ForagingType;
-import org.example.models.enums.types.ForagingMineralTypes;
+import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;
 
 import java.util.Random;
@@ -128,22 +128,22 @@ public class MapBuilder {
                 tiles[y][x] = new MapTile(TileType.STONE);
                 
                 // Set stone type
-                ForagingMineralTypes foragingMineralTypes;
+                ForagingMineralType foragingMineralType;
                 int stoneRoll = random.nextInt(100);
                 
                 if (stoneRoll < 60) {
-                    foragingMineralTypes = ForagingMineralTypes.REGULAR;
+                    foragingMineralType = ForagingMineralType.REGULAR;
                 } else if (stoneRoll < 80) {
-                    foragingMineralTypes = ForagingMineralTypes.COPPER;
+                    foragingMineralType = ForagingMineralType.COPPER;
                 } else if (stoneRoll < 90) {
-                    foragingMineralTypes = ForagingMineralTypes.IRON;
+                    foragingMineralType = ForagingMineralType.IRON;
                 } else if (stoneRoll < 97) {
-                    foragingMineralTypes = ForagingMineralTypes.GOLD;
+                    foragingMineralType = ForagingMineralType.GOLD;
                 } else {
-                    foragingMineralTypes = ForagingMineralTypes.IRIDIUM;
+                    foragingMineralType = ForagingMineralType.IRIDIUM;
                 }
                 
-                tiles[y][x].setStoneType(foragingMineralTypes);
+                tiles[y][x].setStoneType(foragingMineralType);
             }
         }
         return this;
