@@ -1,121 +1,85 @@
 package org.example.models.Map;
 
-import java.util.ArrayList;
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
+import org.example.models.Position;
+import org.example.models.enums.types.StoneType;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
- * Represents a quarry on the farm where stones and minerals can be mined
+ * Represents a quarry on the farm where mining can be done
  */
 public class Quarry extends MapComponents {
-    private int stoneCount;
-    private int copperCount;
-    private int ironCount;
-    private int goldCount;
-    private int iridiumCount;
-    private boolean isUnlocked;
+    private Map<StoneType, Integer> stoneDistribution;
+    private int miningQuality; // 1-10 scale
+    private Random random;
     
     public Quarry(int x, int y, int width, int height) {
         super(x, y, width, height);
         this.name = "Quarry";
-        this.isUnlocked = false;
-        resetResources();
+        this.miningQuality = 5; // Default quality
+        this.random = new Random();
+        initializeStoneDistribution();
     }
     
-    public boolean isUnlocked() {
-        return isUnlocked;
+    public Quarry(Position position, int width, int height) {
+        super(position, width, height);
+        this.name = "Quarry";
+        this.miningQuality = 5; // Default quality
+        this.random = new Random();
+        initializeStoneDistribution();
     }
     
-    public void unlock() {
-        this.isUnlocked = true;
+    private void initializeStoneDistribution() {
+        stoneDistribution = new HashMap<>();
+        stoneDistribution.put(StoneType.REGULAR, 60);
+        stoneDistribution.put(StoneType.COPPER, 20);
+        stoneDistribution.put(StoneType.IRON, 10);
+        stoneDistribution.put(StoneType.GOLD, 7);
+        stoneDistribution.put(StoneType.IRIDIUM, 3);
     }
     
-    public int getStoneCount() {
-        return stoneCount;
+    public int getMiningQuality() {
+        return miningQuality;
     }
     
-    public int getCopperCount() {
-        return copperCount;
-    }
-    
-    public int getIronCount() {
-        return ironCount;
-    }
-    
-    public int getGoldCount() {
-        return goldCount;
-    }
-    
-    public int getIridiumCount() {
-        return iridiumCount;
+    public void setMiningQuality(int miningQuality) {
+        this.miningQuality = Math.max(1, Math.min(10, miningQuality));
     }
     
     /**
-     * Mine a resource from the quarry
-     * @return The type of resource mined, or null if nothing was found
+     * Gets a random stone type based on the quarry's distribution
+     * @return A randomly selected stone type
      */
-    public String mineResource() {
-        if (!isUnlocked) {
-            return null;
+    public StoneType getRandomStoneType() {
+        int roll = random.nextInt(100) + 1;
+        int cumulativeProbability = 0;
+        
+        // Apply mining quality bonus to rare stones
+        int qualityBonus = miningQuality / 2;
+        
+        // Adjust probabilities based on mining quality
+        Map<StoneType, Integer> adjustedDistribution = new HashMap<>();
+        adjustedDistribution.put(StoneType.REGULAR, Math.max(40, stoneDistribution.get(StoneType.REGULAR) - qualityBonus * 2));
+        adjustedDistribution.put(StoneType.COPPER, stoneDistribution.get(StoneType.COPPER));
+        adjustedDistribution.put(StoneType.IRON, stoneDistribution.get(StoneType.IRON) + qualityBonus);
+        adjustedDistribution.put(StoneType.GOLD, stoneDistribution.get(StoneType.GOLD) + qualityBonus);
+        adjustedDistribution.put(StoneType.IRIDIUM, stoneDistribution.get(StoneType.IRIDIUM) + qualityBonus);
+        
+        for (Map.Entry<StoneType, Integer> entry : adjustedDistribution.entrySet()) {
+            cumulativeProbability += entry.getValue();
+            if (roll <= cumulativeProbability) {
+                return entry.getKey();
+            }
         }
         
-        Random random = new Random();
-        int roll = random.nextInt(100);
-        
-        if (roll < 60 && stoneCount > 0) {
-            stoneCount--;
-            return "Stone";
-        } else if (roll < 80 && copperCount > 0) {
-            copperCount--;
-            return "Copper";
-        } else if (roll < 90 && ironCount > 0) {
-            ironCount--;
-            return "Iron";
-        } else if (roll < 97 && goldCount > 0) {
-            goldCount--;
-            return "Gold";
-        } else if (iridiumCount > 0) {
-            iridiumCount--;
-            return "Iridium";
-        }
-        
-        return null;
-    }
-    
-    private void resetResources() {
-        Random random = new Random();
-        this.stoneCount = 50 + random.nextInt(50);
-        this.copperCount = 20 + random.nextInt(20);
-        this.ironCount = 10 + random.nextInt(15);
-        this.goldCount = 5 + random.nextInt(10);
-        this.iridiumCount = 1 + random.nextInt(5);
+        return StoneType.REGULAR; // Default fallback
     }
     
     @Override
     public void update() {
-        // Small chance to replenish some resources each day
-        Random random = new Random();
-        if (random.nextInt(100) < 20) {
-            stoneCount += random.nextInt(5);
-            if (random.nextInt(100) < 30) {
-                copperCount += random.nextInt(3);
-            }
-            if (random.nextInt(100) < 20) {
-                ironCount += random.nextInt(2);
-            }
-            if (random.nextInt(100) < 10) {
-                goldCount += random.nextInt(2);
-            }
-            if (random.nextInt(100) < 5) {
-                iridiumCount += 1;
-            }
-        }
+        // Quarries don't change on daily updates
+        // But we could implement regeneration logic here if needed
     }
 }

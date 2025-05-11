@@ -3,18 +3,21 @@ package org.example.models.Map;
 import org.example.models.enums.types.StoneType;
 import org.example.models.enums.types.TreeType;
 import org.example.models.farming.Crop;
+import java.io.Serializable;
 
 /**
  * Represents a single tile on the farm map
  */
-public class MapTile {
+public class MapTile implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private TileType type;
     private boolean isWatered;
     private boolean isFertilized;
     private Crop crop;
     private TreeType treeType;
     private StoneType stoneType;
-    private Object forageableItem;
+    private MapComponents forageableItem;
     
     public MapTile(TileType type) {
         this.type = type;
@@ -64,7 +67,7 @@ public class MapTile {
         if (crop != null && (type == TileType.TILLED_SOIL || type == TileType.WATERED_SOIL)) {
             type = TileType.PLANTED_SOIL;
         } else if (crop == null && type == TileType.PLANTED_SOIL) {
-            type = TileType.TILLED_SOIL;
+            type = isWatered ? TileType.WATERED_SOIL : TileType.TILLED_SOIL;
         }
     }
     
@@ -74,11 +77,6 @@ public class MapTile {
     
     public void setTreeType(TreeType treeType) {
         this.treeType = treeType;
-        if (treeType != null) {
-            type = TileType.TREE;
-        } else if (type == TileType.TREE) {
-            type = TileType.GROUND;
-        }
     }
     
     public StoneType getStoneType() {
@@ -87,27 +85,17 @@ public class MapTile {
     
     public void setStoneType(StoneType stoneType) {
         this.stoneType = stoneType;
-        if (stoneType != null) {
-            type = TileType.STONE;
-        } else if (type == TileType.STONE) {
-            type = TileType.GROUND;
-        }
     }
     
-    public Object getForageableItem() {
+    public MapComponents getForageableItem() {
         return forageableItem;
     }
     
-    public void setForageableItem(Object item) {
-        this.forageableItem = item;
-        if (item != null) {
-            type = TileType.FORAGEABLE;
-        } else if (type == TileType.FORAGEABLE) {
-            type = TileType.GROUND;
-        }
+    public void setForageableItem(MapComponents forageableItem) {
+        this.forageableItem = forageableItem;
     }
     
-    // Tile interaction methods
+    // Helper methods for tile operations
     
     public boolean canTill() {
         return type == TileType.GROUND;
@@ -119,34 +107,16 @@ public class MapTile {
         }
     }
     
+    public boolean canPlant() {
+        return type == TileType.TILLED_SOIL || type == TileType.WATERED_SOIL;
+    }
+    
     public boolean canWater() {
         return type == TileType.TILLED_SOIL || type == TileType.PLANTED_SOIL;
-    }
-    
-    public void water() {
-        if (canWater()) {
-            isWatered = true;
-            if (type == TileType.TILLED_SOIL) {
-                type = TileType.WATERED_SOIL;
-            }
-        }
-    }
-    
-    public boolean canPlant() {
-        return (type == TileType.TILLED_SOIL || type == TileType.WATERED_SOIL) && crop == null;
     }
     
     public boolean canHarvest() {
         return type == TileType.PLANTED_SOIL && crop != null && crop.isReadyToHarvest();
     }
-    
-    public boolean canFertilize() {
-        return (type == TileType.TILLED_SOIL || type == TileType.WATERED_SOIL) && !isFertilized;
-    }
-    
-    public void fertilize() {
-        if (canFertilize()) {
-            isFertilized = true;
-        }
-    }
 }
+
