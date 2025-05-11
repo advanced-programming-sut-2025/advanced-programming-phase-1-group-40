@@ -1,16 +1,7 @@
 package org.example.models.enums.types;
 
+public enum ForagingSeedsType {
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
-
-public enum CropType {
     BLUE_JAZZ(false),
     CARROT(false),
     CAULIFLOWER(false),
@@ -76,11 +67,4 @@ public enum CropType {
     WINTER_ROOT(true);
 
 
-    private final boolean isForaging;
-
-    CropType(Boolean isForaging) {
-        this.isForaging = isForaging;
-
-    }
 }
-
