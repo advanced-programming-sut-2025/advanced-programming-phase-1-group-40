@@ -11,11 +11,24 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public enum Weekday {
-    MERCDAY,
-    VENDAY,
-    EARTHDAY,
-    MARSADY,
-    JUPYDAY,
-    URANDAY,
-    NEPDAY;
+
+    MONDAY(0),
+    TUESDAY(1),
+    WEDNESDAY(2),
+    THURSDAY(3),
+    FRIDAY(4),
+    SATURDAY(5),
+    SUNDAY(6);
+
+    private final int dayIndex;
+
+    Weekday(int dayIndex) {
+        this.dayIndex = dayIndex;
+    }
+
+    public int getDayIndex() {
+        return dayIndex;
+    }
+
+
 }

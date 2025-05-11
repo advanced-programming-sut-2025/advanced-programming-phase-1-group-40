@@ -6,29 +6,29 @@ import org.example.models.enums.enviroment.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum GoodsType {
+public enum ShopItemTypes {
     COPPER_ORE("Copper Ore", "A common ore that can be smelted into bars.", 75, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     IRON_ORE("Iron Ore", "A fairly common ore that can be smelted into bars.", 150, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     COAL("Coal", "A combustible rock that is useful for crafting and smelting.", 150, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     GOLD_ORE("Gold Ore", "A precious ore that can be smelted into bars.", 400, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    HAY("Hay", "Dried grass used as animal food.", 50, -1, ShopType.MARNIE_RANCH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    MILK_PAIL("Milk Pail", "Gather milk from your animals.", 1000, 1, ShopType.MARNIE_RANCH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    SHEARS("Shears", "Use this to collect wool from sheep", 1000, 1, ShopType.MARNIE_RANCH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    BEER("Beer", "Drink in moderation.", 400, -1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    SALAD("Salad", "A healthy garden salad.", 220, -1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    BREAD("Bread", "A crusty baguette.", 120, -1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    SPAGHETTI("Spaghetti", "An old favorite.", 240, -1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    PIZZA("Pizza", "It's popular for all the right reasons.", 600, -1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    COFFEE("Coffee", "It smells delicious. This is sure to give you a boost.", 300, -1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    HASHBROWNS_RECIPE("Hashbrowns Recipe", "A recipe to make Hashbrowns", 50, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    OMELET_RECIPE("Omelet Recipe", "A recipe to make Omelet", 100, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    PANCAKES_RECIPE("Pancakes Recipe", "A recipe to make Pancakes", 100, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    BREAD_RECIPE("Bread Recipe", "A recipe to make Bread", 100, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    TORTILLA_RECIPE("Tortilla Recipe", "A recipe to make Tortilla", 100, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    PIZZA_RECIPE("Pizza Recipe", "A recipe to make Pizza", 150, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    MAKI_ROLL_RECIPE("Maki Roll Recipe", "A recipe to make Maki Roll", 300, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    TRIPLE_SHOT_ESPRESSO_RECIPE("Triple Shot Espresso Recipe", "A recipe to make Triple Shot Espresso", 5000, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
-    COOKIE_RECIPE("Cookie Recipe", "A recipe to make Cookie", 300, 1, ShopType.THE_STARDROP_SALLON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    HAY("Hay", "Dried grass used as animal food.", 50, -1, ShopType.MARNIES_RANCH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    MILK_PAIL("Milk Pail", "Gather milk from your animals.", 1000, 1, ShopType.MARNIES_RANCH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    SHEARS("Shears", "Use this to collect wool from sheep", 1000, 1, ShopType.MARNIES_RANCH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    BEER("Beer", "Drink in moderation.", 400, -1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    SALAD("Salad", "A healthy garden salad.", 220, -1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    BREAD("Bread", "A crusty baguette.", 120, -1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    SPAGHETTI("Spaghetti", "An old favorite.", 240, -1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    PIZZA("Pizza", "It's popular for all the right reasons.", 600, -1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    COFFEE("Coffee", "It smells delicious. This is sure to give you a boost.", 300, -1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    HASHBROWNS_RECIPE("Hashbrowns Recipe", "A recipe to make Hashbrowns", 50, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    OMELET_RECIPE("Omelet Recipe", "A recipe to make Omelet", 100, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    PANCAKES_RECIPE("Pancakes Recipe", "A recipe to make Pancakes", 100, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    BREAD_RECIPE("Bread Recipe", "A recipe to make Bread", 100, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    TORTILLA_RECIPE("Tortilla Recipe", "A recipe to make Tortilla", 100, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    PIZZA_RECIPE("Pizza Recipe", "A recipe to make Pizza", 150, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    MAKI_ROLL_RECIPE("Maki Roll Recipe", "A recipe to make Maki Roll", 300, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    TRIPLE_SHOT_ESPRESSO_RECIPE("Triple Shot Espresso Recipe", "A recipe to make Triple Shot Espresso", 5000, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
+    COOKIE_RECIPE("Cookie Recipe", "A recipe to make Cookie", 300, 1, ShopType.THE_STARDROP_SALOON, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     WOOD("Wood", "A sturdy, yet flexible plant material with a wide variety of uses.", 10, -1, ShopType.CARPENTER_SHOP, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     STONE("Stone", "A common material with many uses in crafting and building.", 20, -1, ShopType.CARPENTER_SHOP, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     JOJA_COLA("Joja Cola", "The flagship product of Joja corporation.", 75, -1, ShopType.JOJAMART, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
@@ -103,12 +103,12 @@ public enum GoodsType {
     private final ShopType shopType;
     private final ArrayList<Season> availableSeasons;
 
-    GoodsType(String name,
-              String description,
-              int price,
-              int dailyLimit,
-              ShopType shopType ,
-              ArrayList<Season> availableSeasons ) {
+    ShopItemTypes(String name,
+                  String description,
+                  int price,
+                  int dailyLimit,
+                  ShopType shopType ,
+                  ArrayList<Season> availableSeasons ) {
         this.name = name;
         this.description = description;
         this.price = price;
