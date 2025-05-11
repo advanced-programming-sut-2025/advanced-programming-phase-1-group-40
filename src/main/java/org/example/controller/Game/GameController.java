@@ -634,17 +634,46 @@ public class GameController {
     public Result hug(String username) {
         return new Result(true, "");
     }
+    public Result giveFlowerToUser(String username, String flowerName) {
+        User targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        FlowerType flowerType = FlowerType.getFlowerTypeByName(flowerName);
+        if(flowerType == null){
+            return new Result(false,"Flower not found.");
+        }
+        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
+            return new Result(false, "You must get near to "+username+" to be able to give them a flower.\n");
+        }
+        // implement the act of giving flowers.
 
-    public Result giveFlowerToUser(String username) {
-        return new Result(true, "");
     }
 
     public Result askMarriage(String username, Object ring) {
-        return new Result(true, "");
-    }
+        User targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
+            return new Result(false,"You must get near to "+username+" to propose to them.\n");
+        }
+        if(player.getGender().equals(targetPlayer.getGender())){
+            return new Result(false,"You are not allowed to marry a person of the same gender.");
+        }
+        boolean hasRing = false;
+        //check if the person proposing has a ring or not
+        if(!hasRing){
+            return new Result(false, "You do not have a ring to propose with:(");
+        }
+        //after passing all of the conditions, now is the time to actually propose.
 
-    public Result respondToMarriageRequest(boolean accepted, String username) {
-        return new Result(true, "");
+    }
+    public Result marriageResponse(String response, String username) {
+        User Proposer = game.getPlayerByUsername(username);
+        if(Proposer == null){
+            return new Result(false,"User not found.");
+        }
     }
 
 
