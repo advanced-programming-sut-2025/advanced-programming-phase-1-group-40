@@ -1,13 +1,8 @@
 package org.example.controller.User;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-import org.example.models.farming.*;
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
+import org.example.models.App;
+import org.example.models.Result;
+import org.example.models.enums.Menu;
 
 public class MainMenuController {
 
@@ -17,7 +12,7 @@ public class MainMenuController {
             return new Result(false, "Invalid menu name!");
         }
         if (!canSwitchMenu(newMenu)) {
-            return new Result(false, "You can not switch to " + menuName + " from here!");
+            return new Result(false, "You cannot switch to " + menuName + " from here!");
         }
         App.setCurrentMenu(newMenu);
         return new Result(true, "Menu switched to " + menuName);
@@ -26,19 +21,32 @@ public class MainMenuController {
     public Result exitMenu() {
         if (App.getCurrentMenu() == Menu.LOGIN_MENU) {
             App.setCurrentMenu(Menu.EXIT);
+            return new Result(true, "Exiting the application...");
         }
         App.setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "You are now in the Main Menu");
     }
 
     public Result showCurrentMenu() {
-        return new Result(true, "You are now in " + App.getCurrentMenu().toString());
+        return new Result(true, "You are now in " + App.getCurrentMenu().getDisplayName());
     }
-
-    private boolean canSwitchMenu(Menu newMenu) {
-        // TODO: check if it is allowed to switch to that menu from the current menu
-        return false;
+    
+    private boolean canSwitchMenu(Menu targetMenu) {
+        Menu currentMenu = App.getCurrentMenu();
+        
+        // From Main Menu, you can go to Profile Menu, Game Menu, or Avatar Menu
+        if (currentMenu == Menu.MAIN_MENU) {
+            return targetMenu == Menu.PROFILE_MENU || 
+                   targetMenu == Menu.GAME_MENU || 
+                   targetMenu == Menu.AVATAR_MENU;
+        }
+        
+        // From Login Menu, you can go to Signup Menu
+        if (currentMenu == Menu.LOGIN_MENU) {
+            return targetMenu == Menu.SIGNUP_MENU;
+        }
+        
+        // From any other menu, you can only go back to Main Menu
+        return targetMenu == Menu.MAIN_MENU;
     }
-
-
 }
