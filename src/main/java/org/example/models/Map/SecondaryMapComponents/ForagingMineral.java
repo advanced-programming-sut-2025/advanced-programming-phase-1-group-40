@@ -12,7 +12,7 @@ public class ForagingMineral extends MapComponents implements Item {
 
     private final ForagingMineralType mineralType;
 
-    ForagingMineral(Position position) {
+    public ForagingMineral(Position position) {
 
         super(position, 1, 1);
         this.mineralType = ForagingMineralType.values()[(new Random()).nextInt(ForagingMineralType.values().length)];

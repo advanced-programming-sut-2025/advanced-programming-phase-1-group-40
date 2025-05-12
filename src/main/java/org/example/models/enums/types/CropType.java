@@ -62,7 +62,7 @@ public enum CropType implements Item {
     private final boolean canBecomeGiant;
 
 
-    CropType(ForagingSeedType foragingSeedType, ArrayList<Integer> stages, Integer totalHarvestTime, boolean oneTime, Integer regrowthTime, Integer sellPrice, boolean isEdible, Integer energy, ArrayList<> season, boolean canBecomeGiant) {
+    CropType(ForagingSeedType foragingSeedType, ArrayList<Integer> stages, Integer totalHarvestTime, boolean oneTime, Integer regrowthTime, Integer sellPrice, boolean isEdible, Integer energy, ArrayList<Season> season, boolean canBecomeGiant) {
         this.foragingSeedType = foragingSeedType;
         this.stages = stages;
         this.totalHarvestTime = totalHarvestTime;

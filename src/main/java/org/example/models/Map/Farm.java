@@ -1,10 +1,13 @@
 package org.example.models.Map;
 
+import org.example.models.Map.SecondaryMapComponents.Crop;
+import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
+import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
+import org.example.models.Player;
 import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.types.ForagingType;
 import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;
-import org.example.models.farming.Crop;
 import org.example.models.Position;
 import org.example.models.Map.SecondaryMapComponents.Tree;
 
@@ -27,7 +30,7 @@ public class Farm implements Serializable {
     
     // New lists for specific component types
     private List<Tree> trees;
-    private List<Stone> stones;
+    private List<ForagingMineral> stones;
     private List<ForagingCrop> foragingItems;
     
     private Player owner;
@@ -60,7 +63,7 @@ public class Farm implements Serializable {
         return trees;
     }
     
-    public List<Stone> getStones() {
+    public List<ForagingMineral> getForagingMinerals() {
         return stones;
     }
     
@@ -106,8 +109,8 @@ public class Farm implements Serializable {
         // Add to specific list based on component type
         if (component instanceof Tree) {
             trees.add((Tree) component);
-        } else if (component instanceof Stone) {
-            stones.add((Stone) component);
+        } else if (component instanceof ForagingMineral) {
+            stones.add((ForagingMineral) component);
         } else if (component instanceof ForagingCrop) {
             foragingItems.add((ForagingCrop) component);
         }
@@ -127,9 +130,9 @@ public class Farm implements Serializable {
                     } else if (component instanceof Tree) {
                         tiles[y][x] = new MapTile(TileType.TREE);
                         tiles[y][x].setTreeType(((Tree) component).getTreeType());
-                    } else if (component instanceof Stone) {
+                    } else if (component instanceof ForagingMineral) {
                         tiles[y][x] = new MapTile(TileType.STONE);
-                        tiles[y][x].setStoneType(((Stone) component).getStoneType());
+                        tiles[y][x].setForagingMineralType(((ForagingMineral) component).getForagingMineralType());
                     } else if (component instanceof ForagingCrop) {
                         tiles[y][x] = new MapTile(TileType.FORAGEABLE);
                         tiles[y][x].setForageableItem(component);
@@ -358,7 +361,7 @@ public class Farm implements Serializable {
     public boolean addTree(Position position, TreeType treeType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            Tree tree = new Tree(position, treeType);
+            Tree tree = new Tree(treeType,position);
             addComponent(tree);
             return true;
         }
@@ -371,10 +374,10 @@ public class Farm implements Serializable {
      * @param foragingMineralType Type of stone to add
      * @return true if successful, false otherwise
      */
-    public boolean addStone(Position position, ForagingMineralType foragingMineralType) {
+    public boolean addForagingMineral(Position position, ForagingMineralType foragingMineralType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            Stone stone = new Stone(position, foragingMineralType);
+            ForagingMineral stone = new ForagingMineral(position);
             addComponent(stone);
             return true;
         }
@@ -390,7 +393,7 @@ public class Farm implements Serializable {
     public boolean addForageable(Position position, ForagingType foragingType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null && tile.getType() == TileType.GROUND) {
-            ForagingCrop foragingCrop = new ForagingCrop(position, foragingType, currentSeason);
+            ForagingCrop foragingCrop = new ForagingCrop(position);
             addComponent(foragingCrop);
             return true;
         }
@@ -432,7 +435,7 @@ public class Farm implements Serializable {
      * @param position Position of the stone
      * @return The stone that was mined, or null if no stone was present
      */
-    public Stone mineStone(Position position) {
+    public ForagingMineral mineForagingMineral(Position position) {
         int x = position.getX();
         int y = position.getY();
         MapTile tile = getTileAt(x, y);
@@ -440,7 +443,7 @@ public class Farm implements Serializable {
         if (tile != null && tile.getType() == TileType.STONE) {
             // Find the stone at this position
             for (int i = 0; i < stones.size(); i++) {
-                Stone stone = stones.get(i);
+                ForagingMineral stone = stones.get(i);
                 if (stone.contains(x, y)) {
                     // Decrease resources
                     stone.decreaseResources();
@@ -451,7 +454,7 @@ public class Farm implements Serializable {
                         components.removeIf(component -> component == stone);
                         
                         // Update tile
-                        tile.setStoneType(null);
+                        tile.setForagingMineralType(null);
                         tile.setType(TileType.GROUND);
                     }
                     
@@ -611,4 +614,6 @@ public class Farm implements Serializable {
     public Player getOwner() {
         return owner;
     }
+
+   
 }
