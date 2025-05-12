@@ -5,9 +5,11 @@ import org.example.models.*;
 
 public class TradeMenuController {
 
-
+    private
 
     public Result tradeWithMoney(String targetUsername, String type, String itemName, int amount, int price) { // type?
+
+        Player targetPlayer =
 
         return new Result(true, "");
     }

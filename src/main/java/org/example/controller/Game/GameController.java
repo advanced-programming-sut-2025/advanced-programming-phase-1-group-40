@@ -127,15 +127,10 @@ public class GameController {
 
     public Result giftRate(int giftNumber, int rate) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-        
         return new Result(true, "");
     }
 
     public Result hug(String username) {
-
         Game game = getCurrentGame();
         return new Result(true, "");
     }
@@ -153,7 +148,6 @@ public class GameController {
         if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
             return new Result(false, "You must get near to "+username+" to be able to give them a flower.\n");
         }
-        // implement the act of giving flowers.
     }
 
     public Result askMarriage(String username, Object ring) {
@@ -629,9 +623,6 @@ public class GameController {
         return null;
 
     }
-
-
-
     public Result feedHayToAnimal(String animalName) {
         Animal animal = getAnimalByName(animalName);
         return new Result(true, "");
@@ -654,8 +645,6 @@ public class GameController {
     private Animal getAnimalByName(String name) {
         return null;
     }
-
-
 
     public Result fishing(String fishingPoleName) {
 
