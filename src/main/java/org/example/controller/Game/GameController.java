@@ -7,6 +7,7 @@ import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 import org.example.models.inventory.Backpack;
+import org.example.models.persistence.DataManager;
 import org.example.models.tools.*;
 
 import java.util.ArrayList;
@@ -17,6 +18,13 @@ import static org.example.models.App.*;
 
 public class GameController {
     Player player = App.getCurrentPlayer();
+    // Add the game field
+    private Game game;
+    
+    public GameController() {
+        // Initialize the game field with the current player's game
+        this.game = DataManager.getInstance().getGameForPlayer(player.getUsername());
+    }
 
     public void skillUp(SkillUpTypes skillUpType) {
 

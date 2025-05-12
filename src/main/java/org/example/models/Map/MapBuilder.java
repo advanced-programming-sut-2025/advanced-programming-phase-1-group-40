@@ -272,6 +272,9 @@ public class MapBuilder {
     }
     
     // Pre-defined farm templates
+    /**
+     * Builds a standard farm with balanced resources
+     */
     public static Farm buildStandardFarm() {
         return new MapBuilder()
             .setDimensions(50, 50)
@@ -287,6 +290,9 @@ public class MapBuilder {
             .build();
     }
     
+    /**
+     * Builds a fishing farm with more water areas
+     */
     public static Farm buildFishingFarm() {
         return new MapBuilder()
             .setDimensions(50, 50)
@@ -296,13 +302,17 @@ public class MapBuilder {
             .addGreenhouse(15, 5)
             .addLake(25, 10, 15, 12) // Larger lake
             .addLake(10, 30, 8, 8)   // Second lake
+            .addRiver(0, 20, 50, 5)  // River across the farm
             .addQuarry(35, 30, 8, 8) // Smaller quarry
             .randomlyPlaceTrees(25, Season.SPRING)
             .randomlyPlaceStones(15)
-            .randomlyPlaceForagingItems(15, Season.SPRING)
+            .randomlyPlaceForagingItems(10, Season.SPRING)
             .build();
     }
     
+    /**
+     * Builds a mining farm with more mining resources
+     */
     public static Farm buildMiningFarm() {
         return new MapBuilder()
             .setDimensions(50, 50)
@@ -310,11 +320,137 @@ public class MapBuilder {
             .initialize()
             .addCabin(5, 5)
             .addGreenhouse(15, 5)
-            .addLake(35, 5, 8, 6)     // Smaller lake
-            .addQuarry(5, 25, 20, 15) // Larger quarry
+            .addLake(40, 10, 8, 6)   // Smaller lake
+            .addQuarry(20, 20, 20, 15) // Large central quarry
+            .addQuarry(5, 30, 10, 10)  // Second quarry
             .randomlyPlaceTrees(20, Season.SPRING)
-            .randomlyPlaceStones(35)  // More stones
+            .randomlyPlaceStones(40)   // More stones
+            .randomlyPlaceOres(15)     // Special ores
             .randomlyPlaceForagingItems(10, Season.SPRING)
             .build();
+    }
+    
+    /**
+     * Builds a forest farm with more trees and foraging opportunities
+     */
+    public static Farm buildForestFarm() {
+        return new MapBuilder()
+            .setDimensions(50, 50)
+            .setName("Forest Farm")
+            .initialize()
+            .addCabin(5, 5)
+            .addGreenhouse(15, 5)
+            .addLake(40, 10, 8, 6)     // Small lake
+            .addQuarry(40, 40, 8, 8)   // Small quarry
+            .randomlyPlaceTrees(60, Season.SPRING) // Many trees
+            .randomlyPlaceStones(15)
+            .randomlyPlaceForagingItems(30, Season.SPRING) // Many foraging items
+            .build();
+    }
+    
+    /**
+     * Builds a river farm with a river running through it
+     */
+    public static Farm buildRiverFarm() {
+        return new MapBuilder()
+            .setDimensions(50, 50)
+            .setName("River Farm")
+            .initialize()
+            .addCabin(5, 5)
+            .addGreenhouse(15, 5)
+            .addRiver(0, 15, 50, 8)    // Main river
+            .addRiver(25, 0, 5, 50)    // Tributary
+            .addLake(35, 35, 10, 10)   // Lake
+            .addQuarry(5, 30, 10, 10)
+            .randomlyPlaceTrees(30, Season.SPRING)
+            .randomlyPlaceStones(20)
+            .randomlyPlaceForagingItems(15, Season.SPRING)
+            .build();
+    }
+    
+    /**
+     * Builds a hill-top farm with elevated areas
+     */
+    public static Farm buildHillTopFarm() {
+        return new MapBuilder()
+            .setDimensions(50, 50)
+            .setName("Hill-Top Farm")
+            .initialize()
+            .addCabin(5, 5)
+            .addGreenhouse(15, 5)
+            .addHill(20, 20, 15, 15)   // Central hill
+            .addHill(40, 10, 8, 8)     // Small hill
+            .addLake(10, 30, 8, 8)     // Lake
+            .addQuarry(30, 35, 10, 10) // Quarry
+            .randomlyPlaceTrees(35, Season.SPRING)
+            .randomlyPlaceStones(25)
+            .randomlyPlaceForagingItems(15, Season.SPRING)
+            .build();
+    }
+    
+    /**
+     * Builds a wilderness farm with more wild resources but more challenging
+     */
+    public static Farm buildWildernessFarm() {
+        return new MapBuilder()
+            .setDimensions(50, 50)
+            .setName("Wilderness Farm")
+            .initialize()
+            .addCabin(5, 5)
+            .addGreenhouse(15, 5)
+            .addLake(35, 15, 12, 10)   // Lake
+            .addQuarry(10, 35, 12, 10) // Quarry
+            .randomlyPlaceTrees(50, Season.SPRING) // Many trees
+            .randomlyPlaceStones(30)               // Many stones
+            .randomlyPlaceForagingItems(25, Season.SPRING) // Many foraging items
+            .randomlyPlaceMonsters(10)             // Monsters!
+            .build();
+    }
+
+    // Helper methods for new features
+    private MapBuilder addRiver(int x, int y, int width, int height) {
+        for (int i = x; i < x + width && i < this.width; i++) {
+            for (int j = y; j < y + height && j < this.height; j++) {
+                tiles[j][i] = new MapTile(TileType.WATER);
+            }
+        }
+        return this;
+    }
+
+    private MapBuilder addHill(int x, int y, int width, int height) {
+        for (int i = x; i < x + width && i < this.width; i++) {
+            for (int j = y; j < y + height && j < this.height; j++) {
+                tiles[j][i] = new MapTile(TileType.HILL);
+            }
+        }
+        return this;
+    }
+
+    private MapBuilder randomlyPlaceOres(int count) {
+        for (int i = 0; i < count; i++) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            
+            if (tiles[y][x].getType() == TileType.DIRT || 
+                tiles[y][x].getType() == TileType.QUARRY) {
+                tiles[y][x] = new MapTile(TileType.ORE);
+            }
+        }
+        return this;
+    }
+
+    private MapBuilder randomlyPlaceMonsters(int count) {
+        // In a real implementation, this would place monster spawn points
+        // For now, we'll just mark some tiles as "dangerous"
+        for (int i = 0; i < count; i++) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            
+            if (tiles[y][x].getType() == TileType.DIRT || 
+                tiles[y][x].getType() == TileType.GRASS) {
+                tiles[y][x] = new MapTile(TileType.MONSTER_SPAWN);
+            }
+        }
+        return this;
     }
 }
