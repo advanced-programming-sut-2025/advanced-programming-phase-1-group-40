@@ -3,6 +3,7 @@ package org.example.controller.Game;
 
 import org.example.models.*;
 import org.example.models.Animal.Animal;
+import org.example.models.Map.SecondaryMapComponents.ForagingSeed;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
@@ -48,10 +49,6 @@ public class GameController {
 
     public Result talk(String username, String message) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-        
         if(message == null || message.isEmpty()){
             return new Result(false,"Message is empty.");
         }
@@ -94,7 +91,7 @@ public class GameController {
             return new Result(false, "You are not currently in a game.");
         }
         
-        User targetPlayer = game.getPlayerByUsername(username);
+        Player targetPlayer = game.getPlayerByUsername(username);
         if(targetPlayer == null){
             return new Result(false,"User not found.");
         }
@@ -140,21 +137,12 @@ public class GameController {
     public Result hug(String username) {
 
         Game game = getCurrentGame();
-
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-        
         return new Result(true, "");
     }
     
     public Result giveFlowerToUser(String username, String flowerName) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-        
-        User targetPlayer = game.getPlayerByUsername(username);
+        Player targetPlayer = game.getPlayerByUsername(username);
         if(targetPlayer == null){
             return new Result(false,"User not found.");
         }
@@ -170,11 +158,7 @@ public class GameController {
 
     public Result askMarriage(String username, Object ring) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-
-        User targetPlayer = game.getPlayerByUsername(username);
+        Player targetPlayer = game.getPlayerByUsername(username);
 
         if(targetPlayer == null){
             return new Result(false,"User not found.");
@@ -227,45 +211,35 @@ public class GameController {
 
     public Result meetNPC(String npcName) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return null;
     }
 
     public Result giftNPC(String NCPName, String itemName) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
 
     public Result showFriendshipNPCList() {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
 
     public Result showQuestsList() {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
 
     public Result finishQuest(int index) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
@@ -457,7 +431,7 @@ public class GameController {
         return new Result(true, info.toString());
     }
 
-    // === TOOLS, FOODS, ITEMS, AND CRAFTS === //
+
 
     public Result equipTool(String toolName) {
         return new Result(true, "");
@@ -607,7 +581,7 @@ public class GameController {
     }
 
 
-    public Result plant(Direction direction, Seed seed) {
+    public Result plant(Direction direction, ForagingSeed seed) {
         return new Result(true, "");
     }
 
@@ -687,7 +661,7 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
-        if (true){
+        if (closeToSea()){
 
             int numberOfFishes = numberOfCaughtFish() + 1;
             FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
