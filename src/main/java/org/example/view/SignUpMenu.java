@@ -4,6 +4,7 @@ import org.example.controller.User.*;
 import org.example.models.App;
 import org.example.models.Result;
 import org.example.models.enums.Menu;
+import org.example.models.enums.commands.SignUpMenuCommands;
 import org.example.models.enums.types.Gender;
 
 import java.util.Scanner;
@@ -16,7 +17,8 @@ public class SignUpMenu implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
         // Handle register command with all details
-        if (input.matches("\\s*register\\s+-u\\s+([a-zA-Z0-9-]+)\\s+-p\\s+(.+)\\s+(.+)\\s+-n\\s+(.+)\\s+-e\\s+(.+)\\s+-g\\s+(male|female)\\s*")) {
+        System.out.println("HIIIII");
+        if (input.matches(SignUpMenuCommands.REGISTER_USER.getCommand())) {
             Pattern pattern = Pattern.compile("\\s*register\\s+-u\\s+([a-zA-Z0-9-]+)\\s+-p\\s+(.+)\\s+(.+)\\s+-n\\s+(.+)\\s+-e\\s+(.+)\\s+-g\\s+(male|female)\\s*");
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
