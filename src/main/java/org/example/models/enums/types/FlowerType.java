@@ -1,9 +1,13 @@
 package org.example.models.enums.types;
 
-public enum FlowerType {
-    BLUE_JAZZ("Blue jazz", false),
-    CROCUS("Crocus", true),
-    FAIRY_ROSE("Fairy rose", false),
+import org.example.models.Item;
+
+public enum FlowerType implements Item {
+
+
+//    BLUE_JAZZ("Blue jazz", false),
+//    CROCUS("Crocus", true),
+    FAIRY_ROSE(),
     POPPY("Poppy", false),
     SUMMER_SPANGLE("Summer spangle", false),
     SWEET_PEA("Sweet pea", true),
@@ -28,5 +32,9 @@ public enum FlowerType {
         }
         return null;
     }
+
+
+
+
 
 }
