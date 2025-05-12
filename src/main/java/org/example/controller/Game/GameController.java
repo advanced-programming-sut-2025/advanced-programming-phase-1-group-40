@@ -70,10 +70,6 @@ public class GameController {
 
     public Result showTalkHistoryWithUser(String username) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-
         User targetPlayer = game.getPlayerByUsername(username);
         if (targetPlayer == null) {
             return new Result(false, "User not found.");
@@ -88,9 +84,7 @@ public class GameController {
 
     public Result giveGift(String username, String itemName, int amount) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
 
         Player targetPlayer = game.getPlayerByUsername(username);
         if (targetPlayer == null) {
@@ -110,9 +104,6 @@ public class GameController {
 
     public Result giftList() {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
 
         StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
         for (Gift gift : player.getGift()) {
@@ -144,13 +135,8 @@ public class GameController {
             if ( flowerType.getItem().getItemName().equalsIgnoreCase(flowerName) ) {
                 return flowerType;
             }
-
-
-
         }
-
-
-
+        return null;
     }
 
     public Result giveFlowerToUser(String username, String flowerName) {
@@ -189,12 +175,14 @@ public class GameController {
             return new Result(false, "You are not allowed to marry a person of the same gender.");
         }
         boolean hasRing = false;
-        //check if the person proposing has a ring or not
         if (!hasRing) {
             return new Result(false, "You do not have a ring to propose with:(");
         }
-        return new Result(true, ""); // TODO
-        //after passing all of the conditions, now is the time to actually propose.
+        if(){
+            return new Result(false,"Your friendship level must be at least three in order to porpose.");
+        }
+        // call the method for sending the marriage request.
+        return new Result(true, "Your marriage proposal has been successfully sent to "+username+".");
     }
 
     public Result marriageResponse(String response, String username) {
@@ -303,7 +291,6 @@ public class GameController {
     }
 
     public Result showAvailableTools() {
-
         return null;
 
     }
@@ -409,7 +396,7 @@ public class GameController {
         if (currentType == InventoryType.DELUXE ||
                 (currentType == InventoryType.LARGE && newType == InventoryType.INITIAL)) {
             return new Result(false, "You cannot downgrade your backpack.");
-        }
+       }
 
         // Check if it's the same type (no change)
         if (currentType == newType) {

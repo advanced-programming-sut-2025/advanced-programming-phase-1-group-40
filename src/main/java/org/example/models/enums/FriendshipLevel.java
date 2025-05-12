@@ -23,7 +23,7 @@ public enum FriendshipLevel {
         this.level = level;
     }
 
-    public int getLevel() {
+    public int getFriendshipLevel() {
         return level;
     }
 
@@ -38,3 +38,4 @@ public enum FriendshipLevel {
         };
     }
 }
+

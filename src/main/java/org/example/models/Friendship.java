@@ -3,6 +3,7 @@ package org.example.models;
 import org.example.models.enums.*;
 
 public class Friendship {
+    /*
     private Player friend1;
     private NPC friend2;
     private FriendshipLevel level;
@@ -56,4 +57,31 @@ public class Friendship {
     public Boolean isMaxLevel(){
         return currentXP > maxXP;
     }
+     */
+
+    private Integer friendShipXP;
+    private FriendshipLevel friendshipLevel;
+
+    public Friendship(Integer friendShipXP, FriendshipLevel friendshipLevel) {
+        this.friendShipXP = friendShipXP;
+        this.friendshipLevel = friendshipLevel;
+    }
+
+    public Integer getFriendShipXP() {
+        return friendShipXP;
+    }
+
+    public void setFriendShipXP(Integer friendShipXP) {
+        this.friendShipXP = friendShipXP;
+    }
+
+    public FriendshipLevel getFriendshipLevel() {
+        return friendshipLevel;
+    }
+
+    public void setFriendshipLevel(FriendshipLevel friendshipLevel) {
+        this.friendshipLevel = friendshipLevel;
+    }
+
+
 }
