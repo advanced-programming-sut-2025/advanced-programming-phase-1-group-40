@@ -19,9 +19,10 @@ import static org.example.models.App.*;
 
 public class GameController {
     Player player = App.getCurrentPlayer();
-    
+
     /**
      * Gets the current game from DataManager
+     *
      * @return The current game
      */
     private Game getCurrentGame() {
@@ -39,32 +40,32 @@ public class GameController {
             if (!player.equals(otherPlayer)) {
                 Friendship friendship = game.getFriendship(player, otherPlayer);
                 message.append(otherPlayer.getUsername()).append(":\n")
-                      .append("Friendship Level: ").append(friendship.getLevel()).append("\n")
-                      .append("XP: ").append(friendship.getCurrentXP()).append("\n\n");
+                        .append("Friendship Level: ").append(friendship.getLevel()).append("\n")
+                        .append("XP: ").append(friendship.getCurrentXP()).append("\n\n");
             }
         }
-        
+
         return new Result(true, message.toString().trim());
     }
 
     public Result talk(String username, String message) {
         Game game = getCurrentGame();
-        if(message == null || message.isEmpty()){
-            return new Result(false,"Message is empty.");
+        if (message == null || message.isEmpty()) {
+            return new Result(false, "Message is empty.");
         }
         Player targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
+        if (targetPlayer == null) {
+            return new Result(false, "User not found.");
         }
-        if(isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())) {
+        if (isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
             //all conditions passed for sending the message
             //game error
 
             return new Result(true, "You have successfully sent a message to: "
-             + targetPlayer.getUsername() + ". Your current friendship level with them is " 
-             + game.getUserFriendship(player, targetPlayer));
+                    + targetPlayer.getUsername() + ". Your current friendship level with them is "
+                    + game.getUserFriendship(player, targetPlayer));
         }
-        return new Result(false, "You must stand next to "+targetPlayer.getUsername()+"to be able to talk to them.");
+        return new Result(false, "You must stand next to " + targetPlayer.getUsername() + "to be able to talk to them.");
     }
 
     public Result showTalkHistoryWithUser(String username) {
@@ -72,12 +73,12 @@ public class GameController {
         if (game == null) {
             return new Result(false, "You are not currently in a game.");
         }
-        
+
         User targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
+        if (targetPlayer == null) {
+            return new Result(false, "User not found.");
         }
-        StringBuilder historyMessage = new StringBuilder("Your talk history with "+username+": ");
+        StringBuilder historyMessage = new StringBuilder("Your talk history with " + username + ": ");
         HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(player).get(targetPlayer);
         historyMessage.append("You: ").append(sentMessages).append("\n");
         HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(player).get(targetPlayer);
@@ -90,19 +91,21 @@ public class GameController {
         if (game == null) {
             return new Result(false, "You are not currently in a game.");
         }
-        
+
         Player targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
+        if (targetPlayer == null) {
+            return new Result(false, "User not found.");
         }
-        if(!isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())){
-            return new Result(false,"You must get near to "+username+" to be able to give them a gift.");
+        if (!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+            return new Result(false, "You must get near to " + username + " to be able to give them a gift.");
         }
         Item item = player.getBackpack().getItemFromInventoryByName(itemName);
         //get item from backpack
-        if(item == null){
-            return new Result(false,"Item not found.");
+        if (item == null) {
+            return new Result(false, "Item not found.");
         }
+
+        return new Result(true, "You give " + itemName + " from " + username + ".");
     }
 
     public Result giftList() {
@@ -110,14 +113,13 @@ public class GameController {
         if (game == null) {
             return new Result(false, "You are not currently in a game.");
         }
-        
+
         StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
-        for(Gift gift: player.getGift()){
+        for (Gift gift : player.getGift()) {
             giftListMessage.append(gift.getId()).append('\n').append(gift.getItem()).append(" (x").append(gift.getAmount()).append(") given by").append(gift.getSender().getUsername()).append("\n");
-            if(gift.getRating()==0){
+            if (gift.getRating() == 0) {
                 giftListMessage.append("You have not rated this gift yet!");
-            }
-            else{
+            } else {
                 giftListMessage.append("the rate you have given to this gift is: ").append(gift.getRating()).append("\n");
             }
 
@@ -134,50 +136,53 @@ public class GameController {
         Game game = getCurrentGame();
         return new Result(true, "");
     }
-    
+
     public Result giveFlowerToUser(String username, String flowerName) {
         Game game = getCurrentGame();
         Player targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
+        if (targetPlayer == null) {
+            return new Result(false, "User not found.");
         }
         FlowerType flowerType = FlowerType.getFlowerTypeByName(flowerName);
-        if(flowerType == null){
-            return new Result(false,"Flower not found.");
+        if (flowerType == null) {
+            return new Result(false, "Flower not found.");
         }
-        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
-            return new Result(false, "You must get near to "+username+" to be able to give them a flower.\n");
+        if (!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+            return new Result(false, "You must get near to " + username + " to be able to give them a flower.\n");
         }
+        return new Result(true, "");
+
     }
 
     public Result askMarriage(String username, Object ring) {
         Game game = getCurrentGame();
         Player targetPlayer = game.getPlayerByUsername(username);
 
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
+        if (targetPlayer == null) {
+            return new Result(false, "User not found.");
         }
 
-        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
-            return new Result(false,"You must get near to "+username+" to propose to them.\n");
+        if (!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+            return new Result(false, "You must get near to " + username + " to propose to them.\n");
         }
-        if(player.getGender().equals(targetPlayer.getGender())){
-            return new Result(false,"You are not allowed to marry a person of the same gender.");
+        if (player.getGender().equals(targetPlayer.getGender())) {
+            return new Result(false, "You are not allowed to marry a person of the same gender.");
         }
         boolean hasRing = false;
         //check if the person proposing has a ring or not
-        if(!hasRing){
+        if (!hasRing) {
             return new Result(false, "You do not have a ring to propose with:(");
         }
+        return new Result(true, ""); // TODO
         //after passing all of the conditions, now is the time to actually propose.
     }
-    
+
     public Result marriageResponse(String response, String username) {
         Game game = getCurrentGame();
-        
+
         User Proposer = game.getPlayerByUsername(username);
-        if(Proposer == null){
-            return new Result(false,"User not found.");
+        if (Proposer == null) {
+            return new Result(false, "User not found.");
         }
         return null;
     }
@@ -185,70 +190,71 @@ public class GameController {
     public Result showTradeList(String targetUsername, String type, String itemName, int amount, int price) {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
 
     public Result tradeResponse(int id) {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
 
     public Result showTradeHistory() {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
 
     public Result meetNPC(String npcName) {
         Game game = getCurrentGame();
 
-        
+
         return null;
     }
 
     public Result giftNPC(String NCPName, String itemName) {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
 
     public Result showFriendshipNPCList() {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
 
     public Result showQuestsList() {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
 
     public Result finishQuest(int index) {
         Game game = getCurrentGame();
 
-        
+
         return new Result(true, "");
     }
+
     public Result showPlayerEnergy() {
         int playerEnergy = player.getEnergy();
         return new Result(true, "Your energy is: " + playerEnergy);
     }
 
-    public Result crowAttack(){
+    public Result crowAttack() {
 
         return null;
 
     }
 
-    public int howMuchWater(){
+    public int howMuchWater() {
 
         return 0;
 
@@ -318,7 +324,7 @@ public class GameController {
         response.append("Backpack type: ").append(playerBackpack.getType()).append("\n");
         response.append("Used slots: ").append(playerBackpack.getUsedCapacity());
 
-        if ( ! (playerBackpack.getType().getCapacity() == Integer.MAX_VALUE) ) {
+        if (!(playerBackpack.getType().getCapacity() == Integer.MAX_VALUE)) {
             response.append("/").append(playerBackpack.getType().getCapacity());
         }
 
@@ -381,7 +387,7 @@ public class GameController {
 
         // Check if this would be a downgrade
         if (currentType == InventoryType.DELUXE ||
-            (currentType == InventoryType.LARGE && newType == InventoryType.INITIAL)) {
+                (currentType == InventoryType.LARGE && newType == InventoryType.INITIAL)) {
             return new Result(false, "You cannot downgrade your backpack.");
         }
 
@@ -407,7 +413,7 @@ public class GameController {
         StringBuilder info = new StringBuilder();
         info.append("Backpack Type: ").append(type).append("\n");
 
-        if ( type.getCapacity() == Integer.MAX_VALUE ) {
+        if (type.getCapacity() == Integer.MAX_VALUE) {
             info.append("Capacity: Unlimited\n");
         } else {
             info.append("Capacity: ").append(type.getCapacity()).append("\n");
@@ -416,7 +422,7 @@ public class GameController {
         info.append("Used Slots: ").append(playerBackpack.getUsedCapacity()).append("\n");
         info.append("Available Slots: ");
 
-        if ( type.getCapacity() == Integer.MAX_VALUE ) {
+        if (type.getCapacity() == Integer.MAX_VALUE) {
             info.append("Unlimited");
         } else {
             info.append(playerBackpack.getRemainingCapacity());
@@ -424,7 +430,6 @@ public class GameController {
 
         return new Result(true, info.toString());
     }
-
 
 
     public Result equipTool(String toolName) {
@@ -498,7 +503,6 @@ public class GameController {
     private Tile getTileByPosition(Position position) {
         return null;
     }
-
 
 
     public Result walk(Path path, boolean playerConfirmed) {
@@ -587,6 +591,7 @@ public class GameController {
     public Result fertilize(FertilizerType fertilizer, Direction direction) {
         return new Result(true, "");
     }
+
     public Result build(FarmBuildingType farmBuildingType, Position position) {
         return new Result(true, "");
     }
@@ -614,15 +619,16 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public Result milkAnimal(Animal animal){
+    public Result milkAnimal(Animal animal) {
         return null;
     }
 
-    public Result feedOutside(Animal animal){
+    public Result feedOutside(Animal animal) {
 
         return null;
 
     }
+
     public Result feedHayToAnimal(String animalName) {
         Animal animal = getAnimalByName(animalName);
         return new Result(true, "");
@@ -650,7 +656,7 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
-        if (closeToSea()){
+        if (true) {
 
             int numberOfFishes = numberOfCaughtFish() + 1;
             FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
@@ -672,25 +678,23 @@ public class GameController {
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ( (new Random().nextInt(2)) * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 -App.currentWeather.getWeatherCoEfficient() ) );
+        return (int) ((new Random().nextInt(2)) * (App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.currentWeather.getWeatherCoEfficient()));
 
     }
 
     public int numberOfCaughtFish() {
 
-        return  (int) ((new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * ( App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.currentWeather.getWeatherCoEfficient() * (App.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 
     private FishingRodType getFishingPoleByName(String name) {
 
-        if ( FishingRodType.TRAINING_ROD.getPoleName().equals(name) ) {
+        if (FishingRodType.TRAINING_ROD.getPoleName().equals(name)) {
             return FishingRodType.TRAINING_ROD;
-        }
-        else if ( FishingRodType.BAMBOO_POLE.getPoleName().equals(name) ) {
+        } else if (FishingRodType.BAMBOO_POLE.getPoleName().equals(name)) {
             return FishingRodType.BAMBOO_POLE;
-        }
-        else if ( FishingRodType.FIBERGLASS_ROD.getPoleName().equals(name) ) {
+        } else if (FishingRodType.FIBERGLASS_ROD.getPoleName().equals(name)) {
             return FishingRodType.FIBERGLASS_ROD;
         }
         return FishingRodType.IRIDIUM;
@@ -720,7 +724,6 @@ public class GameController {
     }
 
 
-
     public Result showAllProducts() {
         return new Result(true, "");
     }
@@ -746,6 +749,7 @@ public class GameController {
         }
         return new Result(true, "");
     }
+
     //  from here
     public Boolean isNear(Position positionOne, Position positionTwo) {
         int x1 = positionOne.getX();

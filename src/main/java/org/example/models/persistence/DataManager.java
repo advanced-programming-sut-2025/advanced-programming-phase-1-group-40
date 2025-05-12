@@ -349,6 +349,11 @@ public class DataManager {
         // For now, just return true
         return true;
     }
+
+    public ArrayList<Game> getAllGames() {
+        // TODO
+        return null;
+    }
 }
 
 

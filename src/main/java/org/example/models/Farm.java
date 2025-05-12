@@ -1,6 +1,8 @@
 package org.example.models;
 
 import org.example.models.*;
+import org.example.models.Map.SecondaryMapComponents.Crop;
+import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
@@ -27,7 +29,7 @@ public class Farm {
         return null;
     }
 
-    public Result putStone(Stone stone) {
+    public Result putStone(ForagingMineral stone) {
 
         return null;
     }

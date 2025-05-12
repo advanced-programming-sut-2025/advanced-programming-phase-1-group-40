@@ -127,7 +127,9 @@ public class Player extends User{
 
     // Get skill level for a specific skill
     public SkillLevel getSkillLevel(Skill skill) {
-        return skillLevels.getOrDefault(skill, new SkillLevel(skill));
+        return null;
+        // TODO
+        //return skillLevels.getOrDefault(skill, SkillLevels.LEVEL_ZERO);
     }
 
     // Add XP to a specific skill
@@ -189,9 +191,10 @@ public class Player extends User{
         // Transfer all items from old backpack to new backpack
         if (this.backpack != null) {
             ArrayList<Item> oldItems = this.backpack.getItems();
-            for (Map.Entry<Item, Integer> entry : oldItems) {
-                newBackpack.CheatAddToInventory(entry.getKey(), entry.getValue());
-            }
+            // TODO
+//            for (Map.Entry<Item, Integer> entry : oldItems) {
+//                newBackpack.CheatAddToInventory(entry.getKey(), entry.getValue());
+//            }
         }
 
         // Replace old backpack with new one
@@ -218,7 +221,9 @@ public class Player extends User{
 
     // Method to get quantity of a specific item
     public int getItemQuantity(Item item) {
-        return backpack != null ? backpack.getItemQuantity(item) : 0;
+        //return backpack != null ? backpack.getItemQuantity(item) : 0;
+        // TODO
+        return -1;
     }
 
     public Iterable<? extends Gift> getGift() {

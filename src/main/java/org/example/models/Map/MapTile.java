@@ -1,8 +1,8 @@
 package org.example.models.Map;
 
+import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;
-import org.example.models.farming.Crop;
 import java.io.Serializable;
 
 /**

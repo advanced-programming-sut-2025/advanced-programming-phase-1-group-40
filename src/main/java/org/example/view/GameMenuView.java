@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 /**
  * View for the game menu
  */
-public class GameMenuView implements MenuView {
+public class GameMenuView implements AppMenu {
     private final GameMenuController controller;
     
     public GameMenuView() {

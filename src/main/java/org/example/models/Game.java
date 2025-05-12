@@ -230,4 +230,19 @@ public class Game {
         }
         return null;
     }
+
+    public Friendship getFriendship(Player player, Player otherPlayer) {
+        // TODO
+        return null;
+    }
+
+    public String getUserFriendship(Player player, Player targetPlayer) {
+        // TODO
+        return null;
+    }
+
+    public HashMap<Player, HashMap<Player, HashMap<String, Boolean>>> getTalkHistory() {
+        // TODO
+        return null;
+    }
 }
