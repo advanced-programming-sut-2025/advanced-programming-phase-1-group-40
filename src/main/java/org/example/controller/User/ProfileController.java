@@ -2,7 +2,6 @@ package org.example.controller.User;
 
 import org.example.models.*;
 import org.example.models.enums.commands.LoginCommands;
-import org.example.models.persistence.DataManager;
 
 public class ProfileController {
     

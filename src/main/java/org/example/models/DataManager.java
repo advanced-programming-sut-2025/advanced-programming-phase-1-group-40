@@ -1,6 +1,5 @@
-package org.example.models.persistence;
+package org.example.models;
 
-import org.example.models.*;
 import org.example.models.Map.Farm;
 import org.example.models.enums.enviroment.Weather;
 import org.example.models.enums.Menu;
@@ -348,11 +347,6 @@ public class DataManager {
         // This will be implemented to load from JSON files
         // For now, just return true
         return true;
-    }
-
-    public ArrayList<Game> getAllGames() {
-        // TODO
-        return null;
     }
 }
 

@@ -2,7 +2,6 @@ package org.example.models;
 
 import org.example.models.enums.*;
 import org.example.models.enums.enviroment.Weather;
-import org.example.models.persistence.DataManager;
 
 import java.util.ArrayList;
 
@@ -37,7 +36,7 @@ public class App {
     }
 
     public static ArrayList<Game> getGames() {
-        return DataManager.getInstance().getAllGames();
+        return DataManager.getInstance().getActiveGames();
     }
 
     public static void setCurrentPlayer(Player user) {
