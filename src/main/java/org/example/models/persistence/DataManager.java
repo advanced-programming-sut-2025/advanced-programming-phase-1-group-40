@@ -18,7 +18,7 @@ public class DataManager {
     
     // Data collections
     private ArrayList<Player> users;
-    private ArrayList<Game> games;
+    private ArrayList<Game> activeGames;
     private Map<String, Farm> userFarms;
     private Player currentPlayer;
     private Menu currentMenu;
@@ -28,7 +28,7 @@ public class DataManager {
     // Private constructor for singleton pattern
     private DataManager() {
         this.users = new ArrayList<>();
-        this.games = new ArrayList<>();
+        this.activeGames = new ArrayList<>();
         this.userFarms = new HashMap<>();
         this.stayLoggedInUsers = new HashMap<>();
         this.currentMenu = Menu.LOGIN_MENU;
@@ -52,7 +52,7 @@ public class DataManager {
      */
     public void initializeFromApp() {
         this.users = App.users;
-        this.games = App.games;
+        this.activeGames = App.games;
         this.currentPlayer = App.currentPlayer;
         this.currentMenu = App.currentMenu;
         this.currentWeather = App.currentWeather;
@@ -64,7 +64,7 @@ public class DataManager {
      */
     public void updateApp() {
         App.users = this.users;
-        App.games = this.games;
+        App.games = this.activeGames;
         App.currentPlayer = this.currentPlayer;
         App.currentMenu = this.currentMenu;
         App.currentWeather = this.currentWeather;
@@ -139,57 +139,41 @@ public class DataManager {
     // Game management methods
     
     /**
-     * Add a new game to the system
+     * Adds a game to the data manager
      * @param game The game to add
      */
     public void addGame(Game game) {
-        games.add(game);
+        activeGames.add(game);
     }
-    
+
     /**
-     * Get a game by ID
-     * @param gameId The game ID to search for
-     * @return The game with the given ID, or null if not found
+     * Removes a game from the data manager
+     * @param game The game to remove
      */
-    public Game getGameById(int gameId) {
-        for (Game game : games) {
-            if (game.getGameId() == gameId) {
+    public void removeGame(Game game) {
+        activeGames.remove(game);
+    }
+
+    /**
+     * Gets all active games
+     * @return List of active games
+     */
+    public List<Game> getActiveGames() {
+        return activeGames;
+    }
+
+    /**
+     * Gets a game that a player is part of
+     * @param username The username to check
+     * @return The game the player is in, or null if not found
+     */
+    public Game getGameForPlayer(String username) {
+        for (Game game : activeGames) {
+            if (game.hasPlayer(username)) {
                 return game;
             }
         }
         return null;
-    }
-    
-    /**
-     * Get all games in the system
-     * @return List of all games
-     */
-    public ArrayList<Game> getAllGames() {
-        return games;
-    }
-    
-    /**
-     * Get the game a player is currently in
-     * @param username The username to search for
-     * @return The game the player is in, or null if not in a game
-     */
-    public Game getGameForPlayer(String username) {
-        for (Game game : games) {
-            for (Player player : game.getPlayers()) {
-                if (player.getUsername().equals(username)) {
-                    return game;
-                }
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Remove a game from the system
-     * @param game The game to remove
-     */
-    public void removeGame(Game game) {
-        games.remove(game);
     }
     
     // Farm management methods
@@ -314,3 +298,4 @@ public class DataManager {
         return true;
     }
 }
+

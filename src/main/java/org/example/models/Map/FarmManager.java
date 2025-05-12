@@ -1,6 +1,6 @@
 package org.example.models.Map;
 
-import org.example.models.User;
+import org.example.models.Player;
 import org.example.models.enums.enviroment.Season;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +25,11 @@ public class FarmManager {
     
     /**
      * Creates a new farm for a user based on the selected map type
-     * @param user The user to create a farm for
-     * @param mapType The type of map to create (1-3)
+     * @param player The player to create a farm for
+     * @param mapType The type of map to create (1-7)
      * @return The created farm
      */
-    public Farm createFarmForUser(User user, int mapType) {
+    public Farm createFarmForUser(Player player, int mapType) {
         Farm farm;
         
         switch (mapType) {
@@ -42,11 +42,33 @@ public class FarmManager {
             case 3:
                 farm = MapBuilder.buildMiningFarm();
                 break;
+            case 4:
+                farm = MapBuilder.buildForestFarm();
+                break;
+            case 5:
+                farm = MapBuilder.buildRiverFarm();
+                break;
+            case 6:
+                farm = MapBuilder.buildHillTopFarm();
+                break;
+            case 7:
+                farm = MapBuilder.buildWildernessFarm();
+                break;
             default:
                 farm = MapBuilder.buildStandardFarm();
         }
         
-        userFarms.put(user.getUsername(), farm);
+        // Set the farm owner
+        farm.setOwner(player);
+        
+        // Set the farm name
+        farm.setName(player.getUsername() + "'s Farm");
+        
+        userFarms.put(player.getUsername(), farm);
+        
+        // Also update the DataManager to ensure persistence
+        DataManager.getInstance().addFarmForUser(player.getUsername(), farm);
+        
         return farm;
     }
     
@@ -95,3 +117,4 @@ public class FarmManager {
         return true;
     }
 }
+

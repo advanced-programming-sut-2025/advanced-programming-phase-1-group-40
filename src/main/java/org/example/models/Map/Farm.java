@@ -30,6 +30,8 @@ public class Farm implements Serializable {
     private List<Stone> stones;
     private List<ForagingCrop> foragingItems;
     
+    private Player owner;
+
     public Farm(String name, int width, int height) {
 
         this.name = name;
@@ -593,7 +595,20 @@ public class Farm implements Serializable {
             return null;
         }
     }
+
+    /**
+     * Sets the owner of this farm
+     * @param owner The player who owns this farm
+     */
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * Gets the owner of this farm
+     * @return The player who owns this farm
+     */
+    public Player getOwner() {
+        return owner;
+    }
 }
-
-
-

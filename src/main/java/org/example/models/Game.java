@@ -114,54 +114,56 @@ public class Game {
     }
     
     /**
+     * Adds a farm to the game
+     * @param farm The farm to add
+     */
+    public void addFarm(Farm farm) {
+        if (farms == null) {
+            farms = new ArrayList<>();
+        }
+        farms.add(farm);
+    }
+
+    /**
+     * Gets the farm for a specific player
+     * @param player The player to get the farm for
+     * @return The player's farm, or null if not found
+     */
+    public Farm getFarmForPlayer(Player player) {
+        if (farms == null) {
+            return null;
+        }
+        
+        for (Farm farm : farms) {
+            if (farm.getOwner() != null && farm.getOwner().getUsername().equals(player.getUsername())) {
+                return farm;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * Initializes the game time
+     */
+    public void initializeTime() {
+        if (time == null) {
+            time = new Time();
+        }
+    }
+
+    /**
      * Move to the next player's turn
-     * @return The player whose turn it is now
+     * @return The next player
      */
     public Player nextTurn() {
-
         int currentIndex = players.indexOf(currentTurnPlayer);
-        int nextIndex = (currentIndex + 1) % numberOfPlayers;
+        int nextIndex = (currentIndex + 1) % players.size();
         
-
+        // If we've gone through all players, advance the time
         if (nextIndex == 0) {
-
-            if ( time.getHour() >= 22) {
-
-                time.setHour(9);
-
-                if ( time.getWeekday().getDayIndex() >= 6 ){
-                    time.setWeekday(Weekday.MONDAY);
-                }
-                else{
-                    time.setWeekday(Weekday.values()[time.getWeekday().getDayIndex()+1]);
-                }
-
-                if ( time.getDate() >= 28 ){
-
-                    time.setDate(1);
-
-                    if ( time.getMonth().getMonthIndex() >= 11 ){
-                        time.setYear(time.getYear()+1);
-                        time.setMonth(Month.JANUARY);
-                    }
-                    else{
-                        time.setMonth(Month.values()[time.getMonth().getMonthIndex()+1]);
-                    }
-
-
-                }
-                else{
-                    time.setDate(time.getDate()+1);
-                }
-
-
-
-            }
-            else{
-
-                time.setHour( time.getHour() + 1 );
-
-            }
+            everyOnePlayed = true;
+            time.advanceHour();
         }
         
         currentTurnPlayer = players.get(nextIndex);
@@ -169,25 +171,29 @@ public class Game {
     }
     
     /**
-     * Vote to terminate the game
+     * Registers a player's vote for termination
      * @param player The player voting
-     * @param vote True to vote for termination, false otherwise
-     * @return True if all players have voted to terminate, false otherwise
+     * @param vote true for yes, false for no
+     * @return true if all players have voted to terminate, false otherwise
      */
     public boolean voteForTermination(Player player, boolean vote) {
-        terminationVotes.put(player.getUsername(), vote);
-        
-        // Check if all players have voted to terminate
-        if (terminationVotes.size() == players.size()) {
-            for (boolean playerVote : terminationVotes.values()) {
-                if (!playerVote) {
-                    return false;
-                }
-            }
-            return true;
+        if (terminationVotes == null) {
+            terminationVotes = new HashMap<>();
         }
         
-        return false;
+        terminationVotes.put(player.getUsername(), vote);
+        
+        // Check if all players have voted yes
+        boolean allVotedYes = true;
+        for (Player p : players) {
+            Boolean playerVote = terminationVotes.get(p.getUsername());
+            if (playerVote == null || !playerVote) {
+                allVotedYes = false;
+                break;
+            }
+        }
+        
+        return allVotedYes;
     }
     
     /**
@@ -198,9 +204,9 @@ public class Game {
     }
     
     /**
-     * Check if a player is in this game
+     * Checks if a player is part of this game
      * @param username The username to check
-     * @return True if the player is in the game, false otherwise
+     * @return true if the player is in this game, false otherwise
      */
     public boolean hasPlayer(String username) {
         for (Player player : players) {
@@ -210,10 +216,10 @@ public class Game {
         }
         return false;
     }
-    
+
     /**
-     * Get a player by username
-     * @param username The username to search for
+     * Gets a player by username
+     * @param username The username to look for
      * @return The player with the given username, or null if not found
      */
     public Player getPlayerByUsername(String username) {
