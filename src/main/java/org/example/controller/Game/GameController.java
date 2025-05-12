@@ -8,7 +8,6 @@ import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 import org.example.models.inventory.Backpack;
-import org.example.models.persistence.DataManager;
 import org.example.models.tools.*;
 
 import java.util.ArrayList;
