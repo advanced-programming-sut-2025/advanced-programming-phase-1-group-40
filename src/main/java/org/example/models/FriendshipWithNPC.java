@@ -2,14 +2,14 @@ package org.example.models;
 
 import org.example.models.enums.*;
 
-public class Friendship {
+public class FriendshipWithNPC {
     private Player friend1;
     private NPC friend2;
     private FriendshipLevel level;
     private int currentXP;
     private final int maxXP = 799;
 
-    public Friendship(Player friend1, NPC friend2, FriendshipLevel level, int currentXP, int maxXP) {
+    public FriendshipWithNPC(Player friend1, NPC friend2, FriendshipLevel level, int currentXP, int maxXP) {
         this.friend1 = friend1;
         this.friend2 = friend2;
         this.level = level;

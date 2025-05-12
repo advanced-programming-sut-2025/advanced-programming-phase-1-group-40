@@ -1,13 +1,10 @@
 package org.example.models;
 
 import org.example.models.Map.Farm;
-import org.example.models.enums.enviroment.Month;
 import org.example.models.enums.enviroment.Time;
-import org.example.models.enums.enviroment.Weekday;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -232,7 +229,7 @@ public class Game {
         return null;
     }
 
-    public Friendship getFriendship(Player player, Player otherPlayer) {
+    public FriendshipWithNPC getFriendship(Player player, Player otherPlayer) {
         // TODO
         return null;
     }

@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import static org.example.models.App.*;
-
 public class GameController {
     Player player = App.getCurrentPlayer();
 
@@ -38,10 +36,10 @@ public class GameController {
         StringBuilder message = new StringBuilder("Friendship w other Players:\n");
         for (Player otherPlayer : game.getPlayers()) {
             if (!player.equals(otherPlayer)) {
-                Friendship friendship = game.getFriendship(player, otherPlayer);
+                FriendshipWithNPC friendshipWithNPC = game.getFriendship(player, otherPlayer);
                 message.append(otherPlayer.getUsername()).append(":\n")
-                        .append("Friendship Level: ").append(friendship.getLevel()).append("\n")
-                        .append("XP: ").append(friendship.getCurrentXP()).append("\n\n");
+                        .append("Friendship Level: ").append(friendshipWithNPC.getLevel()).append("\n")
+                        .append("XP: ").append(friendshipWithNPC.getCurrentXP()).append("\n\n");
             }
         }
 

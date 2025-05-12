@@ -4,6 +4,8 @@ package org.example.models.Map;
  * Enum representing different types of tiles on the farm map
  */
 public enum TileType {
+
+    BARN,
     DIRT,
     ORE,
     MONSTER_SPAWN,

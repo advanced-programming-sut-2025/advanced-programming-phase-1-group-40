@@ -2,6 +2,7 @@ package org.example.models.enums.types;
 
 import org.example.models.Item;
 
+
 public enum FlowerType{
 
     FAIRY_ROSE(CropType.FAIRY_ROSE),
