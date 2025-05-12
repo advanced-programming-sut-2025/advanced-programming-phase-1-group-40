@@ -138,7 +138,9 @@ public class GameController {
     }
 
     public Result hug(String username) {
+
         Game game = getCurrentGame();
+
         if (game == null) {
             return new Result(false, "You are not currently in a game.");
         }
@@ -194,9 +196,6 @@ public class GameController {
     
     public Result marriageResponse(String response, String username) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
         
         User Proposer = game.getPlayerByUsername(username);
         if(Proposer == null){
@@ -207,27 +206,21 @@ public class GameController {
 
     public Result showTradeList(String targetUsername, String type, String itemName, int amount, int price) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
 
     public Result tradeResponse(int id) {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
 
     public Result showTradeHistory() {
         Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
+
         
         return new Result(true, "");
     }
