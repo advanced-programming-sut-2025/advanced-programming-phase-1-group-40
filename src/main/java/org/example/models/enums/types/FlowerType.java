@@ -9,7 +9,7 @@ public enum FlowerType implements Item {
 //    CROCUS("Crocus", true),
     //FAIRY_ROSE(),
     POPPY("Poppy", false),
-    SUMMER_SPANGLE("Summer spangle", falpll se),
+    SUMMER_SPANGLE("Summer spangle", false),
     SWEET_PEA("Sweet pea", true),
     SUNFLOWER("Sunflower", false),
     TULIP("Tulip", false);
