@@ -2,7 +2,7 @@ package org.example.models.enums.types;
 
 import org.example.models.Item;
 
-public enum FlowerType implements Item {
+public enum FlowerType{
 
     FAIRY_ROSE(CropType.FAIRY_ROSE),
     POPPY(CropType.POPPY),
@@ -20,6 +20,7 @@ public enum FlowerType implements Item {
     public Item getItem() {
         return item;
     }
+
 
 
 }

@@ -11,6 +11,7 @@ import org.example.models.*;
 
 public interface Item{
 
+    public String getItemName();
 
 }
 

@@ -57,9 +57,9 @@ public enum ForagingCropType implements Item {
     }
 
 
-
-
-
+    public String getName() {
+        return name;
+    }
 
 
 }

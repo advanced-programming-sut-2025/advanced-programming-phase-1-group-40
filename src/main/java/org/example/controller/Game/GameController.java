@@ -137,13 +137,33 @@ public class GameController {
         return new Result(true, "");
     }
 
+    public FlowerType getFlowerType(String flowerName) {
+
+        for ( FlowerType flowerType : FlowerType.values() ) {
+
+            if ( flowerType.getItem().getItemName().equalsIgnoreCase(flowerName) ) {
+                return flowerType;
+            }
+
+
+
+        }
+
+
+
+    }
+
     public Result giveFlowerToUser(String username, String flowerName) {
+
         Game game = getCurrentGame();
         Player targetPlayer = game.getPlayerByUsername(username);
+
         if (targetPlayer == null) {
             return new Result(false, "User not found.");
         }
+
         FlowerType flowerType = FlowerType.getFlowerTypeByName(flowerName);
+
         if (flowerType == null) {
             return new Result(false, "Flower not found.");
         }
