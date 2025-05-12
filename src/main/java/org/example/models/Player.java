@@ -24,6 +24,8 @@ public class Player extends User{
     private int highestMoney;
     private int gamesPlayed;
 
+    private HashMap<Player,Friendship> friendships = new HashMap<>();
+
     public int getHighestMoney() {
         return highestMoney;
     }
@@ -55,6 +57,22 @@ public class Player extends User{
         } else {
             this.energy = energyAmount;
         }
+    }
+
+    public void setHighestMoney(int highestMoney) {
+        this.highestMoney = highestMoney;
+    }
+
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
+    }
+
+    public HashMap<Player, Friendship> getFriendships() {
+        return friendships;
+    }
+
+    public void setFriendships(Player player, Friendship friendship) {
+        this.friendships.put(player, friendship);
     }
 
     public void setCurrentTool(Tool currentTool) {
