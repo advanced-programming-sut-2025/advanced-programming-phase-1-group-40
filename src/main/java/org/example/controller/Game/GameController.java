@@ -555,31 +555,43 @@ public class GameController {
         return Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1;
     }
 
-    public Result showFriendshipLevels() {
-        /* this is shown like this:
-        Friendship w other Players:
-        Dorsa:
-        Friendship Level: 1
-        XP: 20
-        Aysu:
-        Friendship Level: 2
-        XP: 40
-         */
-
-        StringBuilder message = new StringBuilder("Friendship w other Players: ");
-        for(Player otherPlayer : App.games().){
-            if(!player.equals(otherPlayer)){
-                Friendship friendship = game.getUserByFriendship(player,otherPlayer);
-                message.append(otherPlayer.getUsername()).append(": \n").append("Friendship Level: \n").append(friendship.getLevel()).append("\n").append("XP: \n").append(friendship.getCurrentXP());
-            }
-        }
+    /**
+     * Gets the current game from DataManager
+     * @return The current game
+     */
+    private Game getCurrentGame() {
+        return DataManager.getInstance().getCurrentGame();
     }
 
-    public Result talk(String username, String message){
+    public Result showFriendshipLevels() {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+
+        StringBuilder message = new StringBuilder("Friendship w other Players:\n");
+        for (Player otherPlayer : game.getPlayers()) {
+            if (!player.equals(otherPlayer)) {
+                Friendship friendship = game.getFriendship(player, otherPlayer);
+                message.append(otherPlayer.getUsername()).append(":\n")
+                      .append("Friendship Level: ").append(friendship.getLevel()).append("\n")
+                      .append("XP: ").append(friendship.getCurrentXP()).append("\n\n");
+            }
+        }
+        
+        return new Result(true, message.toString().trim());
+    }
+
+    public Result talk(String username, String message) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
         if(message == null || message.isEmpty()){
             return new Result(false,"Message is empty.");
         }
-        Player targetPlayer = game.getPlayerByUsername();
+        Player targetPlayer = game.getPlayerByUsername(username);
         if(targetPlayer == null){
             return new Result(false,"User not found.");
         }

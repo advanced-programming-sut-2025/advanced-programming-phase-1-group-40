@@ -24,6 +24,7 @@ public class DataManager {
     private Menu currentMenu;
     private Weather currentWeather;
     private Map<String, Boolean> stayLoggedInUsers;
+    private Game currentGame;
     
     // Private constructor for singleton pattern
     private DataManager() {
@@ -230,6 +231,56 @@ public class DataManager {
         return currentWeather;
     }
     
+    // Game management methods
+    
+    /**
+     * Gets the current active game
+     * @return The current game, or null if no game is active
+     */
+    public Game getCurrentGame() {
+        return currentGame;
+    }
+
+    /**
+     * Sets the current active game
+     * @param game The game to set as current
+     */
+    public void setCurrentGame(Game game) {
+        this.currentGame = game;
+    }
+
+    /**
+     * Creates a new game with the specified players and sets it as the current game
+     * @param players The players to add to the game
+     * @return The newly created game
+     */
+    public Game createNewGame(Player[] players) {
+        Game newGame = new Game(players);
+        activeGames.add(newGame);
+        currentGame = newGame;
+        return newGame;
+    }
+
+    /**
+     * Loads a game for a player and sets it as the current game
+     * @param username The username of the player
+     * @return The loaded game, or null if no game found
+     */
+    public Game loadGameForPlayer(String username) {
+        Game game = getGameForPlayer(username);
+        if (game != null) {
+            currentGame = game;
+        }
+        return game;
+    }
+
+    /**
+     * Exits the current game
+     */
+    public void exitCurrentGame() {
+        currentGame = null;
+    }
+    
     // Persistence methods - to be implemented with JSON in the future
     
     /**
@@ -298,4 +349,5 @@ public class DataManager {
         return true;
     }
 }
+
 

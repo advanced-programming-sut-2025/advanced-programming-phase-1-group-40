@@ -53,15 +53,12 @@ public class GameMenuController {
             players.add(player);
         }
         
-        // Create the game
-        currentGame = new Game(players.toArray(new Player[0]));
-        currentGame.setCreator(App.getCurrentPlayer());
+        // Create the game and set it as current in DataManager
+        Game newGame = DataManager.getInstance().createNewGame(players.toArray(new Player[0]));
+        newGame.setCreator(App.getCurrentPlayer());
         
         // Clear previous map selections
         mapSelections.clear();
-        
-        // Add game to DataManager
-        DataManager.getInstance().addGame(currentGame);
         
         return new Result(true, "New game created successfully with " + players.size() + " players.");
     }
@@ -175,17 +172,15 @@ public class GameMenuController {
     public Result loadGame() {
         Player currentPlayer = App.getCurrentPlayer();
         
-        // Check if player has a saved game
-        Game savedGame = DataManager.getInstance().getGameForPlayer(currentPlayer.getUsername());
+        // Load the game and set it as current in DataManager
+        Game savedGame = DataManager.getInstance().loadGameForPlayer(currentPlayer.getUsername());
         
         if (savedGame == null) {
             return new Result(false, "No saved game found for " + currentPlayer.getUsername());
         }
         
-        currentGame = savedGame;
-        
         // Set the current player in the game
-        currentGame.setCurrentTurnPlayer(currentPlayer);
+        savedGame.setCurrentTurnPlayer(currentPlayer);
         
         return new Result(true, "Game loaded successfully. It's your turn!");
     }
@@ -195,6 +190,8 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result exitGame() {
+        Game currentGame = DataManager.getInstance().getCurrentGame();
+        
         if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game to exit.");
         }
@@ -209,8 +206,8 @@ public class GameMenuController {
         // Save the game state before exiting
         DataManager.getInstance().saveGameData();
         
-        // Reset the current game
-        currentGame = null;
+        // Reset the current game in DataManager
+        DataManager.getInstance().exitCurrentGame();
         
         return new Result(true, "Game exited successfully. Your progress has been saved.");
     }
@@ -254,7 +251,7 @@ public class GameMenuController {
      * @return The current game, or null if no game is active
      */
     public Game getCurrentGame() {
-        return currentGame;
+        return DataManager.getInstance().getCurrentGame();
     }
     
     /**
@@ -310,6 +307,11 @@ public class GameMenuController {
         return sb.toString();
     }
 }
+
+
+
+
+
 
 
 
