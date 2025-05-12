@@ -3,9 +3,7 @@ package org.example.controller.Game;
 import org.example.models.*;
 import org.example.models.Map.Farm;
 import org.example.models.Map.FarmManager;
-import org.example.models.Map.MapBuilder;
 import org.example.models.enums.FriendshipLevel;
-import org.example.models.enums.enviroment.Season;
 import org.example.models.persistence.DataManager;
 
 import java.util.ArrayList;
@@ -60,7 +58,7 @@ public class GameMenuController {
 
                 if( ! player1.equals(player2)) {
 
-                    player1.setFriendships(player2,new Friendship(0,FriendshipLevel.STRANGER));
+                    player1.setFriendships(player2,new FriendshipWithNPC(0,FriendshipLevel.STRANGER));
 
                 }
 
