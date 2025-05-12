@@ -2,7 +2,7 @@ package org.example.models;
 
 import org.example.models.enums.types.Gender;
 
-public class User {
+public class User extends Human {
 
     private String username;
     private String password;

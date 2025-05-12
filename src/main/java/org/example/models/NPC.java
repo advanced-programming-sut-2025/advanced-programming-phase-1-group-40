@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import java.util.*;
 
-public class NPC {
+public class NPC extends Human {
     private  String name;
     private  NPCType type;
     private  Position position;
