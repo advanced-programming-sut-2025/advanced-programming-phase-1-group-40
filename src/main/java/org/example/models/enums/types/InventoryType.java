@@ -20,6 +20,8 @@ public enum InventoryType {
 
 
     public boolean isUnlimited() {
+        // TODO
+        return true;
     }
 }
 

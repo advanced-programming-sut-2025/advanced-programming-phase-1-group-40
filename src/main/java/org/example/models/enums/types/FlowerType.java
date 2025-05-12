@@ -7,7 +7,7 @@ public enum FlowerType implements Item {
 
 //    BLUE_JAZZ("Blue jazz", false),
 //    CROCUS("Crocus", true),
-    FAIRY_ROSE(),
+    //FAIRY_ROSE(),
     POPPY("Poppy", false),
     SUMMER_SPANGLE("Summer spangle", false),
     SWEET_PEA("Sweet pea", true),

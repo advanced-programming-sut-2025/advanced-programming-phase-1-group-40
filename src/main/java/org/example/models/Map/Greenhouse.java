@@ -1,5 +1,6 @@
 package org.example.models.Map;
 
+import org.example.models.Position;
 import org.example.models.enums.enviroment.Season;
 
 /**
@@ -10,7 +11,7 @@ public class Greenhouse extends MapComponents {
     private Season internalSeason; // Can be different from farm's season
     
     public Greenhouse(int x, int y) {
-        super(x, y, 5, 6); // Greenhouse is 5x6 tiles
+        super(new Position(x, y), 5, 6); // Greenhouse is 5x6 tiles
         this.name = "Greenhouse";
         this.isUnlocked = false;
         this.internalSeason = Season.SPRING; // Default internal season

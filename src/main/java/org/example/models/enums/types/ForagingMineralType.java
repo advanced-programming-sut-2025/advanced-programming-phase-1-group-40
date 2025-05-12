@@ -4,7 +4,8 @@ import org.example.models.*;
 
 
 public enum ForagingMineralType implements Item{
-
+    // TODO
+    REGULAR(-1),
     QUARTZ(25),
     EARTH_CRYSTAL(50),
     FROZEN_TEAR(75),

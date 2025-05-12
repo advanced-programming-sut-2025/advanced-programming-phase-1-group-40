@@ -1,5 +1,6 @@
 package org.example.models.Map;
 
+import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Position;
 import org.example.models.Map.SecondaryMapComponents.Tree;
 import org.example.models.enums.enviroment.Season;
@@ -104,16 +105,17 @@ public class MapBuilder {
                 int treeRoll = random.nextInt(100);
                 
                 if (treeRoll < 40) {
-                    treeType = TreeType.OAK;
+                    treeType = TreeType.OAK_TREE;
                 } else if (treeRoll < 70) {
-                    treeType = TreeType.MAPLE;
+                    treeType = TreeType.MAPLE_TREE;
                 } else if (treeRoll < 90) {
-                    treeType = TreeType.PINE;
+                    treeType = TreeType.PINE_TREE;
                 } else {
-                    treeType = TreeType.FRUIT;
+                    // TODO
+                    //treeType = TreeType.FRUIT_TREE;
                 }
                 
-                tiles[y][x].setTreeType(treeType);
+                // tiles[y][x].setTreeType(treeType);
             }
         }
         return this;
@@ -174,7 +176,7 @@ public class MapBuilder {
                 }
                 
                 // Create a foraging crop and set it on the tile
-                ForagingCrop foragingCrop = new ForagingCrop(new Position(x, y), foragingType, season);
+                ForagingCrop foragingCrop = new ForagingCrop(new Position(x, y));
                 tiles[y][x].setForageableItem(foragingCrop);
             }
         }
@@ -213,7 +215,7 @@ public class MapBuilder {
                         farm.addComponent(new Cabin(position));
                         break;
                     case GREENHOUSE:
-                        farm.addComponent(new Greenhouse(position));
+                        farm.addComponent(new Greenhouse(x, y));
                         break;
                     case QUARRY:
                         // Find the full size of the quarry
@@ -251,10 +253,10 @@ public class MapBuilder {
                             lakeHeight++;
                         }
                         
-                        farm.addComponent(new Lake(position, lakeWidth, lakeHeight));
+                        farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
                         break;
                     case TREE:
-                        farm.addComponent(new Tree(position, tile.getTreeType()));
+                        farm.addComponent(new Tree(tile.getTreeType()));
                         break;
                     case STONE:
                         farm.addComponent(new Stone(position, tile.getStoneType()));

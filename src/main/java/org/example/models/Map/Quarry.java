@@ -16,7 +16,7 @@ public class Quarry extends MapComponents {
     private Random random;
     
     public Quarry(int x, int y, int width, int height) {
-        super(x, y, width, height);
+        super(new Position(x, y), width, height);
         this.name = "Quarry";
         this.miningQuality = 5; // Default quality
         this.random = new Random();

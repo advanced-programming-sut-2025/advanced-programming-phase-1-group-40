@@ -14,6 +14,8 @@ public class Fish {
     public Fish(FishType fish, FishingRodType fishingRod) {
         this.fish = fish;
         this.fishingRod = fishingRod;
+        // TODO
+        this.fishQuality = 1.0;
     }
 
     public FishType getFish() {

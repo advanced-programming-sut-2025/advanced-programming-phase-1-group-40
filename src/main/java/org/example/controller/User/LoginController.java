@@ -4,6 +4,7 @@ import org.example.models.*;
 import org.example.models.enums.Menu;
 import org.example.models.enums.SecurityQuestion;
 import org.example.models.enums.types.Gender;
+import org.example.models.persistence.DataManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,10 +53,10 @@ public class LoginController {
         }
         
         // Create new player
-        Player newPlayer = createUser(username, password, email);
+        Player newPlayer = createUser(username, password, email, email, gender.name());
         newPlayer.setNickname(nickname);
         if (gender != null) {
-            newPlayer.setGender(gender);
+            newPlayer.setGender(gender.name());
         }
         
         App.currentPlayer = newPlayer;
@@ -63,8 +64,8 @@ public class LoginController {
         return new Result(true, "Successfully registered.");
     }
 
-    public Player createUser(String username, String password, String email) {
-        Player newPlayer = new Player(username, password, email);
+    public Player createUser(String username, String password, String email, String nickname, String gender) {
+        Player newPlayer = new Player(new User(username, password, email, nickname, gender));
         return newPlayer;
     }
 
@@ -124,7 +125,7 @@ public class LoginController {
         
         // If no security question is set, generate a random password
         Result rand = randomPasswordGenerator();
-        String newPassword = rand.getMessage();
+        String newPassword = rand.message();
         user.setPassword(newPassword);
         return new Result(true, "Your new password is: " + newPassword);
     }

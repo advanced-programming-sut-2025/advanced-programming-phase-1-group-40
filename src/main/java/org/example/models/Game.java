@@ -163,7 +163,8 @@ public class Game {
         // If we've gone through all players, advance the time
         if (nextIndex == 0) {
             everyOnePlayed = true;
-            time.advanceHour();
+            // TODO
+            //time.advanceHour();
         }
         
         currentTurnPlayer = players.get(nextIndex);

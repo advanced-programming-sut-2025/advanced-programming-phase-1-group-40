@@ -9,7 +9,14 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 
+import java.util.regex.Matcher;
+
 
 public enum MainMenuCommands implements Command{
-    
+    ;
+
+    @Override
+    public Matcher getMatcher(String input) {
+        return null;
+    }
 }

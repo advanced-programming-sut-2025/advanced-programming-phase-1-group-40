@@ -132,7 +132,8 @@ public class Farm implements Serializable {
                         tiles[y][x].setTreeType(((Tree) component).getTreeType());
                     } else if (component instanceof ForagingMineral) {
                         tiles[y][x] = new MapTile(TileType.STONE);
-                        tiles[y][x].setForagingMineralType(((ForagingMineral) component).getForagingMineralType());
+                        // TODO
+                        // tiles[y][x].setForagingMineralType(((ForagingMineral) component).getForagingMineralType());
                     } else if (component instanceof ForagingCrop) {
                         tiles[y][x] = new MapTile(TileType.FORAGEABLE);
                         tiles[y][x].setForageableItem(component);
@@ -196,14 +197,15 @@ public class Farm implements Serializable {
     public Crop harvestCrop(int x, int y) {
         MapTile tile = getTileAt(x, y);
         if (tile != null && tile.canHarvest()) {
-            Crop harvestedCrop = tile.getCrop();
-            if (harvestedCrop.isOneTime()) {
-                tile.setCrop(null);
-                tile.setType(TileType.TILLED_SOIL);
-            } else {
-                harvestedCrop.harvest(); // Reset growth for regrowable crops
-            }
-            return harvestedCrop;
+            // TODO
+//            Crop harvestedCrop = tile.getCrop();
+//            if (harvestedCrop.isOneTime()) {
+//                tile.setCrop(null);
+//                tile.setType(TileType.TILLED_SOIL);
+//            } else {
+//                harvestedCrop.harvest(); // Reset growth for regrowable crops
+//            }
+//            return harvestedCrop;
         }
         return null;
     }
@@ -215,7 +217,8 @@ public class Farm implements Serializable {
                 MapTile tile = tiles[y][x];
                 if (tile.getType() == TileType.PLANTED_SOIL && tile.getCrop() != null) {
                     if (tile.isWatered()) {
-                        tile.getCrop().grow();
+                        // TODO
+                        //tile.getCrop().grow();
                     }
                     // Reset watered status for the next day
                     tile.setWatered(false);
@@ -234,10 +237,11 @@ public class Farm implements Serializable {
                 MapTile tile = tiles[y][x];
                 if (tile.getType() == TileType.PLANTED_SOIL && tile.getCrop() != null) {
                     // Check if crop is out of season and should die
-                    if (!tile.getCrop().canGrowInSeason(newSeason)) {
-                        tile.setCrop(null);
-                        tile.setType(TileType.TILLED_SOIL);
-                    }
+                    // TODO
+//                    if (!tile.getCrop().canGrowInSeason(newSeason)) {
+//                        tile.setCrop(null);
+//                        tile.setType(TileType.TILLED_SOIL);
+//                    }
                 }
             }
         }
@@ -446,19 +450,20 @@ public class Farm implements Serializable {
                 ForagingMineral stone = stones.get(i);
                 if (stone.contains(x, y)) {
                     // Decrease resources
-                    stone.decreaseResources();
+                    // TODO
+                    // stone.decreaseResources();
                     
                     // If fully mined, remove it
-                    if (stone.isMined()) {
-                        stones.remove(i);
-                        components.removeIf(component -> component == stone);
-                        
-                        // Update tile
-                        tile.setForagingMineralType(null);
-                        tile.setType(TileType.GROUND);
-                    }
-                    
-                    return stone;
+//                    if (stone.isMined()) {
+//                        stones.remove(i);
+//                        components.removeIf(component -> component == stone);
+//
+//                        // Update tile
+//                        tile.setForagingMineralType(null);
+//                        tile.setType(TileType.GROUND);
+//                    }
+//
+                    //return stone;
                 }
             }
         }
@@ -615,5 +620,9 @@ public class Farm implements Serializable {
         return owner;
     }
 
-   
+
+    public MapComponents getCabin() {
+        // TODO
+        return null;
+    }
 }

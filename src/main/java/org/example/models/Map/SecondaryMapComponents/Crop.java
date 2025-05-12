@@ -30,4 +30,8 @@ public class Crop extends MapComponents implements Item{
     }
 
 
+    public boolean isReadyToHarvest() {
+        // TODO
+        return true;
+    }
 }

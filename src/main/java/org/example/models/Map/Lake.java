@@ -1,5 +1,6 @@
 package org.example.models.Map;
 
+import org.example.models.Position;
 import org.example.models.enums.enviroment.Season;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class Lake extends MapComponents {
     private int fishingQuality; // 1-10 scale
     
     public Lake(int x, int y, int width, int height) {
-        super(x, y, width, height);
+        super(new Position(x, y), width, height);
         this.name = "Lake";
         this.fishingQuality = 5; // Default quality
         this.fishPopulation = new HashMap<>();

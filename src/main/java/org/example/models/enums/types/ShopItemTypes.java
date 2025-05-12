@@ -1,12 +1,14 @@
 package org.example.models.enums.types;
 
+import org.example.models.Item;
 import org.example.models.enums.enviroment.*;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-public enum ShopItemTypes {
+public enum ShopItemTypes implements Item {
+    // TODO:
     COPPER_ORE("Copper Ore", "A common ore that can be smelted into bars.", 75, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     IRON_ORE("Iron Ore", "A fairly common ore that can be smelted into bars.", 150, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),
     COAL("Coal", "A combustible rock that is useful for crafting and smelting.", 150, -1, ShopType.BLACKSMITH, new ArrayList<>(List.of(Season.SPRING, Season.SUMMER, Season.FALL, Season.WINTER))),

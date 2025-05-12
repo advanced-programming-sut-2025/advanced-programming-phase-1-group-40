@@ -33,6 +33,8 @@ public class Player extends User{
 
     }
 
+
+
     public int getEnergy() {
         return this.energy;
     }
@@ -43,6 +45,30 @@ public class Player extends User{
         } else {
             this.energy = energyAmount;
         }
+    }
+
+    public void setCurrentTool(Tool currentTool) {
+        this.currentTool = currentTool;
+    }
+
+    public void setSkillLevels(HashMap<Skill, SkillLevels> skillLevels) {
+        this.skillLevels = skillLevels;
+    }
+
+    public void setqAndA(Map<SecurityQuestion, String> qAndA) {
+        this.qAndA = qAndA;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
     }
 
     public void setCurrentPosition(Position currentPosition) {

@@ -25,12 +25,11 @@ public enum LoginCommands implements Command {
         this.pattern = Pattern.compile(this.regex);
     }
 
-    @Override
     public boolean matches(String input) {
-        return Command.super.matches(input);
+        // TODO
+        return this.pattern.matcher(input).matches();
     }
 
-    @Override
     public String getRegex() {
         return this.regex;
     }

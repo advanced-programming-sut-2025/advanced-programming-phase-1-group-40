@@ -11,6 +11,11 @@ import org.example.models.*;
 import java.util.regex.Matcher;
 
 public enum SignUpMenuCommands implements Command{
+    ;
 
 
+    @Override
+    public Matcher getMatcher(String input) {
+        return null;
+    }
 }
