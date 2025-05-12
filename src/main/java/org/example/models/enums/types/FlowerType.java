@@ -4,12 +4,12 @@ import org.example.models.Item;
 
 public enum FlowerType implements Item {
 
-
+///  TODO
 //    BLUE_JAZZ("Blue jazz", false),
 //    CROCUS("Crocus", true),
     //FAIRY_ROSE(),
     POPPY("Poppy", false),
-    SUMMER_SPANGLE("Summer spangle", false),
+    SUMMER_SPANGLE("Summer spangle", falpll se),
     SWEET_PEA("Sweet pea", true),
     SUNFLOWER("Sunflower", false),
     TULIP("Tulip", false);
