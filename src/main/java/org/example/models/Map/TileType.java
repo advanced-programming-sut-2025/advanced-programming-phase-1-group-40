@@ -4,6 +4,11 @@ package org.example.models.Map;
  * Enum representing different types of tiles on the farm map
  */
 public enum TileType {
+    DIRT,
+    ORE,
+    MONSTER_SPAWN,
+    GRASS,
+    HILL,
     GROUND,         // Basic untilled ground
     TILLED_SOIL,    // Soil that has been tilled but not watered
     WATERED_SOIL,   // Soil that has been tilled and watered

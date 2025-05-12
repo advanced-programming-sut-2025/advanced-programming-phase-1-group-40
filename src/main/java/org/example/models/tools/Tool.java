@@ -20,6 +20,10 @@ public abstract class Tool implements Item {
         this.relatedSkill = relatedSkill;
     }
 
+    public Tool() {
+        
+    }
+
     public int getEnergyNeeded() {
         return energyNeeded;
     }

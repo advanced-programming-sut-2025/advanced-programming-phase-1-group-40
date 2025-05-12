@@ -2,6 +2,7 @@ package org.example.view;
 
 import org.example.controller.User.*;
 import org.example.models.App;
+import org.example.models.Result;
 import org.example.models.enums.Menu;
 
 import java.util.Scanner;
@@ -21,12 +22,12 @@ public class MainMenu implements AppMenu {
         // Handle menu exit
         else if (input.matches("\\s*menu\\s+exit\\s*")) {
             Result result = controller.exitMenu();
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
         }
         // Handle show current menu
         else if (input.matches("\\s*show\\s+current\\s+menu\\s*")) {
             Result result = controller.showCurrentMenu();
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
         }
         // Handle user logout
         else if (input.matches("\\s*user\\s+logout\\s*")) {
@@ -45,7 +46,7 @@ public class MainMenu implements AppMenu {
     
     private void handleMenuNavigation(String menuName) {
         Result result = controller.enterMenu(menuName);
-        System.out.println(result.getMessage());
+        System.out.println(result.message());
     }
     
     private void showHelp() {

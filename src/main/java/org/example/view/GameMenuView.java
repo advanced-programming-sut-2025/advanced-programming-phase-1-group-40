@@ -24,8 +24,7 @@ public class GameMenuView implements AppMenu {
     public GameMenuView() {
         this.controller = new GameMenuController();
     }
-    
-    @Override
+
     public void run(Scanner scanner) {
         System.out.println("=== GAME MENU ===");
         System.out.println("Type 'help' to see available commands.");
@@ -79,7 +78,7 @@ public class GameMenuView implements AppMenu {
             System.out.println("Invalid command. Type 'help' to see available commands.");
         }
     }
-    
+
     private void handleNewGame(String input, Scanner scanner) {
         // Extract usernames
         Pattern pattern = Pattern.compile("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+(\\s+[a-zA-Z0-9-]+){0,3})\\s*");
@@ -160,7 +159,7 @@ public class GameMenuView implements AppMenu {
             
             if (result.success() && result.message().contains("Game is now active")) {
                 // Game is active, enter the game
-                App.setCurrentMenu(Menu.GAME);
+                App.setCurrentMenu(Menu.GAME_MENU);
             }
         }
     }
@@ -176,7 +175,7 @@ public class GameMenuView implements AppMenu {
         
         if (result.success()) {
             // Enter the game
-            App.setCurrentMenu(Menu.GAME);
+            App.setCurrentMenu(Menu.GAME_MENU);
         }
     }
     

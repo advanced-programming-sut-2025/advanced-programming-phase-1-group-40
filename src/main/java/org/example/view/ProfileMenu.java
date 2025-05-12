@@ -19,19 +19,19 @@ public class ProfileMenu implements AppMenu {
         if (input.matches("\\s*change\\s+username\\s+-u\\s+([a-zA-Z0-9-]+)\\s*")) {
             String newUsername = input.replaceAll("\\s*change\\s+username\\s+-u\\s+([a-zA-Z0-9-]+)\\s*", "$1");
             Result result = controller.changeUsername(newUsername);
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
         }
         // Handle change nickname command
         else if (input.matches("\\s*change\\s+nickname\\s+-u\\s+([a-zA-Z0-9-]+)\\s*")) {
             String newNickname = input.replaceAll("\\s*change\\s+nickname\\s+-u\\s+([a-zA-Z0-9-]+)\\s*", "$1");
             Result result = controller.changeNickname(newNickname);
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
         }
         // Handle change email command
         else if (input.matches("\\s*change\\s+email\\s+-e\\s+(.+)\\s*")) {
             String newEmail = input.replaceAll("\\s*change\\s+email\\s+-e\\s+(.+)\\s*", "$1");
             Result result = controller.changeEmail(newEmail);
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
         }
         // Handle change password command
         else if (input.matches("\\s*change\\s+password\\s+-p\\s+(.+)\\s+-o\\s+(.+)\\s*")) {
@@ -41,7 +41,7 @@ public class ProfileMenu implements AppMenu {
                 String newPassword = matcher.group(1);
                 String oldPassword = matcher.group(2);
                 Result result = controller.changePassword(oldPassword, newPassword);
-                System.out.println(result.getMessage());
+                System.out.println(result.message());
             }
         }
         // Handle user info command
@@ -105,4 +105,6 @@ public class ProfileMenu implements AppMenu {
         System.out.println("show current menu : Display the current menu name");
         System.out.println("help : Show this help message");
     }
+
+
 }

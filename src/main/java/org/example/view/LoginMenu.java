@@ -2,8 +2,11 @@ package org.example.view;
 
 import org.example.controller.User.LoginController;
 import org.example.models.App;
+import org.example.models.Player;
 import org.example.models.Result;
+import org.example.models.User;
 import org.example.models.enums.Menu;
+import org.example.models.persistence.DataManager;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -26,7 +29,7 @@ public class LoginMenu implements AppMenu {
                 boolean stayLoggedIn = matcher.group(3) != null;
                 
                 Result result = controller.login(username, password, stayLoggedIn);
-                System.out.println(result.getMessage());
+                System.out.println(result.message());
             }
         }
         // Handle forgot password command
@@ -67,9 +70,9 @@ public class LoginMenu implements AppMenu {
         String email = scanner.nextLine().trim();
         
         Result result = controller.forgotPassword(username, email);
-        System.out.println(result.getMessage());
+        System.out.println(result. message());
         
-        if (result.isSuccess()) {
+        if (result.success()) {
             forgotPasswordUsername = username;
             forgotPasswordEmail = email;
         }
@@ -78,12 +81,12 @@ public class LoginMenu implements AppMenu {
     private void handleSecurityAnswer(String answer, Scanner scanner) {
         Result result = controller.checkSecurityAnswer(forgotPasswordUsername, answer);
         
-        if (result.isSuccess()) {
+        if (result.success()) {
             System.out.println("Security answer is correct. Please enter a new password:");
             String newPassword = scanner.nextLine().trim();
-            
-            Result passwordResult = controller.resetPassword(forgotPasswordUsername, newPassword);
-            System.out.println(passwordResult.getMessage());
+            User user = DataManager.getInstance().getUserByUsername(forgotPasswordUsername);
+            Result passwordResult = controller.resetPassword((Player) user, newPassword);
+            System.out.println(passwordResult. message());
             
             // Reset the forgot password state
             forgotPasswordUsername = null;

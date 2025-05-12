@@ -21,6 +21,16 @@ public class Player extends User{
     private Map<SecurityQuestion, String> qAndA;
     private Backpack backpack;
     private ArrayList<Item> items = new ArrayList<>();
+    private int highestMoney;
+    private int gamesPlayed;
+
+    public int getHighestMoney() {
+        return highestMoney;
+    }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
 
     public Player(User user){
 

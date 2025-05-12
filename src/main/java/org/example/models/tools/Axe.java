@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class Axe extends Tool {
     public Axe(ToolTypes toolType) {
+        super();
         int energyUsage = 0;
        // super();
     }

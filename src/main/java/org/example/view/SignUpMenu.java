@@ -37,9 +37,9 @@ public class SignUpMenu implements AppMenu {
                 Gender gender = genderStr.equalsIgnoreCase("male") ? Gender.WOMAN : Gender.MAN;
 
                 Result result = controller.registerUser(username, nickname, password, email, gender);
-                System.out.println(result.getMessage());
+                System.out.println(result.message());
 
-                if (result.isSuccess()) {
+                if (result.success()) {
                     System.out.println("Registration successful! You can now set a security question.");
                 }
             }
@@ -62,13 +62,13 @@ public class SignUpMenu implements AppMenu {
                 }
 
                 Result result = controller.pickAndAnswerSecurityQuestion(App.getCurrentPlayer(), questionNumber, answer);
-                System.out.println(result.getMessage());
+                System.out.println(result.message());
             }
         }
         // Handle random password generation
         else if (input.matches("\\s*random\\s+password\\s*")) {
             Result result = controller.randomPasswordGenerator();
-            System.out.println("Generated password: " + result.getMessage());
+            System.out.println("Generated password: " + result.message());
         }
         // Handle back command
         else if (input.matches("\\s*back\\s*")) {

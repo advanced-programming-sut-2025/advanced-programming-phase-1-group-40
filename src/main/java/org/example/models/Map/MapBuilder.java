@@ -1,6 +1,7 @@
 package org.example.models.Map;
 
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
+import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
 import org.example.models.Position;
 import org.example.models.Map.SecondaryMapComponents.Tree;
 import org.example.models.enums.enviroment.Season;
@@ -256,10 +257,10 @@ public class MapBuilder {
                         farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
                         break;
                     case TREE:
-                        farm.addComponent(new Tree(tile.getTreeType()));
+                        farm.addComponent(new Tree(tile.getTreeType(),new Position(x, y)));
                         break;
                     case STONE:
-                        farm.addComponent(new Stone(position, tile.getStoneType()));
+                        farm.addComponent(new ForagingMineral(position));
                         break;
                     case FORAGEABLE:
                         if (tile.getForageableItem() instanceof ForagingCrop) {
@@ -405,7 +406,6 @@ public class MapBuilder {
             .randomlyPlaceTrees(50, Season.SPRING) // Many trees
             .randomlyPlaceStones(30)               // Many stones
             .randomlyPlaceForagingItems(25, Season.SPRING) // Many foraging items
-            .randomlyPlaceMonsters(10)             // Monsters!
             .build();
     }
 
@@ -441,18 +441,5 @@ public class MapBuilder {
         return this;
     }
 
-    private MapBuilder randomlyPlaceMonsters(int count) {
-        // In a real implementation, this would place monster spawn points
-        // For now, we'll just mark some tiles as "dangerous"
-        for (int i = 0; i < count; i++) {
-            int x = random.nextInt(width);
-            int y = random.nextInt(height);
-            
-            if (tiles[y][x].getType() == TileType.DIRT || 
-                tiles[y][x].getType() == TileType.GRASS) {
-                tiles[y][x] = new MapTile(TileType.MONSTER_SPAWN);
-            }
-        }
-        return this;
-    }
+
 }

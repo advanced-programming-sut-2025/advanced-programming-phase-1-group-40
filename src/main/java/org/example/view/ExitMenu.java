@@ -12,4 +12,5 @@ public class ExitMenu implements AppMenu {
     public void getInput(String input, Scanner scanner) {
 
     }
+
 }
