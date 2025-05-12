@@ -102,9 +102,9 @@ public class GameMenuView implements MenuView {
             }
             
             Result result = controller.createNewGame(usernames);
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
             
-            if (result.isSuccess()) {
+            if (result.success()) {
                 // Ask each player to select a map
                 System.out.println("\n" + controller.getMapTypeDescriptions());
                 System.out.println("\nEach player needs to select a map type.");
@@ -123,7 +123,7 @@ public class GameMenuView implements MenuView {
                             if (mapInput.matches("\\d+")) {
                                 int mapNumber = Integer.parseInt(mapInput);
                                 Result mapResult = controller.selectMap(mapNumber);
-                                System.out.println(mapResult.getMessage());
+                                System.out.println(mapResult.message());
                             } else {
                                 System.out.println("Invalid map selection. Please use 'game map <number>' command.");
                             }
@@ -138,7 +138,7 @@ public class GameMenuView implements MenuView {
                             Player originalPlayer = App.getCurrentPlayer();
                             App.setCurrentPlayer(player);
                             Result mapResult = controller.selectMap(randomMapType);
-                            System.out.println(mapResult.getMessage());
+                            System.out.println(mapResult.message());
                             
                             // Restore the original player
                             App.setCurrentPlayer(originalPlayer);
@@ -156,9 +156,9 @@ public class GameMenuView implements MenuView {
         if (matcher.find()) {
             int mapNumber = Integer.parseInt(matcher.group(1));
             Result result = controller.selectMap(mapNumber);
-            System.out.println(result.getMessage());
+            System.out.println(result.message());
             
-            if (result.isSuccess() && result.getMessage().contains("Game is now active")) {
+            if (result.success() && result.message().contains("Game is now active")) {
                 // Game is active, enter the game
                 App.setCurrentMenu(Menu.GAME);
             }
@@ -167,14 +167,14 @@ public class GameMenuView implements MenuView {
     
     private void handleNextTurn() {
         Result result = controller.nextTurn();
-        System.out.println(result.getMessage());
+        System.out.println(result.message());
     }
     
     private void handleLoadGame() {
         Result result = controller.loadGame();
-        System.out.println(result.getMessage());
+        System.out.println(result.message());
         
-        if (result.isSuccess()) {
+        if (result.success()) {
             // Enter the game
             App.setCurrentMenu(Menu.GAME);
         }
@@ -182,9 +182,9 @@ public class GameMenuView implements MenuView {
     
     private void handleExitGame() {
         Result result = controller.exitGame();
-        System.out.println(result.getMessage());
+        System.out.println(result.message());
         
-        if (result.isSuccess()) {
+        if (result.success()) {
             // Return to main menu
             App.setCurrentMenu(Menu.MAIN_MENU);
         }
@@ -193,9 +193,9 @@ public class GameMenuView implements MenuView {
     private void handleVoteTerminate(String input) {
         boolean vote = input.contains("yes");
         Result result = controller.voteToTerminateGame(vote);
-        System.out.println(result.getMessage());
+        System.out.println(result.message());
         
-        if (result.isSuccess() && result.getMessage().contains("The game has been deleted")) {
+        if (result.success() && result.message().contains("The game has been deleted")) {
             // Return to main menu
             App.setCurrentMenu(Menu.MAIN_MENU);
         }
