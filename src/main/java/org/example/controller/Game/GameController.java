@@ -18,20 +18,264 @@ import static org.example.models.App.*;
 
 public class GameController {
     Player player = App.getCurrentPlayer();
-    // Add the game field
-    private Game game;
     
-    public GameController() {
-        // Initialize the game field with the current player's game
-        this.game = DataManager.getInstance().getGameForPlayer(player.getUsername());
+    /**
+     * Gets the current game from DataManager
+     * @return The current game
+     */
+    private Game getCurrentGame() {
+        return DataManager.getInstance().getCurrentGame();
     }
 
-    public void skillUp(SkillUpTypes skillUpType) {
+    public Result showFriendshipLevels() {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
 
+        StringBuilder message = new StringBuilder("Friendship w other Players:\n");
+        for (Player otherPlayer : game.getPlayers()) {
+            if (!player.equals(otherPlayer)) {
+                Friendship friendship = game.getFriendship(player, otherPlayer);
+                message.append(otherPlayer.getUsername()).append(":\n")
+                      .append("Friendship Level: ").append(friendship.getLevel()).append("\n")
+                      .append("XP: ").append(friendship.getCurrentXP()).append("\n\n");
+            }
+        }
+        
+        return new Result(true, message.toString().trim());
     }
 
+    public Result talk(String username, String message) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        if(message == null || message.isEmpty()){
+            return new Result(false,"Message is empty.");
+        }
+        Player targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        if(isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())) {
+            //all conditions passed for sending the message
+            //game error
 
+            return new Result(true, "You have successfully sent a message to: "
+             + targetPlayer.getUsername() + ". Your current friendship level with them is " 
+             + game.getUserFriendship(player, targetPlayer));
+        }
+        return new Result(false, "You must stand next to "+targetPlayer.getUsername()+"to be able to talk to them.");
+    }
 
+    public Result showTalkHistoryWithUser(String username) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        User targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        StringBuilder historyMessage = new StringBuilder("Your talk history with "+username+": ");
+        HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(player).get(targetPlayer);
+        historyMessage.append("You: ").append(sentMessages).append("\n");
+        HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(player).get(targetPlayer);
+        historyMessage.append(username).append(": \n").append(receivedMessages).append("\n");
+        return new Result(true, historyMessage.toString().trim());
+    }
+
+    public Result giveGift(String username, String itemName, int amount) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        User targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        if(!isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())){
+            return new Result(false,"You must get near to "+username+" to be able to give them a gift.");
+        }
+        Item item = player.getBackpack().getItemFromInventoryByName(itemName);
+        //get item from backpack
+        if(item == null){
+            return new Result(false,"Item not found.");
+        }
+    }
+
+    public Result giftList() {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
+        for(Gift gift: player.getGift()){
+            giftListMessage.append(gift.getId()).append('\n').append(gift.getItem()).append(" (x").append(gift.getAmount()).append(") given by").append(gift.getSender().getUsername()).append("\n");
+            if(gift.getRating()==0){
+                giftListMessage.append("You have not rated this gift yet!");
+            }
+            else{
+                giftListMessage.append("the rate you have given to this gift is: ").append(gift.getRating()).append("\n");
+            }
+
+        }
+        return new Result(true, giftListMessage.toString());
+    }
+
+    public Result giftRate(int giftNumber, int rate) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result hug(String username) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+    
+    public Result giveFlowerToUser(String username, String flowerName) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        User targetPlayer = game.getPlayerByUsername(username);
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+        FlowerType flowerType = FlowerType.getFlowerTypeByName(flowerName);
+        if(flowerType == null){
+            return new Result(false,"Flower not found.");
+        }
+        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
+            return new Result(false, "You must get near to "+username+" to be able to give them a flower.\n");
+        }
+        // implement the act of giving flowers.
+    }
+
+    public Result askMarriage(String username, Object ring) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+
+        User targetPlayer = game.getPlayerByUsername(username);
+
+        if(targetPlayer == null){
+            return new Result(false,"User not found.");
+        }
+
+        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
+            return new Result(false,"You must get near to "+username+" to propose to them.\n");
+        }
+        if(player.getGender().equals(targetPlayer.getGender())){
+            return new Result(false,"You are not allowed to marry a person of the same gender.");
+        }
+        boolean hasRing = false;
+        //check if the person proposing has a ring or not
+        if(!hasRing){
+            return new Result(false, "You do not have a ring to propose with:(");
+        }
+        //after passing all of the conditions, now is the time to actually propose.
+    }
+    
+    public Result marriageResponse(String response, String username) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        User Proposer = game.getPlayerByUsername(username);
+        if(Proposer == null){
+            return new Result(false,"User not found.");
+        }
+        return null;
+    }
+
+    public Result showTradeList(String targetUsername, String type, String itemName, int amount, int price) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result tradeResponse(int id) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result showTradeHistory() {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result meetNPC(String npcName) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return null;
+    }
+
+    public Result giftNPC(String NCPName, String itemName) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result showFriendshipNPCList() {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result showQuestsList() {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
+
+    public Result finishQuest(int index) {
+        Game game = getCurrentGame();
+        if (game == null) {
+            return new Result(false, "You are not currently in a game.");
+        }
+        
+        return new Result(true, "");
+    }
     public Result showPlayerEnergy() {
         int playerEnergy = player.getEnergy();
         return new Result(true, "Your energy is: " + playerEnergy);
@@ -553,195 +797,6 @@ public class GameController {
         int x2 = positionTwo.getX();
         int y2 = positionTwo.getY();
         return Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1;
-    }
-
-    /**
-     * Gets the current game from DataManager
-     * @return The current game
-     */
-    private Game getCurrentGame() {
-        return DataManager.getInstance().getCurrentGame();
-    }
-
-    public Result showFriendshipLevels() {
-        Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-
-        StringBuilder message = new StringBuilder("Friendship w other Players:\n");
-        for (Player otherPlayer : game.getPlayers()) {
-            if (!player.equals(otherPlayer)) {
-                Friendship friendship = game.getFriendship(player, otherPlayer);
-                message.append(otherPlayer.getUsername()).append(":\n")
-                      .append("Friendship Level: ").append(friendship.getLevel()).append("\n")
-                      .append("XP: ").append(friendship.getCurrentXP()).append("\n\n");
-            }
-        }
-        
-        return new Result(true, message.toString().trim());
-    }
-
-    public Result talk(String username, String message) {
-        Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
-        
-        if(message == null || message.isEmpty()){
-            return new Result(false,"Message is empty.");
-        }
-        Player targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
-        }
-        if(isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())) {
-            //all conditions passed for sending the message
-            //game error
-
-            return new Result(true, "You have successfully sent a message to: " + targetPlayer.getUsername() + ". Your current friendship level with them is " + game.getUserFriendship(player, targetPlayer)).toString();
-        }
-        return new Result(false, "You must stand next to "+targetPlayer.getUsername()+"to be able to talk to them.");
-    }
-
-    public Result showTalkHistoryWithUser(String username) {
-        User targetPlayer = game.getPlayerByUsername;
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
-        }
-        StringBuilder historyMessage = new StringBuilder("Your talk history with "+username+": ");
-        HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(player).get(targetPlayer);
-        historyMessage.append("You: ").append(sentMessages).append("\n");
-        HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(player).get(targetPlayer);
-        historyMessage.append(username).append(": \n").append(receivedMessages).append("\n");
-        return new Result(true, historyMessage.toString().trim());
-    }
-
-    public Result giveGift(String username, String itemName, int amount) {
-        User targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
-        }
-        if(!isNear(player.getCurrentPosition(),targetPlayer.getCurrentPosition())){
-            return new Result(false,"You must get near to "+username+" to be able to give them a gift.");
-        }
-        Item item = player.getBackpack().getItemFromInventoryByName(itemName);
-        //get item from backpack
-        if(targetItem == null){
-            return new Result(false,"Item not found.");
-        }
-    }
-
-    public Result giftList() {
-        StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
-        for(Gift gift: player.getGift()){
-            giftListMessage.append(gift.getId()).append('\n').append(gift.getItem()).append(" (x").append(gift.getAmount()).append(") given by").append(gift.getSender().getUsername()).append("\n");
-            if(gift.getRating()==0){
-                giftListMessage.append("You have not rated this gift yet!");
-            }
-            else{
-                giftListMessage.append("the rate you have given to this gift is: ").append(gift.getRating()).append("\n");
-            }
-
-        }
-        return new Result(true, giftListMessage.toString());
-    }
-
-    public Result giftRate(int giftNumber, int rate) {
-        return new Result(true, "");
-    }
-
-    public Result hug(String username) {
-        return new Result(true, "");
-    }
-    public Result giveFlowerToUser(String username, String flowerName) {
-        User targetPlayer = game.getPlayerByUsername(username);
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
-        }
-        FlowerType flowerType = FlowerType.getFlowerTypeByName(flowerName);
-        if(flowerType == null){
-            return new Result(false,"Flower not found.");
-        }
-        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
-            return new Result(false, "You must get near to "+username+" to be able to give them a flower.\n");
-        }
-        // implement the act of giving flowers.
-
-    }
-
-    public Result askMarriage(String username, Object ring) {
-
-        User targetPlayer = game.getPlayerByUsername(username);
-
-        if(targetPlayer == null){
-            return new Result(false,"User not found.");
-        }
-
-        if( !isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition()) ){
-            return new Result(false,"You must get near to "+username+" to propose to them.\n");
-        }
-        if(player.getGender().equals(targetPlayer.getGender())){
-            return new Result(false,"You are not allowed to marry a person of the same gender.");
-        }
-        boolean hasRing = false;
-        //check if the person proposing has a ring or not
-        if(!hasRing){
-            return new Result(false, "You do not have a ring to propose with:(");
-        }
-        //after passing all of the conditions, now is the time to actually propose.
-
-    }
-    public Result marriageResponse(String response, String username) {
-        User Proposer = game.getPlayerByUsername(username);
-        if(Proposer == null){
-            return new Result(false,"User not found.");
-        }
-    }
-
-
-
-    public Result showTradeList(String targetUsername, String type, String itemName, int amount, int price) { // type?
-        return new Result(true, "");
-    }
-
-    public Result tradeResponse(int id) {
-        return new Result(true, "");
-    }
-
-    public Result showTradeHistory() {
-        return new Result(true, "");
-    }
-
-
-
-    public Result meetNPC(String npcName){
-    return null;
-    }
-
-    public Result giftNPC(String NCPName, String itemName) {
-        return new Result(true, "");
-    }
-
-    public Result showFriendshipNPCList() {
-        return new Result(true, "");
-    }
-
-    public Result showQuestsList() {
-        return new Result(true, "");
-    }
-
-    public Result finishQuest(int index) {
-        return new Result(true, "");
-    }
-
-    private NPC geNPCByName(String NPCName) {
-        for(NPC npc : NPC){
-            if(npc.getName().equals(NPCName)){
-                return npc;
-            }
-        }
-        return null;
     }
 
     public void handleSkillXPGain(Skill skill) {
