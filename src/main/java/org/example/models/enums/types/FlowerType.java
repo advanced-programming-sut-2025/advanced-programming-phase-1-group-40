@@ -4,37 +4,22 @@ import org.example.models.Item;
 
 public enum FlowerType implements Item {
 
-///  TODO
-//    BLUE_JAZZ("Blue jazz", false),
-//    CROCUS("Crocus", true),
-    //FAIRY_ROSE(),
-    POPPY("Poppy", false),
-    SUMMER_SPANGLE("Summer spangle", false),
-    SWEET_PEA("Sweet pea", true),
-    SUNFLOWER("Sunflower", false),
-    TULIP("Tulip", false);
+    FAIRY_ROSE(CropType.FAIRY_ROSE),
+    POPPY(CropType.POPPY),
+    SUMMER_SPANGLE(CropType.SUMMER_SPANGLE),
+    SWEET_PEA(ForagingCropType.SWEET_PEA),
+    SUNFLOWER(CropType.SUNFLOWER),
+    TULIP(CropType.TULIP);
 
-    private final String name;
-    private final Boolean isForaging;
+    private final Item item;
 
-    FlowerType(String name, Boolean isForaging) {
-        this.name = name;
-        this.isForaging = isForaging;
-    }
-    public String getName() {
-        return name;
-    }
-    public static FlowerType getFlowerTypeByName(String name) {
-        for (FlowerType flowerType : FlowerType.values()) {
-            if (flowerType.getName().equals(name)) {
-                return flowerType;
-            }
-        }
-        return null;
+    FlowerType(Item item) {
+        this.item = item;
     }
 
-
-
+    public Item getItem() {
+        return item;
+    }
 
 
 }
