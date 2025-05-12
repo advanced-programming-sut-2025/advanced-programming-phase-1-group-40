@@ -6,6 +6,8 @@ import org.example.models.enums.enviroment.Season;
 
 public enum ForagingCropType implements Item {
 
+
+
     COMMON_MUSHROOM("Common Mushroom",Season.SPECIAL, 40, 38),
     DAFFODIL("Daffodil",Season.SPRING, 30, 0),
     DANDELION("Dandelion",Season.SPRING, 40, 25),
@@ -53,6 +55,11 @@ public enum ForagingCropType implements Item {
     public int getEnergy() {
         return energy;
     }
+
+
+
+
+
 
 
 }

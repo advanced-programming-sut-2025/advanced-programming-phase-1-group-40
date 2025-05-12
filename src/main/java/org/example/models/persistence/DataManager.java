@@ -14,10 +14,11 @@ import java.util.Map;
  * This class will store all data in memory and provide methods to save/load from persistent storage
  */
 public class DataManager {
+
     private static DataManager instance;
     
     // Data collections
-    private ArrayList<Player> users;
+    private ArrayList<Player> players;
     private ArrayList<Game> activeGames;
     private Map<String, Farm> userFarms;
     private Player currentPlayer;
@@ -27,7 +28,7 @@ public class DataManager {
     
     // Private constructor for singleton pattern
     private DataManager() {
-        this.users = new ArrayList<>();
+        this.players = new ArrayList<>();
         this.activeGames = new ArrayList<>();
         this.userFarms = new HashMap<>();
         this.stayLoggedInUsers = new HashMap<>();
@@ -51,7 +52,7 @@ public class DataManager {
      * This is a temporary method until we implement proper persistence
      */
     public void initializeFromApp() {
-        this.users = App.users;
+        this.players = App.users;
         this.activeGames = App.games;
         this.currentPlayer = App.currentPlayer;
         this.currentMenu = App.currentMenu;
@@ -63,7 +64,7 @@ public class DataManager {
      * This is a temporary method until we implement proper persistence
      */
     public void updateApp() {
-        App.users = this.users;
+        App.users = this.players;
         App.games = this.activeGames;
         App.currentPlayer = this.currentPlayer;
         App.currentMenu = this.currentMenu;
@@ -77,7 +78,7 @@ public class DataManager {
      * @param user The user to add
      */
     public void addUser(Player user) {
-        users.add(user);
+        players.add(user);
     }
     
     /**
@@ -86,7 +87,7 @@ public class DataManager {
      * @return The user with the given username, or null if not found
      */
     public Player getUserByUsername(String username) {
-        for (Player user : users) {
+        for (Player user : players) {
             if (user.getUsername().equals(username)) {
                 return user;
             }
@@ -99,7 +100,7 @@ public class DataManager {
      * @return List of all users
      */
     public ArrayList<Player> getAllUsers() {
-        return users;
+        return players;
     }
     
     /**
@@ -158,7 +159,7 @@ public class DataManager {
      * Gets all active games
      * @return List of active games
      */
-    public List<Game> getActiveGames() {
+    public ArrayList<Game> getActiveGames() {
         return activeGames;
     }
 

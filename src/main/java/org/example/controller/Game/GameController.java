@@ -659,11 +659,14 @@ public class GameController {
     }
 
     public Result askMarriage(String username, Object ring) {
+
         User targetPlayer = game.getPlayerByUsername(username);
+
         if(targetPlayer == null){
             return new Result(false,"User not found.");
         }
-        if(!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())){
+
+        if( !isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition()) ){
             return new Result(false,"You must get near to "+username+" to propose to them.\n");
         }
         if(player.getGender().equals(targetPlayer.getGender())){
