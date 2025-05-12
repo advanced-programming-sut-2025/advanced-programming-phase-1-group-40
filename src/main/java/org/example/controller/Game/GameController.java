@@ -137,7 +137,7 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public FlowerType getFlowerType(String flowerName) {
+    public FlowerType getFlowerTypeByName(String flowerName) {
 
         for ( FlowerType flowerType : FlowerType.values() ) {
 
@@ -162,7 +162,7 @@ public class GameController {
             return new Result(false, "User not found.");
         }
 
-        FlowerType flowerType = FlowerType.getFlowerTypeByName(flowerName);
+        FlowerType flowerType = getFlowerTypeByName(flowerName);
 
         if (flowerType == null) {
             return new Result(false, "Flower not found.");
