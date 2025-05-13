@@ -17,19 +17,19 @@ public class DataManager {
     private static DataManager instance;
     
     // Data collections
-    private ArrayList<Player> players;
-    private ArrayList<Game> activeGames;
-    private Map<String, Farm> userFarms;
+    private ArrayList<User> players;                    /// USER ESH KON
+    private ArrayList<Game> games;
+    private Map<String, Farm> userFarms;                /// DELTE KON
     private Player currentPlayer;
     private Menu currentMenu;
-    private Weather currentWeather;
-    private Map<String, Boolean> stayLoggedInUsers;
+    private Weather currentWeather;                     /// DELTE KON
+    private Map<String, Boolean> stayLoggedInUsers;     /// DELETE KON
     private Game currentGame;
     
     // Private constructor for singleton pattern
     private DataManager() {
         this.players = new ArrayList<>();
-        this.activeGames = new ArrayList<>();
+        this.games = new ArrayList<>();
         this.userFarms = new HashMap<>();
         this.stayLoggedInUsers = new HashMap<>();
         this.currentMenu = Menu.LOGIN_MENU;
@@ -149,7 +149,7 @@ public class DataManager {
      * @param game The game to add
      */
     public void addGame(Game game) {
-        activeGames.add(game);
+        games.add(game);
     }
 
     /**
@@ -157,15 +157,15 @@ public class DataManager {
      * @param game The game to remove
      */
     public void removeGame(Game game) {
-        activeGames.remove(game);
+        games.remove(game);
     }
 
     /**
      * Gets all active games
      * @return List of active games
      */
-    public ArrayList<Game> getActiveGames() {
-        return activeGames;
+    public ArrayList<Game> getGames() {
+        return games;
     }
 
     /**
@@ -174,7 +174,7 @@ public class DataManager {
      * @return The game the player is in, or null if not found
      */
     public Game getGameForPlayer(String username) {
-        for (Game game : activeGames) {
+        for (Game game : games) {
             if (game.hasPlayer(username)) {
                 return game;
             }
@@ -261,7 +261,7 @@ public class DataManager {
      */
     public Game createNewGame(Player[] players) {
         Game newGame = new Game(players);
-        activeGames.add(newGame);
+        games.add(newGame);
         currentGame = newGame;
         return newGame;
     }
