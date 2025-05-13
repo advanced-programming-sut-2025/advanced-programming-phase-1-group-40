@@ -1,23 +1,22 @@
 package org.example.models;
 
 import org.example.models.Map.Farm;
+import org.example.models.Map.MapTile;
+import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.enviroment.Time;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Represents a game session with multiple players
- */
+
 public class Game {
 
+    private final Integer gameID;
     private final ArrayList<Player> players;
     private ArrayList<Farm> farms;
+    private ArrayList<ArrayList<MapTile>> map;
     private Player currentTurnPlayer;
-    private final int numberOfPlayers;
-    private boolean everyOnePlayed;
-    private boolean active;
     private Map<String, Boolean> terminationVotes;
     private Player creator;
     private Time time;
@@ -25,7 +24,6 @@ public class Game {
 
     public Game(Player... players) {
 
-        everyOnePlayed = false;
 
         this.players = new ArrayList<>();
 
@@ -33,25 +31,16 @@ public class Game {
             this.players.add(player);
         }
 
-        numberOfPlayers = players.length;
-
 
         time = new Time();
 
         this.farms = new ArrayList<>();
-        this.active = true;
         this.terminationVotes = new HashMap<>();
 
     }
 
 
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
 
-    public boolean isEveryOnePlayed() {
-        return everyOnePlayed;
-    }
 
     public Map<String, Boolean> getTerminationVotes() {
         return terminationVotes;
@@ -76,15 +65,7 @@ public class Game {
     public void setCurrentTurnPlayer(Player player) {
         this.currentTurnPlayer = player;
     }
-    
 
-    public boolean isActive() {
-        return active;
-    }
-    
-    public void setActive(boolean active) {
-        this.active = active;
-    }
     
     public Player getCreator() {
         return creator;
@@ -159,7 +140,7 @@ public class Game {
         
         // If we've gone through all players, advance the time
         if (nextIndex == 0) {
-            everyOnePlayed = true;
+//            everyOnePlayed = true;
             // TODO
             //time.advanceHour();
         }

@@ -94,4 +94,6 @@ public class Time {
     public void setCurrentTime(LocalTime currentTime) {
         this.currentTime = currentTime;
     }
+
+
 }

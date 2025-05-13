@@ -9,6 +9,7 @@ import java.io.Serializable;
  * Represents a single tile on the farm map
  */
 public class MapTile implements Serializable {
+
     private static final long serialVersionUID = 1L;
     
     private TileType type;
