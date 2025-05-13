@@ -9,7 +9,7 @@ import org.example.models.persistence.DataManager;
 
 public class PreGameMenuController {
     public Result startGame() {
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = DataManager.getInstance().getCurrentPlayer();
         
         // Check if player is already in a game
         Game existingGame = DataManager.getInstance().getGameForPlayer(currentPlayer.getUsername());

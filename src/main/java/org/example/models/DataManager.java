@@ -63,11 +63,8 @@ public class DataManager {
      * This is a temporary method until we implement proper persistence
      */
     public void initializeFromApp() {
-        this.players = App.users;
-        this.activeGames = App.games;
-        this.currentPlayer = App.currentPlayer;
-        this.currentMenu = App.currentMenu;
-        this.currentWeather = App.currentWeather;
+        // Remove this method as App no longer stores data
+        // Or keep it empty for backward compatibility
     }
     
     /**
@@ -75,11 +72,8 @@ public class DataManager {
      * This is a temporary method until we implement proper persistence
      */
     public void updateApp() {
-        App.users = this.players;
-        App.games = this.activeGames;
-        App.currentPlayer = this.currentPlayer;
-        App.currentMenu = this.currentMenu;
-        App.currentWeather = this.currentWeather;
+        // Remove this method as App no longer stores data
+        // Or keep it empty for backward compatibility
     }
     
     // User management methods

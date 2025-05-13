@@ -47,9 +47,6 @@ public class GameMenuController {
             }
 
             players.add(player);
-
-
-
         }
 
         for ( Player player1 : players ) {
@@ -68,7 +65,7 @@ public class GameMenuController {
 
         // Create the game and set it as current in DataManager
         Game newGame = DataManager.getInstance().createNewGame(players.toArray(new Player[0]));
-        newGame.setCreator(App.getCurrentPlayer());
+        newGame.setCreator(DataManager.getInstance().getCurrentPlayer());
 
         // Clear previous map selections
         mapSelections.clear();
@@ -150,11 +147,12 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result nextTurn() {
+        Game currentGame = DataManager.getInstance().getCurrentGame();
         if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game. Please create or load a game first.");
         }
 
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = DataManager.getInstance().getCurrentPlayer();
 
         // Check if it's the current player's turn
         if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
@@ -164,8 +162,8 @@ public class GameMenuController {
         // Move to the next player's turn
         Player nextPlayer = currentGame.nextTurn();
 
-        // Set the current player in App to the next player
-        App.currentPlayer = nextPlayer;
+        // Set the current player in DataManager to the next player
+        DataManager.getInstance().setCurrentPlayer(nextPlayer);
 
         // Save game state
         DataManager.getInstance().saveGameData();

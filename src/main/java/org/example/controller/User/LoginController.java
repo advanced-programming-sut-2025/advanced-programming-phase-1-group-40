@@ -23,14 +23,14 @@ public class LoginController {
             return new Result(false, "Password is incorrect!");
         }
         
-        App.setCurrentPlayer(user);
+        DataManager.getInstance().setCurrentPlayer(user);
         
         // Implement stay-logged-in functionality
         if (stayLoggedIn) {
             DataManager.getInstance().setStayLoggedIn(username, true);
         }
         
-        App.setCurrentMenu(Menu.MAIN_MENU);
+        DataManager.getInstance().setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "Login successful! Welcome, " + username + "!");
     }
 
@@ -59,8 +59,8 @@ public class LoginController {
             newPlayer.setGender(gender.name());
         }
         
-        App.currentPlayer = newPlayer;
-        App.users.add(newPlayer);
+        DataManager.getInstance().setCurrentPlayer(newPlayer);
+        DataManager.getInstance().addUser(newPlayer);
         return new Result(true, "Successfully registered.");
     }
 
@@ -156,7 +156,7 @@ public class LoginController {
 
     // Helper methods
     private Player getUserByUsername(String username) {
-        for (Player user : App.users) {
+        for (Player user : DataManager.getInstance().getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 return user;
             }
