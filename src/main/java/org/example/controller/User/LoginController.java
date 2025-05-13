@@ -9,38 +9,66 @@ import org.example.models.enums.types.Gender;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+
+import static sun.net.ftp.FtpDirEntry.Permission.USER;
 
 public class LoginController {
 
-    public Result registerUser(String username, String nickname, String password, String email, Gender gender) {
-        // Check if username already exists
-        if (getUserByUsername(username) != null) {
-            // Generate alternative username
-            String alternativeUsername = generateAlternativeUsername(username);
-            return new Result(false, "Username already exists. Would you like to use " + alternativeUsername + " instead?");
+
+    ///  REGISTER
+
+    public Result registerUser(Matcher input) {
+
+        String username = input.group("username");
+        String password = input.group("password");
+        String repeatPassword = input.group("repeatPassword");
+        String nickname = input.group("nickname");
+        String email = input.group("email");
+        String gender = input.group("gender");
+
+
+        if ( ! usernameAlreadyExists(username)) {                               ///  TODO
+            return new Result(false, "Username already exists!");
         }
 
-        // Validate username format
-        if (!isUsernameValid(username)) {
-            return new Result(false, "Invalid username format. Username can only contain letters, numbers, and hyphens.");
+
+        if ( ! isUsernameValid(username) ) {                                    ///  TODO
+            return new Result(false, "Invalid username format!");
         }
 
-        // Validate email format
-        if (!isEmailValid(email)) {
-            return new Result(false, "Invalid email format. Please enter a valid email address.");
+
+        if (!isEmailValid(email)) {                                             ///  TODO
+            return new Result(false, "Invalid email format.");
         }
 
-        // Create new player
-        Player newPlayer = createUser(username, password, email, email, gender.name());
-        newPlayer.setNickname(nickname);
-        if (gender != null) {
-            newPlayer.setGender(gender.name());
-        }
+        // EVERYTHING FINE -> CREATE USER
+
+        User newUser = new User(username, password, nickname, email, gender);
+
 
         DataManager.getInstance().setCurrentPlayer(newPlayer);
         DataManager.getInstance().addUser(newPlayer);
+
         return new Result(true, "Successfully registered.");
     }
+
+    public boolean usernameAlreadyExists(String username) {                 ///  TODO
+        return false;
+    }
+
+    private boolean isUsernameValid(String username) {          ///  TODO
+
+        return true;
+
+    }
+
+    private boolean isEmailValid(String email) {                ///  TODO
+        return true;
+    }
+
+
+    ///  LOGIN
 
     public Result login(String username, String password, boolean stayLoggedIn) {
         Player user = getUserByUsername(username);
@@ -193,13 +221,7 @@ public class LoginController {
 
 
 
-    private boolean isUsernameValid(String username) {
-        return username.matches("[a-zA-Z0-9-]+");
-    }
 
-    private boolean isEmailValid(String email) {
-        return email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
-    }
 
     public Result checkSecurityAnswer(String forgotPasswordUsername, String answer) {
         // TODO

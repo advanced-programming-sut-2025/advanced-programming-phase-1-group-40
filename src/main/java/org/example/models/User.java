@@ -2,6 +2,8 @@ package org.example.models;
 
 import org.example.models.enums.types.Gender;
 
+import java.util.HashMap;
+
 public class User extends Human {
 
     private String username;
@@ -12,11 +14,14 @@ public class User extends Human {
 
 
     public User(String username, String password, String nickname, String email, String gender) {
+
+        super(new HashMap<>());
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.email = email;
         this.gender = gender;
+
     }
 
     public String getUsername() {
