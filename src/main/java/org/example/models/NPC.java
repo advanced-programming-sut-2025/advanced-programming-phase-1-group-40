@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class NPC extends Human {
+
     private  String name;
     private  NPCType type;
     private  Position position;
@@ -14,6 +15,9 @@ public class NPC extends Human {
     private  ArrayList<String> dialog;
     private  HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> quests;
     private  ArrayList<Item> favorites;
+
+    
+
     public String getName() {
         return name;
     }
@@ -33,15 +37,7 @@ public class NPC extends Human {
     public ArrayList<String> getDialog() {
         return dialog;
     }
-    /*public NPC(NPCType type) {
-        this.type = type;
-        this.name = type.getName();
-        this.role = type.getRole();
-        this.dialog = new ArrayList<>();
-        this.quests = type.getQuests();
-        this.favorites = type.getFavorites();
-        this.position = new Position(0, 0);
-    }*/
+
 
 
 

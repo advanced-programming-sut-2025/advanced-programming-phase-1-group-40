@@ -12,9 +12,26 @@ import org.example.models.*;
 
 public enum LoginCommands implements Command {
 
-    USERNAME_REGEX("^[a-zA-Z0-9-]+$"),
-    PASSWORD_REGEX("^[a-zA-Z0-9?<>,\"';:\\\\/|\\[\\] {}+=)(*&^%\\$#!]+$"),
-    EMAIL_REGEX("^(?!.*\\.\\.)[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z]{2,}$");
+    ///  REGISTER
+
+    REGISTER("\\s*register\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)\\s+(?<repeatPassword>\\S+)\\s+-n\\s+(?<nickname>\\S+)\\s+-e\\s+(?<email>\\S+)\\s+-g\\s+(?<gender>\\S+)\\s*"),
+    USERNAME_REGEX(".+"),
+    EMAIL_REGEX(".+"),
+    PASSWORD_REGEX(".+"),
+    PICK_QUESTION("\\s*pick\\s+question\\s+-q\\s+(?<questionNumber>\\S+)\\s+-a\\s+(?<answer>\\S+)\\s+-c\\s+(?<answerConfirm>\\S+)\\s*"),
+
+
+    /// LOGIN
+
+    LOGIN("\\s*login\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)(\\s+-stay-logged-in)?\\s*"),
+    FORGET_PASSWORD("\\s*forget\\s+password\\s+-u\\s+(?<username>\\S+)\\s*"),
+    ANSWER("\\s*answer\\s+-a\\s+(?<answer>\\S+)\\s*"),
+
+
+
+    EXIT("\\s*menu\\s+exit\\s*"),
+    SHOW_CURRENT_MENU("\\s*menu\\s+show\\s+menu\\s*");
+
 
 
     private final String regex;

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class GameController {
+
     Player player = App.getCurrentPlayer();
 
     /**
@@ -22,6 +23,7 @@ public class GameController {
      *
      * @return The current game
      */
+
     private Game getCurrentGame() {
         return DataManager.getInstance().getCurrentGame();
     }
@@ -786,4 +788,14 @@ public class GameController {
             // Could send a notification or apply immediate effects
         }
     }
+
+
+
+
+
+    /// AMIR YOUSOF: INVENTORY
+
+
+
+
 }

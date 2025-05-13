@@ -12,6 +12,8 @@ import java.util.Random;
 
 public class LoginController {
 
+
+
     public Result login(String username, String password, boolean stayLoggedIn) {
         Player user = getUserByUsername(username);
         
@@ -33,6 +35,8 @@ public class LoginController {
         DataManager.getInstance().setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "Login successful! Welcome, " + username + "!");
     }
+
+
 
     public Result registerUser(String username, String nickname, String password, String email, Gender gender) {
         // Check if username already exists
@@ -64,10 +68,14 @@ public class LoginController {
         return new Result(true, "Successfully registered.");
     }
 
+
+
     public Player createUser(String username, String password, String email, String nickname, String gender) {
         Player newPlayer = new Player(new User(username, password, email, nickname, gender));
         return newPlayer;
     }
+
+
 
     public Result randomPasswordGenerator() {
         int length = new Random().nextInt(13) + 8;
@@ -80,12 +88,16 @@ public class LoginController {
         return new Result(true, sb.toString());
     }
 
+
+
     public Result showSecurityQuestions() {
         for (SecurityQuestion question : SecurityQuestion.values()) {
             System.out.println(question);
         }
         return new Result(true, "Security questions displayed.");
     }
+
+
 
     public Result pickAndAnswerSecurityQuestion(Player user, int questionNumber, String answer) {
         if (user == null) {
@@ -106,6 +118,8 @@ public class LoginController {
 
         return new Result(true, "Security question saved");
     }
+
+
 
     public Result forgotPassword(String username, String email) {
         Player user = getUserByUsername(username);
@@ -130,6 +144,8 @@ public class LoginController {
         return new Result(true, "Your new password is: " + newPassword);
     }
 
+
+
     public Result validateSecurityQuestion(Player user, String answerToSecurityQuestion) {
         if (user == null || user.getQAndA() == null || user.getQAndA().isEmpty()) {
             return new Result(false, "No security question set for this user.");
@@ -145,6 +161,8 @@ public class LoginController {
         }
     }
 
+
+
     public Result resetPassword(Player user, String newPassword) {
         if (user == null) {
             return new Result(false, "User not found");
@@ -154,7 +172,9 @@ public class LoginController {
         return new Result(true, "Password has been reset successfully.");
     }
 
-    // Helper methods
+
+
+
     private Player getUserByUsername(String username) {
         for (Player user : DataManager.getInstance().getAllUsers()) {
             if (user.getUsername().equals(username)) {
@@ -164,10 +184,14 @@ public class LoginController {
         return null;
     }
 
+
+
     private String generateAlternativeUsername(String username) {
         Random random = new Random();
         return username + "-" + random.nextInt(1000);
     }
+
+
 
     private boolean isUsernameValid(String username) {
         return username.matches("[a-zA-Z0-9-]+");
@@ -181,4 +205,6 @@ public class LoginController {
         // TODO
         return null;
     }
+
+
 }
