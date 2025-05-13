@@ -17,23 +17,22 @@ public class DataManager {
     private static DataManager instance;
     
     // Data collections
-    private ArrayList<User> players;                    /// USER ESH KON
+    private ArrayList<User> users;                    /// USER ESH KON
     private ArrayList<Game> games;
-    private Map<String, Farm> userFarms;                /// DELTE KON
+                        /// DELTE KON
     private Player currentPlayer;
     private Menu currentMenu;
-    private Weather currentWeather;                     /// DELTE KON
-    private Map<String, Boolean> stayLoggedInUsers;     /// DELETE KON
+                        /// DELTE KON
+                        /// DELETE KON
     private Game currentGame;
     
     // Private constructor for singleton pattern
     private DataManager() {
-        this.players = new ArrayList<>();
+        this.users = new ArrayList<>();
         this.games = new ArrayList<>();
-        this.userFarms = new HashMap<>();
-        this.stayLoggedInUsers = new HashMap<>();
+        
         this.currentMenu = Menu.LOGIN_MENU;
-        this.currentWeather = Weather.SUNNY;
+        
     }
     
     /**
@@ -83,7 +82,7 @@ public class DataManager {
      * @param user The user to add
      */
     public void addUser(Player user) {
-        players.add(user);
+        users.add(user);
     }
     
     /**
@@ -91,8 +90,8 @@ public class DataManager {
      * @param username The username to search for
      * @return The user with the given username, or null if not found
      */
-    public Player getUserByUsername(String username) {
-        for (Player user : players) {
+    public User getUserByUsername(String username) {
+        for (User user : users) {
             if (user.getUsername().equals(username)) {
                 return user;
             }
@@ -104,8 +103,8 @@ public class DataManager {
      * Get all users in the system
      * @return List of all users
      */
-    public ArrayList<Player> getAllUsers() {
-        return players;
+    public ArrayList<User> getAllUsers() {
+        return users;
     }
     
     /**
@@ -124,23 +123,9 @@ public class DataManager {
         return currentPlayer;
     }
     
-    /**
-     * Set a user to stay logged in
-     * @param username The username to stay logged in
-     * @param stayLoggedIn Whether to stay logged in
-     */
-    public void setStayLoggedIn(String username, boolean stayLoggedIn) {
-        stayLoggedInUsers.put(username, stayLoggedIn);
-    }
     
-    /**
-     * Check if a user should stay logged in
-     * @param username The username to check
-     * @return True if the user should stay logged in, false otherwise
-     */
-    public boolean shouldStayLoggedIn(String username) {
-        return stayLoggedInUsers.getOrDefault(username, false);
-    }
+    
+    
     
     // Game management methods
     
@@ -184,23 +169,9 @@ public class DataManager {
     
     // Farm management methods
     
-    /**
-     * Add a farm for a user
-     * @param username The username to add the farm for
-     * @param farm The farm to add
-     */
-    public void addFarmForUser(String username, Farm farm) {
-        userFarms.put(username, farm);
-    }
+  
     
-    /**
-     * Get a farm for a user
-     * @param username The username to get the farm for
-     * @return The farm for the user, or null if not found
-     */
-    public Farm getFarmForUser(String username) {
-        return userFarms.get(username);
-    }
+   
     
     // Application state methods
     
@@ -220,21 +191,8 @@ public class DataManager {
         return currentMenu;
     }
     
-    /**
-     * Set the current weather
-     * @param weather The weather to set as current
-     */
-    public void setCurrentWeather(Weather weather) {
-        this.currentWeather = weather;
-    }
-    
-    /**
-     * Get the current weather
-     * @return The current weather
-     */
-    public Weather getCurrentWeather() {
-        return currentWeather;
-    }
+   
+ 
     
     // Game management methods
     
@@ -255,12 +213,12 @@ public class DataManager {
     }
 
     /**
-     * Creates a new game with the specified players and sets it as the current game
-     * @param players The players to add to the game
+     * Creates a new game with the specified users and sets it as the current game
+     * @param users The users to add to the game
      * @return The newly created game
      */
-    public Game createNewGame(Player[] players) {
-        Game newGame = new Game(players);
+    public Game createNewGame(Player[] users) {
+        Game newGame = new Game(users);
         games.add(newGame);
         currentGame = newGame;
         return newGame;
