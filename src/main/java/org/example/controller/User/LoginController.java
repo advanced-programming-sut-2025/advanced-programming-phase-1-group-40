@@ -97,14 +97,6 @@ public class LoginController {
 
 
 
-
-    public Player createUser(String username, String password, String email, String nickname, String gender) {
-        Player newPlayer = new Player(new User(username, password, email, nickname, gender));
-        return newPlayer;
-    }
-
-
-
     public Result randomPasswordGenerator() {
         int length = new Random().nextInt(13) + 8;
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!";
