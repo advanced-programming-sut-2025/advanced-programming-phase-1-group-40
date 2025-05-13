@@ -3,9 +3,12 @@ package org.example.controller.User;
 import org.example.models.*;
 import org.example.models.enums.Menu;
 import org.example.models.enums.SecurityQuestion;
+import org.example.models.enums.commands.LoginCommands;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -24,20 +27,22 @@ public class LoginController {
         String gender = input.group("gender");
 
 
-        if ( ! usernameAlreadyExists(username)) {                               ///  TODO
+        if ( ! usernameAlreadyExists(username)) {
             return new Result(false, "Username already exists!");
         }
 
 
-        if ( ! isUsernameValid(username) ) {                                    ///  TODO
+        if ( ! isUsernameValid(username) ) {
             return new Result(false, "Invalid username format!");
         }
 
 
-
-        if (!isEmailValid(email)) {                                             ///  TODO
+        if ( ! isEmailValid(email) ) {
             return new Result(false, "Invalid email format.");
         }
+
+
+
 
         // EVERYTHING FINE -> CREATE USER
 
@@ -48,21 +53,56 @@ public class LoginController {
         return new Result(true, "Successfully registered.");
     }
 
-    public boolean usernameAlreadyExists(String username) {                 ///  TODO
+    public boolean usernameAlreadyExists(String username) {
 
-//        for ( App.dataManager. )
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                return true;
+
+            }
+
+        }
+
         return false;
+
     }
 
-    private boolean isUsernameValid(String username) {          ///  TODO
+    private boolean isUsernameValid(String username) {
+
+        return (LoginCommands.USERNAME_REGEX.getMatcher(username) != null);
+
+    }
+
+    private boolean isEmailValid(String email) {
+
+        if ( ! email.contains("@") ) {
+            return false;
+        }
+
+        String user = email.substring(0, email.indexOf("@"));
+        String domain = email.substring(email.indexOf("@") + 1);
+
+        if ( user.contains("@") || domain.contains("@") || (user.isEmpty()) || (domain.isEmpty()) ) {
+
+            return false;
+
+        }
+
+        if ( LoginCommands.EMAIL_USER_REGEX.getMatcher(user) != null ) {
+            return false;
+        }
+
+        if ( LoginCommands.EMAIL_DOMAIN_REGEX.getMatcher(domain) != null ) {
+            return false;
+        }
 
         return true;
 
+
     }
 
-    private boolean isEmailValid(String email) {                ///  TODO
-        return true;
-    }
 
 
     ///  LOGIN

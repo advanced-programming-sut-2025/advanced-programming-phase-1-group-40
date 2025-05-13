@@ -1,22 +1,15 @@
 package org.example.models.enums.commands;
 
 import java.util.regex.*;
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 public enum LoginCommands implements Command {
 
     ///  REGISTER
 
     REGISTER("\\s*register\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)\\s+(?<repeatPassword>\\S+)\\s+-n\\s+(?<nickname>\\S+)\\s+-e\\s+(?<email>\\S+)\\s+-g\\s+(?<gender>\\S+)\\s*"),
-    USERNAME_REGEX(".+"),
-    EMAIL_REGEX(".+"),
+    USERNAME_REGEX("[A-Za-z0-9-]+"),
+    EMAIL_USER_REGEX("(?!.*\\.\\.)[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9])?"),
+    EMAIL_DOMAIN_REGEX("(?=[a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]$)(?=.*\\.)[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"),
     PASSWORD_REGEX(".+"),
     PICK_QUESTION("\\s*pick\\s+question\\s+-q\\s+(?<questionNumber>\\S+)\\s+-a\\s+(?<answer>\\S+)\\s+-c\\s+(?<answerConfirm>\\S+)\\s*"),
 
