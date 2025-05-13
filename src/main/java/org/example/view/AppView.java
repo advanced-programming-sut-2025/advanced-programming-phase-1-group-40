@@ -15,10 +15,10 @@ public class AppView {
         do{
 
 
-            App.getCurrentMenu().getMenu().getInput(scanner.nextLine(),scanner);
+            App.dataManager.getCurrentMenu().getMenu().getInput(scanner.nextLine(),scanner);
 
 
-        }while ( ! App.getCurrentMenu().equals(Menu.EXIT) );
+        }while ( ! App.dataManager.getCurrentMenu().equals(Menu.EXIT) );
 
 
 

@@ -9,8 +9,8 @@ import org.example.models.persistence.DataManager;
 
 public class PreGameMenuController {
     public Result startGame() {
-        Player currentPlayer = App.dataManager.getCurrentUser();
-        
+        Player currentPlayer = (Player) App.dataManager.getCurrentUser();
+
         // Check if player is already in a game
         Game existingGame = App.dataManager.getGameForPlayer(currentPlayer.getUsername());
         if (existingGame != null) {
@@ -18,24 +18,24 @@ public class PreGameMenuController {
             App.dataManager.setCurrentGame(existingGame);
             return new Result(true, "Continuing existing game!");
         }
-        
+
         // Create a new single-player game
         Player[] players = {currentPlayer};
         Game newGame = App.dataManager.createNewGame(players);
         newGame.setCreator(currentPlayer);
         newGame.setCurrentTurnPlayer(currentPlayer);
-        
+
         return new Result(true, "New game started!");
     }
 
     public Result loadGame() {
-        Player currentPlayer = App.getCurrentPlayer();
-        
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
+
         Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
         if (savedGame == null) {
             return new Result(false, "No saved game found.");
         }
-        
+
         return new Result(true, "Game loaded successfully!");
     }
 

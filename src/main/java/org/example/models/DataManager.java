@@ -16,6 +16,7 @@ public class DataManager {
     private User currentUser;
     private Menu currentMenu;
     private Game currentGame;
+    private Player currentPlayer;
 
     // Private constructor for singleton pattern
     public DataManager() {
@@ -23,7 +24,7 @@ public class DataManager {
         this.users = new ArrayList<>();
         this.games = new ArrayList<>();
         this.currentMenu = Menu.LOGIN_MENU;
-        
+
     }
 
 
@@ -32,7 +33,7 @@ public class DataManager {
         // For now, just return true
         return true;
     }
-    
+
     /**
      * Initialize the DataManager with data from App class
      * This is a temporary method until we implement proper persistence
@@ -41,7 +42,7 @@ public class DataManager {
         // Remove this method as App no longer stores data
         // Or keep it empty for backward compatibility
     }
-    
+
     /**
      * Update the App class with data from DataManager
      * This is a temporary method until we implement proper persistence
@@ -50,9 +51,9 @@ public class DataManager {
         // Remove this method as App no longer stores data
         // Or keep it empty for backward compatibility
     }
-    
+
     // User management methods
-    
+
     /**
      * Add a new user to the system
      * @param user The user to add
@@ -60,7 +61,7 @@ public class DataManager {
     public void addUser(Player user) {
         users.add(user);
     }
-    
+
     /**
      * Get a user by username
      * @param username The username to search for
@@ -74,17 +75,17 @@ public class DataManager {
         }
         return null;
     }
-    
+
 
     public ArrayList<User> getAllUsers() {
         return users;
     }
-    
+
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
     }
-    
+
     /**
      * Get the current logged-in player
      * @return The current player
@@ -92,13 +93,19 @@ public class DataManager {
     public User getCurrentUser() {
         return currentUser;
     }
-    
-    
-    
-    
-    
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+
+
+
+
     // Game management methods
-    
+
     /**
      * Adds a game to the data manager
      * @param game The game to add
@@ -136,15 +143,15 @@ public class DataManager {
         }
         return null;
     }
-    
+
     // Farm management methods
-    
-  
-    
-   
-    
+
+
+
+
+
     // Application state methods
-    
+
     /**
      * Set the current menu
      * @param menu The menu to set as current
@@ -152,7 +159,7 @@ public class DataManager {
     public void setCurrentMenu(Menu menu) {
         this.currentMenu = menu;
     }
-    
+
     /**
      * Get the current menu
      * @return The current menu
@@ -160,12 +167,12 @@ public class DataManager {
     public Menu getCurrentMenu() {
         return currentMenu;
     }
-    
-   
- 
-    
+
+
+
+
     // Game management methods
-    
+
     /**
      * Gets the current active game
      * @return The current game, or null if no game is active
@@ -173,6 +180,7 @@ public class DataManager {
     public Game getCurrentGame() {
         return currentGame;
     }
+
 
     /**
      * Sets the current active game
@@ -213,9 +221,9 @@ public class DataManager {
     public void exitCurrentGame() {
         currentGame = null;
     }
-    
+
     // Persistence methods - to be implemented with JSON in the future
-    
+
     /**
      * Save all data to persistent storage
      * This will be implemented to save to JSON files in the future
@@ -226,9 +234,9 @@ public class DataManager {
         // For now, just return true
         return true;
     }
-    
-    
-    
+
+
+
     /**
      * Save user data to persistent storage
      * This will be implemented to save to JSON files in the future
@@ -239,7 +247,7 @@ public class DataManager {
         // For now, just return true
         return true;
     }
-    
+
     /**
      * Load user data from persistent storage
      * This will be implemented to load from JSON files in the future
@@ -250,7 +258,7 @@ public class DataManager {
         // For now, just return true
         return true;
     }
-    
+
     /**
      * Save game data to persistent storage
      * This will be implemented to save to JSON files in the future
@@ -261,7 +269,7 @@ public class DataManager {
         // For now, just return true
         return true;
     }
-    
+
     /**
      * Load game data from persistent storage
      * This will be implemented to load from JSON files in the future

@@ -55,7 +55,7 @@ public class ProfileMenu implements AppMenu {
         }
         // Handle menu exit
         else if (input.matches("\\s*menu\\s+exit\\s*")) {
-            App.setCurrentMenu(Menu.MAIN_MENU);
+            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
             System.out.println("Returned to Main Menu");
         }
         // Handle show current menu
@@ -70,18 +70,18 @@ public class ProfileMenu implements AppMenu {
             System.out.println("Invalid command. Type 'help' to see available commands.");
         }
     }
-    
+
     private void handleMenuNavigation(String menuName) {
         if (menuName.equalsIgnoreCase("Main Menu")) {
-            App.setCurrentMenu(Menu.MAIN_MENU);
+            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
             System.out.println("Menu switched to Main Menu");
         } else {
             System.out.println("Cannot switch to " + menuName + " from Profile Menu. Return to Main Menu first.");
         }
     }
-    
+
     private void showUserInfo() {
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
         if (currentPlayer != null) {
             System.out.println("=== USER INFORMATION ===");
             System.out.println("Username: " + currentPlayer.getUsername());
@@ -92,7 +92,7 @@ public class ProfileMenu implements AppMenu {
             System.out.println("No user is currently logged in.");
         }
     }
-    
+
     private void showHelp() {
         System.out.println("=== PROFILE MENU COMMANDS ===");
         System.out.println("change username -u <username> : Change your username");

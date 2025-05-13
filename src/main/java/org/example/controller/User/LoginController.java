@@ -109,22 +109,22 @@ public class LoginController {
 
     public Result login(String username, String password, boolean stayLoggedIn) {
         Player user = getUserByUsername(username);
-        
+
         if (user == null) {
             return new Result(false, "Username not found!");
         }
-        
+
         if (!user.getPassword().equals(password)) {
             return new Result(false, "Password is incorrect!");
         }
-        
+
         App.dataManager.setCurrentUser(user);
-        
+
         // Implement stay-logged-in functionality
         if (stayLoggedIn) {
             App.dataManager.setStayLoggedIn(username, true);
         }
-        
+
         App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "Login successful! Welcome, " + username + "!");
     }
@@ -179,21 +179,21 @@ public class LoginController {
 
 
     public Result forgotPassword(String username, String email) {
-        Player user = getUserByUsername(username);
+        Player user = (Player) getUserByUsername(username);
         if (user == null) {
             return new Result(false, "User not found");
         }
-        
+
         // Check if email matches
         if (!user.getEmail().equals(email)) {
             return new Result(false, "Email does not match the username");
         }
-        
+
         if (user.getQAndA() != null && !user.getQAndA().isEmpty()) {
             SecurityQuestion question = user.getQAndA().keySet().iterator().next();
             return new Result(true, "Security Question: " + question.getQuestionText());
         }
-        
+
         // If no security question is set, generate a random password
         Result rand = randomPasswordGenerator();
         String newPassword = rand.message();
@@ -204,7 +204,7 @@ public class LoginController {
 
 
     public Result validateSecurityQuestion(Player user, String answerToSecurityQuestion) {
-        if (user == null || user.getQAndA() == null || user.getQAndA().isEmpty()) {
+        if (user == null || user....getQAndA() == null || user.getQAndA().isEmpty()) {
             return new Result(false, "No security question set for this user.");
         }
 
@@ -224,7 +224,7 @@ public class LoginController {
         if (user == null) {
             return new Result(false, "User not found");
         }
-        
+
         user.setPassword(newPassword);
         return new Result(true, "Password has been reset successfully.");
     }

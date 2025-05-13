@@ -16,7 +16,7 @@ public class AvatarMenu implements AppMenu {
         }
         // Handle menu exit
         else if (input.matches("\\s*menu\\s+exit\\s*")) {
-            App.setCurrentMenu(Menu.MAIN_MENU);
+            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
             System.out.println("Returned to Main Menu");
         }
         // Handle show current menu
@@ -36,7 +36,7 @@ public class AvatarMenu implements AppMenu {
     private void handleMenuNavigation(String menuName) {
         switch (menuName.toLowerCase()) {
             case "main menu":
-                App.setCurrentMenu(Menu.MAIN_MENU);
+                App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
                 System.out.println("Returned to Main Menu");
                 break;
             case "avatar customization":
@@ -46,7 +46,7 @@ public class AvatarMenu implements AppMenu {
                 System.out.println("Invalid menu name. Type 'help' for available commands.");
         }
     }
-    
+
     private void showHelp() {
         System.out.println("Available commands in Avatar Menu:");
         System.out.println("  menu enter <menu_name> - Enter a specific menu");
