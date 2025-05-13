@@ -3,15 +3,11 @@ package org.example.controller.User;
 import org.example.models.*;
 import org.example.models.enums.Menu;
 import org.example.models.enums.SecurityQuestion;
-import org.example.models.enums.types.Gender;
 
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
-
-import static sun.net.ftp.FtpDirEntry.Permission.USER;
 
 public class LoginController {
 
@@ -82,7 +78,7 @@ public class LoginController {
             return new Result(false, "Password is incorrect!");
         }
         
-        App.dataManager.setCurrentPlayer(user);
+        App.dataManager.setCurrentUser(user);
         
         // Implement stay-logged-in functionality
         if (stayLoggedIn) {
@@ -196,8 +192,8 @@ public class LoginController {
 
 
 
-    private Player getUserByUsername(String username) {
-        for (Player user : App.dataManager.getAllUsers()) {
+    private User getUserByUsername(String username) {
+        for (User user : App.dataManager.getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 return user;
             }

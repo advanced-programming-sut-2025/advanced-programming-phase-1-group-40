@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.models.App;
 import org.example.models.DataManager;
 import org.example.view.AppView;
 

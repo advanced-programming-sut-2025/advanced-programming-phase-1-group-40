@@ -2,13 +2,10 @@ package org.example.view;
 
 import org.example.controller.User.*;
 import org.example.models.App;
-import org.example.models.DataManager;
 import org.example.models.Result;
 import org.example.models.enums.Menu;
 
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MainMenu implements AppMenu {
     private final MainMenuController controller = new MainMenuController();
@@ -32,7 +29,7 @@ public class MainMenu implements AppMenu {
         }
         // Handle user logout
         else if (input.matches("\\s*user\\s+logout\\s*")) {
-            App.dataManager.setCurrentPlayer(null);
+            App.dataManager.setCurrentUser(null);
             App.dataManager.setCurrentMenu(Menu.LOGIN_MENU);
             System.out.println("Logged out successfully.");
         }

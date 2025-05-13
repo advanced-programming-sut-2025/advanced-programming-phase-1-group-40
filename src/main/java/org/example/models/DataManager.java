@@ -1,12 +1,8 @@
 package org.example.models;
 
-import org.example.models.Map.Farm;
-import org.example.models.enums.enviroment.Weather;
 import org.example.models.enums.Menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Singleton class responsible for managing all application data and persistence
@@ -14,39 +10,23 @@ import java.util.Map;
  */
 public class DataManager {
 
-    private static DataManager instance;
-    // Data collections
+
     private ArrayList<User> users;
     private ArrayList<Game> games;
-    private Player currentPlayer;
+    private User currentUser;
     private Menu currentMenu;
     private Game currentGame;
-    
+
     // Private constructor for singleton pattern
     public DataManager() {
+
         this.users = new ArrayList<>();
         this.games = new ArrayList<>();
-        
         this.currentMenu = Menu.LOGIN_MENU;
         
     }
-    
-    /**
-     * Get the singleton instance of DataManager
-     * @return The DataManager instance
-     */
-    public static synchronized DataManager getInstance() {
-        if (instance == null) {
-            instance = new DataManager();
-        }
-        return instance;
-    }
 
-    /**
-     * Load all data from persistent storage
-     * This will be implemented to load from JSON files in the future
-     * @return True if successful, false otherwise
-     */
+
     public boolean loadAllData() {
         // This will be implemented to load from JSON files
         // For now, just return true
@@ -95,28 +75,22 @@ public class DataManager {
         return null;
     }
     
-    /**
-     * Get all users in the system
-     * @return List of all users
-     */
+
     public ArrayList<User> getAllUsers() {
         return users;
     }
     
-    /**
-     * Set the current logged-in player
-     * @param player The player to set as current
-     */
-    public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
     
     /**
      * Get the current logged-in player
      * @return The current player
      */
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public User getCurrentUser() {
+        return currentUser;
     }
     
     
@@ -298,6 +272,7 @@ public class DataManager {
         // For now, just return true
         return true;
     }
+
 }
 
 

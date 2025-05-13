@@ -65,7 +65,7 @@ public class GameMenuController {
 
         // Create the game and set it as current in DataManager
         Game newGame = App.dataManager.createNewGame(players.toArray(new Player[0]));
-        newGame.setCreator(App.dataManager.getCurrentPlayer());
+        newGame.setCreator(App.dataManager.getCurrentUser());
 
         // Clear previous map selections
         mapSelections.clear();
@@ -152,7 +152,7 @@ public class GameMenuController {
             return new Result(false, "No active game. Please create or load a game first.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentUser();
 
         // Check if it's the current player's turn
         if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
@@ -163,7 +163,7 @@ public class GameMenuController {
         Player nextPlayer = currentGame.nextTurn();
 
         // Set the current player in DataManager to the next player
-        App.dataManager.setCurrentPlayer(nextPlayer);
+        App.dataManager.setCurrentUser(nextPlayer);
 
         // Save game state
         App.dataManager.saveGameData();
