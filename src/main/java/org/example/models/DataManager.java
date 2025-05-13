@@ -15,19 +15,15 @@ import java.util.Map;
 public class DataManager {
 
     private static DataManager instance;
-    
     // Data collections
-    private ArrayList<User> users;                    /// USER ESH KON
+    private ArrayList<User> users;
     private ArrayList<Game> games;
-                        /// DELTE KON
     private Player currentPlayer;
     private Menu currentMenu;
-                        /// DELTE KON
-                        /// DELETE KON
     private Game currentGame;
     
     // Private constructor for singleton pattern
-    private DataManager() {
+    public DataManager() {
         this.users = new ArrayList<>();
         this.games = new ArrayList<>();
         

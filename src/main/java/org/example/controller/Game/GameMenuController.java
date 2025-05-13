@@ -36,7 +36,7 @@ public class GameMenuController {
         // Validate all usernames
         List<Player> players = new ArrayList<>();
         for (String username : usernames) {
-            Player player = DataManager.getInstance().getUserByUsername(username);
+            Player player = App.dataManager.getUserByUsername(username);
             if (player == null) {
                 return new Result(false, "User '" + username + "' does not exist.");
             }
@@ -64,8 +64,8 @@ public class GameMenuController {
         }
 
         // Create the game and set it as current in DataManager
-        Game newGame = DataManager.getInstance().createNewGame(players.toArray(new Player[0]));
-        newGame.setCreator(DataManager.getInstance().getCurrentPlayer());
+        Game newGame = App.dataManager.createNewGame(players.toArray(new Player[0]));
+        newGame.setCreator(App.dataManager.getCurrentPlayer());
 
         // Clear previous map selections
         mapSelections.clear();
@@ -139,7 +139,7 @@ public class GameMenuController {
         currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
 
         // Save the game state
-        DataManager.getInstance().saveGameData();
+        App.dataManager.saveGameData();
     }
 
     /**
@@ -147,12 +147,12 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result nextTurn() {
-        Game currentGame = DataManager.getInstance().getCurrentGame();
+        Game currentGame = App.dataManager.getCurrentGame();
         if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game. Please create or load a game first.");
         }
 
-        Player currentPlayer = DataManager.getInstance().getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Check if it's the current player's turn
         if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
@@ -163,10 +163,10 @@ public class GameMenuController {
         Player nextPlayer = currentGame.nextTurn();
 
         // Set the current player in DataManager to the next player
-        DataManager.getInstance().setCurrentPlayer(nextPlayer);
+        App.dataManager.setCurrentPlayer(nextPlayer);
 
         // Save game state
-        DataManager.getInstance().saveGameData();
+        App.dataManager.saveGameData();
 
         return new Result(true, "Turn passed to " + nextPlayer.getUsername() + ". Time is now " +
                          currentGame.getTime().getHour() + ":00 on " +
@@ -184,7 +184,7 @@ public class GameMenuController {
         Player currentPlayer = App.getCurrentPlayer();
 
         // Load the game and set it as current in DataManager
-        Game savedGame = DataManager.getInstance().loadGameForPlayer(currentPlayer.getUsername());
+        Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
 
         if (savedGame == null) {
             return new Result(false, "No saved game found for " + currentPlayer.getUsername());
@@ -201,7 +201,7 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result exitGame() {
-        Game currentGame = DataManager.getInstance().getCurrentGame();
+        Game currentGame = App.dataManager.getCurrentGame();
 
         if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game to exit.");
@@ -215,10 +215,10 @@ public class GameMenuController {
         }
 
         // Save the game state before exiting
-        DataManager.getInstance().saveGameData();
+        App.dataManager.saveGameData();
 
         // Reset the current game in DataManager
-        DataManager.getInstance().exitCurrentGame();
+        App.dataManager.exitCurrentGame();
 
         return new Result(true, "Game exited successfully. Your progress has been saved.");
     }
@@ -239,7 +239,7 @@ public class GameMenuController {
 
         if (allVotedToTerminate) {
             // If all players voted to terminate, delete the game
-            DataManager.getInstance().removeGame(currentGame);
+            App.dataManager.removeGame(currentGame);
             currentGame = null;
             return new Result(true, "All players voted to terminate the game. The game has been deleted.");
         }
@@ -262,7 +262,7 @@ public class GameMenuController {
      * @return The current game, or null if no game is active
      */
     public Game getCurrentGame() {
-        return DataManager.getInstance().getCurrentGame();
+        return App.dataManager.getCurrentGame();
     }
 
     /**

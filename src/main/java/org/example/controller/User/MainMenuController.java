@@ -19,20 +19,20 @@ public class MainMenuController {
         if (!canSwitchMenu(newMenu)) {
             return new Result(false, "You can not switch to " + menuName + " from here!");
         }
-        DataManager.getInstance().setCurrentMenu(newMenu);
+        App.dataManager.setCurrentMenu(newMenu);
         return new Result(true, "Menu switched to " + menuName);
     }
 
     public Result exitMenu() {
-        if (DataManager.getInstance().getCurrentMenu() == Menu.LOGIN_MENU) {
-            DataManager.getInstance().setCurrentMenu(Menu.EXIT);
+        if (App.dataManager.getCurrentMenu() == Menu.LOGIN_MENU) {
+            App.dataManager.setCurrentMenu(Menu.EXIT);
         }
-        DataManager.getInstance().setCurrentMenu(Menu.MAIN_MENU);
+        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "You are now in the Main Menu");
     }
 
     public Result showCurrentMenu() {
-        return new Result(true, "You are now in " + DataManager.getInstance().getCurrentMenu().toString());
+        return new Result(true, "You are now in " + App.dataManager.getCurrentMenu().toString());
     }
 
     private boolean canSwitchMenu(Menu newMenu) {

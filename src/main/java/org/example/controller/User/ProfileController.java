@@ -23,7 +23,7 @@ public class ProfileController {
         }
         
         // Check if username already exists
-        if (DataManager.getInstance().getUserByUsername(newUsername) != null) {
+        if (App.dataManager.getUserByUsername(newUsername) != null) {
             return new Result(false, "Username already exists.");
         }
         

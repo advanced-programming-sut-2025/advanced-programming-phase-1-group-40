@@ -38,6 +38,7 @@ public class LoginController {
         }
 
 
+
         if (!isEmailValid(email)) {                                             ///  TODO
             return new Result(false, "Invalid email format.");
         }
@@ -47,13 +48,13 @@ public class LoginController {
         User newUser = new User(username, password, nickname, email, gender);
 
 
-        DataManager.getInstance().setCurrentPlayer(newPlayer);
-        DataManager.getInstance().addUser(newPlayer);
 
         return new Result(true, "Successfully registered.");
     }
 
     public boolean usernameAlreadyExists(String username) {                 ///  TODO
+
+//        for ( App.dataManager. )
         return false;
     }
 
@@ -81,14 +82,14 @@ public class LoginController {
             return new Result(false, "Password is incorrect!");
         }
         
-        DataManager.getInstance().setCurrentPlayer(user);
+        App.dataManager.setCurrentPlayer(user);
         
         // Implement stay-logged-in functionality
         if (stayLoggedIn) {
-            DataManager.getInstance().setStayLoggedIn(username, true);
+            App.dataManager.setStayLoggedIn(username, true);
         }
         
-        DataManager.getInstance().setCurrentMenu(Menu.MAIN_MENU);
+        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "Login successful! Welcome, " + username + "!");
     }
 
@@ -196,7 +197,7 @@ public class LoginController {
 
 
     private Player getUserByUsername(String username) {
-        for (Player user : DataManager.getInstance().getAllUsers()) {
+        for (Player user : App.dataManager.getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 return user;
             }

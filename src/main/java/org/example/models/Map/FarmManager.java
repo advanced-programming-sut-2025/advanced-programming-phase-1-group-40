@@ -69,7 +69,7 @@ public class FarmManager {
         userFarms.put(player.getUsername(), farm);
         
         // Also update the DataManager to ensure persistence
-        DataManager.getInstance().addFarmForUser(player.getUsername(), farm);
+        App.dataManager.addFarmForUser(player.getUsername(), farm);
         
         return farm;
     }

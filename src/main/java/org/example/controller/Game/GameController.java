@@ -25,7 +25,7 @@ public class GameController {
      */
 
     private Game getCurrentGame() {
-        return DataManager.getInstance().getCurrentGame();
+        return App.dataManager.getCurrentGame();
     }
 
     public Result showFriendshipLevels() {

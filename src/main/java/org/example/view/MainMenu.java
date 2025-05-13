@@ -32,8 +32,8 @@ public class MainMenu implements AppMenu {
         }
         // Handle user logout
         else if (input.matches("\\s*user\\s+logout\\s*")) {
-            DataManager.getInstance().setCurrentPlayer(null);
-            DataManager.getInstance().setCurrentMenu(Menu.LOGIN_MENU);
+            App.dataManager.setCurrentPlayer(null);
+            App.dataManager.setCurrentMenu(Menu.LOGIN_MENU);
             System.out.println("Logged out successfully.");
         }
         // Handle help command
