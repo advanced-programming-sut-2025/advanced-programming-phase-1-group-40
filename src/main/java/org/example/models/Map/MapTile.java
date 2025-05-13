@@ -22,7 +22,8 @@ public class MapTile implements Serializable {
     private ForagingMineralType foragingMineralType;
     private MapComponents forageableItem;
     
-    public MapTile(TileType type) {
+    public MapTile(Position position, TileType type) {
+        this.position = position;
         this.type = type;
         this.isWatered = false;
         this.isFertilized = false;
@@ -34,6 +35,10 @@ public class MapTile implements Serializable {
     
     public TileType getType() {
         return type;
+    }
+
+    public Position getPosition(){
+        return position;
     }
     
     public void setType(TileType type) {

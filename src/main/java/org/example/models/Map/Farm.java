@@ -45,7 +45,7 @@ public class Farm implements Serializable {
         this.name = name;
         this.width = width;
         this.height = height;
-        this.tiles = new MapTile[height][width];
+        this.mapTiles = new ArrayList<>();
         this.components = new ArrayList<>();
         this.trees = new ArrayList<>();
         this.stones = new ArrayList<>();
@@ -55,7 +55,9 @@ public class Farm implements Serializable {
         // Initialize all tiles as GROUND
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                tiles[y][x] = new MapTile(TileType.GROUND);
+                Position pos = new Position(x, y);
+                // Create each tile using its position and default TileType.GROUND
+                mapTiles.add(new MapTile(pos, TileType.GROUND));
             }
         }
     }
@@ -88,12 +90,12 @@ public class Farm implements Serializable {
         return height;
     }
     
-    public MapTile[][] getTiles() {
-        return tiles;
+    public ArrayList<MapTile> getTiles() {
+        return mapTiles;
     }
     
-    public void setTiles(MapTile[][] tiles) {
-        this.tiles = tiles;
+    public void setTiles(ArrayList<MapTile> tiles) {
+        this.mapTiles = tiles;
     }
     
     public Season getCurrentSeason() {
@@ -125,23 +127,24 @@ public class Farm implements Serializable {
             for (int x = component.getX(); x < component.getX() + component.getWidth(); x++) {
                 if (x >= 0 && x < width && y >= 0 && y < height) {
                     if (component instanceof Cabin) {
-                        tiles[y][x] = new MapTile(TileType.CABIN);
+                        setTileAt(x, y, new MapTile(new Position(x, y), TileType.CABIN));
                     } else if (component instanceof Greenhouse) {
-                        tiles[y][x] = new MapTile(TileType.GREENHOUSE);
+                        setTileAt(x, y, new MapTile(new Position(x, y), TileType.GREENHOUSE));
                     } else if (component instanceof Quarry) {
-                        tiles[y][x] = new MapTile(TileType.QUARRY);
+                        setTileAt(x, y, new MapTile(new Position(x, y), TileType.QUARRY));
                     } else if (component instanceof Lake) {
-                        tiles[y][x] = new MapTile(TileType.WATER);
+                        setTileAt(x, y, new MapTile(new Position(x, y), TileType.WATER));
                     } else if (component instanceof Tree) {
-                        tiles[y][x] = new MapTile(TileType.TREE);
-                        tiles[y][x].setTreeType(((Tree) component).getTreeType());
+                        MapTile tile = new MapTile(new Position(x, y), TileType.TREE);
+                        tile.setTreeType(((Tree) component).getTreeType());
+                        setTileAt(x, y, tile);
                     } else if (component instanceof ForagingMineral) {
-                        tiles[y][x] = new MapTile(TileType.STONE);
-                        // TODO
-                        // tiles[y][x].setForagingMineralType(((ForagingMineral) component).getForagingMineralType());
+                        setTileAt(x, y, new MapTile(new Position(x, y), TileType.STONE));
+                        // TODO: set foraging mineral type if needed
                     } else if (component instanceof ForagingCrop) {
-                        tiles[y][x] = new MapTile(TileType.FORAGEABLE);
-                        tiles[y][x].setForageableItem(component);
+                        MapTile tile = new MapTile(new Position(x, y), TileType.FORAGEABLE);
+                        tile.setForageableItem(component);
+                        setTileAt(x, y, tile);
                     }
                 }
             }
@@ -149,17 +152,24 @@ public class Farm implements Serializable {
     }
     
     public MapTile getTileAt(int x, int y) {
-        if (x >= 0 && x < width && y >= 0 && y < height) {
-            return tiles[y][x];
+        for (MapTile tile : mapTiles) {
+            if (tile.getPosition().getX() == x && tile.getPosition().getY() == y) {
+                return tile;
+            }
         }
         return null;
     }
     
-    public void setTileAt(int x, int y, MapTile tile) {
-        if (x >= 0 && x < width && y >= 0 && y < height) {
-            tiles[y][x] = tile;
+    // This method updates a tile by replacing it in the ArrayList.
+public void setTileAt(int x, int y, MapTile newTile) {
+    for (int i = 0; i < mapTiles.size(); i++) {
+        MapTile tile = mapTiles.get(i);
+        if (tile.getPosition().getX() == x && tile.getPosition().getY() == y) {
+            mapTiles.set(i, newTile);
+            return;
         }
     }
+}
     
     // Methods for farm operations
     
@@ -219,11 +229,10 @@ public class Farm implements Serializable {
     public void updateCrops() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                MapTile tile = tiles[y][x];
-                if (tile.getType() == TileType.PLANTED_SOIL && tile.getCrop() != null) {
+                MapTile tile = getTileAt(x, y);
+                if (tile != null && tile.getType() == TileType.PLANTED_SOIL && tile.getCrop() != null) {
                     if (tile.isWatered()) {
-                        // TODO
-                        //tile.getCrop().grow();
+                        // TODO: tile.getCrop().grow();
                     }
                     // Reset watered status for the next day
                     tile.setWatered(false);
@@ -239,14 +248,12 @@ public class Farm implements Serializable {
         // Update crops based on season change
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                MapTile tile = tiles[y][x];
-                if (tile.getType() == TileType.PLANTED_SOIL && tile.getCrop() != null) {
-                    // Check if crop is out of season and should die
-                    // TODO
-//                    if (!tile.getCrop().canGrowInSeason(newSeason)) {
-//                        tile.setCrop(null);
-//                        tile.setType(TileType.TILLED_SOIL);
-//                    }
+                MapTile tile = getTileAt(x, y);
+                if (tile != null && tile.getType() == TileType.PLANTED_SOIL && tile.getCrop() != null) {
+                    // TODO: if (!tile.getCrop().canGrowInSeason(newSeason)) {
+                    //         tile.setCrop(null);
+                    //         tile.setType(TileType.TILLED_SOIL);
+                    //     }
                 }
             }
         }
@@ -266,7 +273,7 @@ public class Farm implements Serializable {
         
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                MapTile tile = tiles[y][x];
+                MapTile tile = getTileAt(x, y);
                 switch (tile.getType()) {
                     case GROUND:
                         sb.append(".");
