@@ -18,7 +18,6 @@ public class Player extends User {
     private Position currentPosition;
     private Tool currentTool;
     private HashMap<Skill, SkillLevel> skillLevels = new HashMap<>(); // Changed from SkillLevels to SkillLevel
-    private Map<SecurityQuestion, String> qAndA;
     private Backpack backpack;
     private ArrayList<Item> items = new ArrayList<>();
     private int highestMoney;
@@ -95,13 +94,10 @@ public class Player extends User {
         this.currentTool = currentTool;
     }
 
-    public void setSkillLevels(HashMap<Skill, SkillLevels> skillLevels) {
+    public void setSkillLevels(HashMap<Skill, SkillLevel> skillLevels) {
         this.skillLevels = skillLevels;
     }
 
-    public void setqAndA(Map<SecurityQuestion, String> qAndA) {
-        this.qAndA = qAndA;
-    }
 
     public void setBackpack(Backpack backpack) {
         this.backpack = backpack;
@@ -124,14 +120,11 @@ public class Player extends User {
         return currentPosition;
     }
 
-    public HashMap<Skill, SkillLevels> getSkillLevels() {
+    public HashMap<Skill, SkillLevel> getSkillLevels() {
         return skillLevels;
     }
 
 
-    public Map<SecurityQuestion, String> getqAndA() {
-        return qAndA;
-    }
 
 
     public boolean isEnergyUnlimited() {
@@ -182,13 +175,7 @@ public class Player extends User {
     public void eat(String foodName) {
     }
 
-    public Map<SecurityQuestion, String> getQAndA() {
-        return qAndA;
-    }
 
-    public void setQAndA(Map<SecurityQuestion, String> qAndA) {
-        this.qAndA = qAndA;
-    }
 
     public Inventory getInventory() {
         return backpack;
@@ -245,7 +232,7 @@ public class Player extends User {
     // Get a formatted string with all skill levels
     public String getSkillLevelsString() {
         StringBuilder sb = new StringBuilder("Skill Levels:\n");
-        for (Map.Entry<Skill, SkillLevels> entry : skillLevels.entrySet()) {
+        for (Map.Entry<Skill, SkillLevel> entry : skillLevels.entrySet()) {
             sb.append(entry.getValue().toString()).append("\n");
         }
         return sb.toString();
