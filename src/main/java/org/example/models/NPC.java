@@ -16,7 +16,10 @@ public class NPC extends Human {
     private  HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> quests;
     private  ArrayList<Item> favorites;
 
-    
+    public NPC(HashMap<Human, FriendshipWithNPC> friendshipLevel) {
+        super(friendshipLevel);
+    }
+
 
     public String getName() {
         return name;

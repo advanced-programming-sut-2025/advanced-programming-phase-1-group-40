@@ -18,9 +18,10 @@ public class ProfileController {
         }
 
         // Check if username is valid
-        if (!LoginCommands.USERNAME_REGEX.matches(newUsername)) {
+        if (LoginCommands.USERNAME_REGEX.getMatcher(newUsername) == null) {
             return new Result(false, "Invalid username format. Username can only contain letters, numbers, and hyphens.");
         }
+
 
         // Check if username already exists
         if (App.dataManager.getUserByUsername(newUsername) != null) {
@@ -60,13 +61,14 @@ public class ProfileController {
         }
 
         // Check if email is valid
-        if (!LoginCommands.EMAIL_REGEX.matches(newEmail)) {
+        if (LoginCommands.EMAIL_USER_REGEX.getMatcher(newEmail) == null) {
             return new Result(false, "Invalid email format. Please enter a valid email address.");
         }
 
+
         // Check if email already exists
-        for (Player player : App.dataManager.getUsers()) {
-            if (player.getEmail().equals(newEmail)) {
+        for (User user : App.dataManager.getAllUsers()) {
+            if (user.getEmail().equals(newEmail)) {
                 return new Result(false, "Email already in use.");
             }
         }
@@ -93,9 +95,10 @@ public class ProfileController {
         }
 
         // Check if password is valid
-        if (!LoginCommands.PASSWORD_REGEX.matches(newPassword)) {
+        if (LoginCommands.PASSWORD_REGEX.getMatcher(newPassword) == null) {
             return new Result(false, "Invalid password format.");
         }
+
 
         // Check if password is strong
         if (newPassword.length() < 8) {

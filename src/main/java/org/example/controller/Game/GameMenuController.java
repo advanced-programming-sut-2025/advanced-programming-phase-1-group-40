@@ -4,7 +4,7 @@ import org.example.models.*;
 import org.example.models.Map.Farm;
 import org.example.models.Map.FarmManager;
 import org.example.models.enums.FriendshipLevel;
-import org.example.models.persistence.DataManager;
+import org.example.models.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +36,8 @@ public class GameMenuController {
         // Validate all usernames
         List<Player> players = new ArrayList<>();
         for (String username : usernames) {
-            Player player = App.dataManager.getUserByUsername(username);
-            if (player == null) {
+            User user = App.dataManager.getUserByUsername(username);
+            if (user == null) {
                 return new Result(false, "User '" + username + "' does not exist.");
             }
 
@@ -83,7 +83,7 @@ public class GameMenuController {
             return new Result(false, "No active game. Please create a game first.");
         }
 
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
         if (!currentGame.hasPlayer(currentPlayer.getUsername())) {
             return new Result(false, "You are not part of this game.");
         }
@@ -181,7 +181,7 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result loadGame() {
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Load the game and set it as current in DataManager
         Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
@@ -207,7 +207,7 @@ public class GameMenuController {
             return new Result(false, "No active game to exit.");
         }
 
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Only the game creator can exit the game
         if (!currentGame.getCreator().getUsername().equals(currentPlayer.getUsername())) {
@@ -232,7 +232,7 @@ public class GameMenuController {
             return new Result(false, "No active game to terminate.");
         }
 
-        Player currentPlayer = App.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Register the player's vote
         boolean allVotedToTerminate = currentGame.voteForTermination(currentPlayer, vote);

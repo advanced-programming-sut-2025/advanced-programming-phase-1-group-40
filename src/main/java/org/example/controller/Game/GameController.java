@@ -39,8 +39,8 @@ public class GameController {
             if (!player.equals(otherPlayer)) {
                 FriendshipWithNPC friendshipWithNPC = game.getFriendship(player, otherPlayer);
                 message.append(otherPlayer.getUsername()).append(":\n")
-                        .append("Friendship Level: ").append(friendshipWithNPC.getLevel()).append("\n")
-                        .append("XP: ").append(friendshipWithNPC.getCurrentXP()).append("\n\n");
+                        .append("Friendship Level: ").append(friendshipWithNPC.getFriendshipLevel()).append("\n")
+                        .append("XP: ").append(friendshipWithNPC.getFriendshipXP()).append("\n\n");
             }
         }
 
@@ -684,13 +684,13 @@ public class GameController {
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.currentWeather.getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentWeather().getWeatherCoEfficient()));
 
     }
 
     public int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.currentWeather.getWeatherCoEfficient() * (App.dataManager.currentPlayer.getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 

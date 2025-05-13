@@ -4,6 +4,7 @@ import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 import org.example.models.inventory.*;
+import org.example.models.inventory.Inventory;
 import org.example.models.inventory.Backpack;
 import org.example.models.tools.*;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player extends User {
+
 
     private int energy;
     private boolean isEnergyUnlimited;
@@ -35,24 +37,24 @@ public class Player extends User {
 
     public Player(User user) {
         super(user.getUsername(), user.getPassword(), user.getNickname(), user.getEmail(), user.getGender());
-        
+
         // Initialize backpack with default type
         this.backpack = new Backpack(InventoryType.SMALL);
-        
+
         // Initialize skill levels
         this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
         this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
         this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
     }
-    
+
     // Constructor for direct creation (used in LoginController)
-    public Player(String username, String password, String email) {
-        super(username, password, email);
-        
+    public Player(String username, String password,String nickname, String email, String gender) {
+        super(username, password, nickname, email,gender);
+
         // Initialize backpack with default type
         this.backpack = new Backpack(InventoryType.SMALL);
-        
+
         // Initialize skill levels
         this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
         this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));

@@ -4,7 +4,7 @@ import org.example.models.App;
 import org.example.models.Result;
 import org.example.models.Player;
 import org.example.models.Game;
-import org.example.models.persistence.DataManager;
+import org.example.models.DataManager;
 
 
 public class PreGameMenuController {

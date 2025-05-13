@@ -28,4 +28,8 @@ public class FarmBuilding implements Item{
         //this.description = farmBuildingType.getDescription();
     }
 
+    @Override
+    public String getItemName() {
+        return "";
+    }
 }

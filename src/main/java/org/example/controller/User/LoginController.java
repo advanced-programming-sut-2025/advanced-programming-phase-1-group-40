@@ -108,7 +108,7 @@ public class LoginController {
     ///  LOGIN
 
     public Result login(String username, String password, boolean stayLoggedIn) {
-        Player user = getUserByUsername(username);
+        User user = getUserByUsername(username);
 
         if (user == null) {
             return new Result(false, "Username not found!");

@@ -2,7 +2,6 @@ package org.example.models;
 
 import org.example.models.Map.Farm;
 import org.example.models.Map.MapTile;
-import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.enviroment.Time;
 
 import java.util.ArrayList;
@@ -23,10 +22,10 @@ public class Game {
     private Time time;
     //We should remember to implement the turns for all the users
 
-    
-    private int initialGameID = 1; 
 
-    public Game(ArrayList<Player> players) {
+    private int initialGameID = 1;
+
+    public Game(Player[] players) {
         this.gameID = initialGameID++;
         this.players = new ArrayList<>();
 
@@ -56,28 +55,28 @@ public class Game {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-    
+
     public ArrayList<Farm> getFarms() {
         return farms;
     }
-    
+
     public Player getCurrentTurnPlayer() {
         return currentTurnPlayer;
     }
-    
+
     public void setCurrentTurnPlayer(Player player) {
         this.currentTurnPlayer = player;
     }
 
-    
+
     public Player getCreator() {
         return creator;
     }
-    
+
     public void setCreator(Player creator) {
         this.creator = creator;
     }
-    
+
     /**
      * Add a player to the game
      * @param player The player to add
@@ -85,7 +84,7 @@ public class Game {
     public void addPlayer(Player player) {
         if (!players.contains(player)) {
             players.add(player);
-            
+
             // If this is the first player, set them as the creator and current turn player
             if (players.size() == 1) {
                 creator = player;
@@ -93,7 +92,7 @@ public class Game {
             }
         }
     }
-    
+
     /**
      * Adds a farm to the game
      * @param farm The farm to add
@@ -114,13 +113,13 @@ public class Game {
         if (farms == null) {
             return null;
         }
-        
+
         for (Farm farm : farms) {
             if (farm.getOwner() != null && farm.getOwner().getUsername().equals(player.getUsername())) {
                 return farm;
             }
         }
-        
+
         return null;
     }
 
@@ -140,18 +139,18 @@ public class Game {
     public Player nextTurn() {
         int currentIndex = players.indexOf(currentTurnPlayer);
         int nextIndex = (currentIndex + 1) % players.size();
-        
+
         // If we've gone through all players, advance the time
         if (nextIndex == 0) {
 //            everyOnePlayed = true;
             // TODO
             //time.advanceHour();
         }
-        
+
         currentTurnPlayer = players.get(nextIndex);
         return currentTurnPlayer;
     }
-    
+
     /**
      * Registers a player's vote for termination
      * @param player The player voting
@@ -162,9 +161,9 @@ public class Game {
         if (terminationVotes == null) {
             terminationVotes = new HashMap<>();
         }
-        
+
         terminationVotes.put(player.getUsername(), vote);
-        
+
         // Check if all players have voted yes
         boolean allVotedYes = true;
         for (Player p : players) {
@@ -174,17 +173,17 @@ public class Game {
                 break;
             }
         }
-        
+
         return allVotedYes;
     }
-    
+
     /**
      * Reset termination votes
      */
     public void resetTerminationVotes() {
         terminationVotes.clear();
     }
-    
+
     /**
      * Checks if a player is part of this game
      * @param username The username to check

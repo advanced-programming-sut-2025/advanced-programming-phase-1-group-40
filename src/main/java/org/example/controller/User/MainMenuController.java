@@ -32,7 +32,7 @@ public class MainMenuController {
     }
 
     public Result showCurrentMenu() {
-        return new Result(true, "You are now in " + App.dataManager.getCurrentMenu().toString());
+        return new Result(true, "You are now in the " + App.dataManager.getCurrentMenu().toString());
     }
 
     private boolean canSwitchMenu(Menu newMenu) {

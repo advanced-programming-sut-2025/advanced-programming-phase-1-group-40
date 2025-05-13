@@ -37,7 +37,7 @@ public class AvatarMenu implements AppMenu {
         switch (menuName.toLowerCase()) {
             case "main menu":
                 App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-                System.out.println("Returned to Main Menu");
+                System.out.println("Returned to the Main Menu");
                 break;
             case "avatar customization":
                 System.out.println("Avatar customization is not implemented in this phase.");
