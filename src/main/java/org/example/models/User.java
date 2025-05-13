@@ -11,6 +11,7 @@ public class User extends Human {
     private String nickname;
     private String email; 
     private String gender;
+    private boolean stayLoggedInNextTime;
 
 
     public User(String username, String password, String nickname, String email, String gender) {
@@ -21,7 +22,16 @@ public class User extends Human {
         this.nickname = nickname;
         this.email = email;
         this.gender = gender;
+        this.stayLoggedInNextTime = false;
 
+    }
+
+    public boolean isStayLoggedInNextTime() {
+        return stayLoggedInNextTime;
+    }
+
+    public void setStayLoggedInNextTime(boolean stayLoggedInNextTime) {
+        this.stayLoggedInNextTime = stayLoggedInNextTime;
     }
 
     public String getUsername() {
