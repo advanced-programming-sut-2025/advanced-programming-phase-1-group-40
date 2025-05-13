@@ -17,7 +17,6 @@ public class SignUpMenu implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
         // Handle register command with all details
-        System.out.println("HIIIII");
         if (input.matches(SignUpMenuCommands.REGISTER_USER.getCommand())) {
             Pattern pattern = Pattern.compile("\\s*register\\s+-u\\s+([a-zA-Z0-9-]+)\\s+-p\\s+(.+)\\s+(.+)\\s+-n\\s+(.+)\\s+-e\\s+(.+)\\s+-g\\s+(male|female)\\s*");
             Matcher matcher = pattern.matcher(input);

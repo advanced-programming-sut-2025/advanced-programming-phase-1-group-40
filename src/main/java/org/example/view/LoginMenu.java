@@ -6,7 +6,7 @@ import org.example.models.Player;
 import org.example.models.Result;
 import org.example.models.User;
 import org.example.models.enums.Menu;
-import org.example.models.persistence.DataManager;
+import org.example.models.DataManager;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;

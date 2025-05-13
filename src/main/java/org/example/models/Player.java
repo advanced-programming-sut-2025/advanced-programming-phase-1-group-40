@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Player extends User{
+public class Player extends User {
 
     private int energy;
     private boolean isEnergyUnlimited;
     private Position currentPosition;
     private Tool currentTool;
-    private HashMap<Skill, SkillLevels> skillLevels =  new HashMap<>();
+    private HashMap<Skill, SkillLevel> skillLevels = new HashMap<>(); // Changed from SkillLevels to SkillLevel
     private Map<SecurityQuestion, String> qAndA;
     private Backpack backpack;
     private ArrayList<Item> items = new ArrayList<>();
@@ -34,15 +34,31 @@ public class Player extends User{
         return gamesPlayed;
     }
 
-    public Player(User user){
-
+    public Player(User user) {
         super(user.getUsername(), user.getPassword(), user.getNickname(), user.getEmail(), user.getGender());
-
-        this.skillLevels.put(Skill.FARMING, SkillLevels.LEVEL_ZERO);
-        this.skillLevels.put(Skill.MINING, SkillLevels.LEVEL_ZERO);
-        this.skillLevels.put(Skill.FORAGING, SkillLevels.LEVEL_ZERO);
-        this.skillLevels.put(Skill.FISHING, SkillLevels.LEVEL_ZERO);
-
+        
+        // Initialize backpack with default type
+        this.backpack = new Backpack(InventoryType.SMALL);
+        
+        // Initialize skill levels
+        this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
+        this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
+        this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
+        this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
+    }
+    
+    // Constructor for direct creation (used in LoginController)
+    public Player(String username, String password, String email) {
+        super(username, password, email);
+        
+        // Initialize backpack with default type
+        this.backpack = new Backpack(InventoryType.SMALL);
+        
+        // Initialize skill levels
+        this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
+        this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
+        this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
+        this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
     }
 
 

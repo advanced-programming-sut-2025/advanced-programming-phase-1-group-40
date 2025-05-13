@@ -46,6 +46,17 @@ public class DataManager {
         }
         return instance;
     }
+
+    /**
+     * Load all data from persistent storage
+     * This will be implemented to load from JSON files in the future
+     * @return True if successful, false otherwise
+     */
+    public boolean loadAllData() {
+        // This will be implemented to load from JSON files
+        // For now, just return true
+        return true;
+    }
     
     /**
      * Initialize the DataManager with data from App class
@@ -294,16 +305,7 @@ public class DataManager {
         return true;
     }
     
-    /**
-     * Load all data from persistent storage
-     * This will be implemented to load from JSON files in the future
-     * @return True if successful, false otherwise
-     */
-    public boolean loadAllData() {
-        // This will be implemented to load from JSON files
-        // For now, just return true
-        return true;
-    }
+    
     
     /**
      * Save user data to persistent storage

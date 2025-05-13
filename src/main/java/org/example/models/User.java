@@ -7,7 +7,7 @@ public class User extends Human {
     private String username;
     private String password;
     private String nickname;
-    private String email;
+    private String email; 
     private String gender;
 
 
