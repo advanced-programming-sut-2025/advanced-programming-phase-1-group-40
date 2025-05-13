@@ -2,6 +2,7 @@ package org.example.view;
 
 import org.example.controller.User.*;
 import org.example.models.App;
+import org.example.models.DataManager;
 import org.example.models.Result;
 import org.example.models.enums.Menu;
 

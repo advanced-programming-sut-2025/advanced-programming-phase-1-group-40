@@ -12,7 +12,35 @@ import java.util.Random;
 
 public class LoginController {
 
+    public Result registerUser(String username, String nickname, String password, String email, Gender gender) {
+        // Check if username already exists
+        if (getUserByUsername(username) != null) {
+            // Generate alternative username
+            String alternativeUsername = generateAlternativeUsername(username);
+            return new Result(false, "Username already exists. Would you like to use " + alternativeUsername + " instead?");
+        }
 
+        // Validate username format
+        if (!isUsernameValid(username)) {
+            return new Result(false, "Invalid username format. Username can only contain letters, numbers, and hyphens.");
+        }
+
+        // Validate email format
+        if (!isEmailValid(email)) {
+            return new Result(false, "Invalid email format. Please enter a valid email address.");
+        }
+
+        // Create new player
+        Player newPlayer = createUser(username, password, email, email, gender.name());
+        newPlayer.setNickname(nickname);
+        if (gender != null) {
+            newPlayer.setGender(gender.name());
+        }
+
+        DataManager.getInstance().setCurrentPlayer(newPlayer);
+        DataManager.getInstance().addUser(newPlayer);
+        return new Result(true, "Successfully registered.");
+    }
 
     public Result login(String username, String password, boolean stayLoggedIn) {
         Player user = getUserByUsername(username);
@@ -38,35 +66,7 @@ public class LoginController {
 
 
 
-    public Result registerUser(String username, String nickname, String password, String email, Gender gender) {
-        // Check if username already exists
-        if (getUserByUsername(username) != null) {
-            // Generate alternative username
-            String alternativeUsername = generateAlternativeUsername(username);
-            return new Result(false, "Username already exists. Would you like to use " + alternativeUsername + " instead?");
-        }
-        
-        // Validate username format
-        if (!isUsernameValid(username)) {
-            return new Result(false, "Invalid username format. Username can only contain letters, numbers, and hyphens.");
-        }
-        
-        // Validate email format
-        if (!isEmailValid(email)) {
-            return new Result(false, "Invalid email format. Please enter a valid email address.");
-        }
-        
-        // Create new player
-        Player newPlayer = createUser(username, password, email, email, gender.name());
-        newPlayer.setNickname(nickname);
-        if (gender != null) {
-            newPlayer.setGender(gender.name());
-        }
-        
-        DataManager.getInstance().setCurrentPlayer(newPlayer);
-        DataManager.getInstance().addUser(newPlayer);
-        return new Result(true, "Successfully registered.");
-    }
+
 
 
 
