@@ -16,13 +16,14 @@ import org.example.models.*;
 import java.util.ArrayList;
 
 public class Farm {
-    private ArrayList<Tile> mapTiles;
+    private ArrayList<MapTile> mapTiles;
     private ArrayList<Cabin> cabin;
     private ArrayList<Greenhouse> greenhouse;
     private ArrayList<Quarry> quarry;
     private ArrayList<Lake> lakes;
     private ArrayList<Crop> plantedCrops;
     private ArrayList<Tree> trees;
+    private Player owner;
 
     public Result putTree(Tree tree) {
 
@@ -62,7 +63,7 @@ public class Farm {
 //
 //    }
 
-    public ArrayList<Tile> getMapTiles() {
+    public ArrayList<MapTile> getMapTiles() {
         return this.mapTiles;
     }
 

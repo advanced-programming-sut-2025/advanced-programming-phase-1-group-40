@@ -24,12 +24,17 @@ public class Farm implements Serializable {
     private String name;
     private int width;
     private int height;
-    private MapTile[][] tiles;
     private Season currentSeason;
     private List<MapComponents> components;
+    private ArrayList<MapTile> mapTiles;
     
     // New lists for specific component types
-    private List<Tree> trees;
+    private ArrayList<Cabin> cabin;
+    private ArrayList<Greenhouse> greenhouse;
+    private ArrayList<Quarry> quarry;
+    private ArrayList<Lake> lakes;
+    private ArrayList<Crop> plantedCrops;
+    private ArrayList<Tree> trees;
     private List<ForagingMineral> stones;
     private List<ForagingCrop> foragingItems;
     

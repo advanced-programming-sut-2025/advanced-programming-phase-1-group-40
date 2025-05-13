@@ -15,16 +15,19 @@ public class Game {
     private final Integer gameID;
     private final ArrayList<Player> players;
     private ArrayList<Farm> farms;
-    private ArrayList<ArrayList<MapTile>> map;
+    private HashMap<Player, Farm> playerFarms;
+    private ArrayList<MapTile> map;
     private Player currentTurnPlayer;
     private Map<String, Boolean> terminationVotes;
     private Player creator;
     private Time time;
+    //We should remember to implement the turns for all the users
 
+    
+    private int initialGameID = 1; 
 
-    public Game(Player... players) {
-
-
+    public Game(ArrayList<Player> players) {
+        this.gameID = initialGameID++;
         this.players = new ArrayList<>();
 
         for (Player player : players) {
@@ -44,7 +47,7 @@ public class Game {
 
     public Map<String, Boolean> getTerminationVotes() {
         return terminationVotes;
-    }
+    }//I didnt delete it so we dont forget to implement the game termination logic
 
     public Time getTime() {
         return time;
