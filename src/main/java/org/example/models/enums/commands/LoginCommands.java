@@ -42,14 +42,6 @@ public enum LoginCommands implements Command {
         this.pattern = Pattern.compile(this.regex);
     }
 
-    public boolean matches(String input) {
-        // TODO
-        return this.pattern.matcher(input).matches();
-    }
-
-    public String getRegex() {
-        return this.regex;
-    }
 
     @Override
     public Matcher getMatcher(String input) {
