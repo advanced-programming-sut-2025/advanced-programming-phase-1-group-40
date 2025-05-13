@@ -155,6 +155,9 @@ public class Player extends User {
 
     public void useTool(Direction direction) {
 
+
+
+
     }
 
     public void changePosition(Position newPosition) {

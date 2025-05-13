@@ -1,7 +1,5 @@
 package org.example.models;
 
-import org.example.models.enums.types.Gender;
-
 import java.util.HashMap;
 
 public class Human {
@@ -17,8 +15,8 @@ public class Human {
         return friendshipLevel;
     }
 
-    public void setFriendshipLevel(Human ) {
-        this.friendshipLevel = friendshipLevel;
+    public void setFriendshipLevel(Human targerHuman, FriendshipWithNPC friendship) {
+        this.friendshipLevel.put(targerHuman, friendship);
     }
 
 

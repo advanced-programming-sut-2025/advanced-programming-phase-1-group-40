@@ -89,4 +89,6 @@ public class FriendshipWithNPC {
     public void setFriendshipLevel(FriendshipLevel friendshipLevel) {
         this.friendshipLevel = friendshipLevel;
     }
+
+
 }
