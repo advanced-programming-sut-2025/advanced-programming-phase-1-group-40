@@ -4,6 +4,7 @@ import org.example.models.*;
 import org.example.controller.Game.GameMenuController;
 import org.example.models.Game;
 import org.example.models.enums.Menu;
+import org.example.models.enums.commands.GameMenuCommands;
 import org.example.view.*;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class GameMenuView implements AppMenu {
 
     private void handleNewGame(String input, Scanner scanner) {
         // Extract usernames
-        Pattern pattern = Pattern.compile("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+(\\s+[a-zA-Z0-9-]+){0,2})\\s*");
+        Pattern pattern = Pattern.compile(GameMenuCommands.NEW_GAME.getRegexString());
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {
