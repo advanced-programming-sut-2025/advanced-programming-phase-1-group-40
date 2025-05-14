@@ -8,10 +8,19 @@ public enum TileType {
 
     MARNIES_RANCH,                                           ///  SHOP MARNIE B MAP ADD BEDE!!!!!!!!!!!
 
-
-
+    ///  FARM BUILDING TYPE!!!!    -> ANIMAL LIVING SAPCE
 
     BARN,
+    BIG_BARN,
+    DELUXE_BARN,
+    COOP,
+    BIG_COOP,
+    DELUXE_COOP,
+    WELL,
+    SHIPPING_BIN,
+
+
+
     DIRT,
     ORE,
     MONSTER_SPAWN,

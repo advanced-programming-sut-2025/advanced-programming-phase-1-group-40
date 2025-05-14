@@ -1,12 +1,15 @@
 package org.example.view;
 
 
+import org.example.controller.Game.GameController;
 import org.example.models.enums.commands.GameCommands;
 
 
 import java.util.Scanner;
 
 public class Game implements AppMenu {
+
+    private final GameController gameController = new GameController();
 
     @Override
     public void getInput(String input, Scanner scanner) {
@@ -19,10 +22,10 @@ public class Game implements AppMenu {
 
 
         }
-        else if (GameCommands.BUY_ANIMAL.getMatcher(input) != null) {
+        else if ( GameCommands.BUY_ANIMAL.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.buyAnimal(GameCommands.BUY_ANIMAL.getMatcher(input)));
 
 
         }
