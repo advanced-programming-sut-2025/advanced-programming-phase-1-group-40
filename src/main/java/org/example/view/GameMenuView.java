@@ -73,8 +73,7 @@ public class GameMenuView implements AppMenu {
         // Handle back command
         else if (input.matches("\\s*back\\s*")) {
             App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        }
-        else {
+        } else {
             System.out.println("Invalid command. Type 'help' to see available commands.");
         }
     }
@@ -99,6 +98,10 @@ public class GameMenuView implements AppMenu {
                 System.out.println("Error: You need at least one other player to create a game.");
                 return;
             }
+            if (usernames.size() > 4) {
+                System.out.println("Error: You can not have mpre thatn 4 p;ayers in the game.");
+                return;
+            }
 
             Result result = controller.createNewGame(usernames);
             System.out.println(result.message());
@@ -116,31 +119,49 @@ public class GameMenuView implements AppMenu {
 
                         // If it's the current player, get input directly
                         if (player.getUsername().equals(currentUsername)) {
-                            System.out.print("> ");
-                            String mapInput = scanner.nextLine().trim();
+                            while (true) {
+                                System.out.print("Select a map for yourself ");
+                                String mapInput = scanner.nextLine().trim();
 
-                            if (mapInput.matches("\\d+")) {
-                                int mapNumber = Integer.parseInt(mapInput);
-                                Result mapResult = controller.selectMap(mapNumber);
-                                System.out.println(mapResult.message());
-                            } else {
-                                System.out.println("Invalid map selection. Please use 'game map <number>' command.");
+                                if (mapInput.matches("\\d+")) {
+                                    int mapNumber = Integer.parseInt(mapInput);
+                                    Result mapResult = controller.selectMap(mapNumber);
+                                    System.out.println(mapResult.message());
+                                    break;/////be careful kiaaaaaaaasha/////////////////////////////////////
+                                } else {
+                                    System.out.println("Invalid map selection. Please choose the right map number.");
+                                }
                             }
                         } else {
-                            // For other players, we'll simulate their selection (in a real networked game, they would make their own selections)
+                            // For other players, we'll simulate their selection (in a real networked game,
+                            // they would make their own selections)
                             // For now, we'll just assign a random map type
-                            int randomMapType = 1 + (int)(Math.random() * 7);
-                            System.out.println("(Simulating selection for " + player.getUsername() + ")");
-                            System.out.println(player.getUsername() + " selected map type " + randomMapType);
+                            // int randomMapType = 1 + (int)(Math.random() * 7);
+                            // System.out.println("Selecting map for " + player.getUsername());
+                            // System.out.println(player.getUsername() + " selected map type " +
+                            // randomMapType);
+                            while (true) {
+                                System.out.println("Selecting map for " + player.getUsername());
+                                String mapInput = scanner.nextLine().trim();
 
-                            // Temporarily set the current player to this player to make the selection
-                            Player originalPlayer = App.dataManager.getCurrentPlayer();
-                            App.dataManager.setCurrentPlayer(player);
-                            Result mapResult = controller.selectMap(randomMapType);
-                            System.out.println(mapResult.message());
+                                if (mapInput.matches("\\d+")) {
+                                    int mapNumber = Integer.parseInt(mapInput);
+                                    // Result mapResult = controller.selectMap(mapNumber);
+                                    // System.out.println(mapResult.message());
+                                    Player originalPlayer = App.dataManager.getCurrentPlayer();
+                                    App.dataManager.setCurrentPlayer(player);
+                                    Result mapResult = controller.selectMap(mapNumber);
+                                    System.out.println(mapResult.message());
+                                    App.dataManager.setCurrentPlayer(originalPlayer);
+                                    if (mapResult.success()) {
+                                        break;
+                                    }
+                                    /////be careful kiaaaaaaaasha/////////////////////////////////////
+                                }
+                                System.out.println("Invalid map selection. Please choose the right map number.");
 
-                            // Restore the original player
-                            App.dataManager.setCurrentPlayer(originalPlayer);
+                            }
+
                         }
                     }
                 }
@@ -207,7 +228,8 @@ public class GameMenuView implements AppMenu {
 
     private void showHelp() {
         System.out.println("=== GAME MENU COMMANDS ===");
-        System.out.println("game new -u <username1> [username2] [username3] [username4] : Create a new game with specified players");
+        System.out.println(
+                "game new -u <username1> [username2] [username3] [username4] : Create a new game with specified players");
         System.out.println("game map <number> : Select a map type (1-7)");
         System.out.println("next turn : Pass turn to the next player");
         System.out.println("load game : Load a saved game");

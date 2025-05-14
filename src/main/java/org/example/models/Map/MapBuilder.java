@@ -9,7 +9,7 @@ import org.example.models.enums.types.ForagingType;
 import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;
 
-import java.util.Random;
+import java.util.*;
 
 /**
  * Builder class for creating farm maps
@@ -18,7 +18,7 @@ public class MapBuilder {
     private String mapName;
     private int width;
     private int height;
-    private MapTile[][] tiles;
+    private ArrayList<MapTile> tiles;
     private Random random;
     
     public MapBuilder() {
@@ -37,12 +37,14 @@ public class MapBuilder {
     }
     
     public MapBuilder initialize() {
-        this.tiles = new MapTile[height][width];
+        this.tiles = new ArrayList<>();
         
         // Initialize all tiles as GROUND
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                tiles[y][x] = new MapTile(TileType.GROUND);
+                Position position = new Position(x, y);
+                tiles.add(new MapTile(position, TileType.GROUND));
+
             }
         }
         

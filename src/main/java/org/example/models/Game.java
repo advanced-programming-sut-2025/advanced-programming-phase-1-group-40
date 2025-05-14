@@ -18,7 +18,6 @@ public class Game {
     private HashMap<Player, Farm> playerFarms;
     private ArrayList<MapTile> map;
     private Player currentTurnPlayer;
-    private Map<String, Boolean> terminationVotes;
     private Player creator;
     private Time time;
     private Weather weather;
@@ -26,19 +25,24 @@ public class Game {
 
 
 
-    public Game(Player[] players) {
+    public Game(ArrayList<Player> players) {
 
         this.gameID = App.dataManager.getGames().get( App.dataManager.getGames().size() -1 ).getGameID() + 1;
         this.players = new ArrayList<>();
-        for (Player player : players) {
-            this.players.add(player);
-        }
         this.time = new Time();
+        this.map = new ArrayList<>();
         this.farms = new ArrayList<>();
-        this.terminationVotes = new HashMap<>();
+        this.creator = App.dataManager.getCurrentPlayer();
+        this.currentTurnPlayer = App.dataManager.getCurrentPlayer();
+        
+        
+    }
 
-
-
+    public void assignFarmToPlayer(Player player, Farm farm) {
+        if (playerFarms == null) {
+            playerFarms = new HashMap<>();
+        }
+        playerFarms.put(player, farm);
     }
 
 
@@ -66,9 +70,6 @@ public class Game {
         this.map = map;
     }
 
-    public void setTerminationVotes(Map<String, Boolean> terminationVotes) {
-        this.terminationVotes = terminationVotes;
-    }
 
     public void setTime(Time time) {
         this.time = time;
@@ -82,9 +83,6 @@ public class Game {
         this.weather = weather;
     }
 
-    public Map<String, Boolean> getTerminationVotes() {
-        return terminationVotes;
-    }//I didnt delete it so we dont forget to implement the game termination logic
 
     public Time getTime() {
         return time;
@@ -213,14 +211,8 @@ public class Game {
         }
 
         return allVotedYes;
-    }
+    }///////ayohanaas dont forget this part
 
-    /**
-     * Reset termination votes
-     */
-    public void resetTerminationVotes() {
-        terminationVotes.clear();
-    }
 
     /**
      * Checks if a player is part of this game

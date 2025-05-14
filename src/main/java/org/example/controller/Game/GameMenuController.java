@@ -95,8 +95,10 @@ public class GameMenuController {
         }
 
         // Store the player's map selection
-        mapSelections.put(currentPlayer.getUsername(), mapNumber);
+        //mapSelections.put(currentPlayer.getUsername(), mapNumber);
+        Farm chosenFarm = FarmManager.getInstance().getFarmByNumber(mapNumber);
 
+        Game.assignFarmToPlayer(currentPlayer, chosenFarm);
         // Check if all players have selected their maps
         boolean allPlayersSelected = true;
         for (Player player : currentGame.getPlayers()) {

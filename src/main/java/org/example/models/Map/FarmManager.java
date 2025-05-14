@@ -4,18 +4,17 @@ import org.example.models.*;
 import org.example.models.enums.enviroment.Season;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Manages farm creation and association with users
  */
 public class FarmManager {
     private static FarmManager instance;
-    private Map<String, Farm> userFarms; // Maps username to farm
+    private ArrayList<Farm> userFarms; // Maps username to farm
     
     private FarmManager() {
-        userFarms = new HashMap<>();
+        userFarms = new ArrayList<>();
     }
     
     public static FarmManager getInstance() {
@@ -66,10 +65,11 @@ public class FarmManager {
         // Set the farm name
         farm.setName(player.getUsername() + "'s Farm");
         
-        userFarms.put(player.getUsername(), farm);
+        userFarms.add(farm);
+        //userFarms.put(player.getUsername(), farm);
         
         // Also update the DataManager to ensure persistence
-        App.dataManager.addFarmForUser(player.getUsername(), farm);
+        //App.dataManager.addFarmForUser(player.getUsername(), farm);
         
         return farm;
     }
