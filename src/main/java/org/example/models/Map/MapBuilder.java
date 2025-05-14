@@ -9,6 +9,8 @@ import org.example.models.enums.types.ForagingType;
 import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -165,7 +167,7 @@ public class MapBuilder {
             int y = random.nextInt(height);
             
             if (isValidPosition(x, y) && tiles[y][x].getType() == TileType.GROUND) {
-                tiles[y][x] = new MapTile(TileType.FORAGEABLE);
+                tiles[y][x] = new MapTile(new Position(x, y), TileType.FORAGEABLE);
                 
                 // Set foraging type based on season
                 ForagingType foragingType;
@@ -210,7 +212,12 @@ public class MapBuilder {
     
     public Farm build() {
         Farm farm = new Farm(mapName, width, height);
-        farm.setTiles(tiles);
+
+        ArrayList<MapTile> tilesArrayList = new ArrayList<>();
+        for (int i = 0; i < tiles.length; i++) {
+            tilesArrayList.addAll(Arrays.asList(tiles[i]));
+        }
+        farm.setTiles(tilesArrayList);
         
         // Add components to the farm
         for (int y = 0; y < height; y++) {
@@ -420,7 +427,7 @@ public class MapBuilder {
     private MapBuilder addRiver(int x, int y, int width, int height) {
         for (int i = x; i < x + width && i < this.width; i++) {
             for (int j = y; j < y + height && j < this.height; j++) {
-                tiles[j][i] = new MapTile(TileType.WATER);
+                tiles[j][i] = new MapTile(new Position(x, y), TileType.WATER);
             }
         }
         return this;
@@ -429,7 +436,7 @@ public class MapBuilder {
     private MapBuilder addHill(int x, int y, int width, int height) {
         for (int i = x; i < x + width && i < this.width; i++) {
             for (int j = y; j < y + height && j < this.height; j++) {
-                tiles[j][i] = new MapTile(TileType.HILL);
+                tiles[j][i] = new MapTile(new Position(x, y), TileType.HILL);
             }
         }
         return this;
@@ -442,7 +449,7 @@ public class MapBuilder {
             
             if (tiles[y][x].getType() == TileType.DIRT || 
                 tiles[y][x].getType() == TileType.QUARRY) {
-                tiles[y][x] = new MapTile(TileType.ORE);
+                tiles[y][x] = new MapTile(new Position(x, y), TileType.ORE);
             }
         }
         return this;
