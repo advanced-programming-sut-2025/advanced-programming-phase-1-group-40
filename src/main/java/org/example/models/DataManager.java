@@ -17,7 +17,7 @@ public class DataManager {
     private User currentUser;
     private Menu currentMenu;
     private Game currentGame;
-    private Player currentPlayer;
+
 
     // Private constructor for singleton pattern
     public DataManager() {
@@ -93,12 +93,6 @@ public class DataManager {
      */
     public User getCurrentUser() {
         return currentUser;
-    }
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
     }
 
 

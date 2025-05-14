@@ -244,26 +244,37 @@ public class LoginController {
 
     ///  LOGIN
 
-    public Result login(String username, String password, boolean stayLoggedIn) {
-        User user = getUserByUsername(username);
+    public Result login(Matcher input) {
 
-        if (user == null) {
-            return new Result(false, "Username not found!");
+        String username = input.group("username");
+        String password = input.group("password");
+        boolean stayLoggedIn = (input.group(3) != null);
+
+
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                    if ( user.getPassword().equals(password) ){
+
+
+                        App.dataManager.setCurrentUser(user);
+                        user.setStayLoggedInNextTime(stayLoggedIn);
+                        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+
+
+                    }
+
+
+                    return new Result(false, "Password is incorrect.");
+
+            }
+
         }
 
-        if (!user.getPassword().equals(password)) {
-            return new Result(false, "Password is incorrect!");
-        }
+        return new Result(false, "Username does not exist.");
 
-        App.dataManager.setCurrentUser(user);
 
-        // Implement stay-logged-in functionality
-//        if (stayLoggedIn) {
-//            App.dataManager.setStayLoggedIn(username, true);
-//        }
-
-        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        return new Result(true, "Login successful! Welcome, " + username + "!");
     }
 
 
@@ -273,37 +284,9 @@ public class LoginController {
 
 
 
-    public Result showSecurityQuestions() {
-        for (SecurityQuestion question : SecurityQuestion.values()) {
-            System.out.println(question);
-        }
-        return new Result(true, "Security questions displayed.");
-    }
 
 
 
-//    public Result pickAndAnswerSecurityQuestion(Player user, int questionNumber, String answer) {
-//        if (user == null) {
-//            return new Result(false, "User not found");
-//        }
-//
-//        if (user.getQAndA() == null) {
-//            user.setQAndA(new HashMap<>());
-//        }
-//
-//        SecurityQuestion selectedQuestion = SecurityQuestion.getByNumber(questionNumber);
-//
-//        if (selectedQuestion == null) {
-//            return new Result(false, "Invalid question number");
-//        }
-//
-//        user.getQAndA().put(selectedQuestion, answer);
-//
-//        return new Result(true, "Security question saved");
-//    }
-//
-//
-//
 //    public Result forgotPassword(String username, String email) {
 //        Player user = (Player) getUserByUsername(username);
 //        if (user == null) {

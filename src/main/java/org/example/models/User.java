@@ -30,60 +30,68 @@ public class User extends Human {
 
     }
 
-    public boolean isStayLoggedInNextTime() {
-        return stayLoggedInNextTime;
-    }
-
-    public void applySecurityQuestions(SecurityQuestion Q){
-        this.securityQuestion = Q;
-    }
-    public void setAnswerSecurity(String A){
-        this.securityAnswer = A;
-    }
-
-    public void setStayLoggedInNextTime(boolean stayLoggedInNextTime) {
-        this.stayLoggedInNextTime = stayLoggedInNextTime;
-    }
 
     public String getUsername() {
         return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getGender() {
-        return gender;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
     }
 
-    
+    public SecurityQuestion getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(SecurityQuestion securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
+
+    public boolean isStayLoggedInNextTime() {
+        return stayLoggedInNextTime;
+    }
+
+    public void setStayLoggedInNextTime(boolean stayLoggedInNextTime) {
+        this.stayLoggedInNextTime = stayLoggedInNextTime;
+    }
 }

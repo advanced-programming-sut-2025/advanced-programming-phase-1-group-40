@@ -15,18 +15,14 @@ public class LoginMenu implements AppMenu {
 
         if ( LoginCommands.REGISTER.getMatcher(input) != null ) {
 
-            loginController.registerUser(LoginCommands.REGISTER.getMatcher(input),scanner);
+            System.out.println(loginController.registerUser(LoginCommands.REGISTER.getMatcher(input),scanner).message());
 
         }
-        if ( LoginCommands.PICK_QUESTION.getMatcher(input) != null ) {
 
-            System.out.println("Pick question");
-
-        }
 
         if ( LoginCommands.LOGIN.getMatcher(input) != null ) {
 
-            System.out.println("Login");
+            System.out.println(loginController.login(LoginCommands.LOGIN.getMatcher(input)).message());
 
         }
 

@@ -36,7 +36,8 @@ public class Player extends User {
     }
 
     public Player(User user) {
-        super(user.getUsername(), user.getPassword(), user.getNickname(), user.getEmail(), user.getGender());
+
+        super(user.getUsername(), user.getPassword(), user.getNickname(), user.getEmail(), user.getGender(),user.getSecurityQuestion(),user.getSecurityAnswer());
 
         // Initialize backpack with default type
         this.backpack = new Backpack(InventoryType.INITIAL);
