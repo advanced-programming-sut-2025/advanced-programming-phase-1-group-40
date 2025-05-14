@@ -31,7 +31,7 @@ public class Farm implements Serializable {
     private int height;
     private Season currentSeason;
     private List<MapComponents> components;
-    private ArrayList<MapTile> mapTiles;
+    private MapTile[][] mapTiles;
     
     // New lists for specific component types
     private ArrayList<Cabin> cabin;
@@ -57,21 +57,18 @@ public class Farm implements Serializable {
         this.name = name;
         this.width = width;
         this.height = height;
-        this.mapTiles = new ArrayList<>();
+        this.mapTiles = new MapTile[height][width];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                mapTiles[y][x] = new MapTile(new Position(x, y), TileType.GROUND);
+            }
+        }
         this.components = new ArrayList<>();
         this.trees = new ArrayList<>();
         this.stones = new ArrayList<>();
         this.foragingItems = new ArrayList<>();
         this.currentSeason = Season.SPRING; // Default season
         
-        // Initialize all tiles as GROUND
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                Position pos = new Position(x, y);
-                // Create each tile using its position and default TileType.GROUND
-                mapTiles.add(new MapTile(pos, TileType.GROUND));
-            }
-        }
     }
 
     public ArrayList<AnimalLivingSpace> getAnimalLivingSpaces() {
@@ -126,11 +123,11 @@ public class Farm implements Serializable {
         return height;
     }
     
-    public ArrayList<MapTile> getTiles() {
+    public MapTile[][] getTiles() {
         return mapTiles;
     }
     
-    public void setTiles(ArrayList<MapTile> tiles) {
+    public void setTiles(MapTile[][] tiles) {
         this.mapTiles = tiles;
     }
     
@@ -188,24 +185,17 @@ public class Farm implements Serializable {
     }
     
     public MapTile getTileAt(int x, int y) {
-        for (MapTile tile : mapTiles) {
-            if (tile.getPosition().getX() == x && tile.getPosition().getY() == y) {
-                return tile;
-            }
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            return mapTiles[y][x];
         }
         return null;
     }
     
-    // This method updates a tile by replacing it in the ArrayList.
-public void setTileAt(int x, int y, MapTile newTile) {
-    for (int i = 0; i < mapTiles.size(); i++) {
-        MapTile tile = mapTiles.get(i);
-        if (tile.getPosition().getX() == x && tile.getPosition().getY() == y) {
-            mapTiles.set(i, newTile);
-            return;
+    public void setTileAt(int x, int y, MapTile newTile) {
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            mapTiles[y][x] = newTile;
         }
     }
-}
     
     // Methods for farm operations
     

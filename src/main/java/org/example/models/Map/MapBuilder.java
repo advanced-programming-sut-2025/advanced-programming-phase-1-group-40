@@ -39,7 +39,7 @@ public class MapBuilder {
     }
     
     public MapBuilder initialize() {
-        this.tiles = new MapTile[height][width];
+        this.tiles = new MapTile[width][height];
         
         // Initialize all tiles as GROUND
         for (int y = 0; y < height; y++) {
@@ -53,14 +53,16 @@ public class MapBuilder {
     }
     
     public MapBuilder addCabin(int x, int y) {
-        if (isValidPosition(x, y) && isAreaClear(x, y, 3, 3)) {
-            for (int dy = 0; dy < 3; dy++) {
-                for (int dx = 0; dx < 3; dx++) {
-                    Position pos = new Position(x + dx, y + dy);
-                    tiles[x + dx][y + dy] = new MapTile(pos, TileType.CABIN);
+        if (isValidPosition(x, y) && isAreaClear(x, y, 4, 4)) {
+            for (int dy = 0; dy < 4; dy++) {
+                for (int dx = 0; dx < 4; dx++) {
+                    // Position pos = new Position(x + dx, y + dy);
+                    // tiles[x + dx][y + dy] = new MapTile(pos, TileType.CABIN);
+                    tiles[x + dx][y + dy].setType(TileType.CABIN);
                 }
             }
         }
+        
         return this;
     }
     
@@ -210,7 +212,7 @@ public class MapBuilder {
         return true;
     }
     
-    public Farm build() {
+    public Farm build() { 
         Farm farm = new Farm(mapName, width, height);
 
         ArrayList<MapTile> tilesArrayList = new ArrayList<>();

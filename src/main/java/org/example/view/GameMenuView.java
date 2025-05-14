@@ -1,10 +1,11 @@
 package org.example.view;
 
-import org.example.models.*;
+import org.example.models.App;
 import org.example.controller.Game.GameMenuController;
 import org.example.models.Game;
+import org.example.models.Player;
+import org.example.models.Result;
 import org.example.models.enums.Menu;
-import org.example.models.enums.commands.GameMenuCommands;
 import org.example.view.*;
 
 import java.util.ArrayList;
@@ -18,11 +19,68 @@ import java.util.regex.Pattern;
  * View for the game menu
  */
 public class GameMenuView implements AppMenu {
-    private final GameMenuController controller = new GameMenuController();
+    private final GameMenuController controller;
+
+    public GameMenuView() {
+        this.controller = new GameMenuController();
+    }
+
+    public void run(Scanner scanner) {
+        System.out.println("=== GAME MENU ===");
+        System.out.println("Type 'help' to see available commands.");
+
+        while (App.dataManager.getCurrentMenu() == Menu.GAME_MENU) {
+            System.out.print("> ");
+            String input = scanner.nextLine().trim();
+            getInput(input, scanner);
+        }
+    }
+
+    @Override
+    public void getInput(String input, Scanner scanner) {
+        // Handle new game command
+        if (input.matches("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+)(\\s+[a-zA-Z0-9-]+){0,2}\\s*")) {
+            handleNewGame(input, scanner);
+        }
+        // Handle map selection command
+        else if (input.matches("\\s*game\\s+map\\s+(\\d+)\\s*")) {
+            handleMapSelection(input);
+        }
+        // Handle next turn command
+        else if (input.matches("\\s*next\\s+turn\\s*")) {
+            handleNextTurn();
+        }
+        // Handle load game command
+        else if (input.matches("\\s*load\\s+game\\s*")) {
+            handleLoadGame();
+        }
+        // Handle exit game command
+        else if (input.matches("\\s*exit\\s+game\\s*")) {
+            handleExitGame();
+        }
+        // Handle vote to terminate command
+        else if (input.matches("\\s*vote\\s+terminate\\s+(yes|no)\\s*")) {
+            handleVoteTerminate(input);
+        }
+        // Handle game status command
+        else if (input.matches("\\s*game\\s+status\\s*")) {
+            handleGameStatus();
+        }
+        // Handle help command
+        else if (input.matches("\\s*help\\s*")) {
+            showHelp();
+        }
+        // Handle back command
+        else if (input.matches("\\s*back\\s*")) {
+            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+        } else {
+            System.out.println("Invalid command. Type 'help' to see available commands.");
+        }
+    }
 
     private void handleNewGame(String input, Scanner scanner) {
         // Extract usernames
-        Pattern pattern = Pattern.compile(GameMenuCommands.NEW_GAME.getRegexString());
+        Pattern pattern = Pattern.compile("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+(\\s+[a-zA-Z0-9-]+){0,2})\\s*");
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {
@@ -46,30 +104,16 @@ public class GameMenuView implements AppMenu {
                 return;
             }
 
-            ArrayList<Player> players = new ArrayList<>(usernames.size());
-            for (String username : usernames) {
-
-                for (User user : App.dataManager.getAllUsers()) {
-
-                    if (username.equals(user.getUsername())) {
-
-                        players.add((Player) user);
-
-                    }
-
-                }
-
-            }
-
-            Result result = controller.createNewGame(usernamesStr);
+            Result result = controller.createNewGame(usernames);
             System.out.println(result.message());
 
             if (result.success()) {
                 // Ask each player to select a map
+                System.out.println("\n" + controller.getMapTypeDescriptions());
                 System.out.println("\nEach player needs to select a map type.");
 
                 // Get map selections for all players
-                Game currentGame = App.dataManager.getCurrentGame();
+                Game currentGame = controller.getCurrentGame();
                 if (currentGame != null) {
                     for (Player player : currentGame.getPlayers()) {
                         System.out.println("\n" + player.getUsername() + ", please select a map type (1-7):");
@@ -105,11 +149,11 @@ public class GameMenuView implements AppMenu {
                                     int mapNumber = Integer.parseInt(mapInput);
                                     // Result mapResult = controller.selectMap(mapNumber);
                                     // System.out.println(mapResult.message());
-                                    Player originalPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
-                                    App.dataManager.getCurrentGame().setCurrentTurnPlayer(player);
+                                    Player originalPlayer = currentGame.getCurrentTurnPlayer();
+                                    currentGame.setCurrentTurnPlayer(player);
                                     Result mapResult = controller.selectMap(mapNumber);
                                     System.out.println(mapResult.message());
-                                    App.dataManager.getCurrentGame().setCurrentTurnPlayer(originalPlayer);
+                                    currentGame.setCurrentTurnPlayer(originalPlayer);
                                     if (mapResult.success()) {
                                         break;
                                     }
@@ -158,10 +202,13 @@ public class GameMenuView implements AppMenu {
     }
 
     private void handleExitGame() {
+        Result result = controller.exitGame();
+        System.out.println(result.message());
 
-        // Return to main menu
-        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-
+        if (result.success()) {
+            // Return to main menu
+            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+        }
     }
 
     private void handleVoteTerminate(String input) {
@@ -173,6 +220,11 @@ public class GameMenuView implements AppMenu {
             // Return to main menu
             App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
         }
+    }
+
+    private void handleGameStatus() {
+        String status = controller.getGameStatus();
+        System.out.println(status);
     }
 
     private void showHelp() {
@@ -187,10 +239,5 @@ public class GameMenuView implements AppMenu {
         System.out.println("game status : Show the current game status");
         System.out.println("back : Return to the main menu");
         System.out.println("help : Show this help message");
-    }
-
-    @Override
-    public void getInput(String input, Scanner scanner) {
-
     }
 }

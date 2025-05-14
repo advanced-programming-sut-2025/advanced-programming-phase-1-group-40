@@ -1,7 +1,6 @@
 package org.example.models;
 
-import org.example.models.Map.Farm;
-import org.example.models.Map.MapTile;
+import org.example.models.Map.*;
 import org.example.models.enums.enviroment.Time;
 import org.example.models.enums.enviroment.Weather;
 
@@ -17,6 +16,8 @@ public class Game {
     private ArrayList<Farm> farms;
     private HashMap<Player, Farm> playerFarms;
     private MapTile[][] map;
+    //a current farm should be implemented to do the things related to the
+    //list of everything especifically for that farm
     private Player currentTurnPlayer;
     private Player creator;
     private Time time;
@@ -33,9 +34,56 @@ public class Game {
         this.time = new Time();
         this.map = new MapTile[110][110];
         this.farms = new ArrayList<>();
+        for(int x=0; x<110; x++){
+            for(int y=0; y<110; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
+        }
 
         
     }
+
+    public void createFullMap() {
+    // Determine offsets by the number of farms
+    int farmCount = farms.size();
+    ArrayList<int[]> offsets = new ArrayList<>();
+
+    if (farmCount == 1) {
+        // Only one farm: center it.
+        offsets.add(new int[]{30, 30});
+    } else if (farmCount == 2) {
+        // For 2 players: first at top-left (0,0), second at top-right (60,0)
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+    } else if (farmCount == 3) {
+        // For 3 players: use top-left, top-right, bottom-left
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+        offsets.add(new int[]{0, 60});
+    } else if (farmCount >= 4) {
+        // For 4 or more players: use the four corners
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+        offsets.add(new int[]{0, 60});
+        offsets.add(new int[]{60, 60});
+    }
+
+    // Copy each farm's map into the main map
+    for (int i = 0; i < farms.size() && i < offsets.size(); i++) {
+        Farm farm = farms.get(i);
+        // Assuming each Farm has a method getMap() returning a 50x50 MapTile[][]
+        MapTile[][] farmMap = farm.getTiles();
+        int offsetX = offsets.get(i)[0];
+        int offsetY = offsets.get(i)[1];
+
+        for (int x = 0; x < 50; x++) {
+            for (int y = 0; y < 50; y++) {
+                // Overwrite the full map's tile with the farm's corresponding tile
+                map[offsetX + x][offsetY + y] = farmMap[x][y];
+            }
+        }
+    }
+}
 
 
     public void assignFarmToPlayer(Player player, Farm farm) {

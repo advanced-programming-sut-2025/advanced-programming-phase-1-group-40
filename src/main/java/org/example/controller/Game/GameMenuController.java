@@ -5,7 +5,10 @@ import org.example.models.Map.Farm;
 import org.example.models.Map.FarmManager;
 import org.example.models.enums.FriendshipLevel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for the game menu functionality
@@ -20,21 +23,13 @@ public class GameMenuController {
 
     /**
      * Creates a new game with the specified players
-     * @param usernamesString List of usernames to add to the game
+     * @param usernames List of usernames to add to the game
      * @return Result indicating success or failure
      */
-    public Result createNewGame(String usernamesString) {
-        List<String> usernames = new ArrayList<>();
-        Collections.addAll(usernames, usernamesString.split("\\s+"));
-        for (int i = 0; i < usernames.size(); i++) {
-            if (usernames.get(i).isEmpty()) {
-                usernames.remove(i);
-            }
-        }
-
-        // Validate number of players (3)
-        if (usernames == null || usernames.size() != 3) {
-            return new Result(false, "Invalid number of players. Game requires 3 players.");
+    public Result createNewGame(List<String> usernames) {
+        // Validate number of players (2-4)
+        if (usernames == null || usernames.size() < 2 || usernames.size() > 4) {
+            return new Result(false, "Invalid number of players. Game requires 2-4 players.");
         }
 
         // Validate all usernames
@@ -46,11 +41,11 @@ public class GameMenuController {
             }
 
             // Check if player is already in another active game
-            if (isPlayerInActiveGame(user)) {
+            if (isPlayerInActiveGame((Player)user)) {
                 return new Result(false, "Player '" + username + "' is already in an active game.");
             }
 
-            players.add(new Player(user));
+            players.add((Player)user);
         }
 
         for ( Player player1 : players ) {
@@ -68,9 +63,9 @@ public class GameMenuController {
         }
 
         // Create the game and set it as current in DataManager
-        Game newGame = App.dataManager.createNewGame(players);
+        Player creator = (Player) App.dataManager.getCurrentUser();
+        Game newGame = new Game(creator, players);
         currentGame = newGame;
-        Player creator = new Player( App.dataManager.getCurrentUser() );
         newGame.setCreator(creator);//we should be careful in the casting here
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
@@ -101,37 +96,42 @@ public class GameMenuController {
 
         // Store the player's map selection
         //mapSelections.put(currentPlayer.getUsername(), mapNumber);
+
         Farm chosenFarm = FarmManager.getInstance().createFarmForUser(currentPlayer, mapNumber);
 
         currentGame.assignFarmToPlayer(currentPlayer, chosenFarm);
-        // Check if all players have selected their maps
-        boolean allPlayersSelected = true;
-        for (Player player : currentGame.getPlayers()) {
-            if (!currentGame.getPlayerFarms().containsKey(player.getUsername())) {
-                allPlayersSelected = false;
-                break;
-            }
-        }
-
-        // If all players have selected, create farms for each player
-        if (allPlayersSelected) {
-            createFarmsForPlayers();
-            //currentGame.setActive(true);
+        currentGame.addFarm(chosenFarm);
+        
+        if(currentGame.getFarms().size() == currentGame.getPlayers().size()) {
+            createFullMap();
+            
             return new Result(true, "All players have selected their maps. Game is now active!");
         }
 
+    
         return new Result(true, "Map selection saved. Waiting for other players to select their maps.");
     }
 
-    /**
-     * Creates farms for all players based on their map selections
-     */
+    private void createFullMap(){
+        if(currentGame.getPlayers().size() == 2){
+            
+        }
+        else if(currentGame.getPlayers().size() == 3){
+
+        }
+        else if(currentGame.getPlayers().size() == 4){
+
+        }
+    }
+
+
+
     private void createFarmsForPlayers() {
         FarmManager farmManager = FarmManager.getInstance();
 
         for (Player player : currentGame.getPlayers()) {
-            //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
-            Farm farm = farmManager.createFarmForUser(player, 0); // TODO
+            int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
+            Farm farm = farmManager.createFarmForUser(player, mapType);
             currentGame.addFarm(farm);
 
             // Set the player's current position to their farm's cabin
@@ -156,11 +156,11 @@ public class GameMenuController {
      */
     public Result nextTurn() {
         Game currentGame = App.dataManager.getCurrentGame();
-        if (currentGame == null) {
+        if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game. Please create or load a game first.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Player currentPlayer = App.dataManager.getCurrentUser();
 
         // Check if it's the current player's turn
         if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
@@ -189,7 +189,7 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result loadGame() {
-        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Load the game and set it as current in DataManager
         Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
@@ -211,11 +211,11 @@ public class GameMenuController {
     public Result exitGame() {
         Game currentGame = App.dataManager.getCurrentGame();
 
-        if (currentGame == null) {
+        if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game to exit.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Only the game creator can exit the game
         if (!currentGame.getCreator().getUsername().equals(currentPlayer.getUsername())) {
@@ -236,11 +236,11 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result voteToTerminateGame(boolean vote) {
-        if (currentGame == null) {
+        if (currentGame == null || !currentGame.isActive()) {
             return new Result(false, "No active game to terminate.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Register the player's vote
         boolean allVotedToTerminate = currentGame.voteForTermination(currentPlayer, vote);
@@ -260,7 +260,7 @@ public class GameMenuController {
      * @param player The player to check
      * @return true if the player is in an active game, false otherwise
      */
-    private boolean isPlayerInActiveGame(User player) {
+    private boolean isPlayerInActiveGame(Player player) {
         // A player can be in multiple games, so we don't need to check this anymore
         return false;
     }
@@ -324,10 +324,6 @@ public class GameMenuController {
         sb.append(currentGame.getTime().getYear());
 
         return sb.toString();
-    }
-
-    public void showCurrentMenu() {
-        // TODO
     }
 }
 
