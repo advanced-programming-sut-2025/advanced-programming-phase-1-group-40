@@ -16,7 +16,7 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Farm> farms;
     private HashMap<Player, Farm> playerFarms;
-    private ArrayList<MapTile> map;
+    private MapTile[][] map;
     private Player currentTurnPlayer;
     private Player creator;
     private Time time;
@@ -31,7 +31,7 @@ public class Game {
         this.gameID = App.dataManager.getGames().get( App.dataManager.getGames().size() -1 ).getGameID() + 1;
         this.players = players;
         this.time = new Time();
-        this.map = new ArrayList<>();
+        this.map = new MapTile[110][110];
         this.farms = new ArrayList<>();
 
         
@@ -62,11 +62,11 @@ public class Game {
         this.playerFarms = playerFarms;
     }
 
-    public ArrayList<MapTile> getMap() {
+    public MapTile[][] getMap() {
         return map;
     }
 
-    public void setMap(ArrayList<MapTile> map) {
+    public void setMap(MapTile[][] map) {
         this.map = map;
     }
 
