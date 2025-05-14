@@ -38,7 +38,13 @@ public class LoginController {
             return new Result(false, "Invalid email format.");
         }
 
-        if ( password.toLowerCase().equals(repeatPassword.toLowerCase())) {
+        if ( password.trim().equals("random") ) {
+
+            password = generateRandomPassword();
+
+        }
+
+        else if ( password.toLowerCase().equals(repeatPassword.toLowerCase())) {
 
             password = generateRandomPassword();
 
@@ -86,6 +92,7 @@ public class LoginController {
 
     }
 
+
     private void showQuestions() {
 
         System.out.println("Choose one of the following questions and type down your answer:");
@@ -101,7 +108,7 @@ public class LoginController {
 
         showQuestions();
 
-        String securityQuestionAnswer = scanner.nextLine();
+        String securityQuestionAnswer = scanner.nextLine().trim();
 
         while ( !(
 
@@ -278,94 +285,93 @@ public class LoginController {
 
     }
 
+    public Result forgotPassword(Matcher input,Scanner scanner) {
+
+        String username = input.group("username");
+
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                Result securityQuestionResult = validateSecurityQuestion(user,scanner);
+
+                if ( securityQuestionResult.success() ){
+
+                    System.out.println("Security Question Correct. Please enter your new password:");
+                    String newPassword = scanner.nextLine().trim();
+
+                    if ( newPassword.equals("random") ) {
+
+                        newPassword = generateRandomPassword();
+
+                    }
+
+                    else {
 
 
+                        if ( ! isPasswordValid(newPassword) ) {
+
+                            return new Result(false, "Invalid password format.");
+
+                        }
+
+                        if ( isPasswordWeak(newPassword) ) {
+
+                            return new Result(false, "Password is weak!");
+
+                        }
 
 
+                    }
+
+                    user.setPassword(newPassword);
+                    return new Result(true, "Password successfully changed.");
+
+                }
+
+                return new Result(false,securityQuestionResult.message());
 
 
-
-
-
-
-//    public Result forgotPassword(String username, String email) {
-//        Player user = (Player) getUserByUsername(username);
-//        if (user == null) {
-//            return new Result(false, "User not found");
-//        }
-//
-//        // Check if email matches
-//        if (!user.getEmail().equals(email)) {
-//            return new Result(false, "Email does not match the username");
-//        }
-//
-//        if (user.getQAndA() != null && !user.getQAndA().isEmpty()) {
-//            SecurityQuestion question = user.getQAndA().keySet().iterator().next();
-//            return new Result(true, "Security Question: " + question.getQuestionText());
-//        }
-//
-//        // If no security question is set, generate a random password
-//        Result rand = randomPasswordGenerator();
-//        String newPassword = rand.message();
-//        user.setPassword(newPassword);
-//        return new Result(true, "Your new password is: " + newPassword);
-//    }
-//
-//
-//
-//    public Result validateSecurityQuestion(Player user, String answerToSecurityQuestion) {
-//        if (user == null || user....getQAndA() == null || user.getQAndA().isEmpty()) {
-//            return new Result(false, "No security question set for this user.");
-//        }
-//
-//        SecurityQuestion question = user.getQAndA().keySet().iterator().next();
-//        String correctAnswer = user.getQAndA().get(question);
-//
-//        if (correctAnswer.equalsIgnoreCase(answerToSecurityQuestion)) {
-//            return new Result(true, "Security question has been validated successfully.");
-//        } else {
-//            return new Result(false, "Incorrect answer.");
-//        }
-//    }
-
-
-
-    public Result resetPassword(Player user, String newPassword) {
-        if (user == null) {
-            return new Result(false, "User not found");
-        }
-
-        user.setPassword(newPassword);
-        return new Result(true, "Password has been reset successfully.");
-    }
-
-
-
-
-    private User getUserByUsername(String username) {
-        for (User user : App.dataManager.getAllUsers()) {
-            if (user.getUsername().equals(username)) {
-                return user;
             }
+
         }
-        return null;
+
+
+        return new Result(false, "Username does not exist.");
+
+
+    }
+
+    private Result validateSecurityQuestion(User user,Scanner scanner) {
+
+        System.out.println("Type down your answer to the security question:");
+        System.out.println(user.getSecurityQuestion());
+        System.out.println("Your answer:");
+        String answer = scanner.nextLine().trim();
+
+        if ( LoginCommands.ANSWER.getMatcher(answer) != null ) {
+            return new Result(false,"Incorrect answer format. Try again");
+        }
+
+        if (user.getSecurityAnswer().equals(answer)) {
+            return new Result(true,"");
+        }
+        return new Result(false,"Security Question answer was incorrect.");
+
+
     }
 
 
+    ///  SHOW CURRENT MENU
 
-    private String generateAlternativeUsername(String username) {
-        Random random = new Random();
-        return username + "-" + random.nextInt(1000);
+    public String showCurrentMenu() {
+        return Menu.LOGIN_MENU.getDisplayName();
     }
 
+    ///  EXIT
 
-
-
-
-    public Result checkSecurityAnswer(String forgotPasswordUsername, String answer) {
-        // TODO
-        return null;
+    public void exit(){
+        App.dataManager.setCurrentMenu(Menu.EXIT);
     }
-
 
 }
