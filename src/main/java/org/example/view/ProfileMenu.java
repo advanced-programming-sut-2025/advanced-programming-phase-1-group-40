@@ -87,8 +87,8 @@ public class ProfileMenu implements AppMenu {
             System.out.println("=== USER INFORMATION ===");
             System.out.println("Username: " + currentPlayer.getUsername());
             System.out.println("Nickname: " + currentPlayer.getNickname());
-            System.out.println("Highest Money: " + ((Player) currentPlayer).getHighestMoney());
-            System.out.println("Games Played: " + ((Player) currentPlayer).getGamesPlayed());
+            System.out.println("Highest Money: " + currentPlayer.getHighestMoney());
+            System.out.println("Games Played: " + currentPlayer.getGamesPlayed());
         } else {
             System.out.println("No user is currently logged in.");
         }
