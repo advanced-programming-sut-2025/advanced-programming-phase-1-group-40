@@ -28,7 +28,7 @@ public class Game {
     public Game(Player creator, ArrayList<Player> players) {
 
 
-        this.gameID = App.dataManager.getGames().get( App.dataManager.getGames().size() -1 ).getGameID() + 1;
+        this.gameID = App.dataManager.getGames().size() + 1;
         this.players = players;
         this.time = new Time();
         this.map = new MapTile[110][110];

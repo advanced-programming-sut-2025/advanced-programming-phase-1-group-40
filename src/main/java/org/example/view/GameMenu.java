@@ -6,6 +6,7 @@ import org.example.models.enums.Menu;
 import org.example.models.enums.commands.GameMenuCommands;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 
 public class GameMenu implements AppMenu {
@@ -16,10 +17,10 @@ public class GameMenu implements AppMenu {
 
     @Override
     public void getInput(String input, Scanner scanner) {
+        Matcher matcher;
+        if ( (matcher = GameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
 
-        if ( GameMenuCommands.NEW_GAME.getMatcher(input) != null ) {
-
-            System.out.println(gameMenuController.createNewGame(input).message());
+            System.out.println(gameMenuController.createNewGame(matcher.group("users")).message());
 
         }
         else if (  GameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {
@@ -29,7 +30,7 @@ public class GameMenu implements AppMenu {
         }
         else if ( GameMenuCommands.SELECT_MAP.getMatcher(input) != null  ) {
 
-            System.out.println("Select a Map");             /// TODO
+            System.out.println("Select a Map");             // TODO
 
         }
 
