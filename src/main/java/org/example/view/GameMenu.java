@@ -1,6 +1,7 @@
 package org.example.view;
 
 import org.example.controller.Game.GameMenuController;
+import org.example.models.App;
 import org.example.models.enums.Menu;
 import org.example.models.enums.commands.GameMenuCommands;
 
@@ -18,7 +19,7 @@ public class GameMenu implements AppMenu {
 
         if ( GameMenuCommands.NEW_GAME.getMatcher(input) != null ) {
 
-            System.out.println(gameMenuController.newGame(input).message());
+            System.out.println(gameMenuController.createNewGame(input).message());
 
         }
         else if (  GameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {
@@ -34,7 +35,7 @@ public class GameMenu implements AppMenu {
 
         else if ( GameMenuCommands.GO_TO_MAIN_MENU.getMatcher(input) != null  ) {
 
-            gameMenuController.goToMenu(Menu.MAIN_MENU);
+            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
 
         }
         else{
