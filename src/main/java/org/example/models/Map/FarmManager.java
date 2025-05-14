@@ -10,53 +10,69 @@ import java.util.*;
  * Manages farm creation and association with users
  */
 public class FarmManager {
+
+
     private static FarmManager instance;
     private ArrayList<Farm> userFarms; // Maps username to farm
-    
+
+
     private FarmManager() {
         userFarms = new ArrayList<>();
     }
-    
+
+
     public static FarmManager getInstance() {
         if (instance == null) {
             instance = new FarmManager();
         }
         return instance;
     }
-    
-    /**
-     * Creates a new farm for a user based on the selected map type
-     * @param player The player to create a farm for
-     * @param mapType The type of map to create (1-7)
-     * @return The created farm
-     */
+
+
     public Farm createFarmForUser(Player player, int mapType) {
         Farm farm;
         
         switch (mapType) {
+
             case 1:
+
                 farm = MapBuilder.buildStandardFarm();
                 break;
+
             case 2:
+
                 farm = MapBuilder.buildFishingFarm();
                 break;
+
             case 3:
+
                 farm = MapBuilder.buildMiningFarm();
                 break;
+
             case 4:
+
                 farm = MapBuilder.buildForestFarm();
                 break;
+
             case 5:
+
                 farm = MapBuilder.buildRiverFarm();
                 break;
+
             case 6:
+
                 farm = MapBuilder.buildHillTopFarm();
                 break;
+
             case 7:
+
                 farm = MapBuilder.buildWildernessFarm();
                 break;
+
             default:
+
                 farm = MapBuilder.buildStandardFarm();
+                break;
         }
         
         // Set the farm owner

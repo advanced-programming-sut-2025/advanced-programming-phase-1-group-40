@@ -7,7 +7,9 @@ public class TradeMenuController {
 
     public Result tradeWithMoney(String targetUsername, String type, String itemName, int amount, int price) { // type?
 
-         Player targetPlayer =
+//         Player targetPlayer =
+
+//        App.dataManager.getCurrentGame().map[x][y]
 
         return new Result(true, "");
     }
