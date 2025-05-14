@@ -272,9 +272,9 @@ public class DataManager {
     }
 
 
-    public Game createNewGame(Player[] players) {
+    public Game createNewGame(ArrayList<Player> players) {
         //  TODO
-        return new Game(players[0], new ArrayList<>(asList(players)));
+        return new Game(players.getFirst(), players);
     }
 }
 
