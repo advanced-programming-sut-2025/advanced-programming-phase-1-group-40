@@ -20,25 +20,25 @@ public class MapBuilder {
     private int height;
     private ArrayList<MapTile> tiles;
     private Random random;
-    
+
     public MapBuilder() {
         this.random = new Random();
     }
-    
+
     public MapBuilder setName(String name) {
         this.mapName = name;
         return this;
     }
-    
+
     public MapBuilder setDimensions(int width, int height) {
         this.width = width;
         this.height = height;
         return this;
     }
-    
+
     public MapBuilder initialize() {
         this.tiles = new ArrayList<>();
-        
+
         // Initialize all tiles as GROUND
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -47,11 +47,11 @@ public class MapBuilder {
 
             }
         }
-        
+
         return this;
     }
-    
-    public MapBuilder addCabin(int x, int y) {
+
+   /* public MapBuilder addCabin(int x, int y) {
         if (isValidPosition(x, y) && isAreaClear(x, y, 3, 3)) {
             for (int dy = 0; dy < 3; dy++) {
                 for (int dx = 0; dx < 3; dx++) {
@@ -60,9 +60,21 @@ public class MapBuilder {
             }
         }
         return this;
-    }
-    
-    public MapBuilder addGreenhouse(int x, int y) {
+    }*/
+   public MapBuilder addCabin(int x, int y) {
+       if (isValidPosition(x, y) && isAreaClear(x, y, 3, 3)) {
+           for (int dy = 0; dy < 3; dy++) {
+               for (int dx = 0; dx < 3; dx++) {
+                   int index = (y + dy) * width + (x + dx);
+                   tiles.set(index, new MapTile(new Position(x + dx, y + dy), TileType.CABIN));
+               }
+           }
+       }
+       return this;
+   }
+
+
+    /*public MapBuilder addGreenhouse(int x, int y) {
         if (isValidPosition(x, y) && isAreaClear(x, y, 5, 6)) {
             for (int dy = 0; dy < 6; dy++) {
                 for (int dx = 0; dx < 5; dx++) {
@@ -71,9 +83,21 @@ public class MapBuilder {
             }
         }
         return this;
+    }*/
+    public MapBuilder addGreenhouse(int x, int y) {
+        if (isValidPosition(x, y) && isAreaClear(x, y, 5, 6)) {
+            for (int dy = 0; dy < 6; dy++) {
+                for (int dx = 0; dx < 5; dx++) {
+                    int index = (y + dy) * width + (x + dx);
+                    tiles.set(index, new MapTile(new Position(x + dx, y + dy), TileType.GREENHOUSE));
+                }
+            }
+        }
+        return this;
     }
-    
-    public MapBuilder addLake(int x, int y, int width, int height) {
+
+
+    /*public MapBuilder addLake(int x, int y, int width, int height) {
         if (isValidPosition(x, y) && isAreaClear(x, y, width, height)) {
             for (int dy = 0; dy < height; dy++) {
                 for (int dx = 0; dx < width; dx++) {
@@ -82,9 +106,21 @@ public class MapBuilder {
             }
         }
         return this;
+    }*/
+    public MapBuilder addLake(int x, int y, int width, int height) {
+        if (isValidPosition(x, y) && isAreaClear(x, y, width, height)) {
+            for (int dy = 0; dy < height; dy++) {
+                for (int dx = 0; dx < width; dx++) {
+                    int index = (y + dy) * this.width + (x + dx);
+                    tiles.set(index, new MapTile(new Position(x + dx, y + dy), TileType.WATER));
+                }
+            }
+        }
+        return this;
     }
-    
-    public MapBuilder addQuarry(int x, int y, int width, int height) {
+
+
+    /*public MapBuilder addQuarry(int x, int y, int width, int height) {
         if (isValidPosition(x, y) && isAreaClear(x, y, width, height)) {
             for (int dy = 0; dy < height; dy++) {
                 for (int dx = 0; dx < width; dx++) {
@@ -93,20 +129,29 @@ public class MapBuilder {
             }
         }
         return this;
+    }*/
+    public MapBuilder addQuarry(int x, int y, int width, int height) {
+        if (isValidPosition(x, y) && isAreaClear(x, y, width, height)) {
+            for (int dy = 0; dy < height; dy++) {
+                for (int dx = 0; dx < width; dx++) {
+                    int index = (y + dy) * this.width + (x + dx);
+                    tiles.set(index, new MapTile(new Position(x + dx, y + dy), TileType.QUARRY));
+                }
+            }
+        }
+        return this;
     }
-    
+
+
     public MapBuilder randomlyPlaceTrees(int count, Season season) {
         for (int i = 0; i < count; i++) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-            
-            if (isValidPosition(x, y) && tiles[y][x].getType() == TileType.GROUND) {
-                tiles[y][x] = new MapTile(TileType.TREE);
-                
-                // Set tree type based on season
+            int index = y * width + x;
+
+            if (isValidPosition(x, y) && tiles.get(index).getType() == TileType.GROUND) {
                 TreeType treeType;
                 int treeRoll = random.nextInt(100);
-                
                 if (treeRoll < 40) {
                     treeType = TreeType.OAK_TREE;
                 } else if (treeRoll < 70) {
@@ -114,28 +159,27 @@ public class MapBuilder {
                 } else if (treeRoll < 90) {
                     treeType = TreeType.PINE_TREE;
                 } else {
-                    // TODO
-                    //treeType = TreeType.FRUIT_TREE;
+                    //
                 }
-                
-                // tiles[y][x].setTreeType(treeType);
+                tiles.set(index, new MapTile(new Position(x, y), TileType.TREE));
             }
         }
+
         return this;
     }
-    
+
+
     public MapBuilder randomlyPlaceStones(int count) {
         for (int i = 0; i < count; i++) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-            
-            if (isValidPosition(x, y) && tiles[y][x].getType() == TileType.GROUND) {
-                tiles[y][x] = new MapTile(TileType.STONE);
-                
+            int index = y * width + x;
+
+            if (isValidPosition(x, y) && tiles.get(index).getType() == TileType.GROUND) {
                 // Set stone type
                 ForagingMineralType foragingMineralType;
                 int stoneRoll = random.nextInt(100);
-                
+
                 if (stoneRoll < 60) {
                     foragingMineralType = ForagingMineralType.REGULAR;
                 } else if (stoneRoll < 80) {
@@ -147,25 +191,28 @@ public class MapBuilder {
                 } else {
                     foragingMineralType = ForagingMineralType.IRIDIUM;
                 }
-                
-                tiles[y][x].setStoneType(foragingMineralType);
+
+                // Create new tile with stone type
+                MapTile stoneTile = new MapTile(new Position(x, y), TileType.STONE);
+                stoneTile.setStoneType(foragingMineralType);
+
+                tiles.set(index, stoneTile);
             }
         }
+
         return this;
     }
-    
+
     public MapBuilder randomlyPlaceForagingItems(int count, Season season) {
         for (int i = 0; i < count; i++) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-            
-            if (isValidPosition(x, y) && tiles[y][x].getType() == TileType.GROUND) {
-                tiles[y][x] = new MapTile(TileType.FORAGEABLE);
-                
-                // Set foraging type based on season
+            int index = y * width + x;
+
+            if (isValidPosition(x, y) && tiles.get(index).getType() == TileType.GROUND) {
                 ForagingType foragingType;
                 int foragingRoll = random.nextInt(100);
-                
+
                 if (foragingRoll < 30) {
                     foragingType = ForagingType.WILD_BERRY;
                 } else if (foragingRoll < 60) {
@@ -177,42 +224,48 @@ public class MapBuilder {
                 } else {
                     foragingType = ForagingType.TRUFFLE;
                 }
-                
-                // Create a foraging crop and set it on the tile
+
                 ForagingCrop foragingCrop = new ForagingCrop(new Position(x, y));
-                tiles[y][x].setForageableItem(foragingCrop);
+                MapTile foragingTile = new MapTile(new Position(x, y), TileType.FORAGEABLE);
+                foragingTile.setForageableItem(foragingCrop);
+                tiles.set(index, foragingTile);
             }
         }
         return this;
     }
-    
+
+
     private boolean isValidPosition(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
-    
+
     private boolean isAreaClear(int x, int y, int width, int height) {
         for (int dy = 0; dy < height; dy++) {
             for (int dx = 0; dx < width; dx++) {
                 int checkX = x + dx;
                 int checkY = y + dy;
-                if (!isValidPosition(checkX, checkY) || tiles[checkY][checkX].getType() != TileType.GROUND) {
+                if (!isValidPosition(checkX, checkY)) {
+                    return false;
+                }
+                int index = checkY * width + checkX;
+                if (tiles.get(index).getType() != TileType.GROUND) {
                     return false;
                 }
             }
         }
         return true;
     }
-    
+
     public Farm build() {
         Farm farm = new Farm(mapName, width, height);
         farm.setTiles(tiles);
-        
-        // Add components to the farm
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                MapTile tile = tiles[y][x];
+                int index = y * width + x;
+                MapTile tile = tiles.get(index);
                 Position position = new Position(x, y);
-                
+
                 switch (tile.getType()) {
                     case CABIN:
                         farm.addComponent(new Cabin(position));
@@ -224,42 +277,39 @@ public class MapBuilder {
                         // Find the full size of the quarry
                         int quarryWidth = 1;
                         int quarryHeight = 1;
-                        
+
                         // Find width
-                        while (x + quarryWidth < width && 
-                               tiles[y][x + quarryWidth].getType() == TileType.QUARRY) {
+                        while (x + quarryWidth < width &&
+                            tiles.get(index + quarryWidth).getType() == TileType.QUARRY) {
                             quarryWidth++;
                         }
-                        
+
                         // Find height
-                        while (y + quarryHeight < height && 
-                               tiles[y + quarryHeight][x].getType() == TileType.QUARRY) {
+                        while (y + quarryHeight < height &&
+                            tiles.get(index + quarryHeight * width).getType() == TileType.QUARRY) {
                             quarryHeight++;
                         }
-                        
+
                         farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
                         break;
                     case WATER:
-                        // Find the full size of the lake
                         int lakeWidth = 1;
                         int lakeHeight = 1;
-                        
-                        // Find width
-                        while (x + lakeWidth < width && 
-                               tiles[y][x + lakeWidth].getType() == TileType.WATER) {
+
+                        while (x + lakeWidth < width &&
+                            tiles.get(index + lakeWidth).getType() == TileType.WATER) {
                             lakeWidth++;
                         }
-                        
-                        // Find height
-                        while (y + lakeHeight < height && 
-                               tiles[y + lakeHeight][x].getType() == TileType.WATER) {
+
+                        while (y + lakeHeight < height &&
+                            tiles.get(index + lakeHeight * width).getType() == TileType.WATER) {
                             lakeHeight++;
                         }
-                        
+
                         farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
                         break;
                     case TREE:
-                        farm.addComponent(new Tree(tile.getTreeType(),new Position(x, y)));
+                        farm.addComponent(new Tree(tile.getTreeType(), new Position(x, y)));
                         break;
                     case STONE:
                         farm.addComponent(new ForagingMineral(position));
@@ -272,10 +322,10 @@ public class MapBuilder {
                 }
             }
         }
-        
+
         return farm;
     }
-    
+
     // Pre-defined farm templates
     /**
      * Builds a standard farm with balanced resources
@@ -294,7 +344,7 @@ public class MapBuilder {
             .randomlyPlaceForagingItems(15, Season.SPRING)
             .build();
     }
-    
+
     /**
      * Builds a fishing farm with more water areas
      */
@@ -314,7 +364,7 @@ public class MapBuilder {
             .randomlyPlaceForagingItems(10, Season.SPRING)
             .build();
     }
-    
+
     /**
      * Builds a mining farm with more mining resources
      */
@@ -334,7 +384,7 @@ public class MapBuilder {
             .randomlyPlaceForagingItems(10, Season.SPRING)
             .build();
     }
-    
+
     /**
      * Builds a forest farm with more trees and foraging opportunities
      */
@@ -352,7 +402,7 @@ public class MapBuilder {
             .randomlyPlaceForagingItems(30, Season.SPRING) // Many foraging items
             .build();
     }
-    
+
     /**
      * Builds a river farm with a river running through it
      */
@@ -372,7 +422,7 @@ public class MapBuilder {
             .randomlyPlaceForagingItems(15, Season.SPRING)
             .build();
     }
-    
+
     /**
      * Builds a hill-top farm with elevated areas
      */
@@ -392,7 +442,7 @@ public class MapBuilder {
             .randomlyPlaceForagingItems(15, Season.SPRING)
             .build();
     }
-    
+
     /**
      * Builds a wilderness farm with more wild resources but more challenging
      */
@@ -415,16 +465,19 @@ public class MapBuilder {
     private MapBuilder addRiver(int x, int y, int width, int height) {
         for (int i = x; i < x + width && i < this.width; i++) {
             for (int j = y; j < y + height && j < this.height; j++) {
-                tiles[j][i] = new MapTile(TileType.WATER);
+                int index = j * this.width + i;
+                tiles.set(index, new MapTile(TileType.WATER));
             }
         }
         return this;
     }
 
+
     private MapBuilder addHill(int x, int y, int width, int height) {
         for (int i = x; i < x + width && i < this.width; i++) {
             for (int j = y; j < y + height && j < this.height; j++) {
-                tiles[j][i] = new MapTile(TileType.HILL);
+                int index = j * this.width + i;
+                tiles.set(index, new MapTile(TileType.HILL));
             }
         }
         return this;
@@ -434,14 +487,16 @@ public class MapBuilder {
         for (int i = 0; i < count; i++) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-            
-            if (tiles[y][x].getType() == TileType.DIRT || 
-                tiles[y][x].getType() == TileType.QUARRY) {
-                tiles[y][x] = new MapTile(TileType.ORE);
+
+            int index = y * this.width + x;
+
+            if (tiles.get(index).getType() == TileType.DIRT || tiles.get(index).getType() == TileType.QUARRY) {
+                tiles.set(index, new MapTile(TileType.ORE));
             }
         }
         return this;
     }
+
 
 
 }
