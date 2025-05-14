@@ -1,6 +1,7 @@
 package org.example.models.enums;
 
 public enum SecurityQuestion {
+
     FIRST_PET("What was the name of your first pet?", 1),
     MOTHER_MAIDEN_NAME("What is your mother's maiden name?", 2),
     CHILDHOOD_STREET("What street did you grow up on?", 3),
@@ -25,7 +26,7 @@ public enum SecurityQuestion {
     }
 
     public static SecurityQuestion getByNumber(int number) {
-        for (SecurityQuestion question : values()) {
+        for (SecurityQuestion question : SecurityQuestion.values()) {
             if (question.getQuestionNumber() == number) {
                 return question;
             }
@@ -37,4 +38,5 @@ public enum SecurityQuestion {
     public String toString() {
         return questionNumber + ". " + questionText;
     }
+
 }

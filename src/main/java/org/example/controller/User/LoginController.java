@@ -6,10 +6,7 @@ import org.example.models.enums.SecurityQuestion;
 import org.example.models.enums.commands.LoginCommands;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class LoginController {
@@ -17,7 +14,7 @@ public class LoginController {
 
     ///  REGISTER
 
-    public Result registerUser(Matcher input) {
+    public Result registerUser(Matcher input, Scanner scanner) {
 
         String username = input.group("username");
         String password = input.group("password");
@@ -72,12 +69,66 @@ public class LoginController {
         }
 
 
-        // EVERYTHING FINE -> CREATE USER
+        // EVERYTHING FINE -> SECURITY QUESTIONS
 
-        User newUser = new User(username, password, nickname, email, gender);
+        Matcher securityQuestion = handleSecurityQuestion(scanner);
+
+        String questionNumber = securityQuestion.group("questionNumber");
+        String answer = securityQuestion.group("answer");
+
+
+
+        User newUser = new User(username, password, nickname, email, gender,SecurityQuestion.getByNumber(Integer.parseInt(questionNumber)),answer);
+
         App.dataManager.addUser(newUser);
 
         return new Result(true, "Successfully registered.");
+
+    }
+
+    private void showQuestions() {
+
+        System.out.println("Choose one of the following questions and type down your answer:");
+        for ( SecurityQuestion question : SecurityQuestion.values() ) {
+
+            System.out.println(question.toString());
+
+        }
+
+    }
+
+    private Matcher handleSecurityQuestion(Scanner scanner) {
+
+        showQuestions();
+
+        String securityQuestionAnswer = scanner.nextLine();
+
+        while ( !(
+
+                LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer) != null
+
+                &&
+
+                (
+                        LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answer")
+                        ==
+                        LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answerConfirm")))
+                )
+        {
+
+            if ( LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer) == null ){
+                System.out.println("Invalid input.");
+            }
+            else{
+                System.out.println("Answers don't match.");
+            }
+
+            showQuestions();
+            securityQuestionAnswer = scanner.nextLine();
+
+        }
+
+        return LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer);
 
     }
 
@@ -187,6 +238,9 @@ public class LoginController {
         return sb.toString();
 
     }
+
+
+
 
     ///  LOGIN
 

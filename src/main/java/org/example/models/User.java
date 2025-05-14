@@ -1,10 +1,8 @@
 package org.example.models;
 
 import org.example.models.enums.SecurityQuestion;
-import org.example.models.enums.types.Gender;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class User extends Human {
 
@@ -18,7 +16,7 @@ public class User extends Human {
     private boolean stayLoggedInNextTime;
 
 
-    public User(String username, String password, String nickname, String email, String gender) {
+    public User(String username, String password, String nickname, String email, String gender,SecurityQuestion securityQuestion, String securityAnswer) {
 
         super(new HashMap<>());
         this.username = username;
@@ -27,6 +25,8 @@ public class User extends Human {
         this.email = email;
         this.gender = gender;
         this.stayLoggedInNextTime = false;
+        this.securityQuestion = securityQuestion;
+        this.securityAnswer = this.securityAnswer;
 
     }
 

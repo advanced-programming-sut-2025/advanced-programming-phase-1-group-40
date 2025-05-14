@@ -15,7 +15,7 @@ public class LoginMenu implements AppMenu {
 
         if ( LoginCommands.REGISTER.getMatcher(input) != null ) {
 
-            loginController.registerUser(LoginCommands.REGISTER.getMatcher(input));
+            loginController.registerUser(LoginCommands.REGISTER.getMatcher(input),scanner);
 
         }
         if ( LoginCommands.PICK_QUESTION.getMatcher(input) != null ) {
