@@ -6,6 +6,10 @@ import org.example.models.Player;
 import org.example.models.Game;
 import org.example.models.DataManager;
 
+import java.util.ArrayList;
+
+import static java.util.Arrays.asList;
+
 
 public class PreGameMenuController {
     public Result startGame() {
@@ -21,7 +25,7 @@ public class PreGameMenuController {
 
         // Create a new single-player game
         Player[] players = {currentPlayer};
-        Game newGame = App.dataManager.createNewGame(players);
+        Game newGame = App.dataManager.createNewGame(new ArrayList<>(asList(players)));
         newGame.setCreator(currentPlayer);
         newGame.setCurrentTurnPlayer(currentPlayer);
 
