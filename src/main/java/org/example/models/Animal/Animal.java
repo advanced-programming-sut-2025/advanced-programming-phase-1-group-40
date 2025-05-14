@@ -76,7 +76,7 @@ public class Animal {
     }
 
     public void setFriendshipWithOwner(Integer friendshipWithOwner) {
-        this.friendshipWithOwner = friendshipWithOwner;
+        this.friendshipWithOwner = Math.min(1000,friendshipWithOwner);
     }
 
     public boolean isPetToday() {

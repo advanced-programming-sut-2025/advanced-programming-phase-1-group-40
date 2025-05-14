@@ -180,7 +180,7 @@ public class GameController {
 
         }
 
-        animal.setFriendshipWithOwner(Math.min(animal.getFriendshipWithOwner()+15,1000));
+        animal.setFriendshipWithOwner(animal.getFriendshipWithOwner()+15);
 
         return new Result(true,"Pet successfully. FriendShip +15 (:");
 
