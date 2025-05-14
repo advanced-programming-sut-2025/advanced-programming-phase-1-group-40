@@ -5,10 +5,7 @@ import org.example.models.Map.Farm;
 import org.example.models.Map.FarmManager;
 import org.example.models.enums.FriendshipLevel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Controller for the game menu functionality
@@ -26,7 +23,9 @@ public class GameMenuController {
      * @param usernames List of usernames to add to the game
      * @return Result indicating success or failure
      */
-    public Result createNewGame(List<String> usernames) {
+    public Result createNewGame(String usernamesString) {
+        List<String> usernames = new ArrayList<>();
+        Collections.addAll(usernames, usernamesString.split("\\s+"));
         // Validate number of players (2-4)
         if (usernames == null || usernames.size() < 2 || usernames.size() > 4) {
             return new Result(false, "Invalid number of players. Game requires 2-4 players.");
@@ -125,8 +124,8 @@ public class GameMenuController {
         FarmManager farmManager = FarmManager.getInstance();
 
         for (Player player : currentGame.getPlayers()) {
-            int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
-            Farm farm = farmManager.createFarmForUser(player, mapType);
+            //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
+            Farm farm = farmManager.createFarmForUser(player, 0); // TODO
             currentGame.addFarm(farm);
 
             // Set the player's current position to their farm's cabin
@@ -151,11 +150,11 @@ public class GameMenuController {
      */
     public Result nextTurn() {
         Game currentGame = App.dataManager.getCurrentGame();
-        if (currentGame == null || !currentGame.isActive()) {
+        if (currentGame == null) {
             return new Result(false, "No active game. Please create or load a game first.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentUser();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         // Check if it's the current player's turn
         if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
@@ -184,7 +183,7 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result loadGame() {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         // Load the game and set it as current in DataManager
         Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
@@ -206,11 +205,11 @@ public class GameMenuController {
     public Result exitGame() {
         Game currentGame = App.dataManager.getCurrentGame();
 
-        if (currentGame == null || !currentGame.isActive()) {
+        if (currentGame == null) {
             return new Result(false, "No active game to exit.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         // Only the game creator can exit the game
         if (!currentGame.getCreator().getUsername().equals(currentPlayer.getUsername())) {
@@ -231,11 +230,11 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result voteToTerminateGame(boolean vote) {
-        if (currentGame == null || !currentGame.isActive()) {
+        if (currentGame == null) {
             return new Result(false, "No active game to terminate.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         // Register the player's vote
         boolean allVotedToTerminate = currentGame.voteForTermination(currentPlayer, vote);
@@ -319,6 +318,10 @@ public class GameMenuController {
         sb.append(currentGame.getTime().getYear());
 
         return sb.toString();
+    }
+
+    public void showCurrentMenu() {
+        // TODO
     }
 }
 
