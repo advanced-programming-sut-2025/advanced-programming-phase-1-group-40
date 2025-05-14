@@ -262,6 +262,7 @@ public class LoginController {
                         user.setStayLoggedInNextTime(stayLoggedIn);
                         App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
 
+                        return new Result(true, "Login Successful. You are now in Main Menu.");
 
                     }
 
