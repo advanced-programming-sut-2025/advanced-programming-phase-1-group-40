@@ -153,24 +153,6 @@ public class Game {
         }
     }
 
-    /**
-     * Move to the next player's turn
-     * @return The next player
-     */
-    public Player nextTurn() {
-        int currentIndex = players.indexOf(currentTurnPlayer);
-        int nextIndex = (currentIndex + 1) % players.size();
-
-        // If we've gone through all players, advance the time
-        if (nextIndex == 0) {
-//            everyOnePlayed = true;
-            // TODO
-            //time.advanceHour();
-        }
-
-        currentTurnPlayer = players.get(nextIndex);
-        return currentTurnPlayer;
-    }
 
     /**
      * Registers a player's vote for termination

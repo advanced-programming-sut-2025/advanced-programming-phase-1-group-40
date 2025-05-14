@@ -15,14 +15,64 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class GameController {
-
     Player player = (Player) App.dataManager.getCurrentUser();
 
-    /**
-     * Gets the current game from DataManager
-     *
-     * @return The current game
-     */
+    public Player nextTurn() {
+
+        Game currentGame = App.dataManager.getCurrentGame();
+        Time currentTime = currentGame.getTime();
+
+        int currentIndex = currentGame.getPlayers().indexOf(currentGame.getCurrentTurnPlayer());
+        int nextIndex = (currentIndex + 1) % currentGame.getPlayers().size();
+
+
+        if (nextIndex == 0) {
+
+            if ( currentTime.getHour() >= 22 ){
+
+                currentTime.setHour(9);
+
+                if ( currentTime.getWeekday() == Weekday.SUNDAY){
+                    currentTime.setWeekday(Weekday.MONDAY);
+                }
+                else{
+                    currentTime.setWeekday(Weekday.values()[currentTime.getWeekday().getDayIndex()+1]);
+                }
+
+                if ( currentTime.getDate() >= 28){
+
+                    currentTime.setDate(1);
+
+                    if ( currentTime.getMonth() == Month.DECEMBER ){
+                        currentTime.setMonth(Month.JANUARY);
+                        currentTime.setYear(currentTime.getYear() + 1);
+                    }
+                    else{
+                        currentTime.setMonth(Month.values()[currentTime.getMonth().getMonthIndex()+1]);
+                    }
+
+                }
+                else{
+                    currentTime.setDate(currentTime.getDate()+1);
+                }
+
+                currentTime.setDaysPassed(currentTime.getDaysPassed()+1);
+
+            }
+            else{
+
+                currentTime.setHour(currentTime.getHour() + 1);
+
+            }
+
+        }
+
+        currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(nextIndex));
+        return currentGame.getPlayers().get(nextIndex);
+
+    }
+
+
 
     private Game getCurrentGame() {
         return App.dataManager.getCurrentGame();
@@ -684,13 +734,13 @@ public class GameController {
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (((Player) App.dataManager.getCurrentUser()).getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
     public int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (((Player) App.dataManager.getCurrentUser()).getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 
