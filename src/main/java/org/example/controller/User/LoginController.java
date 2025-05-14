@@ -174,15 +174,15 @@ public class LoginController {
 
         }
 
-        if ( LoginCommands.EMAIL_USER_REGEX.getMatcher(user) != null ) {
+        if ( LoginCommands.EMAIL_USER_REGEX.getMatcher(user) == null ) {
             return false;
         }
 
-        if ( LoginCommands.EMAIL_DOMAIN_REGEX.getMatcher(domain) != null ) {
+        if ( LoginCommands.EMAIL_DOMAIN_REGEX.getMatcher(domain) == null ) {
             return false;
         }
 
-        if ( LoginCommands.EMAIL_SPECIAL_CHAR.getMatcher(user) != null || LoginCommands.EMAIL_SPECIAL_CHAR.getMatcher(domain) != null ) {
+        if ( email.contains(LoginCommands.EMAIL_SPECIAL_CHAR.getRegexString()) ) {
             return false;
         }
 
