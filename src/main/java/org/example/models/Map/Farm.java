@@ -1,5 +1,6 @@
 package org.example.models.Map;
 
+import org.example.models.Animal.Animal;
 import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
@@ -19,6 +20,8 @@ import java.io.Serializable;
  * Represents a farm with a grid of tiles
  */
 public class Farm implements Serializable {
+
+
     private static final long serialVersionUID = 1L;
     
     private String name;
@@ -39,6 +42,12 @@ public class Farm implements Serializable {
     private List<ForagingCrop> foragingItems;
     
     private Player owner;
+
+    /// ANIMALS IN FARM
+
+    private ArrayList<Animal> animals;
+
+
 
     public Farm(String name, int width, int height) {
 
@@ -61,7 +70,19 @@ public class Farm implements Serializable {
             }
         }
     }
-    
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void addAnimal(Animal animal) {
+        this.animals.add(animal);
+    }
+
+    public void removeAnimal(Animal animal) {
+        this.animals.remove(animal);
+    }
+
     public String getName() {
         return name;
     }

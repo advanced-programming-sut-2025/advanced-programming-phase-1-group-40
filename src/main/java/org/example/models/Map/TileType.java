@@ -5,6 +5,7 @@ package org.example.models.Map;
  */
 public enum TileType {
 
+
     BARN,
     DIRT,
     ORE,

@@ -15,7 +15,7 @@ public class Animal {
 
     private String name;
     private AnimalType animalType;
-
+    private Player owner;
     private int friendship;
 
     private boolean petToday;
@@ -31,7 +31,7 @@ public class Animal {
 
         this.name = name;
         this.animalType = animalType;
-
+        this.owner = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
         this.petToday = false;
         this.sleptOutside = false;
         this.fedWithHayToday = false;
@@ -42,6 +42,14 @@ public class Animal {
         this.price = animalType.getPrice();
 
 
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     public void setName(String name) {
