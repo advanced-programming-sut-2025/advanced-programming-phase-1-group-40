@@ -11,33 +11,25 @@ import org.example.models.*;
 
 public class MainMenuController {
 
-    public Result enterMenu(String menuName) {
-        Menu newMenu = Menu.getMenuFromDisplayName(menuName);
-        if (newMenu == null) {
-            return new Result(false, "Invalid menu name!");
-        }
-        if (!canSwitchMenu(newMenu)) {
-            return new Result(false, "You can not switch to " + menuName + " from here!");
-        }
-        App.dataManager.setCurrentMenu(newMenu);
-        return new Result(true, "Menu switched to " + menuName);
+    public void goToMenu(Menu targetMenu){
+
+        App.dataManager.setCurrentMenu(targetMenu);
+        System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
+
     }
 
-    public Result exitMenu() {
-        if (App.dataManager.getCurrentMenu() == Menu.LOGIN_MENU) {
-            App.dataManager.setCurrentMenu(Menu.EXIT);
-        }
-        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        return new Result(true, "You are now in the Main Menu");
+    public void logout(){
+
+        App.dataManager.setCurrentUser(null);
+        App.dataManager.setCurrentMenu(Menu.LOGIN_MENU);
+        System.out.println("Logged out successfully.You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
+
     }
 
-    public Result showCurrentMenu() {
-        return new Result(true, "You are now in the " + App.dataManager.getCurrentMenu().toString());
-    }
+    public void showCurrentMenu(){
 
-    private boolean canSwitchMenu(Menu newMenu) {
-        // TODO: check if it is allowed to switch to that menu from the current menu
-        return false;
+        System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
+
     }
 
 

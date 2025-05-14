@@ -137,18 +137,25 @@ public enum GameCommands implements Command{
 
 
 
-    
-    
+
+
 
 
     private final String regexString;
 
-    GameCommands(String regexString) {
+    GameCommands(String regexString){
         this.regexString = regexString;
     }
 
     @Override
     public Matcher getMatcher(String input) {
+
+        Matcher matcher = Pattern.compile(regexString).matcher(input);
+
+        if (matcher.matches()) return matcher;
+
         return null;
     }
+
+
 }
