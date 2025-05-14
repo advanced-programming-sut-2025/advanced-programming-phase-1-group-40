@@ -107,21 +107,22 @@ public class LoginController {
         showQuestions();
 
         String securityQuestionAnswer = scanner.nextLine().trim();
+        Matcher matcher = LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer);
 
         while ( !(
 
-                LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer) != null
+                        matcher != null
 
                         &&
 
                         (
-                                LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answer")
-                                        ==
-                                        LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answerConfirm")))
+                                matcher.group("answer")
+                                                .equals(
+                                        matcher.group("answerConfirm"))))
         )
         {
 
-            if ( LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer) == null ){
+            if ( matcher == null ){
                 System.out.println("Invalid input.");
             }
             else{
