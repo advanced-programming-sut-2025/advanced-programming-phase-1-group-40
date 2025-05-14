@@ -13,10 +13,11 @@ import java.util.Map;
 public class Game {
 
     private final Integer gameID;
+
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Farm> farms;
     private HashMap<Player, Farm> playerFarms;
-    private ArrayList<MapTile> map;
+    public ArrayList<MapTile> map;
     private Player currentTurnPlayer;
     private Player creator;
     private Time time;
