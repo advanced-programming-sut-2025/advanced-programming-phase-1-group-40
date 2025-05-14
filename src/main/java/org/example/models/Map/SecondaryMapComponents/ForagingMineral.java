@@ -19,6 +19,11 @@ public class ForagingMineral extends MapComponents implements Item {
 
     }
 
+    public ForagingMineral(Position position, ForagingMineralType mineralType) {
+        super(position, 1, 1);
+        this.mineralType = mineralType;
+    }
+
     public ForagingMineralType getMineralType() {
         return mineralType;
     }

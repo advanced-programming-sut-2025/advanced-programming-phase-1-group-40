@@ -1,10 +1,8 @@
 package org.example.view;
 
-import org.example.models.App;
+import org.example.models.*;
 import org.example.controller.Game.GameMenuController;
 import org.example.models.Game;
-import org.example.models.Player;
-import org.example.models.Result;
 import org.example.models.enums.Menu;
 import org.example.view.*;
 
@@ -19,7 +17,7 @@ import java.util.regex.Pattern;
  * View for the game menu
  */
 public class GameMenuView implements AppMenu {
-
+    private final GameMenuController controller = new GameMenuController();
 
     private void handleNewGame(String input, Scanner scanner) {
         // Extract usernames
@@ -47,16 +45,30 @@ public class GameMenuView implements AppMenu {
                 return;
             }
 
-            Result result = controller.createNewGame(usernames);
+            ArrayList<Player> players = new ArrayList<>(usernames.size());
+            for (String username : usernames) {
+
+                for (User user : App.dataManager.getAllUsers()) {
+
+                    if (username.equals(user.getUsername())) {
+
+                        players.add((Player) user);
+
+                    }
+
+                }
+
+            }
+
+            Result result = controller.createNewGame(players.getFirst(), players);
             System.out.println(result.message());
 
             if (result.success()) {
                 // Ask each player to select a map
-                System.out.println("\n" + controller.getMapTypeDescriptions());
                 System.out.println("\nEach player needs to select a map type.");
 
                 // Get map selections for all players
-                Game currentGame = controller.getCurrentGame();
+                Game currentGame = App.dataManager.getCurrentGame();
                 if (currentGame != null) {
                     for (Player player : currentGame.getPlayers()) {
                         System.out.println("\n" + player.getUsername() + ", please select a map type (1-7):");
@@ -92,11 +104,11 @@ public class GameMenuView implements AppMenu {
                                     int mapNumber = Integer.parseInt(mapInput);
                                     // Result mapResult = controller.selectMap(mapNumber);
                                     // System.out.println(mapResult.message());
-                                    Player originalPlayer = App.dataManager.getCurrentPlayer();
-                                    App.dataManager.setCurrentPlayer(player);
+                                    Player originalPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+                                    App.dataManager.getCurrentGame().setCurrentTurnPlayer(player);
                                     Result mapResult = controller.selectMap(mapNumber);
                                     System.out.println(mapResult.message());
-                                    App.dataManager.setCurrentPlayer(originalPlayer);
+                                    App.dataManager.getCurrentGame().setCurrentTurnPlayer(originalPlayer);
                                     if (mapResult.success()) {
                                         break;
                                     }
@@ -145,13 +157,10 @@ public class GameMenuView implements AppMenu {
     }
 
     private void handleExitGame() {
-        Result result = controller.exitGame();
-        System.out.println(result.message());
 
-        if (result.success()) {
-            // Return to main menu
-            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        }
+        // Return to main menu
+        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+
     }
 
     private void handleVoteTerminate(String input) {
@@ -163,11 +172,6 @@ public class GameMenuView implements AppMenu {
             // Return to main menu
             App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
         }
-    }
-
-    private void handleGameStatus() {
-        String status = controller.getGameStatus();
-        System.out.println(status);
     }
 
     private void showHelp() {
@@ -182,5 +186,10 @@ public class GameMenuView implements AppMenu {
         System.out.println("game status : Show the current game status");
         System.out.println("back : Return to the main menu");
         System.out.println("help : Show this help message");
+    }
+
+    @Override
+    public void getInput(String input, Scanner scanner) {
+
     }
 }

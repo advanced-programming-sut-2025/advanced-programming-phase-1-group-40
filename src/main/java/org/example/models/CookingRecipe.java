@@ -10,7 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 import java.util.ArrayList;
 
-public class CookingRecipe {
+public class CookingRecipe{
 
     private int energyOfFood;
     private String nameOfFood;
@@ -18,6 +18,19 @@ public class CookingRecipe {
     private FoodBuff buff;
     private int buffDurationInHours;
     private ArrayList<IngredientType> ingredients;
-    //  private source
-
+    public int getEnergyOfFood() {
+        return energyOfFood;
+    }
+    public int getSellPrice() {
+        return sellPrice;
+    }
+    public FoodBuff getBuff() {
+        return buff;
+    }
+    public int getBuffDurationInHours() {
+        return buffDurationInHours;
+    }
+    public String getNameOfFood() {
+        return nameOfFood;
+    }
 }

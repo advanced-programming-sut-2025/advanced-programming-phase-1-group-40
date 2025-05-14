@@ -96,16 +96,7 @@ public class FarmManager {
      * @return The user's farm, or null if they don't have one
      */
     public Farm getUserFarm(String username) {
-        return userFarms.get(username);
-    }
-    
-    /**
-     * Checks if a user has a farm
-     * @param username The username to check
-     * @return true if the user has a farm, false otherwise
-     */
-    public boolean userHasFarm(String username) {
-        return userFarms.containsKey(username);
+        return userFarms.get(App.dataManager.getAllUsers().indexOf(username));
     }
     
     /**

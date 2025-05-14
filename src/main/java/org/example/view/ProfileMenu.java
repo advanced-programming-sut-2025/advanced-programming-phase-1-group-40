@@ -4,6 +4,7 @@ import org.example.controller.User.*;
 import org.example.models.App;
 import org.example.models.Player;
 import org.example.models.Result;
+import org.example.models.User;
 import org.example.models.enums.Menu;
 
 import java.util.Scanner;
@@ -81,13 +82,13 @@ public class ProfileMenu implements AppMenu {
     }
 
     private void showUserInfo() {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        User currentPlayer = App.dataManager.getCurrentUser();
         if (currentPlayer != null) {
             System.out.println("=== USER INFORMATION ===");
             System.out.println("Username: " + currentPlayer.getUsername());
             System.out.println("Nickname: " + currentPlayer.getNickname());
-            System.out.println("Highest Money: " + currentPlayer.getHighestMoney());
-            System.out.println("Games Played: " + currentPlayer.getGamesPlayed());
+            System.out.println("Highest Money: " + ((Player) currentPlayer).getHighestMoney());
+            System.out.println("Games Played: " + ((Player) currentPlayer).getGamesPlayed());
         } else {
             System.out.println("No user is currently logged in.");
         }

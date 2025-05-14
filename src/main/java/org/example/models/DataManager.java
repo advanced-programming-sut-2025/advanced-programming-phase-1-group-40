@@ -5,6 +5,8 @@ import org.example.models.enums.enviroment.Weather;
 
 import java.util.ArrayList;
 
+import static java.util.Arrays.asList;
+
 /**
  * Singleton class responsible for managing all application data and persistence
  * This class will store all data in memory and provide methods to save/load from persistent storage
@@ -269,6 +271,11 @@ public class DataManager {
         return true;
     }
 
+
+    public Game createNewGame(Player[] players) {
+        //  TODO
+        return new Game(players[0], new ArrayList<>(asList(players)));
+    }
 }
 
 

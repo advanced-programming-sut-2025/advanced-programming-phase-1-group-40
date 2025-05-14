@@ -24,7 +24,7 @@ public class LoginController {
         String gender = input.group("gender");
 
 
-        if ( ! usernameAlreadyExists(username)) {
+        if (  usernameAlreadyExists(username)) {
             return new Result(false, "Username already exists!");
         }
 
@@ -75,7 +75,6 @@ public class LoginController {
         }
 
 
-        // EVERYTHING FINE -> SECURITY QUESTIONS
 
         Matcher securityQuestion = handleSecurityQuestion(scanner);
 

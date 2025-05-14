@@ -29,7 +29,7 @@ public class PreGameMenuController {
     }
 
     public Result loadGame() {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
         if (savedGame == null) {
