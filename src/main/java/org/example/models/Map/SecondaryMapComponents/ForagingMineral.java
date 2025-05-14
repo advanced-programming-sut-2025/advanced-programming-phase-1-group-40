@@ -28,4 +28,9 @@ public class ForagingMineral extends MapComponents implements Item {
 
     }
 
+    @Override
+    public String getItemName() {
+        return "Foraging Mineral";
+    }
+
 }

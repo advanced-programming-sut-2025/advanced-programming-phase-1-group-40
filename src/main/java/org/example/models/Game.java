@@ -3,6 +3,7 @@ package org.example.models;
 import org.example.models.Map.Farm;
 import org.example.models.Map.MapTile;
 import org.example.models.enums.enviroment.Time;
+import org.example.models.enums.enviroment.Weather;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +21,14 @@ public class Game {
     private Map<String, Boolean> terminationVotes;
     private Player creator;
     private Time time;
-    //We should remember to implement the turns for all the users
+    private Weather weather;
 
 
-    private int initialGameID = 1;
+
 
     public Game(Player[] players) {
-        this.gameID = initialGameID++;
+
+        this.gameID = App.dataManager.getGames().get( App.dataManager.getGames().size() -1 ).getGameID() + 1;
         this.players = new ArrayList<>();
         for (Player player : players) {
             this.players.add(player);
@@ -35,10 +37,50 @@ public class Game {
         this.farms = new ArrayList<>();
         this.terminationVotes = new HashMap<>();
 
+
+
     }
 
 
+    public Integer getGameID() {
+        return gameID;
+    }
 
+    public void setFarms(ArrayList<Farm> farms) {
+        this.farms = farms;
+    }
+
+    public HashMap<Player, Farm> getPlayerFarms() {
+        return playerFarms;
+    }
+
+    public void setPlayerFarms(HashMap<Player, Farm> playerFarms) {
+        this.playerFarms = playerFarms;
+    }
+
+    public ArrayList<MapTile> getMap() {
+        return map;
+    }
+
+    public void setMap(ArrayList<MapTile> map) {
+        this.map = map;
+    }
+
+    public void setTerminationVotes(Map<String, Boolean> terminationVotes) {
+        this.terminationVotes = terminationVotes;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public Weather getWeather() {
+        return weather;
+    }
+
+    public void setWeather(Weather weather) {
+        this.weather = weather;
+    }
 
     public Map<String, Boolean> getTerminationVotes() {
         return terminationVotes;

@@ -3,7 +3,7 @@ package org.example.models.enums.types;
 import org.example.models.*;
 
 
-public enum ForagingMineralType implements Item{
+public enum ForagingMineralType{
     // TODO
     REGULAR(-1),
     QUARTZ(25),

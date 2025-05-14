@@ -10,7 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 
-public enum FruitType implements Item{
+public enum FruitType{
 
     APRICOT("Apricot",59,38),
     CHERRY("Cherry",80,38),
@@ -48,6 +48,7 @@ public enum FruitType implements Item{
     public int getEnergy() {
         return energy;
     }
+
 
 
 }

@@ -55,4 +55,10 @@ public class Tree extends MapComponents implements Item {
     public Position getPosition() {
         return position;
     }
+
+    @Override
+    public String getItemName() {
+        return "Tree";
+    }
+
 }

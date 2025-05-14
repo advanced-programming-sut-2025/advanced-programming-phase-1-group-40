@@ -18,10 +18,6 @@ public class DataManager {
     private Menu currentMenu;
     private Game currentGame;
     private Player currentPlayer;
-    private Weather currentWeather;
-    public enum Weather {
-        Sunny,Rainy,Stormy,Snowy;
-    }
 
     // Private constructor for singleton pattern
     public DataManager() {
@@ -63,7 +59,7 @@ public class DataManager {
      * Add a new user to the system
      * @param user The user to add
      */
-    public void addUser(Player user) {
+    public void addUser(User user) {
         users.add(user);
     }
 
@@ -104,12 +100,6 @@ public class DataManager {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-    public Weather getCurrentWeather() {
-        return currentWeather;
-    }
-
-
-
 
 
 

@@ -4,7 +4,6 @@ import org.example.view.*;
 
 public enum Menu {
     LOGIN_MENU("Login Menu", new LoginMenu()),
-    SIGNUP_MENU("Signup Menu", new SignUpMenu()),
     MAIN_MENU("Main Menu", new MainMenu()),
     PROFILE_MENU("Profile Menu", new ProfileMenu()),
     GAME_MENU("Game Menu", new GameMenu()),

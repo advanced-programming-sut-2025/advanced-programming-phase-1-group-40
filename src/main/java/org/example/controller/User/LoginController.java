@@ -41,16 +41,44 @@ public class LoginController {
             return new Result(false, "Invalid email format.");
         }
 
+        if ( password.toLowerCase().equals(repeatPassword.toLowerCase())) {
 
+            password = generateRandomPassword();
+
+        }
+
+        else {
+
+
+            if (!isPasswordValid(password)) {
+
+                return new Result(false, "Invalid password format.");
+
+            }
+
+            if (isPasswordWeak(password)) {
+
+                return new Result(false, "Password is weak!");
+
+            }
+
+            if (!password.equals(repeatPassword)) {
+
+                return new Result(false, "Passwords do not match!");
+
+            }
+
+
+        }
 
 
         // EVERYTHING FINE -> CREATE USER
 
         User newUser = new User(username, password, nickname, email, gender);
-
-
+        App.dataManager.addUser(newUser);
 
         return new Result(true, "Successfully registered.");
+
     }
 
     public boolean usernameAlreadyExists(String username) {
@@ -98,12 +126,67 @@ public class LoginController {
             return false;
         }
 
+        if ( LoginCommands.EMAIL_SPECIAL_CHAR.getMatcher(user) != null || LoginCommands.EMAIL_SPECIAL_CHAR.getMatcher(domain) != null ) {
+            return false;
+        }
+
+
         return true;
 
 
     }
 
+    private boolean isPasswordValid(String password) {
 
+        return ( LoginCommands.PASSWORD_REGEX.getMatcher(password) != null );
+
+    }
+
+    private boolean isPasswordWeak(String password) {
+
+        if ( password.length() < 8 ) {
+
+            return true;
+
+        }
+
+        if ( password.toLowerCase().equals(password) || password.toUpperCase().equals(password) ) {
+            //  AGE HAMASH KOOCHIK YA BOZORG BASHE
+
+            return true;
+
+        }
+
+        if ( LoginCommands.PASSWORD_CONTAINS_DIGITS.getMatcher(password) == null ) {
+
+            return true;
+
+        }
+
+
+        if ( LoginCommands.PASSWORD_SPECIAL_CHAR.getMatcher(password) == null ) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    private String generateRandomPassword() {                       ///  TODO: BAYAD CHECK BESHE K PASS GENERATE SHODE OK BASHE!!!
+
+        int length = new Random().nextInt(13) + 8;
+        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!";
+        Random rand = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(characters.charAt(rand.nextInt(characters.length())));
+        }
+
+        return sb.toString();
+
+    }
 
     ///  LOGIN
 
@@ -121,9 +204,9 @@ public class LoginController {
         App.dataManager.setCurrentUser(user);
 
         // Implement stay-logged-in functionality
-        if (stayLoggedIn) {
-            App.dataManager.setStayLoggedIn(username, true);
-        }
+//        if (stayLoggedIn) {
+//            App.dataManager.setStayLoggedIn(username, true);
+//        }
 
         App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
         return new Result(true, "Login successful! Welcome, " + username + "!");
@@ -133,17 +216,6 @@ public class LoginController {
 
 
 
-
-    public Result randomPasswordGenerator() {
-        int length = new Random().nextInt(13) + 8;
-        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!";
-        Random rand = new Random();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append(characters.charAt(rand.nextInt(characters.length())));
-        }
-        return new Result(true, sb.toString());
-    }
 
 
 
@@ -156,67 +228,67 @@ public class LoginController {
 
 
 
-    public Result pickAndAnswerSecurityQuestion(Player user, int questionNumber, String answer) {
-        if (user == null) {
-            return new Result(false, "User not found");
-        }
-
-        if (user.getQAndA() == null) {
-            user.setQAndA(new HashMap<>());
-        }
-
-        SecurityQuestion selectedQuestion = SecurityQuestion.getByNumber(questionNumber);
-
-        if (selectedQuestion == null) {
-            return new Result(false, "Invalid question number");
-        }
-
-        user.getQAndA().put(selectedQuestion, answer);
-
-        return new Result(true, "Security question saved");
-    }
-
-
-
-    public Result forgotPassword(String username, String email) {
-        Player user = (Player) getUserByUsername(username);
-        if (user == null) {
-            return new Result(false, "User not found");
-        }
-
-        // Check if email matches
-        if (!user.getEmail().equals(email)) {
-            return new Result(false, "Email does not match the username");
-        }
-
-        if (user.getQAndA() != null && !user.getQAndA().isEmpty()) {
-            SecurityQuestion question = user.getQAndA().keySet().iterator().next();
-            return new Result(true, "Security Question: " + question.getQuestionText());
-        }
-
-        // If no security question is set, generate a random password
-        Result rand = randomPasswordGenerator();
-        String newPassword = rand.message();
-        user.setPassword(newPassword);
-        return new Result(true, "Your new password is: " + newPassword);
-    }
-
-
-
-    public Result validateSecurityQuestion(Player user, String answerToSecurityQuestion) {
-        if (user == null || user....getQAndA() == null || user.getQAndA().isEmpty()) {
-            return new Result(false, "No security question set for this user.");
-        }
-
-        SecurityQuestion question = user.getQAndA().keySet().iterator().next();
-        String correctAnswer = user.getQAndA().get(question);
-
-        if (correctAnswer.equalsIgnoreCase(answerToSecurityQuestion)) {
-            return new Result(true, "Security question has been validated successfully.");
-        } else {
-            return new Result(false, "Incorrect answer.");
-        }
-    }
+//    public Result pickAndAnswerSecurityQuestion(Player user, int questionNumber, String answer) {
+//        if (user == null) {
+//            return new Result(false, "User not found");
+//        }
+//
+//        if (user.getQAndA() == null) {
+//            user.setQAndA(new HashMap<>());
+//        }
+//
+//        SecurityQuestion selectedQuestion = SecurityQuestion.getByNumber(questionNumber);
+//
+//        if (selectedQuestion == null) {
+//            return new Result(false, "Invalid question number");
+//        }
+//
+//        user.getQAndA().put(selectedQuestion, answer);
+//
+//        return new Result(true, "Security question saved");
+//    }
+//
+//
+//
+//    public Result forgotPassword(String username, String email) {
+//        Player user = (Player) getUserByUsername(username);
+//        if (user == null) {
+//            return new Result(false, "User not found");
+//        }
+//
+//        // Check if email matches
+//        if (!user.getEmail().equals(email)) {
+//            return new Result(false, "Email does not match the username");
+//        }
+//
+//        if (user.getQAndA() != null && !user.getQAndA().isEmpty()) {
+//            SecurityQuestion question = user.getQAndA().keySet().iterator().next();
+//            return new Result(true, "Security Question: " + question.getQuestionText());
+//        }
+//
+//        // If no security question is set, generate a random password
+//        Result rand = randomPasswordGenerator();
+//        String newPassword = rand.message();
+//        user.setPassword(newPassword);
+//        return new Result(true, "Your new password is: " + newPassword);
+//    }
+//
+//
+//
+//    public Result validateSecurityQuestion(Player user, String answerToSecurityQuestion) {
+//        if (user == null || user....getQAndA() == null || user.getQAndA().isEmpty()) {
+//            return new Result(false, "No security question set for this user.");
+//        }
+//
+//        SecurityQuestion question = user.getQAndA().keySet().iterator().next();
+//        String correctAnswer = user.getQAndA().get(question);
+//
+//        if (correctAnswer.equalsIgnoreCase(answerToSecurityQuestion)) {
+//            return new Result(true, "Security question has been validated successfully.");
+//        } else {
+//            return new Result(false, "Incorrect answer.");
+//        }
+//    }
 
 
 

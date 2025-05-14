@@ -34,4 +34,10 @@ public class Crop extends MapComponents implements Item{
         // TODO
         return true;
     }
+
+    @Override
+    public String getItemName() {
+        return "Crop";
+    }
+
 }

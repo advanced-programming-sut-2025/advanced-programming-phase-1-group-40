@@ -39,7 +39,7 @@ public class Player extends User {
         super(user.getUsername(), user.getPassword(), user.getNickname(), user.getEmail(), user.getGender());
 
         // Initialize backpack with default type
-        this.backpack = new Backpack(InventoryType.SMALL);
+        this.backpack = new Backpack(InventoryType.INITIAL);
 
         // Initialize skill levels
         this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
@@ -53,7 +53,7 @@ public class Player extends User {
         super(username, password, nickname, email,gender);
 
         // Initialize backpack with default type
-        this.backpack = new Backpack(InventoryType.SMALL);
+        this.backpack = new Backpack(InventoryType.INITIAL);
 
         // Initialize skill levels
         this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));

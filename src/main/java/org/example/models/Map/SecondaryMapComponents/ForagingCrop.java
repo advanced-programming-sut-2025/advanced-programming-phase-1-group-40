@@ -27,4 +27,11 @@ public class ForagingCrop extends MapComponents implements Item {
     public void update() {
 
     }
+
+
+    @Override
+    public String getItemName() {
+        return "Foraging Crop";
+    }
+
 }

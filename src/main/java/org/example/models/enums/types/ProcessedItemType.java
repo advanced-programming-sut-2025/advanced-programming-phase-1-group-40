@@ -13,7 +13,7 @@ import org.example.models.*;
 
 import java.util.HashMap;
 
-public enum ProcessedItemType implements Item {
+public enum ProcessedItemType {
     IRON_BAR,
     COPPER_BAR,
     GOLD_BAR;

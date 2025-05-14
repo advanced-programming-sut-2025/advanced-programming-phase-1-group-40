@@ -10,7 +10,10 @@ public enum LoginCommands implements Command {
     USERNAME_REGEX("[A-Za-z0-9-]+"),
     EMAIL_USER_REGEX("(?!.*\\.\\.)[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9])?"),
     EMAIL_DOMAIN_REGEX("(?=[a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]$)(?=.*\\.)[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"),
-    PASSWORD_REGEX(".+"),
+    EMAIL_SPECIAL_CHAR(".*[!@#$%^&*()+\\-=\\[\\]{}|\\\\:;\"'<>,?/].*"),
+    PASSWORD_REGEX("[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{}|\\\\:;\"'<>,.?/]+"),             // CHECK BESHE
+    PASSWORD_CONTAINS_DIGITS(".*\\d.*"),
+    PASSWORD_SPECIAL_CHAR(".*[!@#$%^&*()_+\\-=\\[\\]{}|\\\\:;\"'<>,.?/].*"),
     PICK_QUESTION("\\s*pick\\s+question\\s+-q\\s+(?<questionNumber>\\S+)\\s+-a\\s+(?<answer>\\S+)\\s+-c\\s+(?<answerConfirm>\\S+)\\s*"),
 
 

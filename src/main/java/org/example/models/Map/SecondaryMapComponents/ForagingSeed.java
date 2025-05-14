@@ -27,5 +27,9 @@ public class ForagingSeed extends MapComponents implements Item {
 
     }
 
+    @Override
+    public String getItemName() {
+        return "Foraging Seed";
+    }
 
 }

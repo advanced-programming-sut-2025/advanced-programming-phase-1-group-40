@@ -177,9 +177,9 @@ public class GameController {
         if (!hasRing) {
             return new Result(false, "You do not have a ring to propose with:(");
         }
-        if(){
-            return new Result(false,"Your friendship level must be at least three in order to porpose.");
-        }
+//        if(){
+//            return new Result(false,"Your friendship level must be at least three in order to porpose.");
+//        }
         // call the method for sending the marriage request.
         return new Result(true, "Your marriage proposal has been successfully sent to "+username+".");
     }
@@ -684,13 +684,13 @@ public class GameController {
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentWeather().getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
     public int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 
