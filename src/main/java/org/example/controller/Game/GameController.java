@@ -168,13 +168,7 @@ public class GameController {
 
         }
 
-        if (  !(Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX() - animal.getPosition().getX()) <= 1
-
-                &&
-
-                Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY() - animal.getPosition().getY()) <= 1
-
-        )  ){
+        if ( ! closeToAnimal(animal)  ){
 
             return new Result(false,"You are out too far away");
 
@@ -184,6 +178,18 @@ public class GameController {
 
         return new Result(true,"Pet successfully. FriendShip +15 (:");
 
+
+    }
+
+    private boolean closeToAnimal(Animal animal){
+
+        return (Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX() - animal.getPosition().getX()) <= 1
+
+                &&
+
+                Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY() - animal.getPosition().getY()) <= 1
+
+        );
 
     }
 
