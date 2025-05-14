@@ -44,11 +44,6 @@ public class LoginController {
 
         }
 
-        else if ( password.toLowerCase().equals(repeatPassword.toLowerCase())) {
-
-            password = generateRandomPassword();
-
-        }
 
         else {
 
