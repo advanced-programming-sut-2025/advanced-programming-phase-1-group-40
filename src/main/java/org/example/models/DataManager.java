@@ -1,281 +1,376 @@
-package org.example.models;
+package org.example.controller.User;
 
+import org.example.models.*;
 import org.example.models.enums.Menu;
-import org.example.models.enums.enviroment.Weather;
-
-import java.util.ArrayList;
-
-import static java.util.Arrays.asList;
-
-/**
- * Singleton class responsible for managing all application data and persistence
- * This class will store all data in memory and provide methods to save/load from persistent storage
- */
-public class DataManager {
+import org.example.models.enums.SecurityQuestion;
+import org.example.models.enums.commands.LoginCommands;
 
 
-    private ArrayList<User> users;
-    private ArrayList<Game> games;
-    private User currentUser;
-    private Menu currentMenu;
-    private Game currentGame;
+import java.util.*;
+import java.util.regex.Matcher;
+
+public class LoginController {
 
 
-    // Private constructor for singleton pattern
-    public DataManager() {
+    ///  REGISTER
 
-        this.users = new ArrayList<>();
-        this.games = new ArrayList<>();
-        this.currentMenu = Menu.LOGIN_MENU;
+    public Result registerUser(Matcher input, Scanner scanner) {
 
-    }
+        String username = input.group("username");
+        String password = input.group("password");
+        String repeatPassword = input.group("repeatPassword");
+        String nickname = input.group("nickname");
+        String email = input.group("email");
+        String gender = input.group("gender");
 
 
-    public boolean loadAllData() {
-        // This will be implemented to load from JSON files
-        // For now, just return true
-        return true;
-    }
+        if (  usernameAlreadyExists(username)) {
+            return new Result(false, "Username already exists!");
+        }
 
-    /**
-     * Initialize the DataManager with data from App class
-     * This is a temporary method until we implement proper persistence
-     */
-    public void initializeFromApp() {
-        // Remove this method as App no longer stores data
-        // Or keep it empty for backward compatibility
-    }
 
-    /**
-     * Update the App class with data from DataManager
-     * This is a temporary method until we implement proper persistence
-     */
-    public void updateApp() {
-        // Remove this method as App no longer stores data
-        // Or keep it empty for backward compatibility
-    }
+        if ( ! isUsernameValid(username) ) {
+            return new Result(false, "Invalid username format!");
+        }
 
-    // User management methods
 
-    /**
-     * Add a new user to the system
-     * @param user The user to add
-     */
-    public void addUser(User user) {
-        users.add(user);
-    }
+        if ( ! isEmailValid(email) ) {
+            return new Result(false, "Invalid email format.");
+        }
 
-    /**
-     * Get a user by username
-     * @param username The username to search for
-     * @return The user with the given username, or null if not found
-     */
-    public User getUserByUsername(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return user;
+        if ( password.trim().equals("random") ) {
+
+            password = generateRandomPassword();
+
+        }
+
+        else if ( password.toLowerCase().equals(repeatPassword.toLowerCase())) {
+
+            password = generateRandomPassword();
+
+        }
+
+        else {
+
+
+            if (!isPasswordValid(password)) {
+
+                return new Result(false, "Invalid password format.");
+
             }
-        }
-        return null;
-    }
 
+            if (isPasswordWeak(password)) {
 
-    public ArrayList<User> getAllUsers() {
-        return users;
-    }
+                return new Result(false, "Password is weak!");
 
-
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-    }
-
-    /**
-     * Get the current logged-in player
-     * @return The current player
-     */
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-
-
-    // Game management methods
-
-    /**
-     * Adds a game to the data manager
-     * @param game The game to add
-     */
-    public void addGame(Game game) {
-        games.add(game);
-    }
-
-    /**
-     * Removes a game from the data manager
-     * @param game The game to remove
-     */
-    public void removeGame(Game game) {
-        games.remove(game);
-    }
-
-    /**
-     * Gets all active games
-     * @return List of active games
-     */
-    public ArrayList<Game> getGames() {
-        return games;
-    }
-
-    /**
-     * Gets a game that a player is part of
-     * @param username The username to check
-     * @return The game the player is in, or null if not found
-     */
-    public Game getGameForPlayer(String username) {
-        for (Game game : games) {
-            if (game.hasPlayer(username)) {
-                return game;
             }
+
+            if (!password.equals(repeatPassword)) {
+
+                return new Result(false, "Passwords do not match!");
+
+            }
+
+
         }
-        return null;
+
+
+
+        Matcher securityQuestion = handleSecurityQuestion(scanner);
+
+        String questionNumber = securityQuestion.group("questionNumber");
+        String answer = securityQuestion.group("answer");
+
+
+
+        User newUser = new User(username, password, nickname, email, gender,SecurityQuestion.getByNumber(Integer.parseInt(questionNumber)),answer);
+
+        App.dataManager.addUser(newUser);
+
+        return new Result(true, "Successfully registered.");
+
     }
 
-    // Farm management methods
+    private void showQuestions() {
 
+        System.out.println("Choose one of the following questions and type down your answer:");
+        for ( SecurityQuestion question : SecurityQuestion.values() ) {
 
+            System.out.println(question.toString());
 
-
-
-    // Application state methods
-
-    /**
-     * Set the current menu
-     * @param menu The menu to set as current
-     */
-    public void setCurrentMenu(Menu menu) {
-        this.currentMenu = menu;
-    }
-
-    /**
-     * Get the current menu
-     * @return The current menu
-     */
-    public Menu getCurrentMenu() {
-        return currentMenu;
-    }
-
-
-
-
-    // Game management methods
-
-    /**
-     * Gets the current active game
-     * @return The current game, or null if no game is active
-     */
-    public Game getCurrentGame() {
-        return currentGame;
-    }
-
-
-    /**
-     * Sets the current active game
-     * @param game The game to set as current
-     */
-    public void setCurrentGame(Game game) {
-        this.currentGame = game;
-    }
-
-    /**
-     * Creates a new game with the specified users and sets it as the current game
-     * @param users The users to add to the game
-     * @return The newly created game
-     */
-
-
-    /**
-     * Loads a game for a player and sets it as the current game
-     * @param username The username of the player
-     * @return The loaded game, or null if no game found
-     */
-    public Game loadGameForPlayer(String username) {
-        Game game = getGameForPlayer(username);
-        if (game != null) {
-            currentGame = game;
         }
-        return game;
+
     }
 
-    /**
-     * Exits the current game
-     */
-    public void exitCurrentGame() {
-        currentGame = null;
+    private Matcher handleSecurityQuestion(Scanner scanner) {
+
+        showQuestions();
+
+        String securityQuestionAnswer = scanner.nextLine().trim();
+        Matcher matcher = LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer);
+
+        while ( !(
+
+                        matcher != null
+
+                        &&
+
+                        (
+                                matcher.group("answer")
+                                                .equals(
+                                        matcher.group("answerConfirm"))))
+        )
+        {
+
+            if ( matcher == null ){
+                System.out.println("Invalid input.");
+            }
+            else{
+                System.out.println("Answers don't match.");
+            }
+
+            showQuestions();
+            securityQuestionAnswer = scanner.nextLine();
+
+        }
+
+        return LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer);
+
     }
 
-    // Persistence methods - to be implemented with JSON in the future
+    public boolean usernameAlreadyExists(String username) {
 
-    /**
-     * Save all data to persistent storage
-     * This will be implemented to save to JSON files in the future
-     * @return True if successful, false otherwise
-     */
-    public boolean saveAllData() {
-        // This will be implemented to save to JSON files
-        // For now, just return true
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    private boolean isUsernameValid(String username) {
+
+        return (LoginCommands.USERNAME_REGEX.getMatcher(username) != null);
+
+    }
+
+    private boolean isEmailValid(String email) {
+
+        if ( ! email.contains("@") ) {
+            return false;
+        }
+
+        String user = email.substring(0, email.indexOf("@"));
+        String domain = email.substring(email.indexOf("@") + 1);
+
+        if ( user.contains("@") || domain.contains("@") || (user.isEmpty()) || (domain.isEmpty()) ) {
+
+            return false;
+
+        }
+
+        if ( LoginCommands.EMAIL_USER_REGEX.getMatcher(user) == null ) {
+            return false;
+        }
+
+        if ( LoginCommands.EMAIL_DOMAIN_REGEX.getMatcher(domain) == null ) {
+            return false;
+        }
+
+        if ( email.contains(LoginCommands.EMAIL_SPECIAL_CHAR.getRegexString()) ) {
+            return false;
+        }
+
+
         return true;
+
+
+    }
+
+    private boolean isPasswordValid(String password) {
+
+        return ( LoginCommands.PASSWORD_REGEX.getMatcher(password) != null );
+
+    }
+
+    private boolean isPasswordWeak(String password) {
+
+        if ( password.length() < 8 ) {
+
+            return true;
+
+        }
+
+        if ( password.toLowerCase().equals(password) || password.toUpperCase().equals(password) ) {
+            //  AGE HAMASH KOOCHIK YA BOZORG BASHE
+
+            return true;
+
+        }
+
+        if ( LoginCommands.PASSWORD_CONTAINS_DIGITS.getMatcher(password) == null ) {
+
+            return true;
+
+        }
+
+
+        if ( LoginCommands.PASSWORD_SPECIAL_CHAR.getMatcher(password) == null ) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    private String generateRandomPassword() {                       ///  TODO: BAYAD CHECK BESHE K PASS GENERATE SHODE OK BASHE!!!
+
+        int length = new Random().nextInt(13) + 8;
+        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!";
+        Random rand = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(characters.charAt(rand.nextInt(characters.length())));
+        }
+
+        return sb.toString();
+
     }
 
 
 
-    /**
-     * Save user data to persistent storage
-     * This will be implemented to save to JSON files in the future
-     * @return True if successful, false otherwise
-     */
-    public boolean saveUserData() {
-        // This will be implemented to save to JSON files
-        // For now, just return true
-        return true;
-    }
 
-    /**
-     * Load user data from persistent storage
-     * This will be implemented to load from JSON files in the future
-     * @return True if successful, false otherwise
-     */
-    public boolean loadUserData() {
-        // This will be implemented to load from JSON files
-        // For now, just return true
-        return true;
-    }
+    ///  LOGIN
 
-    /**
-     * Save game data to persistent storage
-     * This will be implemented to save to JSON files in the future
-     * @return True if successful, false otherwise
-     */
-    public boolean saveGameData() {
-        // This will be implemented to save to JSON files
-        // For now, just return true
-        return true;
-    }
+    public Result login(Matcher input) {
 
-    /**
-     * Load game data from persistent storage
-     * This will be implemented to load from JSON files in the future
-     * @return True if successful, false otherwise
-     */
-    public boolean loadGameData() {
-        // This will be implemented to load from JSON files
-        // For now, just return true
-        return true;
-    }
+        String username = input.group("username");
+        String password = input.group("password");
+        boolean stayLoggedIn = (input.group(3) != null);
 
 
-    public Game createNewGame(ArrayList<Player> players) {
-        //  TODO
-        return new Game(players.getFirst(), players);
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                if ( user.getPassword().equals(password) ){
+
+
+                    App.dataManager.setCurrentUser(user);
+                    user.setStayLoggedInNextTime(stayLoggedIn);
+                    App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+
+                    return new Result(true, "Login Successful. You are now in Main Menu.");
+
+                }
+
+
+                return new Result(false, "Password is incorrect.");
+
+            }
+
+        }
+
+        return new Result(false, "Username does not exist.");
+
+
     }
+
+    public Result forgotPassword(Matcher input,Scanner scanner) {
+
+        String username = input.group("username");
+
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                Result securityQuestionResult = validateSecurityQuestion(user,scanner);
+
+                if ( securityQuestionResult.success() ){
+
+                    System.out.println("Security Question Correct. Please enter your new password:");
+                    String newPassword = scanner.nextLine().trim();
+
+                    if ( newPassword.equals("random") ) {
+
+                        newPassword = generateRandomPassword();
+
+                    }
+
+                    else {
+
+
+                        if ( ! isPasswordValid(newPassword) ) {
+
+                            return new Result(false, "Invalid password format.");
+
+                        }
+
+                        if ( isPasswordWeak(newPassword) ) {
+
+                            return new Result(false, "Password is weak!");
+
+                        }
+
+
+                    }
+
+                    user.setPassword(newPassword);
+                    return new Result(true, "Password successfully changed.");
+
+                }
+
+                return new Result(false,securityQuestionResult.message());
+
+
+            }
+
+        }
+
+
+        return new Result(false, "Username does not exist.");
+
+
+    }
+
+    private Result validateSecurityQuestion(User user,Scanner scanner) {
+
+        System.out.println("Type down your answer to the security question:");
+        System.out.println(user.getSecurityQuestion());
+        System.out.println("Your answer:");
+        String answer = scanner.nextLine().trim();
+
+        if ( LoginCommands.ANSWER.getMatcher(answer) != null ) {
+            return new Result(false,"Incorrect answer format. Try again");
+        }
+
+        if (user.getSecurityAnswer().equals(answer)) {
+            return new Result(true,"");
+        }
+        return new Result(false,"Security Question answer was incorrect.");
+
+
+    }
+
+
+    ///  SHOW CURRENT MENU
+
+    public String showCurrentMenu() {
+        return Menu.LOGIN_MENU.getDisplayName();
+    }
+
+    ///  EXIT
+
+    public void exit(){
+        App.dataManager.setCurrentMenu(Menu.EXIT);
+    }
+
 }
-
-
