@@ -49,21 +49,6 @@ public class Player extends User {
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
     }
 
-    // Constructor for direct creation (used in LoginController)
-    public Player(String username, String password,String nickname, String email, String gender) {
-        super(username, password, nickname, email,gender);
-
-        // Initialize backpack with default type
-        this.backpack = new Backpack(InventoryType.INITIAL);
-
-        // Initialize skill levels
-        this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
-        this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
-        this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
-        this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
-    }
-
-
 
     public int getEnergy() {
         return this.energy;
@@ -89,8 +74,8 @@ public class Player extends User {
         return friendships;
     }
 
-    public void setFriendships(Player player, FriendshipWithNPC friendshipWithNPC) {
-        this.friendships.put(player, friendshipWithNPC);
+    public void setFriendships(Player targetPlayer, FriendshipWithNPC friendshipWithNPC) {
+        this.friendships.put(targetPlayer, friendshipWithNPC);
     }
 
     public void setCurrentTool(Tool currentTool) {

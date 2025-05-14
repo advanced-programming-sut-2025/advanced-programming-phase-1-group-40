@@ -188,12 +188,7 @@ public class DataManager {
      * @param users The users to add to the game
      * @return The newly created game
      */
-    public Game createNewGame(ArrayList<Player> users) {
-        Game newGame = new Game(users);
-        games.add(newGame);
-        this.currentGame = newGame;
-        return newGame;
-    }
+
 
     /**
      * Loads a game for a player and sets it as the current game

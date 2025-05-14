@@ -15,7 +15,7 @@ public class AppView {
         do{
 
 
-            App.dataManager.getCurrentMenu().getMenu().getInput(scanner.nextLine(),scanner);
+            App.dataManager.getCurrentMenu().getMenu().getInput(scanner.nextLine().trim(),scanner);
 
 
         }while ( ! App.dataManager.getCurrentMenu().equals(Menu.EXIT) );

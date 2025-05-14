@@ -7,46 +7,70 @@ import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-/**
- * Controller for the game menu functionality
- */
+
 public class GameMenuController {
 
 
 
-    public Result createNewGame(List<String> usernames) {
-        // Validate number of players (2-4)
-        if (usernames == null || usernames.size() < 2 || usernames.size() > 4) {
-            return new Result(false, "Invalid number of players. Game requires 2-4 players.");
+    public Result newGame(String input) {
+
+
+        input = input.substring(input.indexOf('u')+1).trim();
+        input = input.replaceAll("\\s+", " ").trim();
+
+        if (input.isEmpty()) {
+
+            return new Result(false, "You must add at least one user");
+
         }
 
-        // Validate all usernames
+        String[] usernames = input.split(" ");
+
+        if ( usernames.length > 3 ) {
+
+            return new Result(false, "You must enter at most three users");
+
+        }
+
         ArrayList<Player> players = new ArrayList<>();
-        for (String username : usernames) {
-            User user = App.dataManager.getUserByUsername(username);
-            if (user == null) {
-                return new Result(false, "User '" + username + "' does not exist.");
+
+        for ( String username : usernames ) {
+
+            User addedUser = getUserByUsername(username);
+
+            if ( addedUser != null ) {
+                players.add( new Player(addedUser) );
             }
 
-            // Check if player is already in another active game
-            if (isPlayerInActiveGame((Player)user)) {
-                return new Result(false, "Player '" + username + "' is already in an active game.");
+            else{
+                return new Result(false, "Username " + username + " does not exist.");
             }
 
-            players.add((Player)user);
         }
+
+        for ( Player player : players ) {
+
+            if ( isPlayerInAnotherGame(player) ) {
+
+                return new Result(false, player.getUsername() + " is already in a game");
+
+            }
+
+        }
+
+        ///    SETTING FRIENDSHIPS -> ZERO
+
 
         for ( Player player1 : players ) {
 
-            for (Player player2 : players) {
+            for ( Player player2 : players ) {
 
-                if( ! player1.equals(player2)) {
+                if ( ! player1.equals(player2)  ) {
+
 
                     player1.setFriendships(player2,new FriendshipWithNPC(0,FriendshipLevel.STRANGER));
+
 
                 }
 
@@ -54,17 +78,72 @@ public class GameMenuController {
 
         }
 
+
+        Player gameCreator = new Player(App.dataManager.getCurrentUser());
+        players.add(gameCreator);
+
+
         // Create the game and set it as current in DataManager
-        Game newGame = App.dataManager.createNewGame(players);
-        currentGame = newGame;
-        Player creator = (Player) App.dataManager.getCurrentUser();
-        newGame.setCreator(creator);//we should be careful in the casting here
-        newGame.setCurrentTurnPlayer(creator);
+
+        Game newGame = createNewGame(gameCreator,players);
+
+        App.dataManager.setCurrentGame(newGame);
+
+
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
 
-        return new Result(true, "New game created successfully with " + players.size() + " players.");
+        return new Result(true, "New game created successfully");
+
+
     }
+
+    public Game createNewGame(Player creator, ArrayList<Player> players) {
+
+        Game newGame = new Game(creator,players);
+        App.dataManager.addGame(newGame);
+        App.dataManager.setCurrentGame(newGame);
+
+        return newGame;
+
+    }
+
+    private User getUserByUsername(String username) {
+
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                return user;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private boolean isPlayerInAnotherGame(Player player) {
+
+        for ( Game game : App.dataManager.getGames() ){
+
+            if ( game.getPlayers().contains(player) ){
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+
+
+
+
 
 
     public Result selectMap(int mapNumber) {

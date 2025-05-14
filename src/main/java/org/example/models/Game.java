@@ -13,7 +13,7 @@ import java.util.Map;
 public class Game {
 
     private final Integer gameID;
-    private final ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<Farm> farms;
     private HashMap<Player, Farm> playerFarms;
     private ArrayList<MapTile> map;
@@ -25,18 +25,18 @@ public class Game {
 
 
 
-    public Game(ArrayList<Player> players) {
+    public Game(Player creator, ArrayList<Player> players) {
+
 
         this.gameID = App.dataManager.getGames().get( App.dataManager.getGames().size() -1 ).getGameID() + 1;
-        this.players = new ArrayList<>();
+        this.players = players;
         this.time = new Time();
         this.map = new ArrayList<>();
         this.farms = new ArrayList<>();
-        // this.creator = App.dataManager.getCurrentPlayer();
-        // this.currentTurnPlayer = App.dataManager.getCurrentPlayer();
-        
+
         
     }
+
 
     public void assignFarmToPlayer(Player player, Farm farm) {
         if (playerFarms == null) {
@@ -111,22 +111,6 @@ public class Game {
 
     public void setCreator(Player creator) {
         this.creator = creator;
-    }
-
-    /**
-     * Add a player to the game
-     * @param player The player to add
-     */
-    public void addPlayer(Player player) {
-        if (!players.contains(player)) {
-            players.add(player);
-
-            // If this is the first player, set them as the creator and current turn player
-            if (players.size() == 1) {
-                creator = player;
-                currentTurnPlayer = player;
-            }
-        }
     }
 
     /**
@@ -256,4 +240,5 @@ public class Game {
         // TODO
         return null;
     }
+
 }
