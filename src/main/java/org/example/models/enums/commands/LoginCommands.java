@@ -30,23 +30,23 @@ public enum LoginCommands implements Command {
 
 
 
-    private final String regex;
-    private final Pattern pattern;
+    private final String regexString;
 
-    LoginCommands(String regex) {
-        this.regex = regex;
-        this.pattern = Pattern.compile(this.regex);
+    LoginCommands(String regexString){
+        this.regexString = regexString;
     }
-
 
     @Override
     public Matcher getMatcher(String input) {
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.matches()) {
-            return matcher;
-        }
+
+        Matcher matcher = Pattern.compile(regexString).matcher(input);
+
+        if (matcher.matches()) return matcher;
+
         return null;
     }
+
+
 }
 
 
