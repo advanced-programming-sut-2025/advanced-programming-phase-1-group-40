@@ -20,15 +20,16 @@ public class GameMenuController {
 
     /**
      * Creates a new game with the specified players
-     * @param usernames List of usernames to add to the game
+     * @param usernamesString List of usernames to add to the game
      * @return Result indicating success or failure
      */
     public Result createNewGame(String usernamesString) {
         List<String> usernames = new ArrayList<>();
         Collections.addAll(usernames, usernamesString.split("\\s+"));
-        // Validate number of players (2-4)
-        if (usernames == null || usernames.size() < 2 || usernames.size() > 4) {
-            return new Result(false, "Invalid number of players. Game requires 2-4 players.");
+        // TODO System.out.println(usernames.size());
+        // Validate number of players (3)
+        if (usernames == null || usernames.size() != 3) {
+            return new Result(false, "Invalid number of players. Game requires 3 players.");
         }
 
         // Validate all usernames
