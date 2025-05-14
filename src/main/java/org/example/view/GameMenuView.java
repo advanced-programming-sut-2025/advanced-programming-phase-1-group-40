@@ -60,7 +60,7 @@ public class GameMenuView implements AppMenu {
 
             }
 
-            Result result = controller.createNewGame(players.getFirst(), players);
+            Result result = controller.createNewGame(usernamesStr);
             System.out.println(result.message());
 
             if (result.success()) {
