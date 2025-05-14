@@ -112,13 +112,13 @@ public class LoginController {
 
                 LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer) != null
 
-                &&
+                        &&
 
-                (
-                        LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answer")
-                        ==
-                        LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answerConfirm")))
-                )
+                        (
+                                LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answer")
+                                        ==
+                                        LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer).group("answerConfirm")))
+        )
         {
 
             if ( LoginCommands.PICK_QUESTION.getMatcher(securityQuestionAnswer) == null ){
@@ -260,19 +260,19 @@ public class LoginController {
 
             if ( user.getUsername().equals(username) ){
 
-                    if ( user.getPassword().equals(password) ){
+                if ( user.getPassword().equals(password) ){
 
 
-                        App.dataManager.setCurrentUser(user);
-                        user.setStayLoggedInNextTime(stayLoggedIn);
-                        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+                    App.dataManager.setCurrentUser(user);
+                    user.setStayLoggedInNextTime(stayLoggedIn);
+                    App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
 
-                        return new Result(true, "Login Successful. You are now in Main Menu.");
+                    return new Result(true, "Login Successful. You are now in Main Menu.");
 
-                    }
+                }
 
 
-                    return new Result(false, "Password is incorrect.");
+                return new Result(false, "Password is incorrect.");
 
             }
 
