@@ -26,7 +26,12 @@ public class GameMenuController {
     public Result createNewGame(String usernamesString) {
         List<String> usernames = new ArrayList<>();
         Collections.addAll(usernames, usernamesString.split("\\s+"));
-        // TODO System.out.println(usernames.size());
+        for (int i = 0; i < usernames.size(); i++) {
+            if (usernames.get(i).isEmpty()) {
+                usernames.remove(i);
+            }
+        }
+
         // Validate number of players (3)
         if (usernames == null || usernames.size() != 3) {
             return new Result(false, "Invalid number of players. Game requires 3 players.");
@@ -41,11 +46,11 @@ public class GameMenuController {
             }
 
             // Check if player is already in another active game
-            if (isPlayerInActiveGame((Player)user)) {
+            if (isPlayerInActiveGame(user)) {
                 return new Result(false, "Player '" + username + "' is already in an active game.");
             }
 
-            players.add((Player)user);
+            players.add(new Player(user));
         }
 
         for ( Player player1 : players ) {
@@ -65,7 +70,7 @@ public class GameMenuController {
         // Create the game and set it as current in DataManager
         Game newGame = App.dataManager.createNewGame(players);
         currentGame = newGame;
-        Player creator = (Player) App.dataManager.getCurrentUser();
+        Player creator = new Player( App.dataManager.getCurrentUser() );
         newGame.setCreator(creator);//we should be careful in the casting here
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
@@ -255,7 +260,7 @@ public class GameMenuController {
      * @param player The player to check
      * @return true if the player is in an active game, false otherwise
      */
-    private boolean isPlayerInActiveGame(Player player) {
+    private boolean isPlayerInActiveGame(User player) {
         // A player can be in multiple games, so we don't need to check this anymore
         return false;
     }
