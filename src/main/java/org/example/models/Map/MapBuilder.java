@@ -444,8 +444,6 @@ public class MapBuilder {
             .initialize()
             .addCabin(5, 5)
             .addGreenhouse(15, 5)
-            .addHill(20, 20, 15, 15)   // Central hill
-            .addHill(40, 10, 8, 8)     // Small hill
             .addLake(10, 30, 8, 8)     // Lake
             .addQuarry(30, 35, 10, 10) // Quarry
             .randomlyPlaceTrees(35, Season.SPRING)
@@ -477,7 +475,7 @@ public class MapBuilder {
         for (int i = x; i < x + width && i < this.width; i++) {
             for (int j = y; j < y + height && j < this.height; j++) {
                 int index = j * this.width + i;
-                tiles.set(index, new MapTile(TileType.WATER));
+                tiles.set(index, new MapTile(new Position(x, y), TileType.WATER));
             }
         }
         return this;
@@ -502,7 +500,7 @@ public class MapBuilder {
             int index = y * this.width + x;
 
             if (tiles.get(index).getType() == TileType.DIRT || tiles.get(index).getType() == TileType.QUARRY) {
-                tiles.set(index, new MapTile(TileType.ORE));
+                tiles.set(index, new MapTile(new Position(x, y), TileType.ORE));
             }
         }
         return this;

@@ -7,6 +7,7 @@ import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class GameMenuController {
@@ -85,7 +86,7 @@ public class GameMenuController {
 
         // Create the game and set it as current in DataManager
 
-        Game newGame = createNewGame(gameCreator,players);
+        Game newGame = getNewGame(gameCreator,players);
 
         App.dataManager.setCurrentGame(newGame);
 
@@ -96,13 +97,21 @@ public class GameMenuController {
 
     }
 
-    public Game createNewGame(Player creator, ArrayList<Player> players) {
+    public Result createNewGame(Player creator, ArrayList<Player> players) {
 
         Game newGame = new Game(creator,players);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
 
+        return new Result(true, "New game created successfully");
 
+    }
+
+    public Game getNewGame(Player creator, ArrayList<Player> players) {
+
+        Game newGame = new Game(creator,players);
+        App.dataManager.addGame(newGame);
+        App.dataManager.setCurrentGame(newGame);
 
         return newGame;
 
@@ -188,7 +197,7 @@ public class GameMenuController {
         FarmManager farmManager = FarmManager.getInstance();
 
         for (Player player :App.dataManager.getCurrentGame().getPlayers()) {
-            int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
+            int mapType = 0; //TODO mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
             Farm farm = farmManager.createFarmForUser(player, mapType);
            App.dataManager.getCurrentGame().addFarm(farm);
 
@@ -213,7 +222,7 @@ public class GameMenuController {
 
 
     public Result loadGame() {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         // Load the game and set it as current in DataManager
         Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
@@ -231,19 +240,19 @@ public class GameMenuController {
 
 
     public Result voteToTerminateGame(boolean vote) {
-        if (App.dataManager.getCurrentGame() == null || !App.dataManager.getCurrentGame().isActive()) {
+        if (App.dataManager.getCurrentGame() == null) {
             return new Result(false, "No active game to terminate.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
 
         // Register the player's vote
         boolean allVotedToTerminate =App.dataManager.getCurrentGame().voteForTermination(currentPlayer, vote);
 
         if (allVotedToTerminate) {
             // If all players voted to terminate, delete the game
-            App.dataManager.removeGame(currentGame);
-           App.dataManager.getCurrentGame() = null;
+            App.dataManager.removeGame(App.dataManager.getCurrentGame());
+            App.dataManager.setCurrentGame(null);
             return new Result(true, "All players voted to terminate the game. The game has been deleted.");
         }
 
@@ -268,10 +277,10 @@ public class GameMenuController {
     }
 
 
-
-
-
-
+    public Result nextTurn() {
+        // TODO
+        return null;
+    }
 }
 
 

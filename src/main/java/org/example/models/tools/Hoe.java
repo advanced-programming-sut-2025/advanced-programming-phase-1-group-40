@@ -13,6 +13,11 @@ public class Hoe extends Tool {
     public Hoe(ToolTypes toolType) {
     }
 
+    // TODO
 
+    @Override
+    public String getItemName() {
+        return "";
+    }
 }
 

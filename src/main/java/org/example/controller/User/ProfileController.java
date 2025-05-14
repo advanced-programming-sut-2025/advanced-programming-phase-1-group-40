@@ -6,7 +6,7 @@ import org.example.models.enums.commands.LoginCommands;
 public class ProfileController {
 
     public Result changeUsername(String newUsername) {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        User currentPlayer = App.dataManager.getCurrentUser();
 
         if (currentPlayer == null) {
             return new Result(false, "No user is currently logged in.");
@@ -33,7 +33,7 @@ public class ProfileController {
     }
 
     public Result changeNickname(String newNickname) {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        User currentPlayer = App.dataManager.getCurrentUser();
 
         if (currentPlayer == null) {
             return new Result(false, "No user is currently logged in.");
@@ -49,7 +49,7 @@ public class ProfileController {
     }
 
     public Result changeEmail(String newEmail) {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        User currentPlayer = App.dataManager.getCurrentUser();
 
         if (currentPlayer == null) {
             return new Result(false, "No user is currently logged in.");
@@ -78,7 +78,7 @@ public class ProfileController {
     }
 
     public Result changePassword(String oldPassword, String newPassword) {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        User currentPlayer = App.dataManager.getCurrentUser();
 
         if (currentPlayer == null) {
             return new Result(false, "No user is currently logged in.");

@@ -10,5 +10,8 @@ import org.example.models.*;
 public class Scythe extends Tool {
 
 
-
+    @Override
+    public String getItemName() {
+        return "";
+    }
 }

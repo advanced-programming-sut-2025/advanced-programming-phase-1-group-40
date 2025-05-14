@@ -17,5 +17,9 @@ public class Axe extends Tool {
        // super();
     }
 
-
+    // TODO
+    @Override
+    public String getItemName() {
+        return "";
+    }
 }

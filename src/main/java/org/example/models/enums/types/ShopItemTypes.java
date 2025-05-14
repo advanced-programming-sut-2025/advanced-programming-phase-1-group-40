@@ -144,5 +144,9 @@ public enum ShopItemTypes implements Item {
     }
 
 
+    @Override
+    public String getItemName() {
+        return this.name;
+    }
 }
 

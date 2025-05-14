@@ -10,15 +10,14 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public class Fish implements Item {
-
-    FishType name;
+    FishType type;
     int basePrice;
     Season season;
     boolean isLegendary;
     private final int fishQuality;
 
-    public Fish(FishType name, int basePrice, Season season, boolean isLegendary, int fishQuality) {
-        this.name = name;
+    public Fish(FishType type, int basePrice, Season season, boolean isLegendary, int fishQuality) {
+        this.type = type;
         this.basePrice = basePrice;
         this.season = season;
         this.isLegendary = isLegendary;
@@ -30,7 +29,7 @@ public class Fish implements Item {
     }
 
     public FishType getName() {
-        return name;
+        return type;
     }
 
     public int getBasePrice() {
@@ -45,8 +44,8 @@ public class Fish implements Item {
         return isLegendary;
     }
 
-    public void setName(FishType name) {
-        this.name = name;
+    public void setName(FishType type) {
+        this.type = type;
     }
 
     public void setBasePrice(int basePrice) {
@@ -59,5 +58,10 @@ public class Fish implements Item {
 
     public void setLegendary(boolean legendary) {
         isLegendary = legendary;
+    }
+
+    @Override
+    public String getItemName() {
+        return this.type.getName();
     }
 }

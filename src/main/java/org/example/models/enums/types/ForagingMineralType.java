@@ -3,7 +3,7 @@ package org.example.models.enums.types;
 import org.example.models.*;
 
 
-public enum ForagingMineralType{
+public enum ForagingMineralType implements Item {
     // TODO
     REGULAR(-1),
     QUARTZ(25),
@@ -32,5 +32,11 @@ public enum ForagingMineralType{
 
     public int getSellPrice() {
         return sellPrice;
+    }
+
+    @Override
+    public String getItemName() {
+        // TODO
+        return "";
     }
 }

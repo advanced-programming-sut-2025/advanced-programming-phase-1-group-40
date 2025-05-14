@@ -22,7 +22,7 @@ public class Game {
     private Player creator;
     private Time time;
     private Weather weather;
-
+    private HashMap<String, Boolean> terminationVotes;
 
 
 
@@ -241,5 +241,6 @@ public class Game {
         // TODO
         return null;
     }
+
 
 }

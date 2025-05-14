@@ -12,7 +12,10 @@ import org.example.models.*;
 public class Shear extends Tool {
 
 
-
+    @Override
+    public String getItemName() {
+        return "";
+    }
 }
 
 

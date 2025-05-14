@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class GameController {
 
-    Player player = App.dataManager.getCurrentPlayer();
+    Player player = (Player) App.dataManager.getCurrentUser();
 
     /**
      * Gets the current game from DataManager
@@ -684,13 +684,13 @@ public class GameController {
 
     public int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (((Player) App.dataManager.getCurrentUser()).getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
     public int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (((Player) App.dataManager.getCurrentUser()).getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 
