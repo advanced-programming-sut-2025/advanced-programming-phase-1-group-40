@@ -740,7 +740,7 @@ public class GameController {
 
     public int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
     }
 
