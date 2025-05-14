@@ -6,6 +6,11 @@ package org.example.models.Map;
 public enum TileType {
 
 
+    MARNIES_RANCH,                                           ///  SHOP MARNIE B MAP ADD BEDE!!!!!!!!!!!
+
+
+
+
     BARN,
     DIRT,
     ORE,

@@ -6,6 +6,7 @@ import org.example.models.Position;
  * Represents the player's cabin on the farm
  */
 public class Cabin extends MapComponents {
+
     private int upgradeLevel;
     private boolean hasBasement;
     

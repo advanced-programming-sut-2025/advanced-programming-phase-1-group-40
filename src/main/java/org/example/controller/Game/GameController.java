@@ -3,7 +3,9 @@ package org.example.controller.Game;
 
 import org.example.models.*;
 import org.example.models.Animal.Animal;
+import org.example.models.Animal.AnimalLivingSpace;
 import org.example.models.Map.SecondaryMapComponents.ForagingSeed;
+import org.example.models.Map.TileType;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
@@ -13,8 +15,10 @@ import org.example.models.tools.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class GameController {
+
     Player player = (Player) App.dataManager.getCurrentUser();
 
     public Player nextTurn() {
@@ -71,6 +75,86 @@ public class GameController {
         return currentGame.getPlayers().get(nextIndex);
 
     }
+
+
+    public Result buyAnimal(Matcher input) {                            ///  TODO: CHECK IF PLAYER IS IN MARNIE SHOP
+
+        if ( App.dataManager.getCurrentGame().getMap()
+                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()]
+                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()].getType()
+                != TileType.MARNIES_RANCH)
+        {
+
+            return new Result(false,"You can only buy animals if you are in Marnie's Ranch");
+
+        }
+
+        AnimalType animalType = parseAnimalType(input.group("animalType").trim());
+        String animalName = input.group("animalName").trim();
+
+        AnimalLivingSpace targetLivingSpace = playerHasAnimalCapacity(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),animalType);
+
+        if ( targetLivingSpace == null ){
+
+            return new Result(false,"You dont have capacity to buy this animal");
+
+        }
+
+        Animal newAnimal = new Animal(animalName, animalType);
+
+        targetLivingSpace.addAnimal(newAnimal);
+
+        return new Result(true,"You just bought a " + animalName + " which is a " + animalType);
+
+
+    }
+
+    private AnimalType parseAnimalType(String animalType) {
+
+        for ( AnimalType type : AnimalType.values() ){
+
+            if ( type.getName().toLowerCase().equals(animalType.toLowerCase()) ){
+                return type;
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private AnimalLivingSpace playerHasAnimalCapacity(Player player, AnimalType animalType) {
+
+        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimalLivingSpaces() ){
+
+            if ( numberOfAnimalInABuilding(animalLivingSpace, animalType) < animalType.getMaxNumberInOnePlace() ){
+
+                return animalLivingSpace;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private int numberOfAnimalInABuilding(AnimalLivingSpace animalLivingSpace, AnimalType animalType) {
+
+        int count = 0;
+
+        for ( Animal animal : animalLivingSpace.getAnimals()){
+
+            if ( animal.getAnimalType() == animalType ){
+                count ++;
+            }
+
+        }
+
+        return count;
+    }
+
+
 
 
 

@@ -1,5 +1,7 @@
 package org.example.models;
 
+import org.example.models.Animal.Animal;
+import org.example.models.Map.Farm;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
@@ -24,7 +26,6 @@ public class Player extends User {
     private ArrayList<Item> items = new ArrayList<>();
     private int highestMoney;
     private int gamesPlayed;
-
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
 
     public int getHighestMoney() {

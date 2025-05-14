@@ -10,18 +10,29 @@ import org.example.models.*;
 import java.util.ArrayList;
 
 public class AnimalLivingSpace extends FarmBuilding {
-    private final Capacity capacity;
+
+
     private ArrayList<Animal> animals;
-    private boolean isCage; // type = Stable if false
 
-    public AnimalLivingSpace(FarmBuildingType farmBuildingType, Position positionOfUpperLeftCorner, Capacity capacity) {
+
+    public AnimalLivingSpace(FarmBuildingType farmBuildingType, Position positionOfUpperLeftCorner) {
         super(farmBuildingType, positionOfUpperLeftCorner);
-        this.capacity = capacity;
+
     }
 
-    void addAnimal(Animal animal) {
+    public void addAnimal(Animal animal) {
+
+        this.animals.add(animal);
+
     }
 
-    void removeAnimal(Animal animal) {
+    public void removeAnimal(Animal animal) {
+
+        this.animals.remove(animal);
+
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
     }
 }

@@ -1,6 +1,8 @@
 package org.example.models.Map;
 
 import org.example.models.Animal.Animal;
+import org.example.models.Animal.AnimalLivingSpace;
+import org.example.models.FarmBuilding;
 import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
@@ -44,8 +46,9 @@ public class Farm implements Serializable {
     private Player owner;
 
     /// ANIMALS IN FARM
-
     private ArrayList<Animal> animals;
+    /// building haye farm
+    private ArrayList<AnimalLivingSpace> animalLivingSpaces = new ArrayList<>();
 
 
 
@@ -69,6 +72,18 @@ public class Farm implements Serializable {
                 mapTiles.add(new MapTile(pos, TileType.GROUND));
             }
         }
+    }
+
+    public ArrayList<AnimalLivingSpace> getAnimalLivingSpaces() {
+        return animalLivingSpaces;
+    }
+
+    public void addFarmBuildings(AnimalLivingSpace animalLivingSpace) {
+        this.animalLivingSpaces.add(animalLivingSpace);
+    }
+
+    public void removeFarmBuildings(FarmBuilding farmBuilding) {
+        this.animalLivingSpaces.remove(farmBuilding);
     }
 
     public ArrayList<Animal> getAnimals() {
