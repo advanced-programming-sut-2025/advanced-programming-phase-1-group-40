@@ -39,15 +39,14 @@ public class Game implements AppMenu {
         else if (GameCommands.CHEAT_SET_FRIENDSHIP.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.cheatSetFriendship(GameCommands.CHEAT_SET_FRIENDSHIP.getMatcher(input)).message());
 
 
         }
         else if (GameCommands.SHOW_ANIMAL_INFO.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
-
+            gameController.showAnimalInfo(GameCommands.SHOW_ANIMAL_INFO.getMatcher(input));
 
         }
         else if (GameCommands.SHEPHERD_ANIMALS.getMatcher(input) != null) {

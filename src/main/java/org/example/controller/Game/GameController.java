@@ -175,6 +175,7 @@ public class GameController {
         }
 
         animal.setFriendshipWithOwner(animal.getFriendshipWithOwner()+15);
+        animal.setPetToday(true);
 
         return new Result(true,"Pet successfully. FriendShip +15 (:");
 
@@ -209,6 +210,38 @@ public class GameController {
 
     }
 
+    public Result cheatSetFriendship(Matcher input){
+
+        Animal animal = findAnimalByName(input.group("animalName"));
+        Integer amount = Integer.parseInt(input.group("amount").trim());
+
+        if ( animal == null ){
+
+            return new Result(false,"Animal not found");
+
+        }
+
+        animal.setFriendshipWithOwner(animal.getFriendshipWithOwner()+amount);
+
+        return new Result(true,"Cheat Set successfully");
+
+
+
+    }
+
+    public void showAnimalInfo(Matcher input){
+
+        int count = 1;
+
+        for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimals()  ){
+
+            System.out.println(count + ". Your friendship with: " +animal.getName() + "(" + animal.getAnimalType() + ") is:" + animal.getFriendshipWithOwner());
+            count ++;
+
+        }
+
+    }
+
     ///   -----------------------> FISH
 
 
@@ -216,7 +249,7 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
-        if (true) {
+        if (true) {             ///   ---> close to sea
 
             int numberOfFishes = numberOfCaughtFish() + 1;
             FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
