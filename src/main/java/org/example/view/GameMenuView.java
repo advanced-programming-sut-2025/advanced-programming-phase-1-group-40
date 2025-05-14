@@ -19,64 +19,7 @@ import java.util.regex.Pattern;
  * View for the game menu
  */
 public class GameMenuView implements AppMenu {
-    private final GameMenuController controller;
 
-    public GameMenuView() {
-        this.controller = new GameMenuController();
-    }
-
-    public void run(Scanner scanner) {
-        System.out.println("=== GAME MENU ===");
-        System.out.println("Type 'help' to see available commands.");
-
-        while (App.dataManager.getCurrentMenu() == Menu.GAME_MENU) {
-            System.out.print("> ");
-            String input = scanner.nextLine().trim();
-            getInput(input, scanner);
-        }
-    }
-
-    @Override
-    public void getInput(String input, Scanner scanner) {
-        // Handle new game command
-        if (input.matches("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+)(\\s+[a-zA-Z0-9-]+){0,2}\\s*")) {
-            handleNewGame(input, scanner);
-        }
-        // Handle map selection command
-        else if (input.matches("\\s*game\\s+map\\s+(\\d+)\\s*")) {
-            handleMapSelection(input);
-        }
-        // Handle next turn command
-        else if (input.matches("\\s*next\\s+turn\\s*")) {
-            handleNextTurn();
-        }
-        // Handle load game command
-        else if (input.matches("\\s*load\\s+game\\s*")) {
-            handleLoadGame();
-        }
-        // Handle exit game command
-        else if (input.matches("\\s*exit\\s+game\\s*")) {
-            handleExitGame();
-        }
-        // Handle vote to terminate command
-        else if (input.matches("\\s*vote\\s+terminate\\s+(yes|no)\\s*")) {
-            handleVoteTerminate(input);
-        }
-        // Handle game status command
-        else if (input.matches("\\s*game\\s+status\\s*")) {
-            handleGameStatus();
-        }
-        // Handle help command
-        else if (input.matches("\\s*help\\s*")) {
-            showHelp();
-        }
-        // Handle back command
-        else if (input.matches("\\s*back\\s*")) {
-            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        } else {
-            System.out.println("Invalid command. Type 'help' to see available commands.");
-        }
-    }
 
     private void handleNewGame(String input, Scanner scanner) {
         // Extract usernames

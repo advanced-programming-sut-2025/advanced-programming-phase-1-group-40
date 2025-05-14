@@ -89,9 +89,7 @@ public class GameMenuController {
 
         App.dataManager.setCurrentGame(newGame);
 
-
-        App.dataManager.addGame(newGame);
-        App.dataManager.setCurrentGame(newGame);
+        ///  GENRATE MAP WITH VOTES
 
         return new Result(true, "New game created successfully");
 
@@ -103,6 +101,8 @@ public class GameMenuController {
         Game newGame = new Game(creator,players);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
+
+
 
         return newGame;
 
@@ -147,29 +147,27 @@ public class GameMenuController {
 
 
     public Result selectMap(int mapNumber) {
-        if (currentGame == null) {
-            return new Result(false, "No active game. Please create a game first.");
-        }
 
-        Player currentPlayer = currentGame.getCurrentTurnPlayer();
-        if (!currentGame.hasPlayer(currentPlayer.getUsername())) {
+
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+
+        if (!App.dataManager.getCurrentGame().hasPlayer(currentPlayer.getUsername())) {
             return new Result(false, "You are not part of this game.");
         }
 
-        // Validate map number
+
         if (mapNumber < 1 || mapNumber > 7) {
             return new Result(false, "Invalid map number. Please choose a number between 1-7.");
         }
 
-        // Store the player's map selection
-        //mapSelections.put(currentPlayer.getUsername(), mapNumber);
+
         Farm chosenFarm = FarmManager.getInstance().createFarmForUser(currentPlayer, mapNumber);
 
-        currentGame.assignFarmToPlayer(currentPlayer, chosenFarm);
+        App.dataManager.getCurrentGame().assignFarmToPlayer(currentPlayer, chosenFarm);
         // Check if all players have selected their maps
         boolean allPlayersSelected = true;
-        for (Player player : currentGame.getPlayers()) {
-            if (!currentGame.getPlayerFarms().containsKey(player.getUsername())) {
+        for (Player player : App.dataManager.getCurrentGame().getPlayers()) {
+            if (!App.dataManager.getCurrentGame().getPlayerFarms().containsKey(player.getUsername())) {
                 allPlayersSelected = false;
                 break;
             }
@@ -189,10 +187,10 @@ public class GameMenuController {
     private void createFarmsForPlayers() {
         FarmManager farmManager = FarmManager.getInstance();
 
-        for (Player player : currentGame.getPlayers()) {
+        for (Player player :App.dataManager.getCurrentGame().getPlayers()) {
             int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
             Farm farm = farmManager.createFarmForUser(player, mapType);
-            currentGame.addFarm(farm);
+           App.dataManager.getCurrentGame().addFarm(farm);
 
             // Set the player's current position to their farm's cabin
             if (farm.getCabin() != null) {
@@ -201,10 +199,10 @@ public class GameMenuController {
         }
 
         // Initialize game time
-        currentGame.initializeTime();
+       App.dataManager.getCurrentGame().initializeTime();
 
         // Set the first player as the current turn player
-        currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
+       App.dataManager.getCurrentGame().setCurrentTurnPlayer(App.dataManager.getCurrentGame().getPlayers().get(0));
 
         // Save the game state
         App.dataManager.saveGameData();
@@ -233,24 +231,27 @@ public class GameMenuController {
 
 
     public Result voteToTerminateGame(boolean vote) {
-        if (currentGame == null || !currentGame.isActive()) {
+        if (App.dataManager.getCurrentGame() == null || !App.dataManager.getCurrentGame().isActive()) {
             return new Result(false, "No active game to terminate.");
         }
 
         Player currentPlayer = App.dataManager.getCurrentPlayer();
 
         // Register the player's vote
-        boolean allVotedToTerminate = currentGame.voteForTermination(currentPlayer, vote);
+        boolean allVotedToTerminate =App.dataManager.getCurrentGame().voteForTermination(currentPlayer, vote);
 
         if (allVotedToTerminate) {
             // If all players voted to terminate, delete the game
             App.dataManager.removeGame(currentGame);
-            currentGame = null;
+           App.dataManager.getCurrentGame() = null;
             return new Result(true, "All players voted to terminate the game. The game has been deleted.");
         }
 
         return new Result(true, "Your vote has been recorded. Waiting for other players to vote.");
     }
+
+
+
 
 
     public void goToMenu(Menu targetMenu){
@@ -265,6 +266,10 @@ public class GameMenuController {
         System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
 
     }
+
+
+
+
 
 
 }

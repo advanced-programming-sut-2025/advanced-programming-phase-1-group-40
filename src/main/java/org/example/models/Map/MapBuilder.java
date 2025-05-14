@@ -15,6 +15,8 @@ import java.util.*;
  * Builder class for creating farm maps
  */
 public class MapBuilder {
+
+
     private String mapName;
     private int width;
     private int height;
@@ -72,6 +74,8 @@ public class MapBuilder {
        }
        return this;
    }
+
+
 
 
     /*public MapBuilder addGreenhouse(int x, int y) {
@@ -326,10 +330,17 @@ public class MapBuilder {
         return farm;
     }
 
-    // Pre-defined farm templates
+
+
+
+
+
+
+    // Pre-defined farm templates----------------------------------------------------------------------
     /**
      * Builds a standard farm with balanced resources
      */
+
     public static Farm buildStandardFarm() {
         return new MapBuilder()
             .setDimensions(50, 50)
@@ -473,15 +484,15 @@ public class MapBuilder {
     }
 
 
-    private MapBuilder addHill(int x, int y, int width, int height) {
-        for (int i = x; i < x + width && i < this.width; i++) {
-            for (int j = y; j < y + height && j < this.height; j++) {
-                int index = j * this.width + i;
-                tiles.set(index, new MapTile(TileType.HILL));
-            }
-        }
-        return this;
-    }
+//    private MapBuilder addHill(int x, int y, int width, int height) {
+//        for (int i = x; i < x + width && i < this.width; i++) {
+//            for (int j = y; j < y + height && j < this.height; j++) {
+//                int index = j * this.width + i;
+//                tiles.set(index, new MapTile(TileType.HILL));
+//            }
+//        }
+//        return this;
+//    }
 
     private MapBuilder randomlyPlaceOres(int count) {
         for (int i = 0; i < count; i++) {
