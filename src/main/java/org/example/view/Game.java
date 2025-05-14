@@ -25,14 +25,14 @@ public class Game implements AppMenu {
         else if ( GameCommands.BUY_ANIMAL.getMatcher(input) != null) {
 
 
-            System.out.println(gameController.buyAnimal(GameCommands.BUY_ANIMAL.getMatcher(input)));
+            System.out.println(gameController.buyAnimal(GameCommands.BUY_ANIMAL.getMatcher(input)).message());
 
 
         }
         else if (GameCommands.PET.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.petAnimal(GameCommands.PET.getMatcher(input)).message());
 
 
         }

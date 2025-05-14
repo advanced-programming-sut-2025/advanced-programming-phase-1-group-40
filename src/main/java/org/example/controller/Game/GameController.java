@@ -77,6 +77,10 @@ public class GameController {
     }
 
 
+
+    ///      ---------------------> DAMDARI
+
+
     public Result buyAnimal(Matcher input) {                            ///  TODO: CHECK IF PLAYER IS IN MARNIE SHOP
 
         if ( App.dataManager.getCurrentGame().getMap()
@@ -101,7 +105,7 @@ public class GameController {
         }
 
         Animal newAnimal = new Animal(animalName, animalType);
-
+        newAnimal.setPosition(new Position(targetLivingSpace.getPosition().getX(), targetLivingSpace.getPosition().getY()));
         targetLivingSpace.addAnimal(newAnimal);
 
         return new Result(true,"You just bought a " + animalName + " which is a " + animalType);
@@ -154,7 +158,106 @@ public class GameController {
         return count;
     }
 
+    public Result petAnimal(Matcher input){
 
+        Animal animal = findAnimalByName(input.group("name"));
+
+        if ( animal == null ){
+
+            return new Result(false,"Animal not found");
+
+        }
+
+        if (  !(Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX() - animal.getPosition().getX()) <= 1
+
+                &&
+
+                Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY() - animal.getPosition().getY()) <= 1
+
+        )  ){
+
+            return new Result(false,"You are out too far away");
+
+        }
+
+        animal.setFriendshipWithOwner(Math.min(animal.getFriendshipWithOwner()+15,1000));
+
+        return new Result(true,"Pet successfully. FriendShip +15 (:");
+
+
+    }
+
+    private Animal findAnimalByName(String name){
+
+        for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimals()  ){
+
+            if ( animal.getName().equals(name) ){
+
+                return animal;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    ///   -----------------------> FISH
+
+
+    public Result fishing(String fishingPoleName) {
+
+        FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
+
+        if (true) {
+
+            int numberOfFishes = numberOfCaughtFish() + 1;
+            FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
+            for (int i = 0; i < numberOfFishes; i++) {
+                ///  add fishtype to arraylist
+            }
+
+
+        }
+
+        return new Result(true, "");
+    }
+
+    public boolean closeToSea(Position position) {
+
+        return true;
+
+    }
+
+    public int calculateFishQuality(FishingRodType fishingRod) {
+
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
+
+    }
+
+    public int numberOfCaughtFish() {
+
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+
+    }
+
+    private FishingRodType getFishingPoleByName(String name) {
+
+        if (FishingRodType.TRAINING_ROD.getPoleName().equals(name)) {
+            return FishingRodType.TRAINING_ROD;
+        } else if (FishingRodType.BAMBOO_POLE.getPoleName().equals(name)) {
+            return FishingRodType.BAMBOO_POLE;
+        } else if (FishingRodType.FIBERGLASS_ROD.getPoleName().equals(name)) {
+            return FishingRodType.FIBERGLASS_ROD;
+        }
+        return FishingRodType.IRIDIUM;
+
+    }
+
+
+
+    ///        ----------------------->
 
 
 
@@ -792,54 +895,7 @@ public class GameController {
         return null;
     }
 
-    public Result fishing(String fishingPoleName) {
 
-        FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
-
-        if (true) {
-
-            int numberOfFishes = numberOfCaughtFish() + 1;
-            FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
-            for (int i = 0; i < numberOfFishes; i++) {
-                ///  add fishtype to arraylist
-            }
-
-
-        }
-
-        return new Result(true, "");
-    }
-
-    public boolean closeToSea(Position position) {
-
-        return true;
-
-    }
-
-    public int calculateFishQuality(FishingRodType fishingRod) {
-
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
-
-    }
-
-    public int numberOfCaughtFish() {
-
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
-
-    }
-
-    private FishingRodType getFishingPoleByName(String name) {
-
-        if (FishingRodType.TRAINING_ROD.getPoleName().equals(name)) {
-            return FishingRodType.TRAINING_ROD;
-        } else if (FishingRodType.BAMBOO_POLE.getPoleName().equals(name)) {
-            return FishingRodType.BAMBOO_POLE;
-        } else if (FishingRodType.FIBERGLASS_ROD.getPoleName().equals(name)) {
-            return FishingRodType.FIBERGLASS_ROD;
-        }
-        return FishingRodType.IRIDIUM;
-
-    }
 
 
     public Result artisanUse(String artisanName, ArrayList<String> itemsNames) { // gets ingredients

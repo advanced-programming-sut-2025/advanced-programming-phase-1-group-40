@@ -2,12 +2,6 @@ package org.example.models.Animal;
 
 import org.example.models.*;
 import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 
 import java.util.ArrayList;
 
@@ -16,8 +10,8 @@ public class Animal {
     private String name;
     private AnimalType animalType;
     private Player owner;
-    private int friendship;
-
+    private Integer friendshipWithOwner;
+    private Position position;
     private boolean petToday;
     private boolean sleptOutside;
     private boolean fedWithHayToday;
@@ -32,6 +26,7 @@ public class Animal {
         this.name = name;
         this.animalType = animalType;
         this.owner = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        this.friendshipWithOwner = 0;
         this.petToday = false;
         this.sleptOutside = false;
         this.fedWithHayToday = false;
@@ -44,6 +39,30 @@ public class Animal {
 
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public AnimalType getAnimalType() {
+        return animalType;
+    }
+
+    public void setAnimalType(AnimalType animalType) {
+        this.animalType = animalType;
+    }
+
     public Player getOwner() {
         return owner;
     }
@@ -52,76 +71,60 @@ public class Animal {
         this.owner = owner;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Integer getFriendshipWithOwner() {
+        return friendshipWithOwner;
     }
 
-    public void setAnimalType(AnimalType animalType) {
-        this.animalType = animalType;
-    }
-
-    public void setFriendship(int friendship) {
-        this.friendship = friendship;
-    }
-
-    public void setPetToday(boolean petToday) {
-        this.petToday = petToday;
-    }
-
-    public void setSleptOutside(boolean sleptOutside) {
-        this.sleptOutside = sleptOutside;
-    }
-
-    public void setFedWithHayToday(boolean fedWithHayToday) {
-        this.fedWithHayToday = fedWithHayToday;
-    }
-
-    public void setProducts(ArrayList<AnimalProducts> products) {
-        this.products = products;
-    }
-
-    public void setAnimalLivingSpace(FarmBuildingType animalLivingSpace) {
-        this.animalLivingSpace = animalLivingSpace;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AnimalType getAnimalType() {
-        return animalType;
-    }
-
-    public int getFriendship() {
-        return friendship;
+    public void setFriendshipWithOwner(Integer friendshipWithOwner) {
+        this.friendshipWithOwner = friendshipWithOwner;
     }
 
     public boolean isPetToday() {
         return petToday;
     }
 
+    public void setPetToday(boolean petToday) {
+        this.petToday = petToday;
+    }
+
     public boolean isSleptOutside() {
         return sleptOutside;
+    }
+
+    public void setSleptOutside(boolean sleptOutside) {
+        this.sleptOutside = sleptOutside;
     }
 
     public boolean isFedWithHayToday() {
         return fedWithHayToday;
     }
 
+    public void setFedWithHayToday(boolean fedWithHayToday) {
+        this.fedWithHayToday = fedWithHayToday;
+    }
+
     public ArrayList<AnimalProducts> getProducts() {
         return products;
+    }
+
+    public void setProducts(ArrayList<AnimalProducts> products) {
+        this.products = products;
     }
 
     public FarmBuildingType getAnimalLivingSpace() {
         return animalLivingSpace;
     }
 
+    public void setAnimalLivingSpace(FarmBuildingType animalLivingSpace) {
+        this.animalLivingSpace = animalLivingSpace;
+    }
+
     public Integer getPrice() {
         return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }
 
