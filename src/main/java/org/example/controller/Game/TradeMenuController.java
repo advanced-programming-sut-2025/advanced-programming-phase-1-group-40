@@ -7,7 +7,7 @@ public class TradeMenuController {
 
     public Result tradeWithMoney(String targetUsername, String type, String itemName, int amount, int price) { // type?
 
-        // TODO: Player targetPlayer =
+         Player targetPlayer =
 
         return new Result(true, "");
     }
