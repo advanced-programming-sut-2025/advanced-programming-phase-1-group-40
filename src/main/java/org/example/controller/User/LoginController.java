@@ -92,7 +92,6 @@ public class LoginController {
 
     }
 
-
     private void showQuestions() {
 
         System.out.println("Choose one of the following questions and type down your answer:");
