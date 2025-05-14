@@ -224,4 +224,8 @@ public class Game {
     }
 
 
+    public Player nextTurn() {
+        // TODO
+        return null;
+    }
 }
