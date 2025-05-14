@@ -75,7 +75,6 @@ public class LoginController {
         }
 
 
-        // EVERYTHING FINE -> SECURITY QUESTIONS
 
         Matcher securityQuestion = handleSecurityQuestion(scanner);
 
