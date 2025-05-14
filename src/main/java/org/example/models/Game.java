@@ -32,8 +32,8 @@ public class Game {
         this.time = new Time();
         this.map = new ArrayList<>();
         this.farms = new ArrayList<>();
-        this.creator = App.dataManager.getCurrentPlayer();
-        this.currentTurnPlayer = App.dataManager.getCurrentPlayer();
+        // this.creator = App.dataManager.getCurrentPlayer();
+        // this.currentTurnPlayer = App.dataManager.getCurrentPlayer();
         
         
     }

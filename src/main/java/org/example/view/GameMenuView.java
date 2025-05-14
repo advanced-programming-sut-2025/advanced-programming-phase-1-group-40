@@ -88,7 +88,8 @@ public class GameMenuView implements AppMenu {
             List<String> usernames = new ArrayList<>(Arrays.asList(usernamesStr.split("\\s+")));
 
             // Add the current player if not already in the list
-            String currentUsername = App.dataManager.getCurrentPlayer().getUsername();
+            Player currentPlayer = (Player)App.dataManager.getCurrentUser();
+            String currentUsername = currentPlayer.getUsername();
             if (!usernames.contains(currentUsername)) {
                 usernames.add(0, currentUsername);
             }

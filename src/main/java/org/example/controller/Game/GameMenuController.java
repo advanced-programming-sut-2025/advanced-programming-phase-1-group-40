@@ -67,9 +67,9 @@ public class GameMenuController {
         currentGame = newGame;
         Player creator = (Player) App.dataManager.getCurrentUser();
         newGame.setCreator(creator);//we should be careful in the casting here
-
-
-
+        newGame.setCurrentTurnPlayer(creator);
+        App.dataManager.addGame(newGame);
+        App.dataManager.setCurrentGame(newGame);
 
         return new Result(true, "New game created successfully with " + players.size() + " players.");
     }
@@ -84,7 +84,7 @@ public class GameMenuController {
             return new Result(false, "No active game. Please create a game first.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+        Player currentPlayer = currentGame.getCurrentTurnPlayer();
         if (!currentGame.hasPlayer(currentPlayer.getUsername())) {
             return new Result(false, "You are not part of this game.");
         }
@@ -96,13 +96,13 @@ public class GameMenuController {
 
         // Store the player's map selection
         //mapSelections.put(currentPlayer.getUsername(), mapNumber);
-        Farm chosenFarm = FarmManager.getInstance().getFarmByNumber(mapNumber);
+        Farm chosenFarm = FarmManager.getInstance().createFarmForUser(currentPlayer, mapNumber);
 
-        Game.assignFarmToPlayer(currentPlayer, chosenFarm);
+        currentGame.assignFarmToPlayer(currentPlayer, chosenFarm);
         // Check if all players have selected their maps
         boolean allPlayersSelected = true;
         for (Player player : currentGame.getPlayers()) {
-            if (!mapSelections.containsKey(player.getUsername())) {
+            if (!currentGame.getPlayerFarms().containsKey(player.getUsername())) {
                 allPlayersSelected = false;
                 break;
             }
@@ -111,7 +111,7 @@ public class GameMenuController {
         // If all players have selected, create farms for each player
         if (allPlayersSelected) {
             createFarmsForPlayers();
-            currentGame.setActive(true);
+            //currentGame.setActive(true);
             return new Result(true, "All players have selected their maps. Game is now active!");
         }
 
