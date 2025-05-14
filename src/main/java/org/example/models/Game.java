@@ -28,14 +28,10 @@ public class Game {
     public Game(Player[] players) {
         this.gameID = initialGameID++;
         this.players = new ArrayList<>();
-
         for (Player player : players) {
             this.players.add(player);
         }
-
-
-        time = new Time();
-
+        this.time = new Time();
         this.farms = new ArrayList<>();
         this.terminationVotes = new HashMap<>();
 

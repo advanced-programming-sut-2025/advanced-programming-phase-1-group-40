@@ -39,7 +39,7 @@ public class GameMenuView implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
         // Handle new game command
-        if (input.matches("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+)(\\s+[a-zA-Z0-9-]+){0,3}\\s*")) {
+        if (input.matches("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+)(\\s+[a-zA-Z0-9-]+){0,2}\\s*")) {
             handleNewGame(input, scanner);
         }
         // Handle map selection command
@@ -81,7 +81,7 @@ public class GameMenuView implements AppMenu {
 
     private void handleNewGame(String input, Scanner scanner) {
         // Extract usernames
-        Pattern pattern = Pattern.compile("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+(\\s+[a-zA-Z0-9-]+){0,3})\\s*");
+        Pattern pattern = Pattern.compile("\\s*game\\s+new\\s+-u\\s+([a-zA-Z0-9-]+(\\s+[a-zA-Z0-9-]+){0,2})\\s*");
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {

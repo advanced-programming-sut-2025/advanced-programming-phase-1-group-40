@@ -4,7 +4,6 @@ import org.example.models.*;
 import org.example.models.Map.Farm;
 import org.example.models.Map.FarmManager;
 import org.example.models.enums.FriendshipLevel;
-import org.example.models.DataManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +15,11 @@ import java.util.Map;
  */
 public class GameMenuController {
     private Game currentGame;
-    private Map<String, Integer> mapSelections; // Tracks map selections for each player
+    
 
-    public GameMenuController() {
-        mapSelections = new HashMap<>();
-    }
+    // public GameMenuController() {
+    //     mapSelections = new HashMap<>();
+    // }
 
     /**
      * Creates a new game with the specified players
@@ -34,7 +33,7 @@ public class GameMenuController {
         }
 
         // Validate all usernames
-        List<Player> players = new ArrayList<>();
+        ArrayList<Player> players = new ArrayList<>();
         for (String username : usernames) {
             User user = App.dataManager.getUserByUsername(username);
             if (user == null) {
@@ -42,11 +41,11 @@ public class GameMenuController {
             }
 
             // Check if player is already in another active game
-            if (isPlayerInActiveGame(player)) {
+            if (isPlayerInActiveGame((Player)user)) {
                 return new Result(false, "Player '" + username + "' is already in an active game.");
             }
 
-            players.add(player);
+            players.add((Player)user);
         }
 
         for ( Player player1 : players ) {
@@ -64,11 +63,13 @@ public class GameMenuController {
         }
 
         // Create the game and set it as current in DataManager
-        Game newGame = App.dataManager.createNewGame(players.toArray(new Player[0]));
-        newGame.setCreator(App.dataManager.getCurrentUser());
+        Game newGame = App.dataManager.createNewGame(players);
+        currentGame = newGame;
+        Player creator = (Player) App.dataManager.getCurrentUser();
+        newGame.setCreator(creator);//we should be careful in the casting here
 
-        // Clear previous map selections
-        mapSelections.clear();
+
+
 
         return new Result(true, "New game created successfully with " + players.size() + " players.");
     }

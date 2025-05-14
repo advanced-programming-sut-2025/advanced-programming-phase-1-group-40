@@ -204,10 +204,10 @@ public class DataManager {
      * @param users The users to add to the game
      * @return The newly created game
      */
-    public Game createNewGame(Player[] users) {
+    public Game createNewGame(ArrayList<Player> users) {
         Game newGame = new Game(users);
         games.add(newGame);
-        currentGame = newGame;
+        this.currentGame = newGame;
         return newGame;
     }
 
