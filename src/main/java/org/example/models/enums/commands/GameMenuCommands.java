@@ -16,6 +16,10 @@ public enum GameMenuCommands implements Command {
         this.regexString = regexString;
     }
 
+    public String getRegexString() {
+        return regexString;
+    }
+
     @Override
     public Matcher getMatcher(String input) {
 
