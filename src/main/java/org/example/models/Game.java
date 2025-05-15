@@ -2,6 +2,7 @@ package org.example.models;
 
 import org.example.models.Map.*;
 import org.example.models.enums.FriendshipLevel;
+import org.example.models.enums.Menu;
 import org.example.models.enums.enviroment.Time;
 import org.example.models.enums.enviroment.Weather;
 import org.example.models.enums.types.NPCType;
@@ -32,6 +33,7 @@ public class Game {
 
 
     public Game(Player creator, ArrayList<Player> players) {
+
 
 
         this.gameID = App.dataManager.getGames().size() + 1;
