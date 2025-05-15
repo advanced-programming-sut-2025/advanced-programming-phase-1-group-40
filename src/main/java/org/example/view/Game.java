@@ -92,6 +92,27 @@ public class Game implements AppMenu {
             System.out.println(gameController.cheatSetWeather(GameCommands.CHEAT_WEATHER_SET.getMatcher(input)).message());
 
         }
+        /// TOOLS
+        else if (GameCommands.TOOLS_EQUIP.getMatcher(input) != null) {
+            String toolName = GameCommands.TOOLS_EQUIP.getMatcher(input).group("toolName");
+            System.out.println(gameController.equipTool(toolName).message());
+        }
+        else if (GameCommands.TOOLS_SHOW_CURRENT.getMatcher(input) != null) {
+            System.out.println(gameController.showCurrentTool());
+        }
+        else if (GameCommands.TOOLS_SHOW_AVAILABLE.getMatcher(input) != null) {
+            System.out.println(gameController.showAvailableTools());
+        }
+
+        else if (GameCommands.TOOLS_UPGRADE.getMatcher(input) != null) {
+            String toolName = GameCommands.TOOLS_UPGRADE.getMatcher(input).group("toolName");
+            System.out.println(gameController.upgradeTool(toolName).message());
+        }
+        else if (GameCommands.TOOLS_USE.getMatcher(input) != null) {
+            String direction = GameCommands.TOOLS_USE.getMatcher(input).group("direction");
+            System.out.println(gameController.useTool(direction).message());
+        }
+
 
 
         ///  DAMDARI
@@ -376,7 +397,7 @@ public class Game implements AppMenu {
 
     }
 
-    
+
 
 
 }
