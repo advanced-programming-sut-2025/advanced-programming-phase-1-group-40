@@ -80,12 +80,12 @@ public class GameMenuController {
      * @return Result indicating success or failure
      */
     public Result selectMap(int mapNumber) {
-        if (currentGame == null) {
+        if (App.dataManager.getCurrentGame() == null) {
             return new Result(false, "No active game. Please create a game first.");
         }
 
-        Player currentPlayer = currentGame.getCurrentTurnPlayer();
-        if (!currentGame.hasPlayer(currentPlayer.getUsername())) {
+        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        if (!App.dataManager.getCurrentGame().hasPlayer(currentPlayer.getUsername())) {
             return new Result(false, "You are not part of this game.");
         }
 
@@ -99,11 +99,11 @@ public class GameMenuController {
 
         Farm chosenFarm = FarmManager.getInstance().createFarmForUser(currentPlayer, mapNumber);
 
-        currentGame.assignFarmToPlayer(currentPlayer, chosenFarm);
-        currentGame.addFarm(chosenFarm);
+        App.dataManager.getCurrentGame().assignFarmToPlayer(currentPlayer, chosenFarm);
+        App.dataManager.getCurrentGame().addFarm(chosenFarm);
         
-        if(currentGame.getFarms().size() == currentGame.getPlayers().size()) {
-            createFullMap();
+        if(App.dataManager.getCurrentGame().getFarms().size() == App.dataManager.getCurrentGame().getPlayers().size()) {
+            App.dataManager.getCurrentGame().createFullMap();
             
             return new Result(true, "All players have selected their maps. Game is now active!");
         }
@@ -112,17 +112,7 @@ public class GameMenuController {
         return new Result(true, "Map selection saved. Waiting for other players to select their maps.");
     }
 
-    private void createFullMap(){
-        if(currentGame.getPlayers().size() == 2){
-            
-        }
-        else if(currentGame.getPlayers().size() == 3){
-
-        }
-        else if(currentGame.getPlayers().size() == 4){
-
-        }
-    }
+    
 
 
 

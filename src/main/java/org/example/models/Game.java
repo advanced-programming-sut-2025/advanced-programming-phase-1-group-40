@@ -32,13 +32,9 @@ public class Game {
         this.gameID = App.dataManager.getGames().size() + 1;
         this.players = players;
         this.time = new Time();
-        this.map = new MapTile[110][110];
+        this.map = new MapTile[110][];
         this.farms = new ArrayList<>();
-        for(int x=0; x<110; x++){
-            for(int y=0; y<110; y++){
-                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
-            }
-        }
+        
 
         
     }
@@ -48,20 +44,33 @@ public class Game {
     int farmCount = farms.size();
     ArrayList<int[]> offsets = new ArrayList<>();
 
-    if (farmCount == 1) {
-        // Only one farm: center it.
-        offsets.add(new int[]{30, 30});
-    } else if (farmCount == 2) {
-        // For 2 players: first at top-left (0,0), second at top-right (60,0)
+    if (farmCount == 2) {
+        this.map = new MapTile[110][60];
+        for(int x=0; x<110; x++){
+            for(int y=0; y<60; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
+        }
+        
         offsets.add(new int[]{0, 0});
         offsets.add(new int[]{60, 0});
     } else if (farmCount == 3) {
-        // For 3 players: use top-left, top-right, bottom-left
+        this.map = new MapTile[110][110];
+        for(int x=0; x<110; x++){
+            for(int y=0; y<110; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
+        }
         offsets.add(new int[]{0, 0});
         offsets.add(new int[]{60, 0});
         offsets.add(new int[]{0, 60});
-    } else if (farmCount >= 4) {
-        // For 4 or more players: use the four corners
+    } else if (farmCount == 4) {
+        this.map = new MapTile[110][110];
+        for(int x=0; x<110; x++){
+            for(int y=0; y<110; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
+        }
         offsets.add(new int[]{0, 0});
         offsets.add(new int[]{60, 0});
         offsets.add(new int[]{0, 60});

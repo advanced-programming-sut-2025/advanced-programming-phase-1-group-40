@@ -123,10 +123,10 @@ public class MapBuilder {
                     treeType = TreeType.PINE_TREE;
                 } else {
                     // TODO
-                    //treeType = TreeType.FRUIT_TREE;
+                    treeType = TreeType.OAK_TREE;
                 }
                 
-                // tiles[y][x].setTreeType(treeType);
+                tiles[y][x].setTreeType(treeType);
             }
         }
         return this;
@@ -215,77 +215,84 @@ public class MapBuilder {
     public Farm build() { 
         Farm farm = new Farm(mapName, width, height);
 
-        ArrayList<MapTile> tilesArrayList = new ArrayList<>();
-        for (int i = 0; i < tiles.length; i++) {
-            tilesArrayList.addAll(Arrays.asList(tiles[i]));
-        }
-        farm.setTiles(tilesArrayList);
-        
-        // Add components to the farm
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                MapTile tile = tiles[y][x];
-                Position position = new Position(x, y);
-                
-                switch (tile.getType()) {
-                    case CABIN:
-                        farm.addComponent(new Cabin(position));
-                        break;
-                    case GREENHOUSE:
-                        farm.addComponent(new Greenhouse(x, y));
-                        break;
-                    case QUARRY:
-                        // Find the full size of the quarry
-                        int quarryWidth = 1;
-                        int quarryHeight = 1;
-                        
-                        // Find width
-                        while (x + quarryWidth < width && 
-                               tiles[y][x + quarryWidth].getType() == TileType.QUARRY) {
-                            quarryWidth++;
-                        }
-                        
-                        // Find height
-                        while (y + quarryHeight < height && 
-                               tiles[y + quarryHeight][x].getType() == TileType.QUARRY) {
-                            quarryHeight++;
-                        }
-                        
-                        farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
-                        break;
-                    case WATER:
-                        // Find the full size of the lake
-                        int lakeWidth = 1;
-                        int lakeHeight = 1;
-                        
-                        // Find width
-                        while (x + lakeWidth < width && 
-                               tiles[y][x + lakeWidth].getType() == TileType.WATER) {
-                            lakeWidth++;
-                        }
-                        
-                        // Find height
-                        while (y + lakeHeight < height && 
-                               tiles[y + lakeHeight][x].getType() == TileType.WATER) {
-                            lakeHeight++;
-                        }
-                        
-                        farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
-                        break;
-                    case TREE:
-                        farm.addComponent(new Tree(tile.getTreeType(),new Position(x, y)));
-                        break;
-                    case STONE:
-                        farm.addComponent(new ForagingMineral(position));
-                        break;
-                    case FORAGEABLE:
-                        if (tile.getForageableItem() instanceof ForagingCrop) {
-                            farm.addComponent((ForagingCrop) tile.getForageableItem());
-                        }
-                        break;
-                }
+        // ArrayList<MapTile> tilesArrayList = new ArrayList<>();
+        // for (int i = 0; i < tiles.length; i++) {
+        //     tilesArrayList.addAll(Arrays.asList(tiles[i]));
+        // }
+        // farm.setTiles(tilesArrayList);
+        MapTile[][] tilesMap = new MapTile[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++){
+                tilesMap[i][j] = tiles[i][j];
             }
         }
+        farm.setTiles(tilesMap);
+        
+        // Add components to the farm
+        // for (int y = 0; y < height; y++) {
+        //     for (int x = 0; x < width; x++) {
+        //         MapTile tile = tiles[y][x];
+        //         Position position = new Position(x, y);
+                
+        //         switch (tile.getType()) {
+        //             case CABIN:
+        //                 farm.addComponent(new Cabin(position));
+        //                 break;
+        //             case GREENHOUSE:
+        //                 farm.addComponent(new Greenhouse(x, y));
+        //                 break;
+        //             case QUARRY:
+        //                 // Find the full size of the quarry
+        //                 int quarryWidth = 1;
+        //                 int quarryHeight = 1;
+                        
+        //                 // Find width
+        //                 while (x + quarryWidth < width && 
+        //                        tiles[y][x + quarryWidth].getType() == TileType.QUARRY) {
+        //                     quarryWidth++;
+        //                 }
+                        
+        //                 // Find height
+        //                 while (y + quarryHeight < height && 
+        //                        tiles[y + quarryHeight][x].getType() == TileType.QUARRY) {
+        //                     quarryHeight++;
+        //                 }
+                        
+        //                 farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
+        //                 break;
+        //             case WATER:
+        //                 // Find the full size of the lake
+        //                 int lakeWidth = 1;
+        //                 int lakeHeight = 1;
+                        
+        //                 // Find width
+        //                 while (x + lakeWidth < width && 
+        //                        tiles[y][x + lakeWidth].getType() == TileType.WATER) {
+        //                     lakeWidth++;
+        //                 }
+                        
+        //                 // Find height
+        //                 while (y + lakeHeight < height && 
+        //                        tiles[y + lakeHeight][x].getType() == TileType.WATER) {
+        //                     lakeHeight++;
+        //                 }
+                        
+        //                 farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
+        //                 break;
+        //             case TREE:
+        //                 farm.addComponent(new Tree(tile.getTreeType(),new Position(x, y)));
+        //                 break;
+        //             case STONE:
+        //                 farm.addComponent(new ForagingMineral(position));
+        //                 break;
+        //             case FORAGEABLE:
+        //                 if (tile.getForageableItem() instanceof ForagingCrop) {
+        //                     farm.addComponent((ForagingCrop) tile.getForageableItem());
+        //                 }
+        //                 break;
+        //         }
+        //     }
+        // }
         
         return farm;
     }
@@ -301,11 +308,11 @@ public class MapBuilder {
             .initialize()
             .addCabin(5, 5)
             .addGreenhouse(15, 5)
-            .addLake(30, 10, 10, 8)
-            .addQuarry(5, 30, 12, 10)
-            .randomlyPlaceTrees(30, Season.SPRING)
-            .randomlyPlaceStones(20)
-            .randomlyPlaceForagingItems(15, Season.SPRING)
+            .addLake(30, 10, 5, 8)
+            .addQuarry(5, 30, 5, 5)
+            .randomlyPlaceTrees(10, Season.SPRING)
+            .randomlyPlaceStones(10)
+            .randomlyPlaceForagingItems(10, Season.SPRING)
             .build();
     }
     

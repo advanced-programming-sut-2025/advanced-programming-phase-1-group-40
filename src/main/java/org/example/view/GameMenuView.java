@@ -5,6 +5,7 @@ import org.example.controller.Game.GameMenuController;
 import org.example.models.Game;
 import org.example.models.Player;
 import org.example.models.Result;
+import org.example.models.Map.*;
 import org.example.models.enums.Menu;
 import org.example.view.*;
 
@@ -45,6 +46,10 @@ public class GameMenuView implements AppMenu {
         // Handle map selection command
         else if (input.matches("\\s*game\\s+map\\s+(\\d+)\\s*")) {
             handleMapSelection(input);
+        }
+        else if (input.matches("\\s*show\\s+map\\s*")){
+            String map = handleShowMap();
+            System.out.println(map);
         }
         // Handle next turn command
         else if (input.matches("\\s*next\\s+turn\\s*")) {
@@ -90,9 +95,9 @@ public class GameMenuView implements AppMenu {
             // Add the current player if not already in the list
             Player currentPlayer = (Player)App.dataManager.getCurrentUser();
             String currentUsername = currentPlayer.getUsername();
-            if (!usernames.contains(currentUsername)) {
-                usernames.add(0, currentUsername);
-            }
+            
+            usernames.add(0, currentUsername);
+            
 
             // Ensure there's at least one other player besides the creator
             if (usernames.size() < 2) {
@@ -113,7 +118,7 @@ public class GameMenuView implements AppMenu {
                 System.out.println("\nEach player needs to select a map type.");
 
                 // Get map selections for all players
-                Game currentGame = controller.getCurrentGame();
+                Game currentGame = App.dataManager.getCurrentGame();
                 if (currentGame != null) {
                     for (Player player : currentGame.getPlayers()) {
                         System.out.println("\n" + player.getUsername() + ", please select a map type (1-7):");
@@ -134,21 +139,14 @@ public class GameMenuView implements AppMenu {
                                 }
                             }
                         } else {
-                            // For other players, we'll simulate their selection (in a real networked game,
-                            // they would make their own selections)
-                            // For now, we'll just assign a random map type
-                            // int randomMapType = 1 + (int)(Math.random() * 7);
-                            // System.out.println("Selecting map for " + player.getUsername());
-                            // System.out.println(player.getUsername() + " selected map type " +
-                            // randomMapType);
+                            
                             while (true) {
                                 System.out.println("Selecting map for " + player.getUsername());
                                 String mapInput = scanner.nextLine().trim();
 
                                 if (mapInput.matches("\\d+")) {
                                     int mapNumber = Integer.parseInt(mapInput);
-                                    // Result mapResult = controller.selectMap(mapNumber);
-                                    // System.out.println(mapResult.message());
+                                    
                                     Player originalPlayer = currentGame.getCurrentTurnPlayer();
                                     currentGame.setCurrentTurnPlayer(player);
                                     Result mapResult = controller.selectMap(mapNumber);
@@ -166,8 +164,83 @@ public class GameMenuView implements AppMenu {
                         }
                     }
                 }
+                else{
+                    System.out.println("errorrrr");
+                }
             }
         }
+    }
+
+    private String handleShowMap(){
+        Game currentGame = App.dataManager.getCurrentGame();
+        
+        StringBuilder sb = new StringBuilder();
+        int height;
+        int width;
+        MapTile[][] map = currentGame.getMap();
+        if (currentGame.getFarms().size() == 2){
+            height = 110;
+            width = 60;
+        }
+        else{
+            height = 110;
+            width = 110;
+        }
+        
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                MapTile tile = map[x][y];
+                switch (tile.getType()) {
+                    case GROUND:
+                        sb.append(".");
+                        break;
+                    case TILLED_SOIL:
+                        sb.append("_");
+                        break;
+                    case WATERED_SOIL:
+                        sb.append("~");
+                        break;
+                    case PLANTED_SOIL:
+                        if (tile.isWatered()) {
+                            sb.append("w");
+                        } else {
+                            sb.append("p");
+                        }
+                        break;
+                    case WATER:
+                        sb.append("W");
+                        break;
+                    case CABIN:
+                        sb.append("C");
+                        break;
+                    case GREENHOUSE:
+                        sb.append("G");
+                        break;
+                    case QUARRY:
+                        sb.append("Q");
+                        break;
+                    case TREE:
+                        sb.append("T");
+                        break;
+                    case STONE:
+                        sb.append("S");
+                        break;
+                    case FORAGEABLE:
+                        sb.append("F");
+                        break;
+                    case PATH:
+                        sb.append("#");
+                        break;
+                    default:
+                        sb.append("?");
+                }
+            }
+            sb.append("\n");
+        }
+        
+        return sb.toString();
+    
+        
     }
 
     private void handleMapSelection(String input) {
