@@ -36,6 +36,7 @@ public class Player extends User {
     public boolean isInBlacksmith(){
         return true;
     }
+    //this should be checked later.
     public Tool getToolByName(String name) {
         for (Tool tool : tools) {
             if (tool.getName().equalsIgnoreCase(name)) {

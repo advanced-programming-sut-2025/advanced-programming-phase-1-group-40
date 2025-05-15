@@ -25,7 +25,7 @@ public abstract class Tool implements Item {
     public void upgrade() {
         if(canUpgrade()){
             this.material = ToolMaterial.values()[material.ordinal()+1];
-            //1 level upgraded
+            //1 level upgraded (it is checked before whether it ca be upgraded
         }
     }
     public String getName(){

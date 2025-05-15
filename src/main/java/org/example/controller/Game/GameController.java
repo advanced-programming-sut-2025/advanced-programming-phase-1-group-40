@@ -1042,10 +1042,11 @@ public Result upgradeTool(String toolName) {
     if (toolToUpgrade == null) {
         return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
     }
+
     if (!toolToUpgrade.canUpgrade()) {
         return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
     }
-    //we should actually upgrade the tool here.
+    //we should actually upgrade the tool here..
     toolToUpgrade.upgrade();
     //other things should be checked
     return new Result(true, "You successfully upgraded "+toolName + " to " + toolToUpgrade.getItemName());
