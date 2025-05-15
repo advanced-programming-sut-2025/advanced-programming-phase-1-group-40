@@ -308,17 +308,24 @@ public class GameController {
             int numberOfFishes = numberOfCaughtFish() + 1;
 
             FishType fishType = randomTypeForCaughtFish();
-
-            for (int i = 0; i < numberOfFishes; i++) {
-
+            Fish caughtFish = new Fish(fishType, calculateFishQuality(fishingRod));
 
 
-            }
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().addToInventory(
+                    caughtFish,
+                            Math.min(
+                            numberOfFishes,
+                            App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getRemainingCapacity())
+                    );
 
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING,5);        /// BA HAR BAR MAHI GIRI
+                                                                                                                 ///  FISHING SKILL +5
+
+            return new Result(true,numberOfFishes + " " + fishType.getName() + " got caught.");
 
         }
 
-        return new Result(true, "");
+        return new Result(false, "Get Closer to Sea");
     }
 
     private FishType randomTypeForCaughtFish(){
@@ -356,13 +363,13 @@ public class GameController {
 
     private int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
     private int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2));
 
     }
 

@@ -32,7 +32,11 @@ public abstract class Inventory {
 
         if ( this.getItems().size()  + n <= this.capacity ) {
 
-            this.items.add(item);
+            for ( int i = 0; i < n; i++ ) {
+
+                this.items.add(item);
+
+            }
 
         }
 

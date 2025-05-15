@@ -26,7 +26,7 @@ public class FriendshipWithNPC {
         return friend2;
     }
 
-    public FriendshipLevel getLevel() {
+    public FriendshipLevel getIntLevel() {
         return level;
     }
 

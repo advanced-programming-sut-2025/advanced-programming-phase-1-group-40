@@ -1,11 +1,8 @@
 package org.example.models;
 
-import org.example.models.Animal.Animal;
-import org.example.models.Map.Farm;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
-import org.example.models.inventory.*;
 import org.example.models.inventory.Inventory;
 import org.example.models.inventory.Backpack;
 import org.example.models.tools.*;
@@ -27,13 +24,6 @@ public class Player extends User {
     private int gamesPlayed;
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
 
-    public int getHighestMoney() {
-        return highestMoney;
-    }
-
-    public int getGamesPlayed() {
-        return gamesPlayed;
-    }
 
     public Player(User user) {
 
@@ -47,6 +37,14 @@ public class Player extends User {
         this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
         this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
+    }
+
+    public int getHighestMoney() {
+        return highestMoney;
+    }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
     }
 
 
@@ -89,14 +87,6 @@ public class Player extends User {
 
     public void setBackpack(Backpack backpack) {
         this.backpack = backpack;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
     }
 
     public void setCurrentPosition(Position currentPosition) {
@@ -214,7 +204,7 @@ public class Player extends User {
 
     // Check if a skill is at max level
     public boolean isSkillMaxLevel(Skill skill) {
-        return getSkillLevel(skill).getLevel().getLevel() >= 3;
+        return getSkillLevel(skill).getLevel().getIntLevel() >= 3;
     }
 
     // Get a formatted string with all skill levels

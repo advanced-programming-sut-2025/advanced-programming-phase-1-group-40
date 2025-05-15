@@ -36,7 +36,7 @@ public class SkillLevel {
     }
 
     public int getXPForNextLevel() {
-        return XP_MULTIPLIER * (skillLevel.getLevel() + 1) + BASE_XP_FOR_LEVEL_UP;
+        return XP_MULTIPLIER * (skillLevel.getIntLevel() + 1) + BASE_XP_FOR_LEVEL_UP;
     }
 
     public boolean addXP(int xpAmount) {
@@ -44,13 +44,13 @@ public class SkillLevel {
 
         currentXP += xpAmount;
 
-        while (currentXP >= getXPForNextLevel() && skillLevel.getLevel() < 3) { // Max level is 3
+        while (currentXP >= getXPForNextLevel() && skillLevel.getIntLevel() < 3) { // Max level is 3
             currentXP -= getXPForNextLevel();
-            setSkillLevel(SkillLevels.values()[skillLevel.getLevel()+1]);
+            setSkillLevel(SkillLevels.values()[skillLevel.getIntLevel()+1]);
             leveledUp = true;
         }
 
-        if (skillLevel.getLevel() >= 3) {
+        if (skillLevel.getIntLevel() >= 3) {
             currentXP = Math.min(currentXP, getXPForNextLevel() - 1);
         }
 
@@ -58,14 +58,14 @@ public class SkillLevel {
     }
 
     public int getRemainingXPForNextLevel() {
-        if (skillLevel.getLevel() >= 3) { // Max level
+        if (skillLevel.getIntLevel() >= 3) { // Max level
             return 0;
         }
         return getXPForNextLevel() - currentXP;
     }
 
     public int getLevelProgressPercentage() {
-        if (skillLevel.getLevel() >= 3) { // Max level
+        if (skillLevel.getIntLevel() >= 3) { // Max level
             return 100;
         }
 
@@ -75,9 +75,9 @@ public class SkillLevel {
 
     @Override
     public String toString() {
-        if (skillLevel.getLevel() >= 3) {
-            return skillType + " - Level " + skillLevel.getLevel() + " (MAX)";
+        if (skillLevel.getIntLevel() >= 3) {
+            return skillType + " - Level " + skillLevel.getIntLevel() + " (MAX)";
         }
-        return skillType + " - Level " + skillLevel.getLevel() + " (" + currentXP + "/" + getXPForNextLevel() + " XP)";
+        return skillType + " - Level " + skillLevel.getIntLevel() + " (" + currentXP + "/" + getXPForNextLevel() + " XP)";
     }
 }

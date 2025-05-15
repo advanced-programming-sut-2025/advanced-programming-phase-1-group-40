@@ -7,14 +7,14 @@ public enum SkillLevels {
     LEVEL_TWO(2),
     LEVEL_THREE(3);
 
-    private final Integer level;
+    private final Integer intLevel;
 
-    SkillLevels(Integer level) {
-        this.level = level;
+    SkillLevels(Integer intLevel) {
+        this.intLevel = intLevel;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getIntLevel() {
+        return intLevel;
     }
 
 }
