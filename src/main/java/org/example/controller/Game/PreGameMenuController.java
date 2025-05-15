@@ -8,13 +8,11 @@ import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Controller for the game menu functionality
  */
-public class GameMenuController {
+public class PreGameMenuController {
     private Game currentGame;
 
 
@@ -86,7 +84,7 @@ public class GameMenuController {
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
-
+        App.dataManager.setCurrentMenu(Menu.GAME);
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
     }
 

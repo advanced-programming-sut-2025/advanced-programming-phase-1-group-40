@@ -47,7 +47,16 @@ public class GameController {
 
         if (nextIndex == 0) {
 
+            ///  NEXT HOUR UPDATE
+            nextHourUpdate();
+
+
+
             if ( currentTime.getHour() >= 22 ){
+
+                ///  NEXT DAY UPDATE
+                nextDayUpdate();
+
 
                 currentTime.setHour(9);
 

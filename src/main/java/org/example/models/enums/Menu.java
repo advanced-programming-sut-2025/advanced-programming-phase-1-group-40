@@ -6,7 +6,7 @@ public enum Menu {
     LOGIN_MENU("Login/Register Menu", new LoginMenu()),
     MAIN_MENU("Main Menu", new MainMenu()),
     PROFILE_MENU("Profile Menu", new ProfileMenu()),
-    GAME_MENU("Game Menu", new GameMenu()),
+    PRE_GAME_MENU("Pre Game Menu", new PreGameMenu()),
     GAME("Game", new Game()),
     AVATAR_MENU("Avatar Menu", new AvatarMenu()),
     EXIT("Exit", new ExitMenu());
