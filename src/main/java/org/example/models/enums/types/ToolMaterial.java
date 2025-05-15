@@ -12,9 +12,21 @@ import org.example.models.*;
 
 
 public enum ToolMaterial {
-    BASIC,
-    COPPER,
-    IRON, 
-    GOLD,
-    IRIDIUM;
+
+    BASIC(0),
+    COPPER(1),
+    IRON(2),
+    GOLD(3),
+    IRIDIUM(4);
+
+    private final int toolMaterialLevel;
+
+    ToolMaterial(int toolMaterialLevel) {
+        this.toolMaterialLevel = toolMaterialLevel;
+    }
+
+    public int getToolMaterialLevel() {
+        return toolMaterialLevel;
+    }
+
 }

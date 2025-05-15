@@ -19,15 +19,22 @@ public abstract class Tool implements Item {
         this.relatedSkill = relatedSkill;
         this.material = null;
     }
+
     public boolean canUpgrade(){
-        return material.ordinal()< ToolMaterial.values().length -1;
-    }// yani age iriduim bashe dige nemitune upgrade beshe
-    public void upgrade() {
-        if(canUpgrade()){
-            this.material = ToolMaterial.values()[material.ordinal()+1];
-            //1 level upgraded (it is checked before whether it ca be upgraded
-        }
+
+        return this.material.getToolMaterialLevel() < (ToolMaterial.values().length - 1);
+
     }
+
+    public void upgrade() {
+
+        if( canUpgrade() ){
+            this.material = ToolMaterial.values()[material.getToolMaterialLevel()+1];
+        }
+
+    }
+
+
     public String getName(){
         return name;
     }

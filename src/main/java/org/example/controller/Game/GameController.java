@@ -22,6 +22,12 @@ public class GameController {
 
     ///  TOOLS
 
+    private boolean isInBlacksmith(){
+
+        return true;
+
+    }
+
     public Tool getToolByName(String name) {
 
         for (Tool tool : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools()) {
@@ -84,6 +90,7 @@ public class GameController {
     }
 
     public Result useTool(String directionString) {
+
         Direction direction = Direction.getDirectionByDisplayName(directionString);
 
         if (direction == null) {
@@ -103,26 +110,38 @@ public class GameController {
         } else {
             return new Result(false, "You can't use that tool in that direction.");
         }
+
+
     }
 
     public Result upgradeTool(String toolName) {
-        if (!App.dataManager.getCurrentGame().getCurrentTurnPlayer().isInBlacksmith()) {
+
+        if ( !isInBlacksmith() ) {      ///  TODO: FUNC BLACK SMITH OK SHE
+
             return new Result(false, "You should be inside the Blacksmith to upgrade tools.");
-        }
-        //boolean inisblacksmith ro true gereftam
-        //badan check beshe
-        Tool toolToUpgrade = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getToolByName(toolName);
-        if (toolToUpgrade == null) {
-            return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
+
         }
 
-        if (!toolToUpgrade.canUpgrade()) {
-            return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
+        Tool toolToUpgrade = getToolByName(toolName);
+
+        if ( toolToUpgrade == null ) {
+
+            return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
+
         }
-        //we should actually upgrade the tool here..
+
+        if ( !toolToUpgrade.canUpgrade() ) {
+
+            return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
+
+        }
+
+        //we should actually upgrade the tool here
+
         toolToUpgrade.upgrade();
         //other things should be checked
-        return new Result(true, "You successfully upgraded "+toolName + " to " + toolToUpgrade.getItemName());
+        return new Result(true, "You successfully upgraded "+toolName);
+
     }
 
 
