@@ -26,6 +26,7 @@ public class GameController {
 
     private void nextHourUpdate(){
 
+
     }
 
     private void nextDayUpdate(){
@@ -463,7 +464,7 @@ public class GameController {
 
         if ( closeToSea(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
 
-            int numberOfFishes = numberOfCaughtFish() + 1;
+            int numberOfFishes = numberOfCaughtFish();
 
             FishType fishType = randomTypeForCaughtFish(fishingRod);
             Fish caughtFish = new Fish(fishType, calculateFishQuality(fishingRod));
@@ -535,7 +536,7 @@ public class GameController {
 
     private int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2));
+        return Math.min(6,(int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2)));
 
     }
 
