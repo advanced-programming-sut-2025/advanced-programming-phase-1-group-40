@@ -12,17 +12,19 @@ import org.example.models.*;
 
 public enum Weekday {
 
-    MONDAY(0),
-    TUESDAY(1),
-    WEDNESDAY(2),
-    THURSDAY(3),
-    FRIDAY(4),
-    SATURDAY(5),
-    SUNDAY(6);
+    MONDAY("Monday",0),
+    TUESDAY("Monday",1),
+    WEDNESDAY("Monday",2),
+    THURSDAY("Monday",3),
+    FRIDAY("Monday",4),
+    SATURDAY("Monday",5),
+    SUNDAY("Monday",6);
 
+    private final String dayName
     private final int dayIndex;
 
-    Weekday(int dayIndex) {
+    Weekday(String dayName, int dayIndex) {
+        this.dayName = dayName;
         this.dayIndex = dayIndex;
     }
 
@@ -30,5 +32,8 @@ public enum Weekday {
         return dayIndex;
     }
 
+    public String getDayName() {
+        return dayName;
+    }
 
 }

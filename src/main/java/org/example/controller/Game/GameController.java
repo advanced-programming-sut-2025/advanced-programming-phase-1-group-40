@@ -21,6 +21,18 @@ public class GameController {
 
     Player player = (Player) App.dataManager.getCurrentUser();
 
+
+    private void nextHourUpdate(){
+
+    }
+
+    private void nextDayUpdate(){
+
+
+    }
+
+
+
     public Player nextTurn() {
 
         Game currentGame = App.dataManager.getCurrentGame();
@@ -77,6 +89,49 @@ public class GameController {
     }
 
 
+    ///      ---------------------> TIME & DATE
+
+    public void showTime(){
+
+        System.out.println("Time is: " + App.dataManager.getCurrentGame().getTime().getHour());
+
+    }
+
+    public void showDate(){
+
+        System.out.println("Date is: " + App.dataManager.getCurrentGame().getTime().getYear() + "." +
+                App.dataManager.getCurrentGame().getTime().getMonth() + "." +
+                App.dataManager.getCurrentGame().getTime().getDate());
+
+    }
+
+    public void showDateTime(){
+
+        showDate();
+        System.out.println(" And ");
+        showTime();
+
+    }
+
+    public void showDayOfTheWeek(){
+
+        System.out.println("Today is: " + App.dataManager.getCurrentGame().getTime().getWeekday().getDayName());
+
+    }
+
+    public void showSeason(){
+
+        System.out.println("Current Season is: " + App.dataManager.getCurrentGame().getTime().getSeason().getName());
+
+    }
+
+    public Result cheatAdvanceTime(String time){
+
+    }
+
+    public Result cheatAdvanceDay(String day){
+
+    }
 
     ///      ---------------------> DAMDARI
 
@@ -168,7 +223,7 @@ public class GameController {
 
         }
 
-        if ( ! closeToAnimal(animal)  ){
+        if ( ! closeTo(animal.getPosition(), App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition())  ){
 
             return new Result(false,"You are out too far away");
 
@@ -182,13 +237,13 @@ public class GameController {
 
     }
 
-    private boolean closeToAnimal(Animal animal){
+    private boolean closeTo(Position position1, Position position2){
 
-        return (Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX() - animal.getPosition().getX()) <= 1
+        return (Math.abs(position1.getX() - position2.getX()) <= 1
 
                 &&
 
-                Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY() - animal.getPosition().getY()) <= 1
+                Math.abs(position1.getY() - position2.getY()) <= 1
 
         );
 
@@ -303,11 +358,15 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
+        if ( ! App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().hasItem(fishingRod) ){
+            return new Result(false,"You dont have this fishing rod");
+        }
+
         if ( closeToSea(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
 
             int numberOfFishes = numberOfCaughtFish() + 1;
 
-            FishType fishType = randomTypeForCaughtFish();
+            FishType fishType = randomTypeForCaughtFish(fishingRod);
             Fish caughtFish = new Fish(fishType, calculateFishQuality(fishingRod));
 
 
@@ -321,6 +380,8 @@ public class GameController {
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING,5);        /// BA HAR BAR MAHI GIRI
                                                                                                                  ///  FISHING SKILL +5
 
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().setEnergy(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy() - fishingRod.getEnergyCost());
+
             return new Result(true,numberOfFishes + " " + fishType.getName() + " got caught.");
 
         }
@@ -328,7 +389,7 @@ public class GameController {
         return new Result(false, "Get Closer to Sea");
     }
 
-    private FishType randomTypeForCaughtFish(){
+    private FishType randomTypeForCaughtFish(FishingRodType fishingRod){
 
         ArrayList<FishType> candidateFishTypes = new ArrayList<>();
 
@@ -339,12 +400,18 @@ public class GameController {
                 if ( fishType.isLegendary() ){
 
                     if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() == SkillLevels.LEVEL_THREE ){
-                        candidateFishTypes.add(fishType);
+
+                        if ( fishingRod.getFishTypes().contains(fishType) ){
+                            candidateFishTypes.add(fishType);
+                        }
+
                     }
 
                 }
                 else{
-                    candidateFishTypes.add(fishType);
+                    if ( fishingRod.getFishTypes().contains(fishType) ){
+                        candidateFishTypes.add(fishType);
+                    }
                 }
 
             }
@@ -586,13 +653,25 @@ public class GameController {
     public Result meetNPC(String npcName) {
         Game game = getCurrentGame();
 
+        NPC npc = game.getNPCByName(npcName);
+        if (npc == null) {
+            return new Result(false, "NPC not found.");
+        }
+
+        if (closeTo(npc.getPosition(), App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition())) {
+            return new Result(false, "You must be close to the Npc in order to talk to them.");
+        }
 
         return null;
     }
 
-    public Result giftNPC(String NCPName, String itemName) {
+    public Result giftNPC(String npcName, String itemName) {
         Game game = getCurrentGame();
 
+        NPC npc = game.getNPCByName(npcName);
+        if (npc == null) {
+            return new Result(false, "NPC not found.");
+        }
 
         return new Result(true, "");
     }

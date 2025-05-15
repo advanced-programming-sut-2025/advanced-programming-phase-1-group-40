@@ -14,8 +14,62 @@ public class Game implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
 
+
+        ///  TIME & DATE
+        if (GameCommands.SHOW_TIME.getMatcher(input) != null) {
+
+
+            gameController.showTime();
+
+
+        }
+        else if (GameCommands.SHOW_DATE.getMatcher(input) != null) {
+
+
+            gameController.showDate();
+
+
+        }
+        else if (GameCommands.SHOW_DATETIME.getMatcher(input) != null) {
+
+
+            gameController.showDateTime();
+
+
+        }
+        else if (GameCommands.SHOW_DAY_OF_THE_WEEK.getMatcher(input) != null) {
+
+
+            gameController.showDayOfTheWeek();
+
+
+        }
+        else if (GameCommands.CHEAT_ADVANCE_TIME.getMatcher(input) != null) {
+
+
+            System.out.println("build new building");
+
+
+        }
+        else if (GameCommands.CHEAT_ADVANCE_DAY.getMatcher(input) != null) {
+
+
+            System.out.println("build new building");
+
+
+        }
+        else if (GameCommands.SHOW_SEASON.getMatcher(input) != null) {
+
+
+            gameController.showSeason();
+
+
+        }
+
+
+
         ///  DAMDARI
-        if (GameCommands.BUILD.getMatcher(input) != null) {
+        else if (GameCommands.BUILD.getMatcher(input) != null) {
 
 
             System.out.println("build new building");
