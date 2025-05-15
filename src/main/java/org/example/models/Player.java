@@ -9,7 +9,6 @@ import org.example.models.tools.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Player extends User {
@@ -25,6 +24,15 @@ public class Player extends User {
     private int gamesPlayed;
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
     private ArrayList<Tool> tools = new ArrayList<>();
+    public boolean hasEnoughEnergy(int energyCost) {
+        return energy >= energyCost;
+    }
+    public void consumeEnergy(int energyCost) {
+        this.energy -= energyCost;
+        if(energy <= 0) {
+            this.energy = 0;
+        }
+    }
 
     public Player(User user) {
 
@@ -282,4 +290,6 @@ public class Player extends User {
     public Iterable<? extends Gift> getGift() {
         return null;
     }
+
+
 }

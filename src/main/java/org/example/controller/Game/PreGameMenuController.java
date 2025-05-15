@@ -77,7 +77,7 @@ public class PreGameMenuController {
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
-        App.dataManager.setCurrentMenu(Menu.GAME);
+       // App.dataManager.setCurrentMenu(Menu.GAME);
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
     }
 
