@@ -2,6 +2,7 @@ package org.example.view;
 
 
 import org.example.controller.Game.GameController;
+import org.example.models.App;
 import org.example.models.enums.commands.GameCommands;
 
 
@@ -13,6 +14,7 @@ public class Game implements AppMenu {
 
     @Override
     public void getInput(String input, Scanner scanner) {
+
 
 
         ///  TIME & DATE
@@ -366,6 +368,9 @@ public class Game implements AppMenu {
         }
 
 
+
+        App.dataManager.getCurrentGame().setCurrentTurnPlayer(gameController.nextTurn());
+        System.out.printf("It's " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn:");
 
 
 

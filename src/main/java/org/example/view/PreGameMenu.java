@@ -23,6 +23,7 @@ public class PreGameMenu implements AppMenu {
 
             System.out.println(preGameMenuController.createNewGame(matcher.group("users"), scanner).message());
             preGameMenuController.setNewGameWeather();
+            System.out.printf("It's " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn:");
 
         }
         else if (  GameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {
