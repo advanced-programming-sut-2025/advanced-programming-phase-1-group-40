@@ -16,7 +16,6 @@ public enum LoginCommands implements Command {
     PASSWORD_SPECIAL_CHAR(".*[!@#$%^&*()_+\\-=\\[\\]{}|\\\\:;\"'<>,.?/].*"),
     PICK_QUESTION("\\s*pick\\s+question\\s+-q\\s+(?<questionNumber>\\S+)\\s+-a\\s+(?<answer>\\S+)\\s+-c\\s+(?<answerConfirm>\\S+)\\s*"),
 
-
     /// LOGIN
 
     LOGIN("\\s*login\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)(\\s+-stay-logged-in)?\\s*"),

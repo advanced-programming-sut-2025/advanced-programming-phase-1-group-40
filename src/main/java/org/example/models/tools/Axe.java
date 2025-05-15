@@ -9,17 +9,16 @@ import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
 import java.util.Map;
+import org.example.models.enums.types.ToolTypes;
+import org.example.models.enums.types.ToolMaterial;
 
-public class Axe extends Tool {
-    public Axe(ToolTypes toolType) {
-        super();
-        int energyUsage = 0;
-       // super();
+public class Axe extends Tool{
+    public Axe(){
+        super(ToolTypes.AXE);
     }
-
-    // TODO
     @Override
-    public String getItemName() {
-        return "";
+    public String getItemName(){
+        return "Axe";
     }
+
 }

@@ -19,7 +19,8 @@ import java.util.regex.Matcher;
 
 public class GameController {
 
-    Player player = (Player) App.dataManager.getCurrentUser();
+    Player player = new Player( App.dataManager.getCurrentUser());
+
 
 
     private void nextHourUpdate(){

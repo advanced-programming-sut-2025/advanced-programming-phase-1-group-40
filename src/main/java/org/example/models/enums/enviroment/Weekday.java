@@ -20,7 +20,7 @@ public enum Weekday {
     SATURDAY("Monday",5),
     SUNDAY("Monday",6);
 
-    private final String dayName
+    private final String dayName;
     private final int dayIndex;
 
     Weekday(String dayName, int dayIndex) {

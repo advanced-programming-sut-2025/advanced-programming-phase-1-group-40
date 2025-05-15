@@ -10,7 +10,6 @@ public class Main {
 
         // Run the application
         AppView.runApp();
-
         // Save all data before exiting directly from DataManager
         App.dataManager.saveAllData();
     }

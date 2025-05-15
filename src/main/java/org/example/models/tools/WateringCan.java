@@ -1,12 +1,14 @@
 package org.example.models.tools;
 
+import org.example.models.enums.types.ToolTypes;
+
 public class WateringCan extends Tool {
-
-    // TODO
-    @Override
-    public String getItemName() {
-        return "";
-    }
+public WateringCan() {
+    super(ToolTypes.WATERING_CAN);
 }
-
+@Override
+    public String getItemName(){
+    return "Watering Can";
+}
+}
 

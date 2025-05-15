@@ -2,12 +2,12 @@ package org.example.models.tools;
 
 import org.example.models.enums.types.ToolTypes;
 
-public class TrashCan extends Tool {
-    public TrashCan(ToolTypes type) {
-        super(ToolTypes.TRASH_CAN);
+public class FishingRod extends Tool{
+    public FishingRod(){
+        super(ToolTypes.FISHING_ROD);
     }
     @Override
     public String getItemName(){
-        return "Shear";
+        return "Fishing Pole";
     }
 }

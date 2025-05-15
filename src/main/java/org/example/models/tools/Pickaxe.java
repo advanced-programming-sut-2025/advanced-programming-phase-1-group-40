@@ -9,10 +9,12 @@ import org.example.models.tools.*;
 import org.example.models.*;
 import java.util.Map;
 
-public class Pickaxe extends Tool {
-    // TODO
+public class Pickaxe extends Tool{
+    public Pickaxe(){
+        super(ToolTypes.PICKAXE);
+    }
     @Override
-    public String getItemName() {
-        return "";
+    public String getItemName(){
+        return "Pickaxe";
     }
 }

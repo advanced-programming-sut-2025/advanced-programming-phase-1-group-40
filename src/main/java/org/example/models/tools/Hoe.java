@@ -16,8 +16,8 @@ public class Hoe extends Tool {
     // TODO
 
     @Override
-    public String getItemName() {
-        return "";
+    public String getItemName(){
+        return "Hoe";
     }
 }
 

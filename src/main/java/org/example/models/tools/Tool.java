@@ -5,15 +5,13 @@ import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
-
 
 public abstract class Tool implements Item {
 
     private int energyNeeded;
     private Skill relatedSkill;
+    protected ToolTypes type;
+   // protected ToolMaterial material;
 
     public Tool(int energyNeeded, Skill relatedSkill) {
         this.energyNeeded = energyNeeded;
@@ -21,8 +19,13 @@ public abstract class Tool implements Item {
     }
 
     public Tool() {
-        
+
     }
+    public Tool(ToolTypes type) {
+        this.type = type;
+       // this.material = material;
+    }
+
 
     public int getEnergyNeeded() {
         return energyNeeded;

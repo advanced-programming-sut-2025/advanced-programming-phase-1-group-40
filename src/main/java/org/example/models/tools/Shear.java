@@ -10,11 +10,12 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public class Shear extends Tool {
-
-
+    public Shear() {
+        super(ToolTypes.SHEARS);
+    }
     @Override
-    public String getItemName() {
-        return "";
+    public String getItemName(){
+        return "Shear";
     }
 }
 
