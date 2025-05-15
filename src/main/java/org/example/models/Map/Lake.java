@@ -24,6 +24,15 @@ public class Lake extends MapComponents {
         this.currentSeason = Season.SPRING;
         initializeFishPopulation();
     }
+
+    public Lake(Position pos, int width, int height) {
+        super(pos, width, height);
+        this.name = "Lake";
+        this.fishingQuality = 5; // Default quality
+        this.fishPopulation = new HashMap<>();
+        this.currentSeason = Season.SPRING;
+        initializeFishPopulation();
+    }
     
     public int getFishingQuality() {
         return fishingQuality;
