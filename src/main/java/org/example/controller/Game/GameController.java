@@ -127,11 +127,11 @@ public class GameController {
     }
 
     public Result cheatAdvanceTime(String time){
-
+        return null;
     }
 
     public Result cheatAdvanceDay(String day){
-
+        return null;
     }
 
     ///      ---------------------> DAMDARI
