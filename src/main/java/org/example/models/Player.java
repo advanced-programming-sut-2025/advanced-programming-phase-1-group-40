@@ -23,7 +23,6 @@ public class Player extends User {
     private Tool currentTool;
     private HashMap<Skill, SkillLevel> skillLevels = new HashMap<>(); // Changed from SkillLevels to SkillLevel
     private Backpack backpack;
-    private ArrayList<Item> items = new ArrayList<>();
     private int highestMoney;
     private int gamesPlayed;
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
@@ -209,13 +208,13 @@ public class Player extends User {
     }
 
     // Get the level of a specific skill
-    public int getSkillLevelValue(Skill skill) {
+    public SkillLevels getSkillLevelValue(Skill skill) {
         return getSkillLevel(skill).getLevel();
     }
 
     // Check if a skill is at max level
     public boolean isSkillMaxLevel(Skill skill) {
-        return getSkillLevel(skill).getLevel() >= 3;
+        return getSkillLevel(skill).getLevel().getLevel() >= 3;
     }
 
     // Get a formatted string with all skill levels

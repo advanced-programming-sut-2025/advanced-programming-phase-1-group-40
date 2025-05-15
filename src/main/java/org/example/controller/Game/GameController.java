@@ -303,12 +303,16 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
-        if (true) {             ///   ---> close to sea
+        if ( closeToSea(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
 
             int numberOfFishes = numberOfCaughtFish() + 1;
-            FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
+
+            FishType fishType = randomTypeForCaughtFish();
+
             for (int i = 0; i < numberOfFishes; i++) {
-                ///  add fishtype to arraylist
+
+
+
             }
 
 
@@ -317,19 +321,46 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public boolean closeToSea(Position position) {
+    private FishType randomTypeForCaughtFish(){
+
+        ArrayList<FishType> candidateFishTypes = new ArrayList<>();
+
+        for ( FishType fishType : FishType.values() ){
+
+            if ( App.dataManager.getCurrentGame().getTime().getSeason() == fishType.getSeason() ){
+
+                if ( fishType.isLegendary() ){
+
+                    if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() == SkillLevels.LEVEL_THREE ){
+                        candidateFishTypes.add(fishType);
+                    }
+
+                }
+                else{
+                    candidateFishTypes.add(fishType);
+                }
+
+            }
+
+        }
+
+        return candidateFishTypes.get(new Random().nextInt(candidateFishTypes.size()));
+
+    }
+
+    private boolean closeToSea(Position position) {                      ///  TODO
 
         return true;
 
     }
 
-    public int calculateFishQuality(FishingRodType fishingRod) {
+    private int calculateFishQuality(FishingRodType fishingRod) {
 
         return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
-    public int numberOfCaughtFish() {
+    private int numberOfCaughtFish() {
 
         return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
 
