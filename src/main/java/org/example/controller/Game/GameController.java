@@ -242,6 +242,60 @@ public class GameController {
 
     }
 
+    public Result shepherd(Matcher input){
+
+        Animal animal = getAnimalByName(input.group("animalName"));
+        Position targetPosition;
+
+        if ( animal == null ){
+            return new Result(false,"Animal not found");
+        }
+
+
+
+        try{
+            targetPosition = new Position(Integer.parseInt(input.group("x")), Integer.parseInt(input.group("y")));
+        }
+        catch ( NumberFormatException e ){
+            return new Result(false,"Invalid x or y position");
+        }
+
+        if ( App.dataManager.getCurrentGame().getWeather() != Weather.SUNNY ){
+            return new Result(false,"Animals can only go outside in a sunny weather condition");
+        }
+
+
+        if ( ! App.dataManager.getCurrentGame().getMap()[targetPosition.getX()][targetPosition.getY()].isEmpty() ){
+            return new Result(false,"Animal can not be moved to target position");
+        }
+
+        animal.setPosition(targetPosition);
+        animal.setOutside(true);
+
+        return new Result(true,"Shepherd successfully");
+
+
+
+    }
+
+    public Result feedWithHay(Matcher input){
+
+        Animal animal = getAnimalByName(input.group("animalName"));
+
+        if ( animal == null ){
+            return new Result(false,"Animal not found");
+        }
+
+        if (animal.isFedWithHayToday()){
+            return new Result(false,"Animal is already fed with hay!");
+        }
+
+        animal.setFedWithHayToday(true);
+        return new Result(true,"Feed with hay successfully");
+
+
+    }
+
     ///   -----------------------> FISH
 
 
@@ -878,28 +932,6 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public Result buyAnimal(AnimalType animalType, String name) {
-        Animal animal = new Animal(name, animalType);
-        return new Result(true, "");
-    }
-
-    public Result pet(String animalName) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    public Result cheatSetFriendship(String animalName, int amount) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    public Result showMyAnimalsInfo() {
-        return new Result(true, "");
-    }
-
-    public Result shepherdAnimal(String animalName, Position position) {
-        return new Result(true, "");
-    }
 
     public Result milkAnimal(Animal animal) {
         return null;

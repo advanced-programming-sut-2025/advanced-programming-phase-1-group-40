@@ -33,7 +33,27 @@ public class MapTile implements Serializable {
         this.foragingMineralType = null;
         this.forageableItem = null;
     }
-    
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public ForagingMineralType getForagingMineralType() {
+        return foragingMineralType;
+    }
+
+    public void setForagingMineralType(ForagingMineralType foragingMineralType) {
+        this.foragingMineralType = foragingMineralType;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public void setEmpty(boolean empty) {
+        isEmpty = empty;
+    }
+
     public TileType getType() {
         return type;
     }
