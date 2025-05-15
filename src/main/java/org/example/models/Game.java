@@ -127,6 +127,52 @@ public class Game {
                 map[offsetX + x][offsetY + y] = farmMap[x][y];
             }
         }
+
+        addShops();
+    }
+}
+
+public void addShops(){
+    for(int x = 53; x < 59; x++){
+        for(int y = 2; y < 8; y++){
+            map[x][y].setType(TileType.BLACKSMITH);
+        }
+    }
+
+    for(int x = 53; x < 59; x++){
+        for(int y = 12; y < 17; y++){
+            map[x][y].setType(TileType.JOJAMART);
+        }
+    }
+
+    for(int x = 53; x < 59; x++){
+        for(int y = 30; y < 36; y++){
+            map[x][y].setType(TileType.PIERRE_GENERAL_STORE);
+        }
+    }
+
+    for(int x = 5; x < 11; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.CARPENTER_SHOP);
+        }
+    }
+
+    for(int x = 30; x < 35; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.FISH_SHOP);
+        }
+    }
+
+    for(int x = 70; x < 76; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.MARNIES_RANCH);
+        }
+    }
+
+    for(int x = 90; x < 95; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.THE_STARDROP_SALOON);
+        }
     }
 }
 

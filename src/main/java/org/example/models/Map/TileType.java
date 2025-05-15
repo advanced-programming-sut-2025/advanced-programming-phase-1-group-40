@@ -6,7 +6,7 @@ package org.example.models.Map;
 public enum TileType {
 
 
-    MARNIES_RANCH,                                           ///  SHOP MARNIE B MAP ADD BEDE!!!!!!!!!!!
+                                               ///  SHOP MARNIE B MAP ADD BEDE!!!!!!!!!!!
 
     ///  FARM BUILDING TYPE!!!!    -> ANIMAL LIVING SAPCE
 
@@ -18,6 +18,16 @@ public enum TileType {
     DELUXE_COOP,
     WELL,
     SHIPPING_BIN,
+
+    //some stores
+    BLACKSMITH,
+    JOJAMART,
+    PIERRE_GENERAL_STORE,
+    CARPENTER_SHOP,
+    FISH_SHOP,
+    MARNIES_RANCH,
+    THE_STARDROP_SALOON,
+
 
 
 
