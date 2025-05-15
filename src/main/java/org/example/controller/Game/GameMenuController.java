@@ -144,35 +144,7 @@ public class GameMenuController {
      * Moves to the next player's turn
      * @return Result indicating success or failure
      */
-    public Result nextTurn() {
-        Game currentGame = App.dataManager.getCurrentGame();
-        if (currentGame == null || !currentGame.isActive()) {
-            return new Result(false, "No active game. Please create or load a game first.");
-        }
 
-        Player currentPlayer = App.dataManager.getCurrentUser();
-
-        // Check if it's the current player's turn
-        if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
-            return new Result(false, "It's not your turn.");
-        }
-
-        // Move to the next player's turn
-        Player nextPlayer = currentGame.nextTurn();
-
-        // Set the current player in DataManager to the next player
-        App.dataManager.setCurrentUser(nextPlayer);
-
-        // Save game state
-        App.dataManager.saveGameData();
-
-        return new Result(true, "Turn passed to " + nextPlayer.getUsername() + ". Time is now " +
-                         currentGame.getTime().getHour() + ":00 on " +
-                         currentGame.getTime().getWeekday() + ", " +
-                         currentGame.getTime().getMonth() + " " +
-                         currentGame.getTime().getDate() + ", Year " +
-                         currentGame.getTime().getYear());
-    }
 
     /**
      * Loads a saved game

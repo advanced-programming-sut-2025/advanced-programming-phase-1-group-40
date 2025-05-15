@@ -303,11 +303,15 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
+        if ( ! App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().hasItem(fishingRod) ){
+            return new Result(false,"You dont have this fishing rod");
+        }
+
         if ( closeToSea(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
 
             int numberOfFishes = numberOfCaughtFish() + 1;
 
-            FishType fishType = randomTypeForCaughtFish();
+            FishType fishType = randomTypeForCaughtFish(fishingRod);
             Fish caughtFish = new Fish(fishType, calculateFishQuality(fishingRod));
 
 
@@ -321,6 +325,8 @@ public class GameController {
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING,5);        /// BA HAR BAR MAHI GIRI
                                                                                                                  ///  FISHING SKILL +5
 
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().setEnergy(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy() - fishingRod.getEnergyCost());
+
             return new Result(true,numberOfFishes + " " + fishType.getName() + " got caught.");
 
         }
@@ -328,7 +334,7 @@ public class GameController {
         return new Result(false, "Get Closer to Sea");
     }
 
-    private FishType randomTypeForCaughtFish(){
+    private FishType randomTypeForCaughtFish(FishingRodType fishingRod){
 
         ArrayList<FishType> candidateFishTypes = new ArrayList<>();
 
@@ -339,12 +345,18 @@ public class GameController {
                 if ( fishType.isLegendary() ){
 
                     if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() == SkillLevels.LEVEL_THREE ){
-                        candidateFishTypes.add(fishType);
+
+                        if ( fishingRod.getFishTypes().contains(fishType) ){
+                            candidateFishTypes.add(fishType);
+                        }
+
                     }
 
                 }
                 else{
-                    candidateFishTypes.add(fishType);
+                    if ( fishingRod.getFishTypes().contains(fishType) ){
+                        candidateFishTypes.add(fishType);
+                    }
                 }
 
             }
