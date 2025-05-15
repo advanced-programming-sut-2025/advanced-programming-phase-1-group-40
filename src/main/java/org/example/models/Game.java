@@ -25,6 +25,7 @@ public class Game {
     private Player creator;
     private Time time;
     private Weather weather;
+    private Weather futureWeather;
     private HashMap<String, Boolean> terminationVotes;
     private ArrayList<NPC> npcs;
 
@@ -58,6 +59,14 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public Weather getFutureWeather() {
+        return futureWeather;
+    }
+
+    public void setFutureWeather(Weather futureWeather) {
+        this.futureWeather = futureWeather;
     }
 
     public void createFullMap() {

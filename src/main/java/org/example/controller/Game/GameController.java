@@ -163,6 +163,76 @@ public class GameController {
 
     }
 
+
+    ///      ---------------------> WEATHER
+
+    public void randomThor(){
+
+        if ( App.dataManager.getCurrentGame().getWeather().equals(Weather.STORMY) ){
+
+            ///     TODO: Choose random tiles in each farm and then use function called thor(Position)
+
+        }
+
+    }
+
+    public Result cheatThor(Matcher input) {
+
+        Integer xCoordinate,yCoordinate;
+        try{
+            xCoordinate = Integer.parseInt(input.group("x"));
+            yCoordinate = Integer.parseInt(input.group("y"));
+        }
+        catch (Exception e){
+            return new Result(false,"Invalid coordinate");
+        }
+
+        thor(new Position(xCoordinate,yCoordinate));
+        return new Result(true,"Thor cheat successfully applied");
+
+
+    }
+
+    public void thor(Position position){
+
+        ///  TODO
+
+    }
+
+    public String showWeather(){
+        return ("Current Weather is: " + App.dataManager.getCurrentGame().getWeather().getWeatherDisplayName());
+    }
+
+    public String showWeatherForecast(){
+        return ("Future Weather is: " + App.dataManager.getCurrentGame().getFutureWeather().getWeatherDisplayName());
+    }
+
+    public Result cheatSetWeather(Matcher input){
+
+        Weather futureWeather = getWeatherByName(input.group("weatherType"));
+        if ( futureWeather == null ){
+            return new Result(false, "Invalid weather type");
+        }
+
+        App.dataManager.getCurrentGame().setFutureWeather(futureWeather);
+        return new Result(true, "Future Weather cheat successfully applied. Tomorrow is going to be: " + futureWeather.getWeatherDisplayName());
+
+    }
+
+    private Weather getWeatherByName(String input){
+
+        for( Weather weather : Weather.values() ){
+
+            if ( weather.getWeatherDisplayName().toLowerCase().equals(input.toLowerCase().trim()) ){
+                return weather;
+            }
+
+        }
+
+        return null;
+
+    }
+
     ///      ---------------------> DAMDARI
 
 

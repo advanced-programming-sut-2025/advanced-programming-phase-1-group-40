@@ -72,12 +72,24 @@ public class Game implements AppMenu {
 
         else if ( GameCommands.CHEAT_THOR.getMatcher(input) != null ) {
 
-
+            System.out.println(gameController.cheatThor(GameCommands.CHEAT_THOR.getMatcher(input)).message());
 
         }
-        else if ( GameCommands.SHOW_WEATHER.getMatcher(input) != null ) {}
-        else if ( GameCommands.SHOW_WEATHER_FORECAST.getMatcher(input) != null ) {}
-        else if ( GameCommands.CHEAT_WEATHER_SET.getMatcher(input) != null ) {}
+        else if ( GameCommands.SHOW_WEATHER.getMatcher(input) != null ) {
+
+            System.out.println(gameController.showWeather());
+
+        }
+        else if ( GameCommands.SHOW_WEATHER_FORECAST.getMatcher(input) != null ) {
+
+            System.out.println(gameController.showWeatherForecast());
+
+        }
+        else if ( GameCommands.CHEAT_WEATHER_SET.getMatcher(input) != null ) {
+
+            System.out.println(gameController.cheatSetWeather(GameCommands.CHEAT_WEATHER_SET.getMatcher(input)).message());
+
+        }
 
 
         ///  DAMDARI
