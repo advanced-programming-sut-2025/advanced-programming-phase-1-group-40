@@ -14,6 +14,7 @@ import org.example.models.tools.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -831,16 +832,6 @@ public class GameController {
         return new Result(true, "You fainted and woke up the next day with 150 energy.");
     }
 
-    public Result showCurrentTool() {
-        Tool playerCurrentTool = player.getCurrentTool();
-        return new Result(true, "Your tool is: " + playerCurrentTool.toString());
-    }
-
-    public Result showAvailableTools() {
-        return null;
-
-    }
-
     public Result showLearntCookingRecipes() {
         String learntRecipes = player.getStringLearntCookingRecipes();
         return new Result(true, learntRecipes);
@@ -983,23 +974,83 @@ public class GameController {
 
         return new Result(true, info.toString());
     }
+    //ALL THE METHODS RELATED TO TOOLS
 
+    public Result showCurrentTool() {
+        Tool playerCurrentTool = player.getCurrentTool();
+        if (playerCurrentTool == null) {
+            return new Result(false, "You haven't equipped any tool yet.");
+        }
+        return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
+    }
+
+    public Result showAvailableTools() {
+        List<Tool> tools = player.getTools();
+        if (tools.isEmpty()) {
+            return new Result(false, "You don't have any tools.");
+        }
+
+        StringBuilder sb = new StringBuilder("Available tools:\n");
+        for (Tool tool : tools) {
+            sb.append("- ").append(tool.getItemName()).append("\n");
+        }
+        return new Result(true, sb.toString().trim());
+    }
 
     public Result equipTool(String toolName) {
-        return new Result(true, "");
+        List<Tool> tools = player.getTools();
+
+        for (Tool tool : tools) {
+            if (tool.getItemName().equalsIgnoreCase(toolName) ||
+                tool.getType().name().equalsIgnoreCase(toolName)) {
+                player.setCurrentTool(tool);
+                return new Result(true, "Equipped tool: " + tool.getItemName());
+            }
+        }
+
+        return new Result(false, "You don't have a tool named '" + toolName + "'.");
     }
 
     public Result useTool(String directionString) {
         Direction direction = Direction.getDirectionByDisplayName(directionString);
+
+        if (direction == null) {
+            return new Result(false, "Invalid direction: " + directionString);
+        }
+
         Position position = neighborTile(direction);
         Tool tool = player.getCurrentTool();
-        if (canToolBeUsedHere(position, tool)) {
 
-            return new Result(true, "");
+        if (tool == null) {
+            return new Result(false, "You have no tool equipped.");
         }
-        return new Result(false, "You can't use that tool in that direction");
-    }
 
+        if (canToolBeUsedHere(position, tool)) {
+            tool.useTool(direction);
+            return new Result(true, "Used " + tool.getItemName() + " in direction " + directionString);
+        } else {
+            return new Result(false, "You can't use that tool in that direction.");
+        }
+    }
+public Result upgradeTool(String toolName) {
+    if (!player.isInBlacksmith()) {
+        return new Result(false, "You should be inside the Blacksmith to upgrade tools.");
+    }
+    //boolean inisblacksmith ro true gereftam
+    //badan check beshe
+    Tool toolToUpgrade = player.getToolByName(toolName);
+    if (toolToUpgrade == null) {
+        return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
+    }
+    if (!toolToUpgrade.canUpgrade()) {
+        return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
+    }
+    //we should actually upgrade the tool here.
+    toolToUpgrade.upgrade();
+    //other things should be checked
+    return new Result(true, "You successfully upgraded "+toolName + " to " + toolToUpgrade.getItemName());
+}
+//
     public Result placeItem(Item item, Direction direction) {
         Position position = neighborTile(direction);
         if (canItemBePlacedHere(position, item)) {

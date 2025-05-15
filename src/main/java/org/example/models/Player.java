@@ -9,6 +9,7 @@ import org.example.models.tools.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Player extends User {
@@ -23,6 +24,26 @@ public class Player extends User {
     private int highestMoney;
     private int gamesPlayed;
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
+    private List<Tool> tools = new ArrayList<>();
+
+    public List<Tool> getTools() {
+        return tools;
+    }
+
+    public void addTool(Tool tool) {
+        tools.add(tool);
+    }
+    public boolean isInBlacksmith(){
+        return true;
+    }
+    public Tool getToolByName(String name) {
+        for (Tool tool : tools) {
+            if (tool.getName().equalsIgnoreCase(name)) {
+                return tool;
+            }
+        }
+        return null;
+    }
 
 
     public Player(User user) {
@@ -124,10 +145,8 @@ public class Player extends User {
         return this.currentTool;
     }
 
+
     public void useTool(Direction direction) {
-
-
-
 
     }
 

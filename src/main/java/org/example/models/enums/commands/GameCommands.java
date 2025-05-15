@@ -132,6 +132,8 @@ public enum GameCommands implements Command{
     TOOLS_SHOW_CURRENT("\\s*tools\\s+show\\s+current\\s*"),
     TOOLS_SHOW_AVAILABLE("\\s*tools\\s+show\\s+available\\s*"),
     TOOLS_UPGRADE("\\s*tools\\s+upgrade\\s+(?<toolName>.+)\\s*"),
+    TOOLS_USE("\\s*tools\\s+use\\s+-d\\s+(?<direction>\\w+)\\s*"),
+
 
 
     // COMMAND HAYE PISHRAFT BAAZI
@@ -139,7 +141,7 @@ public enum GameCommands implements Command{
     SHOW_PRODUCT_DETAIL("\\s*craftino\\s+-n\\s+(?<craft_name>.+)\\s*"),
 
 
-    // COMMAND HAYE AGRICULTURE 
+    // COMMAND HAYE AGRICULTURE
 
 
     PLANT("\\s*plant\\s+-s\\s+(?<seed>.+)\\s+-d\\s+(?<direction>.+)\\s*"),
