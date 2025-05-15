@@ -21,6 +21,18 @@ public class GameController {
 
     Player player = (Player) App.dataManager.getCurrentUser();
 
+
+    private void nextHourUpdate(){
+
+    }
+
+    private void nextDayUpdate(){
+
+
+    }
+
+
+
     public Player nextTurn() {
 
         Game currentGame = App.dataManager.getCurrentGame();
@@ -77,6 +89,49 @@ public class GameController {
     }
 
 
+    ///      ---------------------> TIME & DATE
+
+    public void showTime(){
+
+        System.out.println("Time is: " + App.dataManager.getCurrentGame().getTime().getHour());
+
+    }
+
+    public void showDate(){
+
+        System.out.println("Date is: " + App.dataManager.getCurrentGame().getTime().getYear() + "." +
+                App.dataManager.getCurrentGame().getTime().getMonth() + "." +
+                App.dataManager.getCurrentGame().getTime().getDate());
+
+    }
+
+    public void showDateTime(){
+
+        showDate();
+        System.out.println(" And ");
+        showTime();
+
+    }
+
+    public void showDayOfTheWeek(){
+
+        System.out.println("Today is: " + App.dataManager.getCurrentGame().getTime().getWeekday().getDayName());
+
+    }
+
+    public void showSeason(){
+
+        System.out.println("Current Season is: " + App.dataManager.getCurrentGame().getTime().getSeason().getName());
+
+    }
+
+    public Result cheatAdvanceTime(String time){
+
+    }
+
+    public Result cheatAdvanceDay(String day){
+
+    }
 
     ///      ---------------------> DAMDARI
 

@@ -17,6 +17,17 @@ public enum GameCommands implements Command{
 
 
 
+    ///  COAMMND HAYE TIME&DATE
+
+
+    SHOW_TIME("\\s*time\\s*"),
+    SHOW_DATE("\\s*date\\s*"),
+    SHOW_DATETIME("\\s*datetime\\s*"),
+    SHOW_DAY_OF_THE_WEEK("\\s*day\\s+of\\s+the\\s+week\\s*"),
+    CHEAT_ADVANCE_TIME("\\s*cheat\\s+advance\\s+time\\s+(?<time>.+)h\\s*"),
+    CHEAT_ADVANCE_DAY("\\s*cheat\\s+advance\\s+date\\s+(?<date>.+)h\\s*"),
+    SHOW_SEASON("\\s*season\\s*"),
+
 
     ///  COMMAND HAYE DAMDARI
 
