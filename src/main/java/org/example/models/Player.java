@@ -24,28 +24,7 @@ public class Player extends User {
     private int highestMoney;
     private int gamesPlayed;
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
-    private List<Tool> tools = new ArrayList<>();
-
-    public List<Tool> getTools() {
-        return tools;
-    }
-
-    public void addTool(Tool tool) {
-        tools.add(tool);
-    }
-    public boolean isInBlacksmith(){
-        return true;
-    }
-    //this should be checked later.
-    public Tool getToolByName(String name) {
-        for (Tool tool : tools) {
-            if (tool.getName().equalsIgnoreCase(name)) {
-                return tool;
-            }
-        }
-        return null;
-    }
-
+    private ArrayList<Tool> tools = new ArrayList<>();
 
     public Player(User user) {
 
@@ -60,6 +39,22 @@ public class Player extends User {
         this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
     }
+
+
+
+    public ArrayList<Tool> getTools() {
+
+        return tools;
+
+    }
+
+    public void addTool(Tool tool) {
+
+        tools.add(tool);
+
+    }
+
+
 
     public int getHighestMoney() {
         return highestMoney;

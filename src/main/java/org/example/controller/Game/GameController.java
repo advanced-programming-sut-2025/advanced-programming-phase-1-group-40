@@ -22,39 +22,65 @@ public class GameController {
 
     ///  TOOLS
 
-    public Result showCurrentTool() {
-        Tool playerCurrentTool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
-        if (playerCurrentTool == null) {
-            return new Result(false, "You haven't equipped any tool yet.");
-        }
-        return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
-    }
+    public Tool getToolByName(String name) {
 
-    public Result showAvailableTools() {
-        List<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
-        if (tools.isEmpty()) {
-            return new Result(false, "You don't have any tools.");
-        }
-
-        StringBuilder sb = new StringBuilder("Available tools:\n");
-        for (Tool tool : tools) {
-            sb.append("- ").append(tool.getItemName()).append("\n");
-        }
-        return new Result(true, sb.toString().trim());
-    }
-
-    public Result equipTool(String toolName) {
-        List<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
-
-        for (Tool tool : tools) {
-            if (tool.getItemName().equalsIgnoreCase(toolName) ||
-                    tool.getType().name().equalsIgnoreCase(toolName)) {
-                App.dataManager.getCurrentGame().getCurrentTurnPlayer().setCurrentTool(tool);
-                return new Result(true, "Equipped tool: " + tool.getItemName());
+        for (Tool tool : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools()) {
+            if (tool.getName().equalsIgnoreCase(name)) {
+                return tool;
             }
         }
 
-        return new Result(false, "You don't have a tool named '" + toolName + "'.");
+        return null;
+
+    }
+
+    public Result showCurrentTool() {
+
+        Tool playerCurrentTool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
+
+        if (playerCurrentTool == null) {
+
+            return new Result(false, "You haven't equipped any tool yet.");
+
+        }
+
+        return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
+
+    }
+
+    public Result showAvailableTools() {
+
+        ArrayList<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
+
+        if ( tools.isEmpty() ) {
+
+            return new Result(false, "You don't have any tools.");
+
+        }
+
+        StringBuilder sb = new StringBuilder("Available tools are :\n");
+
+        for (Tool tool : tools) {
+
+            sb.append("- ").append(tool.getName()).append("\n");
+
+        }
+
+        return new Result(true, sb.toString().trim());
+
+    }
+
+    public Result equipTool(String toolName) {
+
+        Tool newTool = getToolByName(toolName);
+
+        if (newTool == null) {
+            return new Result(false, "You haven't this tool");
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setCurrentTool(newTool);
+        return new Result(false, "You are now equipped with : " + newTool.getName());
+
     }
 
     public Result useTool(String directionString) {
