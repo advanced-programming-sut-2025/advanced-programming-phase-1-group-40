@@ -71,6 +71,26 @@ public class Farm implements Serializable {
         
     }
 
+    public ArrayList<Cabin> getCabin() {
+        return cabin;
+    }
+
+    public ArrayList<Greenhouse> getGreenhouse() {
+        return greenhouse;
+    }
+
+    public ArrayList<Quarry> getQuarry() {
+        return quarry;
+    }
+
+    public ArrayList<Lake> getLakes() {
+        return lakes;
+    }
+
+    public ArrayList<Crop> getPlantedCrops() {
+        return plantedCrops;
+    }
+
     public ArrayList<AnimalLivingSpace> getAnimalLivingSpaces() {
         return animalLivingSpaces;
     }
@@ -154,7 +174,7 @@ public class Farm implements Serializable {
         } else if (component instanceof ForagingCrop) {
             foragingItems.add((ForagingCrop) component);
         }
-        
+        else{
         // Update tiles covered by this component
         for (int y = component.getY(); y < component.getY() + component.getHeight(); y++) {
             for (int x = component.getX(); x < component.getX() + component.getWidth(); x++) {
@@ -167,33 +187,35 @@ public class Farm implements Serializable {
                         setTileAt(x, y, new MapTile(new Position(x, y), TileType.QUARRY));
                     } else if (component instanceof Lake) {
                         setTileAt(x, y, new MapTile(new Position(x, y), TileType.WATER));
-                    } else if (component instanceof Tree) {
-                        MapTile tile = new MapTile(new Position(x, y), TileType.TREE);
-                        tile.setTreeType(((Tree) component).getTreeType());
-                        setTileAt(x, y, tile);
-                    } else if (component instanceof ForagingMineral) {
-                        setTileAt(x, y, new MapTile(new Position(x, y), TileType.STONE));
-                        // TODO: set foraging mineral type if needed
-                    } else if (component instanceof ForagingCrop) {
-                        MapTile tile = new MapTile(new Position(x, y), TileType.FORAGEABLE);
-                        tile.setForageableItem(component);
-                        setTileAt(x, y, tile);
                     }
+                    //  else if (component instanceof Tree) {
+                    //     MapTile tile = new MapTile(new Position(x, y), TileType.TREE);
+                    //     tile.setTreeType(((Tree) component).getTreeType());
+                    //     setTileAt(x, y, tile);
+                    // } else if (component instanceof ForagingMineral) {
+                    //     setTileAt(x, y, new MapTile(new Position(x, y), TileType.STONE));
+                    //     // TODO: set foraging mineral type if needed
+                    // } else if (component instanceof ForagingCrop) {
+                    //     MapTile tile = new MapTile(new Position(x, y), TileType.FORAGEABLE);
+                    //     tile.setForageableItem(component);
+                    //     setTileAt(x, y, tile);
+                    // }
                 }
             }
         }
     }
+    }
     
     public MapTile getTileAt(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
-            return mapTiles[y][x];
+            return mapTiles[x][y];
         }
         return null;
     }
     
     public void setTileAt(int x, int y, MapTile newTile) {
         if (x >= 0 && x < width && y >= 0 && y < height) {
-            mapTiles[y][x] = newTile;
+            mapTiles[x][y] = newTile;
         }
     }
     
@@ -659,8 +681,8 @@ public class Farm implements Serializable {
     }
 
 
-    public MapComponents getCabin() {
-        // TODO
-        return null;
-    }
+    // public MapComponents getCabin() {
+    //     // TODO
+    //     return null;
+    // }
 }

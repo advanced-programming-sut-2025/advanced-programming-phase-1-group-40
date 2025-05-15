@@ -16,6 +16,13 @@ public class Greenhouse extends MapComponents {
         this.isUnlocked = false;
         this.internalSeason = Season.SPRING; // Default internal season
     }
+
+    public Greenhouse(Position pos) {
+        super(pos, 5, 6); // Greenhouse is 5x6 tiles
+        this.name = "Greenhouse";
+        this.isUnlocked = false;
+        this.internalSeason = Season.SPRING; // Default internal season
+    }
     
     public boolean isUnlocked() {
         return isUnlocked;

@@ -11,14 +11,14 @@ public class Cabin extends MapComponents {
     private boolean hasBasement;
     
     public Cabin(int x, int y) {
-        super(new Position(x, y), 3, 3); // Default cabin size is 3x3
+        super(new Position(x, y), 4, 4); // Default cabin size is 4*4
         this.name = "Cabin";
         this.upgradeLevel = 1;
         this.hasBasement = false;
     }
     
     public Cabin(Position position) {
-        super(position, 3, 3);
+        super(position, 4, 4);
         this.name = "Cabin";
         this.upgradeLevel = 1;
         this.hasBasement = false;
