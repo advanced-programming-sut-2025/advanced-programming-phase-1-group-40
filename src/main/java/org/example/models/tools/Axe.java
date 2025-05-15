@@ -15,16 +15,12 @@ import org.example.models.enums.types.ToolMaterial;
 public class Axe extends Tool {
 
     public Axe() {
-        super(ToolTypes.AXE, ToolMaterial.BASIC, Skill.FORAGING);
-    }
-
-    public Axe(ToolMaterial material) {
-        super(ToolTypes.AXE, material, Skill.FORAGING);
+        super(ToolTypes.AXE, Skill.FORAGING); //axe ~ foraging
     }
 
     @Override
     public String getItemName() {
-        return "Axe (" + material.name() + ")";
+        return material == null ? "Axe (Unupgraded)" : "Axe (" + material.name() + ")";
     }
 
     @Override
@@ -32,4 +28,5 @@ public class Axe extends Tool {
         System.out.println("Using axe in direction: " + direction);
     }
 }
+
 

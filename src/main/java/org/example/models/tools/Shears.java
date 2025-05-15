@@ -1,4 +1,5 @@
 package org.example.models.tools;
+
 import org.example.models.*;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
@@ -7,21 +8,26 @@ import org.example.models.enums.*;
 import org.example.models.inventory.*;
 import org.example.models.tools.*;
 import org.example.models.*;
-import java.util.Map;
+public class Shears extends Tool {
 
-public class Hoe extends Tool {
-
-    public Hoe() {
-        super(ToolTypes.HOE, Skill.FARMING);//hoe ~ farming
+    public Shears() {
+        super(ToolTypes.SHEARS, Skill.FARMING);
     }
 
     @Override
-    public String getItemName() {//material ro ham mige
-        return material == null ? "Hoe (Unupgraded)" : "Hoe (" + material.name() + ")";
+    public String getItemName() {
+        return "Shears";
+    }
+
+    @Override
+    public int getBaseEnergyCost() {
+        return 4;
     }
 
     @Override
     public void useTool(Direction direction) {
-        System.out.println("Tilling soil with hoe in direction: " + direction);
+        System.out.println("Shearing sheep in direction: " + direction);
     }
 }
+
+

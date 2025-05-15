@@ -13,10 +13,10 @@ public abstract class Tool implements Item {
     protected ToolMaterial material;
     protected Skill relatedSkill;
 
-    public Tool(ToolTypes type, ToolMaterial material, Skill relatedSkill) {
+    public Tool(ToolTypes type, Skill relatedSkill) {
         this.type = type;
-        this.material = material;
         this.relatedSkill = relatedSkill;
+        this.material = null;
     }
 
     public ToolTypes getType() {
@@ -34,6 +34,10 @@ public abstract class Tool implements Item {
     public abstract String getItemName();
 
     public int getBaseEnergyCost() {
+        if (material == null) {
+            return 5;
+        }
+
         return switch (material) {
             case BASIC -> 5;
             case COPPER -> 4;
@@ -44,10 +48,9 @@ public abstract class Tool implements Item {
     }
 
     public int getEnergyCost(int skillLevel) {
-        return skillLevel >= 10 ? Math.max(0, getBaseEnergyCost() - 1) : getBaseEnergyCost();
-    }
-
-    public void equipTool() {
+        return skillLevel >= 10
+            ? Math.max(0, getBaseEnergyCost() - 1)
+            : getBaseEnergyCost();
     }
 
     public void upgradeTool(ToolMaterial newMaterial) {
@@ -55,5 +58,6 @@ public abstract class Tool implements Item {
     }
 
     public void useTool(Direction direction) {
+
     }
 }
