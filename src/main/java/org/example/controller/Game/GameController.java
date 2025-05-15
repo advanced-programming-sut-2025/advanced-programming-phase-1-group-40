@@ -168,7 +168,7 @@ public class GameController {
 
         }
 
-        if ( ! closeToAnimal(animal)  ){
+        if ( ! closeTo(animal.getPosition(), App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition())  ){
 
             return new Result(false,"You are out too far away");
 
@@ -182,13 +182,13 @@ public class GameController {
 
     }
 
-    private boolean closeToAnimal(Animal animal){
+    private boolean closeTo(Position position1, Position position2){
 
-        return (Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX() - animal.getPosition().getX()) <= 1
+        return (Math.abs(position1.getX() - position2.getX()) <= 1
 
                 &&
 
-                Math.abs(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY() - animal.getPosition().getY()) <= 1
+                Math.abs(position1.getY() - position2.getY()) <= 1
 
         );
 
@@ -598,13 +598,25 @@ public class GameController {
     public Result meetNPC(String npcName) {
         Game game = getCurrentGame();
 
+        NPC npc = game.getNPCByName(npcName);
+        if (npc == null) {
+            return new Result(false, "NPC not found.");
+        }
+
+        if (closeTo(npc.getPosition(), App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition())) {
+            return new Result(false, "You must be close to the Npc in order to talk to them.");
+        }
 
         return null;
     }
 
-    public Result giftNPC(String NCPName, String itemName) {
+    public Result giftNPC(String npcName, String itemName) {
         Game game = getCurrentGame();
 
+        NPC npc = game.getNPCByName(npcName);
+        if (npc == null) {
+            return new Result(false, "NPC not found.");
+        }
 
         return new Result(true, "");
     }
