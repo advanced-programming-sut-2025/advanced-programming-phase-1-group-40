@@ -32,6 +32,7 @@ public class MapTile implements Serializable {
         this.treeType = null;
         this.foragingMineralType = null;
         this.mapComponents = null;
+        this.isEmpty = true;
     }
 
     public MapComponents getMapComponents() {

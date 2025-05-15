@@ -139,24 +139,31 @@ public class GameMenuController {
             width = 110;
         }
 
+        final String RESET = "\u001B[0m";
+        final String BLUE = "\u001B[34m";
+        final String YELLOW = "\u001B[33m";
+        final String CYAN = "\u001B[36m";
+        final String GREEN = "\u001B[32m";
+        final String RED = "\u001B[31m";
+
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 MapTile tile = map[x][y];
                 switch (tile.getType()) {
                     case GROUND:
-                        sb.append(".");
+                        sb.append(BLUE).append(".").append(RESET);
                         break;
                     case TILLED_SOIL:
-                        sb.append("_");
+                        sb.append(YELLOW).append("_").append(RESET);
                         break;
                     case WATERED_SOIL:
-                        sb.append("~");
+                        sb.append(CYAN).append("~").append(RESET);
                         break;
                     case PLANTED_SOIL:
                         if (tile.isWatered()) {
-                            sb.append("w");
+                            sb.append(GREEN).append("w").append(RESET);
                         } else {
-                            sb.append("p");
+                            sb.append(RED).append("p").append(RESET);
                         }
                         break;
                     case WATER:
