@@ -20,7 +20,7 @@ public class MapTile implements Serializable {
     private Crop crop;
     private TreeType treeType;
     private ForagingMineralType foragingMineralType;
-    private MapComponents forageableItem;
+    private MapComponents mapComponents;
     private boolean isEmpty;
     
     public MapTile(Position position, TileType type) {
@@ -31,7 +31,11 @@ public class MapTile implements Serializable {
         this.crop = null;
         this.treeType = null;
         this.foragingMineralType = null;
-        this.forageableItem = null;
+        this.mapComponents = null;
+    }
+
+    public MapComponents getMapComponents() {
+        return mapComponents;
     }
 
     public void setPosition(Position position) {
@@ -117,11 +121,11 @@ public class MapTile implements Serializable {
     }
     
     public MapComponents getForageableItem() {
-        return forageableItem;
+        return mapComponents;
     }
     
     public void setForageableItem(MapComponents forageableItem) {
-        this.forageableItem = forageableItem;
+        this.mapComponents = forageableItem;
     }
     
     // Helper methods for tile operations
