@@ -2,6 +2,7 @@ package org.example.view;
 
 
 import org.example.controller.Game.GameController;
+import org.example.models.App;
 import org.example.models.enums.commands.GameCommands;
 
 
@@ -13,6 +14,7 @@ public class Game implements AppMenu {
 
     @Override
     public void getInput(String input, Scanner scanner) {
+
 
 
         ///  TIME & DATE
@@ -72,12 +74,24 @@ public class Game implements AppMenu {
 
         else if ( GameCommands.CHEAT_THOR.getMatcher(input) != null ) {
 
-
+            System.out.println(gameController.cheatThor(GameCommands.CHEAT_THOR.getMatcher(input)).message());
 
         }
-        else if ( GameCommands.SHOW_WEATHER.getMatcher(input) != null ) {}
-        else if ( GameCommands.SHOW_WEATHER_FORECAST.getMatcher(input) != null ) {}
-        else if ( GameCommands.CHEAT_WEATHER_SET.getMatcher(input) != null ) {}
+        else if ( GameCommands.SHOW_WEATHER.getMatcher(input) != null ) {
+
+            System.out.println(gameController.showWeather());
+
+        }
+        else if ( GameCommands.SHOW_WEATHER_FORECAST.getMatcher(input) != null ) {
+
+            System.out.println(gameController.showWeatherForecast());
+
+        }
+        else if ( GameCommands.CHEAT_WEATHER_SET.getMatcher(input) != null ) {
+
+            System.out.println(gameController.cheatSetWeather(GameCommands.CHEAT_WEATHER_SET.getMatcher(input)).message());
+
+        }
 
 
         ///  DAMDARI
@@ -345,9 +359,18 @@ public class Game implements AppMenu {
 
 
         }
+        else{
+
+
+            System.out.println("Invalid input");
+
+
+        }
 
 
 
+        App.dataManager.getCurrentGame().setCurrentTurnPlayer(gameController.nextTurn());
+        System.out.printf("It's " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn:");
 
 
 

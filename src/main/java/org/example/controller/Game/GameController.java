@@ -14,26 +14,33 @@ import org.example.models.tools.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 
 public class GameController {
 
-    Player player = new Player( App.dataManager.getCurrentUser());
 
-
-
+    ///  TURN AND UPDATING GAME
 
 
     private void nextHourUpdate(){
+
 
     }
 
     private void nextDayUpdate(){
 
+        updateWeather();
 
     }
 
+    public void updateWeather(){
+
+        App.dataManager.getCurrentGame().setWeather(App.dataManager.getCurrentGame().getFutureWeather());
+        App.dataManager.getCurrentGame().setFutureWeather(randomWeatherBasedOnSeason());
+
+    }
 
 
     public Player nextTurn() {
@@ -47,7 +54,16 @@ public class GameController {
 
         if (nextIndex == 0) {
 
+            ///  NEXT HOUR UPDATE
+            nextHourUpdate();
+
+
+
             if ( currentTime.getHour() >= 22 ){
+
+                ///  NEXT DAY UPDATE
+                nextDayUpdate();
+
 
                 currentTime.setHour(9);
 
@@ -103,7 +119,7 @@ public class GameController {
     public String showDate(){
 
         return ("Date is: " + App.dataManager.getCurrentGame().getTime().getYear() + "." +
-                App.dataManager.getCurrentGame().getTime().getMonth() + "." +
+                (App.dataManager.getCurrentGame().getTime().getMonth().getMonthIndex()+1) + "." +
                 App.dataManager.getCurrentGame().getTime().getDate());
 
     }
@@ -160,6 +176,93 @@ public class GameController {
         }
 
         return new Result(true, "New " + showDateTime());
+
+    }
+
+
+    ///      ---------------------> WEATHER
+
+
+    public Weather randomWeatherBasedOnSeason(){
+
+        ArrayList<Weather> candidateWeathers = new ArrayList<>();
+        for ( Weather weather : Weather.values() ){
+
+            if ( weather.getPossibleSeasons().contains(App.dataManager.getCurrentGame().getTime().getSeason()) ){
+                candidateWeathers.add(weather);
+            }
+
+        }
+
+        return Weather.values()[(int)(Math.random()*candidateWeathers.size())];
+
+
+    }
+
+    public void randomThor(){
+
+        if ( App.dataManager.getCurrentGame().getWeather().equals(Weather.STORMY) ){
+
+            ///     TODO: Choose random tiles in each farm and then use function called thor(Position)
+
+        }
+
+    }
+
+    public Result cheatThor(Matcher input) {
+
+        Integer xCoordinate,yCoordinate;
+        try{
+            xCoordinate = Integer.parseInt(input.group("x"));
+            yCoordinate = Integer.parseInt(input.group("y"));
+        }
+        catch (Exception e){
+            return new Result(false,"Invalid coordinate");
+        }
+
+        thor(new Position(xCoordinate,yCoordinate));
+        return new Result(true,"Thor cheat successfully applied");
+
+
+    }
+
+    public void thor(Position position){
+
+        ///  TODO
+
+    }
+
+    public String showWeather(){
+        return ("Current Weather is: " + App.dataManager.getCurrentGame().getWeather().getWeatherDisplayName());
+    }
+
+    public String showWeatherForecast(){
+        return ("Future Weather is: " + App.dataManager.getCurrentGame().getFutureWeather().getWeatherDisplayName());
+    }
+
+    public Result cheatSetWeather(Matcher input){
+
+        Weather futureWeather = getWeatherByName(input.group("weatherType"));
+        if ( futureWeather == null ){
+            return new Result(false, "Invalid weather type");
+        }
+
+        App.dataManager.getCurrentGame().setFutureWeather(futureWeather);
+        return new Result(true, "Future Weather cheat successfully applied. Tomorrow is going to be: " + futureWeather.getWeatherDisplayName());
+
+    }
+
+    private Weather getWeatherByName(String input){
+
+        for( Weather weather : Weather.values() ){
+
+            if ( weather.getWeatherDisplayName().toLowerCase().equals(input.toLowerCase().trim()) ){
+                return weather;
+            }
+
+        }
+
+        return null;
 
     }
 
@@ -394,7 +497,7 @@ public class GameController {
 
         if ( closeToSea(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
 
-            int numberOfFishes = numberOfCaughtFish() + 1;
+            int numberOfFishes = numberOfCaughtFish();
 
             FishType fishType = randomTypeForCaughtFish(fishingRod);
             Fish caughtFish = new Fish(fishType, calculateFishQuality(fishingRod));
@@ -466,7 +569,7 @@ public class GameController {
 
     private int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2));
+        return Math.min(6,(int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2)));
 
     }
 
@@ -501,8 +604,8 @@ public class GameController {
 
         StringBuilder message = new StringBuilder("Friendship w other Players:\n");
         for (Player otherPlayer : game.getPlayers()) {
-            if (!player.equals(otherPlayer)) {
-                FriendshipWithNPC friendshipWithNPC = game.getFriendship(player, otherPlayer);
+            if (! App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(otherPlayer)) {
+                FriendshipWithNPC friendshipWithNPC = game.getFriendship(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), otherPlayer);
                 message.append(otherPlayer.getUsername()).append(":\n")
                         .append("Friendship Level: ").append(friendshipWithNPC.getFriendshipLevel()).append("\n")
                         .append("XP: ").append(friendshipWithNPC.getFriendshipXP()).append("\n\n");
@@ -521,13 +624,13 @@ public class GameController {
         if (targetPlayer == null) {
             return new Result(false, "User not found.");
         }
-        if (isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+        if (isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
             //all conditions passed for sending the message
             //game error
 
             return new Result(true, "You have successfully sent a message to: "
                     + targetPlayer.getUsername() + ". Your current friendship level with them is "
-                    + game.getUserFriendship(player, targetPlayer));
+                    + game.getUserFriendship(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer));
         }
         return new Result(false, "You must stand next to " + targetPlayer.getUsername() + "to be able to talk to them.");
     }
@@ -539,9 +642,9 @@ public class GameController {
             return new Result(false, "User not found.");
         }
         StringBuilder historyMessage = new StringBuilder("Your talk history with " + username + ": ");
-        HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(player).get(targetPlayer);
+        HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).get(targetPlayer);
         historyMessage.append("You: ").append(sentMessages).append("\n");
-        HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(player).get(targetPlayer);
+        HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).get(targetPlayer);
         historyMessage.append(username).append(": \n").append(receivedMessages).append("\n");
         return new Result(true, historyMessage.toString().trim());
     }
@@ -554,10 +657,10 @@ public class GameController {
         if (targetPlayer == null) {
             return new Result(false, "User not found.");
         }
-        if (!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+        if (!isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
             return new Result(false, "You must get near to " + username + " to be able to give them a gift.");
         }
-        Item item = player.getBackpack().getItemFromInventoryByName(itemName);
+        Item item = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItemFromInventoryByName(itemName);
         //get item from backpack
         if (item == null) {
             return new Result(false, "Item not found.");
@@ -570,7 +673,7 @@ public class GameController {
         Game game = getCurrentGame();
 
         StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
-        for (Gift gift : player.getGift()) {
+        for (Gift gift : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGift()) {
             giftListMessage.append(gift.getId()).append('\n').append(gift.getItem()).append(" (x").append(gift.getAmount()).append(") given by").append(gift.getSender().getUsername()).append("\n");
             if (gift.getRating() == 0) {
                 giftListMessage.append("You have not rated this gift yet!");
@@ -617,7 +720,7 @@ public class GameController {
         if (flowerType == null) {
             return new Result(false, "Flower not found.");
         }
-        if (!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+        if (!isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
             return new Result(false, "You must get near to " + username + " to be able to give them a flower.\n");
         }
         return new Result(true, "");
@@ -632,10 +735,10 @@ public class GameController {
             return new Result(false, "User not found.");
         }
 
-        if (!isNear(player.getCurrentPosition(), targetPlayer.getCurrentPosition())) {
+        if (!isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
             return new Result(false, "You must get near to " + username + " to propose to them.\n");
         }
-        if (player.getGender().equals(targetPlayer.getGender())) {
+        if (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGender().equals(targetPlayer.getGender())) {
             return new Result(false, "You are not allowed to marry a person of the same gender.");
         }
         boolean hasRing = false;
@@ -728,7 +831,7 @@ public class GameController {
     }
 
     public Result showPlayerEnergy() {
-        int playerEnergy = player.getEnergy();
+        int playerEnergy = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy();
         return new Result(true, "Your energy is: " + playerEnergy);
     }
 
@@ -744,35 +847,21 @@ public class GameController {
 
     }
 
-    public Result setPlayerEnergy(int energyAmount) {
-        player.setEnergy(energyAmount);
-        return new Result(true, "Energy set to " + energyAmount);
-    }
 
     public Result setUnlimitedEnergy() {
-        player.setEnergyUnlimited(true);
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setEnergyUnlimited(true);
         return new Result(true, "Unlimited Energy activated!");
     }
 
     public Result faint() {
-        player.faint();
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().faint();
         // Skip to next day logic would go here
         // For now, we'll just set energy to 150 as specified
         return new Result(true, "You fainted and woke up the next day with 150 energy.");
     }
 
-    public Result showCurrentTool() {
-        Tool playerCurrentTool = player.getCurrentTool();
-        return new Result(true, "Your tool is: " + playerCurrentTool.toString());
-    }
-
-    public Result showAvailableTools() {
-        return null;
-
-    }
-
     public Result showLearntCookingRecipes() {
-        String learntRecipes = player.getStringLearntCookingRecipes();
+        String learntRecipes = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getStringLearntCookingRecipes();
         return new Result(true, learntRecipes);
     }
 
@@ -782,14 +871,14 @@ public class GameController {
     }
 
     public Result showLearntCraftRecipes() {
-        String learntRecipes = player.getStringLearntCraftRecipes();
+        String learntRecipes = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getStringLearntCraftRecipes();
         return new Result(true, learntRecipes);
     }
 
 
     public Result inventoryShow() {
         // Get the player's inventory contents
-        Backpack playerBackpack = player.getBackpack();
+        Backpack playerBackpack = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack();
 
         if (playerBackpack == null) {
             return new Result(false, "You don't have a backpack yet!");
@@ -820,7 +909,7 @@ public class GameController {
             return new Result(false, "Invalid item specified.");
         }
 
-        Backpack playerBackpack = player.getBackpack();
+        Backpack playerBackpack = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack();
 
         if (!playerBackpack.hasItem(item)) {
             return new Result(false, "You don't have any " + item.toString() + " in your inventory.");
@@ -850,7 +939,7 @@ public class GameController {
             return new Result(false, "Count must be a positive number.");
         }
 
-        Backpack playerBackpack = player.getBackpack();
+        Backpack playerBackpack = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack();
         playerBackpack.CheatAddToInventory(item, count);
 
         return new Result(true, "Added " + count + " " + item.toString() + " to your inventory.");
@@ -865,7 +954,7 @@ public class GameController {
             return new Result(false, "Invalid backpack type. Available types: INITIAL, LARGE, DELUXE");
         }
 
-        Backpack currentBackpack = player.getBackpack();
+        Backpack currentBackpack = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack();
         InventoryType currentType = currentBackpack.getType();
 
         // Check if this would be a downgrade
@@ -880,13 +969,13 @@ public class GameController {
         }
 
         // Upgrade the backpack
-        player.upgradeBackpack(newType);
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().upgradeBackpack(newType);
 
         return new Result(true, "Your backpack has been upgraded to " + newType + "!");
     }
 
     public Result showBackpackInfo() {
-        Backpack playerBackpack = player.getBackpack();
+        Backpack playerBackpack = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack();
 
         if (playerBackpack == null) {
             return new Result(false, "You don't have a backpack yet!");
@@ -913,23 +1002,84 @@ public class GameController {
 
         return new Result(true, info.toString());
     }
+    //ALL THE METHODS RELATED TO TOOLS
 
+    public Result showCurrentTool() {
+        Tool playerCurrentTool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
+        if (playerCurrentTool == null) {
+            return new Result(false, "You haven't equipped any tool yet.");
+        }
+        return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
+    }
+
+    public Result showAvailableTools() {
+        List<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
+        if (tools.isEmpty()) {
+            return new Result(false, "You don't have any tools.");
+        }
+
+        StringBuilder sb = new StringBuilder("Available tools:\n");
+        for (Tool tool : tools) {
+            sb.append("- ").append(tool.getItemName()).append("\n");
+        }
+        return new Result(true, sb.toString().trim());
+    }
 
     public Result equipTool(String toolName) {
-        return new Result(true, "");
+        List<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
+
+        for (Tool tool : tools) {
+            if (tool.getItemName().equalsIgnoreCase(toolName) ||
+                tool.getType().name().equalsIgnoreCase(toolName)) {
+                App.dataManager.getCurrentGame().getCurrentTurnPlayer().setCurrentTool(tool);
+                return new Result(true, "Equipped tool: " + tool.getItemName());
+            }
+        }
+
+        return new Result(false, "You don't have a tool named '" + toolName + "'.");
     }
 
     public Result useTool(String directionString) {
         Direction direction = Direction.getDirectionByDisplayName(directionString);
-        Position position = neighborTile(direction);
-        Tool tool = player.getCurrentTool();
-        if (canToolBeUsedHere(position, tool)) {
 
-            return new Result(true, "");
+        if (direction == null) {
+            return new Result(false, "Invalid direction: " + directionString);
         }
-        return new Result(false, "You can't use that tool in that direction");
+
+        Position position = neighborTile(direction);
+        Tool tool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
+
+        if (tool == null) {
+            return new Result(false, "You have no tool equipped.");
+        }
+
+        if (canToolBeUsedHere(position, tool)) {
+            tool.useTool(direction);
+            return new Result(true, "Used " + tool.getItemName() + " in direction " + directionString);
+        } else {
+            return new Result(false, "You can't use that tool in that direction.");
+        }
+    }
+public Result upgradeTool(String toolName) {
+    if (!App.dataManager.getCurrentGame().getCurrentTurnPlayer().isInBlacksmith()) {
+        return new Result(false, "You should be inside the Blacksmith to upgrade tools.");
+    }
+    //boolean inisblacksmith ro true gereftam
+    //badan check beshe
+    Tool toolToUpgrade = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getToolByName(toolName);
+    if (toolToUpgrade == null) {
+        return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
     }
 
+    if (!toolToUpgrade.canUpgrade()) {
+        return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
+    }
+    //we should actually upgrade the tool here..
+    toolToUpgrade.upgrade();
+    //other things should be checked
+    return new Result(true, "You successfully upgraded "+toolName + " to " + toolToUpgrade.getItemName());
+}
+//
     public Result placeItem(Item item, Direction direction) {
         Position position = neighborTile(direction);
         if (canItemBePlacedHere(position, item)) {
@@ -959,7 +1109,7 @@ public class GameController {
     }
 
     public Result eat(Food food) {
-        player.eat(food.getName());
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().eat(food.getName());
         return new Result(true, "");
     }
 
@@ -993,7 +1143,7 @@ public class GameController {
             return new Result(false, "You denied the walk.");
         }
         Position destination = path.getPathTiles().getLast();
-        player.changePosition(destination);
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().changePosition(destination);
         return new Result(true, "Walking...");
     }
 
@@ -1126,16 +1276,16 @@ public class GameController {
 
         switch (skill) {
             case FARMING:
-                leveledUp = player.addSkillXP(Skill.FARMING, 5);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FARMING, 5);
                 break;
             case MINING:
-                leveledUp = player.addSkillXP(Skill.MINING, 10);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.MINING, 10);
                 break;
             case FORAGING:
-                leveledUp = player.addSkillXP(Skill.FORAGING, 10);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FORAGING, 10);
                 break;
             case FISHING:
-                leveledUp = player.addSkillXP(Skill.FISHING, 5);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING, 5);
                 break;
         }
 

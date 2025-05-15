@@ -1,7 +1,9 @@
 package org.example.models;
 
+import org.example.controller.Game.GameController;
 import org.example.models.Map.*;
 import org.example.models.enums.FriendshipLevel;
+import org.example.models.enums.Menu;
 import org.example.models.enums.enviroment.Time;
 import org.example.models.enums.enviroment.Weather;
 import org.example.models.enums.types.NPCType;
@@ -25,6 +27,7 @@ public class Game {
     private Player creator;
     private Time time;
     private Weather weather;
+    private Weather futureWeather;
     private HashMap<String, Boolean> terminationVotes;
     private ArrayList<NPC> npcs;
 
@@ -33,12 +36,16 @@ public class Game {
     public Game(Player creator, ArrayList<Player> players) {
 
 
+
         this.gameID = App.dataManager.getGames().size() + 1;
         this.players = players;
         this.time = new Time();
         this.map = new MapTile[110][];
         this.farms = new ArrayList<>();
-        
+        this.currentTurnPlayer = creator;
+        this.creator = creator;
+
+
 //        this.npcs = new ArrayList<>();
 //        HashMap<Human, FriendshipWithNPC> friendships = new HashMap<>();
 //        for (Player player : players) {
@@ -58,6 +65,14 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public Weather getFutureWeather() {
+        return futureWeather;
+    }
+
+    public void setFutureWeather(Weather futureWeather) {
+        this.futureWeather = futureWeather;
     }
 
     public void createFullMap() {

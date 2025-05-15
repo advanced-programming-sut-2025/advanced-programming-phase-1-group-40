@@ -84,7 +84,7 @@ public class ProfileMenu implements AppMenu {
     private void showUserInfo() {
         User currentPlayer = App.dataManager.getCurrentUser();
         if (currentPlayer != null) {
-            System.out.println("=== USER INFORMATION ===");
+            System.out.println("USER INFORMATION: ");
             System.out.println("Username: " + currentPlayer.getUsername());
             System.out.println("Nickname: " + currentPlayer.getNickname());
             System.out.println("Highest Money: " + currentPlayer.getHighestMoney());
@@ -95,7 +95,7 @@ public class ProfileMenu implements AppMenu {
     }
 
     private void showHelp() {
-        System.out.println("=== PROFILE MENU COMMANDS ===");
+        System.out.println("PROFILE MENU COMMANDS: ");
         System.out.println("change username -u <username> : Change your username");
         System.out.println("change nickname -u <nickname> : Change your nickname");
         System.out.println("change email -e <email> : Change your email address");

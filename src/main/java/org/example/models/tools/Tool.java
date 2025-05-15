@@ -12,11 +12,24 @@ public abstract class Tool implements Item {
     protected ToolTypes type;
     protected ToolMaterial material;
     protected Skill relatedSkill;
+    protected String name;
 
     public Tool(ToolTypes type, Skill relatedSkill) {
         this.type = type;
         this.relatedSkill = relatedSkill;
         this.material = null;
+    }
+    public boolean canUpgrade(){
+        return material.ordinal()< ToolMaterial.values().length -1;
+    }// yani age iriduim bashe dige nemitune upgrade beshe
+    public void upgrade() {
+        if(canUpgrade()){
+            this.material = ToolMaterial.values()[material.ordinal()+1];
+            //1 level upgraded (it is checked before whether it ca be upgraded
+        }
+    }
+    public String getName(){
+        return name;
     }
 
     public ToolTypes getType() {

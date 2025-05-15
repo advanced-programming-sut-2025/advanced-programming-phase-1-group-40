@@ -1,8 +1,6 @@
 package org.example.view;
 
 import org.example.controller.User.*;
-import org.example.models.App;
-import org.example.models.Result;
 import org.example.models.enums.Menu;
 import org.example.models.enums.commands.MainMenuCommands;
 
@@ -22,7 +20,7 @@ public class MainMenu implements AppMenu {
         }
         else if (MainMenuCommands.GO_TO_GAME_MENU.getMatcher(input) != null) {
 
-            mainMenuController.goToMenu(Menu.GAME_MENU);
+            mainMenuController.goToMenu(Menu.PRE_GAME_MENU);
 
         }
         else if (MainMenuCommands.GO_TO_AVATAR_MENU.getMatcher(input) != null) {
