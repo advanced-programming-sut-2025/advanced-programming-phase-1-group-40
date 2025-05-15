@@ -16,56 +16,68 @@ public class Game implements AppMenu {
 
 
         ///  TIME & DATE
+
         if (GameCommands.SHOW_TIME.getMatcher(input) != null) {
 
 
-            gameController.showTime();
+            System.out.println(gameController.showTime());
 
 
         }
         else if (GameCommands.SHOW_DATE.getMatcher(input) != null) {
 
 
-            gameController.showDate();
+            System.out.println(gameController.showDate());
 
 
         }
         else if (GameCommands.SHOW_DATETIME.getMatcher(input) != null) {
 
 
-            gameController.showDateTime();
+            System.out.println(gameController.showDateTime());
 
 
         }
         else if (GameCommands.SHOW_DAY_OF_THE_WEEK.getMatcher(input) != null) {
 
 
-            gameController.showDayOfTheWeek();
+            System.out.println(gameController.showDayOfTheWeek());
 
 
         }
         else if (GameCommands.CHEAT_ADVANCE_TIME.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.cheatAdvanceTime(GameCommands.CHEAT_ADVANCE_TIME.getMatcher(input).group("time")).message());
 
 
         }
-        else if (GameCommands.CHEAT_ADVANCE_DAY.getMatcher(input) != null) {
+        else if (GameCommands.CHEAT_ADVANCE_DATE.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.cheatAdvanceDate(GameCommands.CHEAT_ADVANCE_DATE.getMatcher(input).group("date")).message());
 
 
         }
         else if (GameCommands.SHOW_SEASON.getMatcher(input) != null) {
 
 
-            gameController.showSeason();
+            System.out.println(gameController.showSeason());
 
 
         }
 
+
+        ///  WEATHER
+
+        else if ( GameCommands.CHEAT_THOR.getMatcher(input) != null ) {
+
+
+
+        }
+        else if ( GameCommands.SHOW_WEATHER.getMatcher(input) != null ) {}
+        else if ( GameCommands.SHOW_WEATHER_FORECAST.getMatcher(input) != null ) {}
+        else if ( GameCommands.CHEAT_WEATHER_SET.getMatcher(input) != null ) {}
 
 
         ///  DAMDARI
@@ -311,7 +323,8 @@ public class Game implements AppMenu {
             System.out.println("build new building");
 
 
-        }else if (GameCommands.SHOW_FRIENDSHIP_WITH_NPC.getMatcher(input) != null) {
+        }
+        else if (GameCommands.SHOW_FRIENDSHIP_WITH_NPC.getMatcher(input) != null) {
 
 
             System.out.println("build new building");
@@ -324,7 +337,8 @@ public class Game implements AppMenu {
             System.out.println("build new building");
 
 
-        }else if (GameCommands.FINISH_QUESTS.getMatcher(input) != null) {
+        }
+        else if (GameCommands.FINISH_QUESTS.getMatcher(input) != null) {
 
 
             System.out.println("build new building");

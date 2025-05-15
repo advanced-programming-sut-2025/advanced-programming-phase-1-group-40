@@ -23,6 +23,8 @@ public class GameController {
 
 
 
+
+
     private void nextHourUpdate(){
 
     }
@@ -92,46 +94,73 @@ public class GameController {
 
     ///      ---------------------> TIME & DATE
 
-    public void showTime(){
+    public String showTime(){
 
-        System.out.println("Time is: " + App.dataManager.getCurrentGame().getTime().getHour());
+        return ("Time is: " + App.dataManager.getCurrentGame().getTime().getHour());
 
     }
 
-    public void showDate(){
+    public String showDate(){
 
-        System.out.println("Date is: " + App.dataManager.getCurrentGame().getTime().getYear() + "." +
+        return ("Date is: " + App.dataManager.getCurrentGame().getTime().getYear() + "." +
                 App.dataManager.getCurrentGame().getTime().getMonth() + "." +
                 App.dataManager.getCurrentGame().getTime().getDate());
 
     }
 
-    public void showDateTime(){
+    public String showDateTime(){
 
-        showDate();
-        System.out.println(" And ");
-        showTime();
+        return (showDate() + " And " + showTime());
 
     }
 
-    public void showDayOfTheWeek(){
+    public String showDayOfTheWeek(){
 
-        System.out.println("Today is: " + App.dataManager.getCurrentGame().getTime().getWeekday().getDayName());
-
-    }
-
-    public void showSeason(){
-
-        System.out.println("Current Season is: " + App.dataManager.getCurrentGame().getTime().getSeason().getName());
+        return ("Today is: " + App.dataManager.getCurrentGame().getTime().getWeekday().getDayName());
 
     }
 
-    public Result cheatAdvanceTime(String time){
-        return null;
+    public String showSeason(){
+
+        return ("Current Season is: " + App.dataManager.getCurrentGame().getTime().getSeason().getName());
+
     }
 
-    public Result cheatAdvanceDay(String day){
-        return null;
+    public Result cheatAdvanceTime(String input){
+
+        int hour;
+
+        try{
+            hour = Integer.parseInt(input);
+        }
+        catch (Exception e){
+            return new Result(false, "Invalid time format");
+        }
+
+        for ( int i = 0; i < (hour * App.dataManager.getCurrentGame().getPlayers().size()); i++ ){
+            nextTurn();
+        }
+
+        return new Result(true, "New " + showDateTime());
+    }
+
+    public Result cheatAdvanceDate(String input){
+
+        int days;
+
+        try{
+            days = Integer.parseInt(input);
+        }
+        catch (Exception e){
+            return new Result(false, "Invalid date format");
+        }
+
+        for ( int i = 0; i < days; i++ ){
+            cheatAdvanceTime("14");
+        }
+
+        return new Result(true, "New " + showDateTime());
+
     }
 
     ///      ---------------------> DAMDARI
@@ -300,7 +329,7 @@ public class GameController {
 
     public Result shepherd(Matcher input){
 
-        Animal animal = getAnimalByName(input.group("animalName"));
+        Animal animal = findAnimalByName(input.group("animalName"));
         Position targetPosition;
 
         if ( animal == null ){
@@ -336,7 +365,7 @@ public class GameController {
 
     public Result feedWithHay(Matcher input){
 
-        Animal animal = getAnimalByName(input.group("animalName"));
+        Animal animal = findAnimalByName(input.group("animalName"));
 
         if ( animal == null ){
             return new Result(false,"Animal not found");
@@ -1001,25 +1030,6 @@ public class GameController {
     }
 
 
-    public Result cheatAdvanceDate(int howManyDays) {
-        return new Result(true, "");
-    }
-
-    public Result cheatThor(Position position) {
-        return new Result(true, "");
-    }
-
-    public Result showWeather() {
-        return new Result(true, "");
-    }
-
-    public Result showWeatherForecast() {
-        return new Result(true, "");
-    }
-
-    public Result cheatWeatherSet(Weather newWeather) {
-        return new Result(true, "");
-    }
 
     public Result buildGreenhouse() {
         if (!canBuildGreenhouse()) {
@@ -1050,39 +1060,6 @@ public class GameController {
         return new Result(true, "");
     }
 
-
-    public Result milkAnimal(Animal animal) {
-        return null;
-    }
-
-    public Result feedOutside(Animal animal) {
-
-        return null;
-
-    }
-
-    public Result feedHayToAnimal(String animalName) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    public Result showProducedProducts() {
-        return new Result(true, "");
-    }
-
-    public Result collectProducts(String animalName) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    public Result sellAnimal(String animalName) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    private Animal getAnimalByName(String name) {
-        return null;
-    }
 
 
 

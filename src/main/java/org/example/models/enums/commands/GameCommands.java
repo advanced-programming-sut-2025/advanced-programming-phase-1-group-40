@@ -25,8 +25,18 @@ public enum GameCommands implements Command{
     SHOW_DATETIME("\\s*datetime\\s*"),
     SHOW_DAY_OF_THE_WEEK("\\s*day\\s+of\\s+the\\s+week\\s*"),
     CHEAT_ADVANCE_TIME("\\s*cheat\\s+advance\\s+time\\s+(?<time>.+)h\\s*"),
-    CHEAT_ADVANCE_DAY("\\s*cheat\\s+advance\\s+date\\s+(?<date>.+)h\\s*"),
+    CHEAT_ADVANCE_DATE("\\s*cheat\\s+advance\\s+date\\s+(?<date>.+)h\\s*"),
     SHOW_SEASON("\\s*season\\s*"),
+
+
+    ///  COMMAND HAYE WEATHER
+
+
+    CHEAT_THOR("\\s*cheat\\s+thor\\s+-l\\s+(?<x>.+)\\s+(?<y>.+)\\s*"),
+    SHOW_WEATHER("\\s*weather\\s*"),
+    SHOW_WEATHER_FORECAST("\\s*weather\\s+forecast\\s*"),
+    CHEAT_WEATHER_SET("\\s*cheat\\s+weather\\s+set\\s+(?<weatherType>.+)\\s*"),
+
 
 
     ///  COMMAND HAYE DAMDARI

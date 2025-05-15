@@ -20,8 +20,7 @@ public class Game {
     private ArrayList<Farm> farms;
     private HashMap<Player, Farm> playerFarms;
     private MapTile[][] map;
-    //a current farm should be implemented to do the things related to the
-    //list of everything especifically for that farm
+
     private Player currentTurnPlayer;
     private Player creator;
     private Time time;
