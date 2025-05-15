@@ -14,6 +14,7 @@ import java.util.Map;
  * Controller for the game menu functionality
  */
 public class GameMenuController {
+
     private Game currentGame;
     
 
@@ -54,7 +55,7 @@ public class GameMenuController {
 
                 if( ! player1.equals(player2)) {
 
-                    player1.setFriendships(player2,new FriendshipWithNPC(0,FriendshipLevel.STRANGER));
+//                    player1.setFriendships(player2,new FriendshipWithNPC(0,FriendshipLevel.STRANGER));
 
                 }
 
