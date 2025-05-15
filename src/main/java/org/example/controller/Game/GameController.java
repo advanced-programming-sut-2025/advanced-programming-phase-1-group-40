@@ -81,7 +81,7 @@ public class GameController {
         Tool newTool = getToolByName(toolName);
 
         if (newTool == null) {
-            return new Result(false, "You haven't this tool");
+            return new Result(false, "You don't have this tool");
         }
 
         App.dataManager.getCurrentGame().getCurrentTurnPlayer().setCurrentTool(newTool);
@@ -124,6 +124,7 @@ public class GameController {
 
 
     }
+
 
     public Result upgradeTool(String toolName) {
 

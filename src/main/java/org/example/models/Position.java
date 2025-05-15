@@ -23,6 +23,15 @@ public class Position {
         this.y = y;
 
     }
+    public Position getNeighbor(Direction direction) {
+        switch (direction) {
+            case UP:return new Position(x - 1, y);
+            case DOWN:return new Position(x + 1, y);
+            case LEFT:return new Position(x, y - 1);
+            case RIGHT:return new Position(x, y + 1);
+            default:return new Position(x, y);
+        }
+    }
 
     @Override
     public String toString() {
