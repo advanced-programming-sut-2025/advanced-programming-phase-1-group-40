@@ -1,11 +1,12 @@
 package org.example.models;
 
 import org.example.models.enums.Skill;
+import org.example.models.enums.SkillLevels;
 
 public class SkillLevel {
 
     private int currentXP;
-    private int level;
+    private SkillLevels skillLevel;
     private Skill skillType;
 
     // Constants for XP calculation
@@ -15,15 +16,19 @@ public class SkillLevel {
     public SkillLevel(Skill skillType) {
         this.skillType = skillType;
         this.currentXP = 0;
-        this.level = 0;
+        this.skillLevel = SkillLevels.LEVEL_THREE;
     }
 
     public int getCurrentXP() {
         return currentXP;
     }
 
-    public int getLevel() {
-        return level;
+    public SkillLevels getLevel() {
+        return this.skillLevel;
+    }
+
+    public void setSkillLevel(SkillLevels skillLevel) {
+        this.skillLevel = skillLevel;
     }
 
     public Skill getSkillType() {
@@ -31,7 +36,7 @@ public class SkillLevel {
     }
 
     public int getXPForNextLevel() {
-        return XP_MULTIPLIER * (level + 1) + BASE_XP_FOR_LEVEL_UP;
+        return XP_MULTIPLIER * (skillLevel.getIntLevel() + 1) + BASE_XP_FOR_LEVEL_UP;
     }
 
     public boolean addXP(int xpAmount) {
@@ -39,13 +44,13 @@ public class SkillLevel {
 
         currentXP += xpAmount;
 
-        while (currentXP >= getXPForNextLevel() && level < 3) { // Max level is 3
+        while (currentXP >= getXPForNextLevel() && skillLevel.getIntLevel() < 3) { // Max level is 3
             currentXP -= getXPForNextLevel();
-            level++;
+            setSkillLevel(SkillLevels.values()[skillLevel.getIntLevel()+1]);
             leveledUp = true;
         }
 
-        if (level >= 3) {
+        if (skillLevel.getIntLevel() >= 3) {
             currentXP = Math.min(currentXP, getXPForNextLevel() - 1);
         }
 
@@ -53,14 +58,14 @@ public class SkillLevel {
     }
 
     public int getRemainingXPForNextLevel() {
-        if (level >= 3) { // Max level
+        if (skillLevel.getIntLevel() >= 3) { // Max level
             return 0;
         }
         return getXPForNextLevel() - currentXP;
     }
 
     public int getLevelProgressPercentage() {
-        if (level >= 3) { // Max level
+        if (skillLevel.getIntLevel() >= 3) { // Max level
             return 100;
         }
 
@@ -70,9 +75,9 @@ public class SkillLevel {
 
     @Override
     public String toString() {
-        if (level >= 3) {
-            return skillType + " - Level " + level + " (MAX)";
+        if (skillLevel.getIntLevel() >= 3) {
+            return skillType + " - Level " + skillLevel.getIntLevel() + " (MAX)";
         }
-        return skillType + " - Level " + level + " (" + currentXP + "/" + getXPForNextLevel() + " XP)";
+        return skillType + " - Level " + skillLevel.getIntLevel() + " (" + currentXP + "/" + getXPForNextLevel() + " XP)";
     }
 }

@@ -52,14 +52,14 @@ public class Game implements AppMenu {
         else if (GameCommands.SHEPHERD_ANIMALS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.shepherd(GameCommands.SHEPHERD_ANIMALS.getMatcher(input)).message());
 
 
         }
         else if (GameCommands.FEED_HAY.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.feedWithHay(GameCommands.FEED_HAY.getMatcher(input)).message());
 
 
         }

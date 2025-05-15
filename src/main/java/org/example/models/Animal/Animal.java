@@ -13,13 +13,12 @@ public class Animal {
     private Integer friendshipWithOwner;
     private Position position;
     private boolean petToday;
-    private boolean sleptOutside;
+    private boolean isOutside;                      /// ----> Az Alaf biroon taghzie karde
     private boolean fedWithHayToday;
-
     private ArrayList<AnimalProducts> products;
-
     private FarmBuildingType animalLivingSpace;
     private Integer price;
+
 
     public Animal(String name, AnimalType animalType){
 
@@ -28,13 +27,14 @@ public class Animal {
         this.owner = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
         this.friendshipWithOwner = 0;
         this.petToday = false;
-        this.sleptOutside = false;
+        this.isOutside = false;
         this.fedWithHayToday = false;
 
         this.products = new ArrayList<>();
 
         this.animalLivingSpace = animalType.getProperLivingSpace().get(0);          /// ino bayad fix koni!!!
         this.price = animalType.getPrice();
+
 
 
     }
@@ -87,12 +87,12 @@ public class Animal {
         this.petToday = petToday;
     }
 
-    public boolean isSleptOutside() {
-        return sleptOutside;
+    public boolean isOutside() {
+        return isOutside;
     }
 
-    public void setSleptOutside(boolean sleptOutside) {
-        this.sleptOutside = sleptOutside;
+    public void setOutside(boolean outside) {
+        this.isOutside = outside;
     }
 
     public boolean isFedWithHayToday() {

@@ -242,6 +242,60 @@ public class GameController {
 
     }
 
+    public Result shepherd(Matcher input){
+
+        Animal animal = getAnimalByName(input.group("animalName"));
+        Position targetPosition;
+
+        if ( animal == null ){
+            return new Result(false,"Animal not found");
+        }
+
+
+
+        try{
+            targetPosition = new Position(Integer.parseInt(input.group("x")), Integer.parseInt(input.group("y")));
+        }
+        catch ( NumberFormatException e ){
+            return new Result(false,"Invalid x or y position");
+        }
+
+        if ( App.dataManager.getCurrentGame().getWeather() != Weather.SUNNY ){
+            return new Result(false,"Animals can only go outside in a sunny weather condition");
+        }
+
+
+        if ( ! App.dataManager.getCurrentGame().getMap()[targetPosition.getX()][targetPosition.getY()].isEmpty() ){
+            return new Result(false,"Animal can not be moved to target position");
+        }
+
+        animal.setPosition(targetPosition);
+        animal.setOutside(true);
+
+        return new Result(true,"Shepherd successfully");
+
+
+
+    }
+
+    public Result feedWithHay(Matcher input){
+
+        Animal animal = getAnimalByName(input.group("animalName"));
+
+        if ( animal == null ){
+            return new Result(false,"Animal not found");
+        }
+
+        if (animal.isFedWithHayToday()){
+            return new Result(false,"Animal is already fed with hay!");
+        }
+
+        animal.setFedWithHayToday(true);
+        return new Result(true,"Feed with hay successfully");
+
+
+    }
+
     ///   -----------------------> FISH
 
 
@@ -249,35 +303,73 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
-        if (true) {             ///   ---> close to sea
+        if ( closeToSea(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
 
             int numberOfFishes = numberOfCaughtFish() + 1;
-            FishType fishType = FishType.values()[(new Random()).nextInt(FishType.values().length)];
-            for (int i = 0; i < numberOfFishes; i++) {
-                ///  add fishtype to arraylist
-            }
 
+            FishType fishType = randomTypeForCaughtFish();
+            Fish caughtFish = new Fish(fishType, calculateFishQuality(fishingRod));
+
+
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().addToInventory(
+                    caughtFish,
+                            Math.min(
+                            numberOfFishes,
+                            App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getRemainingCapacity())
+                    );
+
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING,5);        /// BA HAR BAR MAHI GIRI
+                                                                                                                 ///  FISHING SKILL +5
+
+            return new Result(true,numberOfFishes + " " + fishType.getName() + " got caught.");
 
         }
 
-        return new Result(true, "");
+        return new Result(false, "Get Closer to Sea");
     }
 
-    public boolean closeToSea(Position position) {
+    private FishType randomTypeForCaughtFish(){
+
+        ArrayList<FishType> candidateFishTypes = new ArrayList<>();
+
+        for ( FishType fishType : FishType.values() ){
+
+            if ( App.dataManager.getCurrentGame().getTime().getSeason() == fishType.getSeason() ){
+
+                if ( fishType.isLegendary() ){
+
+                    if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() == SkillLevels.LEVEL_THREE ){
+                        candidateFishTypes.add(fishType);
+                    }
+
+                }
+                else{
+                    candidateFishTypes.add(fishType);
+                }
+
+            }
+
+        }
+
+        return candidateFishTypes.get(new Random().nextInt(candidateFishTypes.size()));
+
+    }
+
+    private boolean closeToSea(Position position) {                      ///  TODO
 
         return true;
 
     }
 
-    public int calculateFishQuality(FishingRodType fishingRod) {
+    private int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
-    public int numberOfCaughtFish() {
+    private int numberOfCaughtFish() {
 
-        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() + 2));
+        return (int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2));
 
     }
 
@@ -878,28 +970,6 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public Result buyAnimal(AnimalType animalType, String name) {
-        Animal animal = new Animal(name, animalType);
-        return new Result(true, "");
-    }
-
-    public Result pet(String animalName) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    public Result cheatSetFriendship(String animalName, int amount) {
-        Animal animal = getAnimalByName(animalName);
-        return new Result(true, "");
-    }
-
-    public Result showMyAnimalsInfo() {
-        return new Result(true, "");
-    }
-
-    public Result shepherdAnimal(String animalName, Position position) {
-        return new Result(true, "");
-    }
 
     public Result milkAnimal(Animal animal) {
         return null;

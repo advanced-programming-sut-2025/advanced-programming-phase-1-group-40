@@ -10,17 +10,18 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public class Fish implements Item {
+
     FishType type;
     int basePrice;
     Season season;
     boolean isLegendary;
     private final int fishQuality;
 
-    public Fish(FishType type, int basePrice, Season season, boolean isLegendary, int fishQuality) {
+    public Fish(FishType type, int fishQuality) {
         this.type = type;
-        this.basePrice = basePrice;
-        this.season = season;
-        this.isLegendary = isLegendary;
+        this.basePrice = type.getBasePrice();
+        this.season = type.getSeason();
+        this.isLegendary = type.isLegendary();
         this.fishQuality = fishQuality;
     }
 

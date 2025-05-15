@@ -3,11 +3,14 @@ package org.example.models.inventory;
 import org.example.models.Item;
 import org.example.models.enums.types.*;
 
+import java.util.ArrayList;
+
 public class Backpack extends Inventory {
 
 
 
     private final InventoryType type;
+
 
     public Backpack(InventoryType type) {
         super(type.getCapacity());
