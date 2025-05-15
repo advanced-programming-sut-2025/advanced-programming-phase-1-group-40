@@ -68,11 +68,10 @@ public class FriendshipWithNPC {
     private FriendshipLevel friendshipLevel;
 
 
-    public FriendshipWithNPC() {
-        this.friendshipXP = 0;
-        this.friendshipLevel = FriendshipLevel.STRANGER;
+    public FriendshipWithNPC(Integer friendshipXP, FriendshipLevel friendshipLevel) {
+        this.friendshipXP = friendshipXP;
+        this.friendshipLevel = friendshipLevel;
     }
-
 
     public Integer getFriendshipXP() {
         return friendshipXP;
