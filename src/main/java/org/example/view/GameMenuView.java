@@ -57,15 +57,15 @@ public class GameMenuView implements AppMenu {
         }
         // Handle load game command
         else if (input.matches("\\s*load\\s+game\\s*")) {
-            handleLoadGame();
+            //handleLoadGame();
         }
         // Handle exit game command
         else if (input.matches("\\s*exit\\s+game\\s*")) {
-            handleExitGame();
+            //handleExitGame();
         }
         // Handle vote to terminate command
         else if (input.matches("\\s*vote\\s+terminate\\s+(yes|no)\\s*")) {
-            handleVoteTerminate(input);
+            //handleVoteTerminate(input);
         }
         // Handle game status command
         else if (input.matches("\\s*game\\s+status\\s*")) {
@@ -264,36 +264,36 @@ public class GameMenuView implements AppMenu {
         System.out.println(result.message());
     }
 
-    private void handleLoadGame() {
-        Result result = controller.loadGame();
-        System.out.println(result.message());
+    // private void handleLoadGame() {
+    //     Result result = controller.loadGame();
+    //     System.out.println(result.message());
 
-        if (result.success()) {
-            // Enter the game
-            App.dataManager.setCurrentMenu(Menu.GAME_MENU);
-        }
-    }
+    //     if (result.success()) {
+    //         // Enter the game
+    //         App.dataManager.setCurrentMenu(Menu.GAME_MENU);
+    //     }
+    // }
 
-    private void handleExitGame() {
-        Result result = controller.exitGame();
-        System.out.println(result.message());
+    // private void handleExitGame() {
+    //     Result result = controller.exitGame();
+    //     System.out.println(result.message());
 
-        if (result.success()) {
-            // Return to main menu
-            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        }
-    }
+    //     if (result.success()) {
+    //         // Return to main menu
+    //         App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+    //     }
+    // }
 
-    private void handleVoteTerminate(String input) {
-        boolean vote = input.contains("yes");
-        Result result = controller.voteToTerminateGame(vote);
-        System.out.println(result.message());
+    // private void handleVoteTerminate(String input) {
+    //     boolean vote = input.contains("yes");
+    //     Result result = controller.voteToTerminateGame(vote);
+    //     System.out.println(result.message());
 
-        if (result.success() && result.message().contains("The game has been deleted")) {
-            // Return to main menu
-            App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
-        }
-    }
+    //     if (result.success() && result.message().contains("The game has been deleted")) {
+    //         // Return to main menu
+    //         App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+    //     }
+    // }
 
     private void handleGameStatus() {
         String status = controller.getGameStatus();

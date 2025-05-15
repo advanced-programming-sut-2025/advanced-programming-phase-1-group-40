@@ -20,12 +20,12 @@ public class GameMenu implements AppMenu {
         Matcher matcher;
         if ( (matcher = GameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
 
-            System.out.println(gameMenuController.createNewGame(matcher.group("users")).message());
+            //System.out.println(gameMenuController.createNewGame(matcher.group("users")).message());
 
         }
         else if (  GameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {
 
-            gameMenuController.showCurrentMenu();
+            //gameMenuController.showCurrentMenu();
 
         }
         else if ( GameMenuCommands.SELECT_MAP.getMatcher(input) != null  ) {

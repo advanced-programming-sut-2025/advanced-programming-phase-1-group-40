@@ -116,29 +116,29 @@ public class GameMenuController {
 
 
 
-    private void createFarmsForPlayers() {
-        FarmManager farmManager = FarmManager.getInstance();
+    // private void createFarmsForPlayers() {
+    //     FarmManager farmManager = FarmManager.getInstance();
 
-        for (Player player : currentGame.getPlayers()) {
-            int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
-            Farm farm = farmManager.createFarmForUser(player, mapType);
-            currentGame.addFarm(farm);
+    //     for (Player player : currentGame.getPlayers()) {
+    //         //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
+    //         Farm farm = farmManager.createFarmForUser(player, mapType);
+    //         currentGame.addFarm(farm);
 
-            // Set the player's current position to their farm's cabin
-            if (farm.getCabin() != null) {
-                player.setCurrentPosition(farm.getCabin().getPosition());
-            }
-        }
+    //         // Set the player's current position to their farm's cabin
+    //         if (farm.getCabin() != null) {
+    //             player.setCurrentPosition(farm.getCabin().getPosition());
+    //         }
+    //     }
 
-        // Initialize game time
-        currentGame.initializeTime();
+    //     // Initialize game time
+    //     currentGame.initializeTime();
 
-        // Set the first player as the current turn player
-        currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
+    //     // Set the first player as the current turn player
+    //     currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
 
-        // Save the game state
-        App.dataManager.saveGameData();
-    }
+    //     // Save the game state
+    //     App.dataManager.saveGameData();
+    // }
 
     /**
      * Moves to the next player's turn
@@ -146,16 +146,16 @@ public class GameMenuController {
      */
     public Result nextTurn() {
         Game currentGame = App.dataManager.getCurrentGame();
-        if (currentGame == null || !currentGame.isActive()) {
+        if (currentGame == null) {
             return new Result(false, "No active game. Please create or load a game first.");
         }
 
-        Player currentPlayer = App.dataManager.getCurrentUser();
+        //Player currentPlayer = App.dataManager.getCurrentUser();
 
         // Check if it's the current player's turn
-        if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
-            return new Result(false, "It's not your turn.");
-        }
+        // if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
+        //     return new Result(false, "It's not your turn.");
+        // }
 
         // Move to the next player's turn
         Player nextPlayer = currentGame.nextTurn();
@@ -178,72 +178,72 @@ public class GameMenuController {
      * Loads a saved game
      * @return Result indicating success or failure
      */
-    public Result loadGame() {
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+    // public Result loadGame() {
+    //     Player currentPlayer = App.dataManager.getCurrentGame().getCurrentPlayer();
 
-        // Load the game and set it as current in DataManager
-        Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
+    //     // Load the game and set it as current in DataManager
+    //     Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
 
-        if (savedGame == null) {
-            return new Result(false, "No saved game found for " + currentPlayer.getUsername());
-        }
+    //     if (savedGame == null) {
+    //         return new Result(false, "No saved game found for " + currentPlayer.getUsername());
+    //     }
 
-        // Set the current player in the game
-        savedGame.setCurrentTurnPlayer(currentPlayer);
+    //     // Set the current player in the game
+    //     savedGame.setCurrentTurnPlayer(currentPlayer);
 
-        return new Result(true, "Game loaded successfully. It's your turn!");
-    }
+    //     return new Result(true, "Game loaded successfully. It's your turn!");
+    // }
 
     /**
      * Exits the current game
      * @return Result indicating success or failure
      */
-    public Result exitGame() {
-        Game currentGame = App.dataManager.getCurrentGame();
+    // public Result exitGame() {
+    //     Game currentGame = App.dataManager.getCurrentGame();
 
-        if (currentGame == null || !currentGame.isActive()) {
-            return new Result(false, "No active game to exit.");
-        }
+    //     if (currentGame == null || !currentGame.isActive()) {
+    //         return new Result(false, "No active game to exit.");
+    //     }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+    //     Player currentPlayer = App.dataManager.getCurrentPlayer();
 
-        // Only the game creator can exit the game
-        if (!currentGame.getCreator().getUsername().equals(currentPlayer.getUsername())) {
-            return new Result(false, "Only the game creator can exit the game.");
-        }
+    //     // Only the game creator can exit the game
+    //     if (!currentGame.getCreator().getUsername().equals(currentPlayer.getUsername())) {
+    //         return new Result(false, "Only the game creator can exit the game.");
+    //     }
 
-        // Save the game state before exiting
-        App.dataManager.saveGameData();
+    //     // Save the game state before exiting
+    //     App.dataManager.saveGameData();
 
-        // Reset the current game in DataManager
-        App.dataManager.exitCurrentGame();
+    //     // Reset the current game in DataManager
+    //     App.dataManager.exitCurrentGame();
 
-        return new Result(true, "Game exited successfully. Your progress has been saved.");
-    }
+    //     return new Result(true, "Game exited successfully. Your progress has been saved.");
+    // }
 
     /**
      * Initiates a vote to terminate the current game
      * @return Result indicating success or failure
      */
-    public Result voteToTerminateGame(boolean vote) {
-        if (currentGame == null || !currentGame.isActive()) {
-            return new Result(false, "No active game to terminate.");
-        }
+    // public Result voteToTerminateGame(boolean vote) {
+    //     if (currentGame == null || !currentGame.isActive()) {
+    //         return new Result(false, "No active game to terminate.");
+    //     }
 
-        Player currentPlayer = App.dataManager.getCurrentPlayer();
+    //     Player currentPlayer = App.dataManager.getCurrentPlayer();
 
-        // Register the player's vote
-        boolean allVotedToTerminate = currentGame.voteForTermination(currentPlayer, vote);
+    //     // Register the player's vote
+    //     boolean allVotedToTerminate = currentGame.voteForTermination(currentPlayer, vote);
 
-        if (allVotedToTerminate) {
-            // If all players voted to terminate, delete the game
-            App.dataManager.removeGame(currentGame);
-            currentGame = null;
-            return new Result(true, "All players voted to terminate the game. The game has been deleted.");
-        }
+    //     if (allVotedToTerminate) {
+    //         // If all players voted to terminate, delete the game
+    //         App.dataManager.removeGame(currentGame);
+    //         currentGame = null;
+    //         return new Result(true, "All players voted to terminate the game. The game has been deleted.");
+    //     }
 
-        return new Result(true, "Your vote has been recorded. Waiting for other players to vote.");
-    }
+    //     return new Result(true, "Your vote has been recorded. Waiting for other players to vote.");
+    // }
 
     /**
      * Checks if a player is already in an active game
