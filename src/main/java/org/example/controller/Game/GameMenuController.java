@@ -132,8 +132,8 @@ public class GameMenuController {
         int width;
         MapTile[][] map = currentGame.getMap();
         if (currentGame.getFarms().size() == 2) {
-            height = 110;
-            width = 60;
+            height = 60;
+            width = 110;
         } else {
             height = 110;
             width = 110;
