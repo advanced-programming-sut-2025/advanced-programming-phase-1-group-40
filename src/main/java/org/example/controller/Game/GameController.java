@@ -22,7 +22,7 @@ public class GameController {
 
     ///  TOOLS
 
-    private boolean isInBlacksmith(){
+    private boolean isInBlacksmith(){           ///  TODO
 
         return true;
 
@@ -89,6 +89,14 @@ public class GameController {
 
     }
 
+    private Position neighborTile(Direction direction) {
+        return null;
+    }
+    private boolean canToolBeUsedHere(Position position, Tool tool) {
+        return false;
+    }
+
+
     public Result useTool(String directionString) {
 
         Direction direction = Direction.getDirectionByDisplayName(directionString);
@@ -98,6 +106,7 @@ public class GameController {
         }
 
         Position position = neighborTile(direction);
+
         Tool tool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
 
         if (tool == null) {
@@ -105,11 +114,13 @@ public class GameController {
         }
 
         if (canToolBeUsedHere(position, tool)) {
+
             tool.useTool(direction);
             return new Result(true, "Used " + tool.getItemName() + " in direction " + directionString);
-        } else {
-            return new Result(false, "You can't use that tool in that direction.");
+
         }
+
+        return new Result(false, "You can't use that tool in that direction.");
 
 
     }
@@ -1171,17 +1182,12 @@ public class GameController {
         return false;
     }
 
-    private boolean canToolBeUsedHere(Position position, Tool tool) {
-        return false;
-    }
 
     private boolean canItemBePlacedHere(Position position, Item item) {
         return false;
     }
 
-    private Position neighborTile(Direction direction) {
-        return null;
-    }
+
 
     private Tile getTileByPosition(Position position) {
         return null;

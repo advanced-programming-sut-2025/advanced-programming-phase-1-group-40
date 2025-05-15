@@ -10,6 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 public enum Direction {
+
     UP("up"),
     DOWN("down"),
     RIGHT("right"),
