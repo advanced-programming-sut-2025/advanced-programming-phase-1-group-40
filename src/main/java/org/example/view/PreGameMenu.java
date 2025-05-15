@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.controller.Game.GameController;
 import org.example.controller.Game.PreGameMenuController;
 import org.example.models.App;
 import org.example.models.enums.Menu;
@@ -21,6 +22,7 @@ public class PreGameMenu implements AppMenu {
         if ( (matcher = GameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
 
             System.out.println(preGameMenuController.createNewGame(matcher.group("users"), scanner).message());
+            preGameMenuController.setNewGameWeather();
 
         }
         else if (  GameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {

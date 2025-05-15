@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.controller.Game.GameController;
 import org.example.models.Map.*;
 import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
@@ -41,7 +42,10 @@ public class Game {
         this.time = new Time();
         this.map = new MapTile[110][];
         this.farms = new ArrayList<>();
-        
+        this.currentTurnPlayer = creator;
+        this.creator = creator;
+
+
 //        this.npcs = new ArrayList<>();
 //        HashMap<Human, FriendshipWithNPC> friendships = new HashMap<>();
 //        for (Player player : players) {

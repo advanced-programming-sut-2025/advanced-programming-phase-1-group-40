@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 public class GameController {
 
 
-
+    ///  TURN AND UPDATING GAME
 
 
     private void nextHourUpdate(){
@@ -112,7 +112,7 @@ public class GameController {
     public String showDate(){
 
         return ("Date is: " + App.dataManager.getCurrentGame().getTime().getYear() + "." +
-                App.dataManager.getCurrentGame().getTime().getMonth() + "." +
+                (App.dataManager.getCurrentGame().getTime().getMonth().getMonthIndex()+1) + "." +
                 App.dataManager.getCurrentGame().getTime().getDate());
 
     }
@@ -174,6 +174,23 @@ public class GameController {
 
 
     ///      ---------------------> WEATHER
+
+
+    public Weather randomWeatherBasedOnSeason(){
+
+        ArrayList<Weather> candidateWeathers = new ArrayList<>();
+        for ( Weather weather : Weather.values() ){
+
+            if ( weather.getPossibleSeasons().contains(App.dataManager.getCurrentGame().getTime().getSeason()) ){
+                candidateWeathers.add(weather);
+            }
+
+        }
+
+        return Weather.values()[(int)(Math.random()*candidateWeathers.size())];
+
+
+    }
 
     public void randomThor(){
 

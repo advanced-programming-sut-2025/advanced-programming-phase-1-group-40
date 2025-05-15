@@ -9,23 +9,16 @@ import org.example.models.enums.Menu;
 
 import java.util.*;
 
-/**
- * Controller for the game menu functionality
- */
+
 public class PreGameMenuController {
     private Game currentGame;
 
+    public void setNewGameWeather(){
+        App.dataManager.getCurrentGame().setWeather(new GameController().randomWeatherBasedOnSeason());
+        App.dataManager.getCurrentGame().setFutureWeather(new GameController().randomWeatherBasedOnSeason());
+    }
 
-    // public GameMenuController() {
-    //     mapSelections = new HashMap<>();
-    // }
 
-    /**
-     * Creates a new game with the specified players
-     *
-     * @param usernamesString List of usernames to add to the game
-     * @return Result indicating success or failure
-     */
     public Result createNewGame(String usernamesString, Scanner scanner) {
         List<String> usernames = new ArrayList<>();
         usernames.add(App.dataManager.getCurrentUser().getUsername());
@@ -88,8 +81,6 @@ public class PreGameMenuController {
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
     }
 
-
-
     private Result handleNewGame(Scanner scanner) {
         System.out.println("\n" + getMapTypeDescriptions());
         System.out.println("\nEach player needs to select a map type.");
@@ -119,7 +110,7 @@ public class PreGameMenuController {
 
 
         }
-        return new Result(true, "handle new game finished"); // TODO
+        return new Result(true, ""); // TODO
     }
 
     public String handleShowMap() {
@@ -294,40 +285,6 @@ public class PreGameMenuController {
         App.dataManager.saveGameData();
     }
 
-    /**
-     * Moves to the next player's turn
-     *
-     * @return Result indicating success or failure
-     */
-    public Result nextTurn() {
-        Game currentGame = App.dataManager.getCurrentGame();
-        if (currentGame == null) {
-            return new Result(false, "No active game. Please create or load a game first.");
-        }
-
-        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
-
-        // Check if it's the current player's turn
-        if (!currentGame.getCurrentTurnPlayer().getUsername().equals(currentPlayer.getUsername())) {
-            return new Result(false, "It's not your turn.");
-        }
-
-        // Move to the next player's turn
-        Player nextPlayer = currentGame.nextTurn();
-
-        // Set the current player in DataManager to the next player
-        App.dataManager.setCurrentUser(nextPlayer);
-
-        // Save game state
-        App.dataManager.saveGameData();
-
-        return new Result(true, "Turn passed to " + nextPlayer.getUsername() + ". Time is now " +
-                currentGame.getTime().getHour() + ":00 on " +
-                currentGame.getTime().getWeekday() + ", " +
-                currentGame.getTime().getMonth() + " " +
-                currentGame.getTime().getDate() + ", Year " +
-                currentGame.getTime().getYear());
-    }
 
     /**
      * Loads a saved game

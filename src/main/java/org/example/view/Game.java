@@ -357,7 +357,13 @@ public class Game implements AppMenu {
 
 
         }
+        else{
 
+
+            System.out.println("Invalid input");
+
+
+        }
 
 
 
