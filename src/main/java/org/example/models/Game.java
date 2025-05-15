@@ -3,10 +3,13 @@ package org.example.models;
 import org.example.models.Map.*;
 import org.example.models.enums.enviroment.Time;
 import org.example.models.enums.enviroment.Weather;
+import org.example.models.enums.types.NPCType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.util.Arrays.asList;
 
 
 public class Game {
@@ -23,6 +26,7 @@ public class Game {
     private Time time;
     private Weather weather;
     private HashMap<String, Boolean> terminationVotes;
+    private ArrayList<NPC> npcs;
 
 
 
@@ -35,8 +39,25 @@ public class Game {
         this.map = new MapTile[110][];
         this.farms = new ArrayList<>();
         
-
+        this.npcs = new ArrayList<>();
+        HashMap<Human, FriendshipWithNPC> friendships = new HashMap<>();
+        for (Player player : players) {
+            friendships.put(player, new FriendshipWithNPC());
+        }
+        for (NPCType npcType : NPCType.values()) {
+            NPC npc = new NPC(friendships, npcType);
+            npcs.add(npc);
+        }
         
+    }
+
+    public NPC getNPCByName(String name) {
+        for (NPC npc : npcs) {
+            if (npc.getName().equals(name)) {
+                return npc;
+            }
+        }
+        return null;
     }
 
     public void createFullMap() {
