@@ -8,7 +8,8 @@ public enum GameMenuCommands implements Command {
     GO_TO_MAIN_MENU("\\s*menu\\s+enter\\s+(m|M)ain(\\s+(M|m)enu)?\\s*"),
     NEW_GAME("\\s*game\\s+new\\s+-u(?<users>.+)?\\s*"),
     SELECT_MAP("\\s*game\\s+map\\s+(?<mapNumber>\\S+)\\s*"),
-    SHOW_CURRENT_MENU("\\s*menu\\s+show\\s+menu\\s*");
+    SHOW_CURRENT_MENU("\\s*menu\\s+show\\s+menu\\s*"),
+    SHOW_MAP("show map");
 
     private final String regexString;
 
