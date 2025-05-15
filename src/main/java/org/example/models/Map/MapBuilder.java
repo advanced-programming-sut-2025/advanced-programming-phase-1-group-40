@@ -227,72 +227,73 @@ public class MapBuilder {
             }
         }
         farm.setTiles(tilesMap);
+
         
         // Add components to the farm
-        // for (int y = 0; y < height; y++) {
-        //     for (int x = 0; x < width; x++) {
-        //         MapTile tile = tiles[y][x];
-        //         Position position = new Position(x, y);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                MapTile tile = tiles[y][x];
+                Position position = new Position(x, y);
                 
-        //         switch (tile.getType()) {
-        //             case CABIN:
-        //                 farm.addComponent(new Cabin(position));
-        //                 break;
-        //             case GREENHOUSE:
-        //                 farm.addComponent(new Greenhouse(x, y));
-        //                 break;
-        //             case QUARRY:
-        //                 // Find the full size of the quarry
-        //                 int quarryWidth = 1;
-        //                 int quarryHeight = 1;
+                switch (tile.getType()) {
+                    // case CABIN:
+                    //     farm.addComponent(new Cabin(position));
+                    //     break;
+                    // case GREENHOUSE:
+                    //     farm.addComponent(new Greenhouse(x, y));
+                    //     break;
+                    // case QUARRY:
+                    //     // Find the full size of the quarry
+                    //     int quarryWidth = 1;
+                    //     int quarryHeight = 1;
                         
-        //                 // Find width
-        //                 while (x + quarryWidth < width && 
-        //                        tiles[y][x + quarryWidth].getType() == TileType.QUARRY) {
-        //                     quarryWidth++;
-        //                 }
+                    //     // Find width
+                    //     while (x + quarryWidth < width && 
+                    //            tiles[y][x + quarryWidth].getType() == TileType.QUARRY) {
+                    //         quarryWidth++;
+                    //     }
                         
-        //                 // Find height
-        //                 while (y + quarryHeight < height && 
-        //                        tiles[y + quarryHeight][x].getType() == TileType.QUARRY) {
-        //                     quarryHeight++;
-        //                 }
+                    //     // Find height
+                    //     while (y + quarryHeight < height && 
+                    //            tiles[y + quarryHeight][x].getType() == TileType.QUARRY) {
+                    //         quarryHeight++;
+                    //     }
                         
-        //                 farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
-        //                 break;
-        //             case WATER:
-        //                 // Find the full size of the lake
-        //                 int lakeWidth = 1;
-        //                 int lakeHeight = 1;
+                    //     farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
+                    //     break;
+                    // case WATER:
+                    //     // Find the full size of the lake
+                    //     int lakeWidth = 1;
+                    //     int lakeHeight = 1;
                         
-        //                 // Find width
-        //                 while (x + lakeWidth < width && 
-        //                        tiles[y][x + lakeWidth].getType() == TileType.WATER) {
-        //                     lakeWidth++;
-        //                 }
+                    //     // Find width
+                    //     while (x + lakeWidth < width && 
+                    //            tiles[y][x + lakeWidth].getType() == TileType.WATER) {
+                    //         lakeWidth++;
+                    //     }
                         
-        //                 // Find height
-        //                 while (y + lakeHeight < height && 
-        //                        tiles[y + lakeHeight][x].getType() == TileType.WATER) {
-        //                     lakeHeight++;
-        //                 }
+                    //     // Find height
+                    //     while (y + lakeHeight < height && 
+                    //            tiles[y + lakeHeight][x].getType() == TileType.WATER) {
+                    //         lakeHeight++;
+                    //     }
                         
-        //                 farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
-        //                 break;
-        //             case TREE:
-        //                 farm.addComponent(new Tree(tile.getTreeType(),new Position(x, y)));
-        //                 break;
-        //             case STONE:
-        //                 farm.addComponent(new ForagingMineral(position));
-        //                 break;
-        //             case FORAGEABLE:
-        //                 if (tile.getForageableItem() instanceof ForagingCrop) {
-        //                     farm.addComponent((ForagingCrop) tile.getForageableItem());
-        //                 }
-        //                 break;
-        //         }
-        //     }
-        // }
+                    //     farm.addComponent(new Lake(x, y, lakeWidth, lakeHeight));
+                    //     break;
+                    case TREE:
+                        farm.addComponent(new Tree(tile.getTreeType(),position));
+                        break;
+                    case STONE:
+                        farm.addComponent(new ForagingMineral(position, tile.getStoneType()));
+                        break;
+                    case FORAGEABLE:
+                        if (tile.getForageableItem() instanceof ForagingCrop) {
+                            farm.addComponent((ForagingCrop) tile.getForageableItem());
+                        }
+                        break;
+                }
+            }
+        }
         
         return farm;
     }
