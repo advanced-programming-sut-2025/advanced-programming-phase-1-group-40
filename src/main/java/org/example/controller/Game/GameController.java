@@ -31,9 +31,16 @@ public class GameController {
 
     private void nextDayUpdate(){
 
+        updateWeather();
 
     }
 
+    public void updateWeather(){
+
+        App.dataManager.getCurrentGame().setWeather(App.dataManager.getCurrentGame().getFutureWeather());
+        App.dataManager.getCurrentGame().setFutureWeather(randomWeatherBasedOnSeason());
+
+    }
 
 
     public Player nextTurn() {
