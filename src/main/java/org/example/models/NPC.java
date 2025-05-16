@@ -20,6 +20,8 @@ public class NPC extends Human {
 
         super(friendshipLevel);
         this.type = type;
+        this.name = type.getName();
+        this.position = new Position(0,0); // TODO
         this.dialog = type.getDialog();
 
     }
