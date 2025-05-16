@@ -8,10 +8,12 @@ public class AnimalProduct  {
 
     private AnimalProducts type;
     private AnimalProductQuality quality;
+    private final Integer price;
 
     public AnimalProduct(AnimalProducts type, AnimalProductQuality quality) {
         this.type = type;
         this.quality = quality;
+        this.price = (int) Math.floor(type.getPrice() * quality.getPriceCoEfficient());
     }
 
     public AnimalProducts getType() {
