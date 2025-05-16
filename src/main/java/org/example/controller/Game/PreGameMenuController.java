@@ -170,19 +170,21 @@ public class PreGameMenuController {
         final String CYAN = "\u001B[36m";
         final String GREEN = "\u001B[32m";
         final String RED = "\u001B[31m";
+        final String BG_BLUE = "\u001B[44m";
+        final String BG_GREEN = "\u001B[42m";
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 MapTile tile = map[x][y];
                 switch (tile.getType()) {
                     case GROUND:
-                        sb.append(BLUE).append(".").append(RESET);
+                        sb.append(".");
                         break;
                     case TILLED_SOIL:
-                        sb.append(YELLOW).append("_").append(RESET);
+                        sb.append(YELLOW).append(".").append(RESET);
                         break;
                     case WATERED_SOIL:
-                        sb.append(CYAN).append("~").append(RESET);
+                        sb.append(BLUE).append(".").append(RESET);
                         break;
                     case PLANTED_SOIL:
                         if (tile.isWatered()) {
@@ -192,7 +194,7 @@ public class PreGameMenuController {
                         }
                         break;
                     case WATER:
-                        sb.append("W");
+                        sb.append(BG_BLUE).append("W").append(RESET);//////////////////////////////
                         break;
                     case CABIN:
                         sb.append("C");
@@ -201,19 +203,19 @@ public class PreGameMenuController {
                         sb.append("G");
                         break;
                     case BARN: // TODO
-                        sb.append("B");
+                        sb.append(YELLOW).append("B").append(RESET);
                         break;
                     case QUARRY:
                         sb.append("Q");
                         break;
                     case TREE:
-                        sb.append("T");
+                        sb.append(GREEN).append("T").append(RESET);
                         break;
                     case STONE:
-                        sb.append("S");
+                        sb.append(YELLOW).append("S").append(RESET);
                         break;
                     case FORAGEABLE:
-                        sb.append("F");
+                        sb.append(GREEN).append("F").append(RESET);
                         break;
                     case PATH:
                         sb.append("#");

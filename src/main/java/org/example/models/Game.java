@@ -128,15 +128,137 @@ public class Game {
 
     }
 
+    public void helpReadingMap(){
+        final String RESET = "\u001B[0m";
+        final String BLUE = "\u001B[34m";
+        final String YELLOW = "\u001B[33m";
+        final String CYAN = "\u001B[36m";
+        final String GREEN = "\u001B[32m";
+        final String RED = "\u001B[31m";
+        final String BG_BLUE = "\u001B[44m";
+        final String BG_GREEN = "\u001B[42m";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Ground is shown by: ").append(".").append("\n");
+        sb.append("Tilled soil is shown by: ").append(YELLOW).append(".").append(RESET).append("\n");
+        sb.append("Watered soil is shown by: ").append(BLUE).append(".").append(RESET).append("\n");
+        sb.append("Planted and watered soil is shown by: ").append(GREEN).append("w").append(RESET).append("\n");
+        sb.append("Planted but not watered soil is shown by: ").append(RED).append("p").append(RESET).append("\n");
+        sb.append("Water is shown by: ").append(BG_BLUE).append("W").append(RESET).append("\n");
+        sb.append("Cabin is shown by: ").append("C").append("\n");
+        sb.append("Greenhouse is shown by: ").append("G").append("\n");
+        sb.append("Barn is shown by: ").append(YELLOW).append("B").append(RESET).append("\n");
+        sb.append("Quarry is shown by: ").append("Q").append("\n");
+        sb.append("Tree is shown by: ").append(GREEN).append("T").append(RESET).append("\n");
+        sb.append("Stone is shown by: ").append(YELLOW).append("S").append(RESET).append("\n");
+        sb.append("Foragable is shown by: ").append(GREEN).append("F").append(RESET).append("\n");
+        sb.append("Path is shown by: ").append("#").append("\n");
+        sb.append("Unknown component is shown by: ").append("?").append("\n");
+        System.out.println(sb);
+
+    }
+
     public void setPlayerMapPosition(Position playerMapPosition) {
         this.playerMapPosition = playerMapPosition;
     }
 
     public void handleUpdateMap(){
-        int x = currentTurnPlayer.getCurrentPosition().getX();
-        int y = currentTurnPlayer.getCurrentPosition().getY();
-        
+
+        ArrayList<int[]> offsets = new ArrayList<>();
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+        offsets.add(new int[]{0, 60});
+        offsets.add(new int[]{60, 60});
+
+    for (int i = 0; i < farms.size() && i < offsets.size(); i++) {
+        Farm farm = farms.get(i);
+        // Assuming each Farm has a method getMap() returning a 50x50 MapTile[][]
+        MapTile[][] farmMap = farm.getTiles();
+        int offsetX = offsets.get(i)[0];
+        int offsetY = offsets.get(i)[1];
+
+        for (int x = 0; x < 50; x++) {
+            for (int y = 0; y < 50; y++) {
+                // Overwrite the full map's tile with the farm's corresponding tile
+                map[offsetX + x][offsetY + y] = farmMap[x][y];
+            }
+        }
+
+    } 
     }
+
+    public void showMapPartly(String input){
+        String[] parts = input.split("\\s+");
+        int x = Integer.parseInt(parts[3]);
+        int y = Integer.parseInt(parts[4]);
+        int size = Integer.parseInt(parts[6]);
+        StringBuilder sb = new StringBuilder();
+
+        final String RESET = "\u001B[0m";
+        final String BLUE = "\u001B[34m";
+        final String YELLOW = "\u001B[33m";
+        final String CYAN = "\u001B[36m";
+        final String GREEN = "\u001B[32m";
+        final String RED = "\u001B[31m";
+        final String BG_BLUE = "\u001B[44m";
+        final String BG_GREEN = "\u001B[42m";
+
+        for (int j = y; j < y + size; j++) {
+            for (int i = x; i < x + size; i++) {
+                MapTile tile = map[i][j];
+                switch (tile.getType()) {
+                    case GROUND:
+                        sb.append(".");
+                        break;
+                    case TILLED_SOIL:
+                        sb.append(YELLOW).append(".").append(RESET);
+                        break;
+                    case WATERED_SOIL:
+                        sb.append(BLUE).append(".").append(RESET);
+                        break;
+                    case PLANTED_SOIL:
+                        if (tile.isWatered()) {
+                            sb.append(GREEN).append("w").append(RESET);
+                        } else {
+                            sb.append(RED).append("p").append(RESET);
+                        }
+                        break;
+                    case WATER:
+                        sb.append(BG_BLUE).append("W").append(RESET);//////////////////////////////
+                        break;
+                    case CABIN:
+                        sb.append("C");
+                        break;
+                    case GREENHOUSE:
+                        sb.append("G");
+                        break;
+                    case BARN: // TODO
+                        sb.append(YELLOW).append("B").append(RESET);
+                        break;
+                    case QUARRY:
+                        sb.append("Q");
+                        break;
+                    case TREE:
+                        sb.append(GREEN).append("T").append(RESET);
+                        break;
+                    case STONE:
+                        sb.append(YELLOW).append("S").append(RESET);
+                        break;
+                    case FORAGEABLE:
+                        sb.append(GREEN).append("F").append(RESET);
+                        break;
+                    case PATH:
+                        sb.append("#");
+                        break;
+                    default:
+                        sb.append("?");
+                }
+            }
+            sb.append("\n");
+        }
+
+        System.out.println(sb);
+}
 
 
 

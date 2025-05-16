@@ -32,6 +32,16 @@ public class Game implements AppMenu {
             System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername());
 
         }
+        else if( GameCommands.WALK.getMatcher(input) != null){
+            App.dataManager.getCurrentGame().handleWalk(input);
+        }
+        else if( GameCommands.PRINT_MAP.getMatcher(input) != null){
+            App.dataManager.getCurrentGame().showMapPartly(input);
+        }
+        else if( GameCommands.HELP_READING_MAP.getMatcher(input) != null){
+            App.dataManager.getCurrentGame().helpReadingMap();
+        }
+        
 
 
 

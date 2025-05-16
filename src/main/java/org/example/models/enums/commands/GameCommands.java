@@ -11,8 +11,11 @@ public enum GameCommands implements Command{
 
     NEXT_TURN("\\s*next\\s+turn\\s*"),
     EXIT_GAME("\\s*exit\\s+game\\s*"),
-    WALK("\\s*walk\\s+-l\\s+(?<x>\\S+)\\s+(?<y>\\S+)\\s*"),
+    WALK("\\s*walk\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s*"),
     SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*"),
+    PRINT_MAP("^\\s*print\\s+map\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s+-s\\s+(?<size>\\d+)\\s*$"),
+    HELP_READING_MAP("\\s*help\\s+reading\\s+map\\s*"),
+
 
     ///  COAMMND HAYE TIME&DATE
 

@@ -53,6 +53,7 @@ public class GameController {
         updateFriendshipWithAnimal();
 
         //foraging generation
+        
 
 
     }
