@@ -137,6 +137,9 @@ public class Player extends User {
     public void setCurrentPosition(Position currentPosition) {
         this.currentPosition = currentPosition;
     }
+    public void setCurrentPosition(int x, int y) {
+        this.currentPosition = new Position(x, y);
+    }
 
 
     public Position getCurrentPosition() {

@@ -18,7 +18,9 @@ import org.example.models.enums.types.NPCType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import static java.util.Arrays.asList;
 
@@ -32,6 +34,8 @@ public class Game {
     private MapTile[][] map;
     private User gameLoader;
     private Player currentTurnPlayer;
+    private Farm currentFarm;
+    private Position playerMapPosition;
     private Player creator;
     private Time time;
     private Weather weather;
@@ -75,6 +79,111 @@ public class Game {
         return null;
     }
 
+    public void setCurrentFarm(Player currentPlayer){
+        if(playerFarms != null){
+        this.currentFarm = playerFarms.get(currentPlayer);
+        }
+    }
+
+    public void handleWalk(String input){
+        String[] parts = input.split("\\s+");
+        int x = Integer.parseInt(parts[2]);
+        int y = Integer.parseInt(parts[3]);
+        WalkResult walkResult = findShortestPath(map, 
+        currentTurnPlayer.getCurrentPosition().getX(), 
+        currentTurnPlayer.getCurrentPosition().getY(), x, y, map.length, map[0].length);
+        if(walkResult.getDistance() == -1){
+            System.out.println("Cannot reach this position.");
+        }
+        else{
+            //we have to ask and handle the energy part here,,,
+            //
+            //
+            //
+            //
+        if(players.indexOf(currentTurnPlayer) == 0 && x<50 && y<50){
+            setPlayerMapPosition(new Position(x, y));
+            currentTurnPlayer.setCurrentPosition(x, y);
+        }
+        else if(players.indexOf(currentTurnPlayer) == 1 && x<110 && x >= 60 && y<50){
+            setPlayerMapPosition(new Position(x, y));
+            currentTurnPlayer.setCurrentPosition(x-60, y);
+        }
+        else if(players.indexOf(currentTurnPlayer) == 1 && y<110 && y >= 60 && x<50){
+            setPlayerMapPosition(new Position(x, y));
+            currentTurnPlayer.setCurrentPosition(x, y-60);
+        }
+        else if(players.indexOf(currentTurnPlayer) == 1 && y<110 && y >= 60 && x<110 && x >= 60){
+            setPlayerMapPosition(new Position(x, y));
+            currentTurnPlayer.setCurrentPosition(x-60, y-60);
+        }
+        else if(y>=110 && x>=110){
+            System.out.println("The position you entered is out of bounds.");
+        }
+        else{
+            setPlayerMapPosition(new Position(x, y));
+        }
+
+    }
+
+    }
+
+    public void setPlayerMapPosition(Position playerMapPosition) {
+        this.playerMapPosition = playerMapPosition;
+    }
+
+    public void handleUpdateMap(){
+        int x = currentTurnPlayer.getCurrentPosition().getX();
+        int y = currentTurnPlayer.getCurrentPosition().getY();
+        
+    }
+
+
+
+
+    public static WalkResult findShortestPath(MapTile[][] map, int startX,
+    int startY, int endX, int endY, int height, int width) {
+
+        int[] dx = {0, 0, -1, 1};    // UP, DOWN, LEFT, RIGHT
+        int[] dy = {-1, 1, 0, 0};
+
+        int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
+
+
+        boolean[][][] visited = new boolean[width][height][4]; // visited[x][y][direction]
+
+        Queue<WalkPoint> queue = new LinkedList<>();
+
+        // Try all 4 initial directions
+        for (int d = 0; d < 4; d++) {
+            queue.offer(new WalkPoint(startX, startY, d, 0, 0));
+        }
+
+        while (!queue.isEmpty()) {
+            WalkPoint p = queue.poll();
+
+            if (p.x == endX && p.y == endY) {
+                return new WalkResult(p.dist, p.turns);
+            }
+
+            for (int d = 0; d < 4; d++) {
+                int nx = p.x + dx[d];
+                int ny = p.y + dy[d];
+
+                if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+                if (visited[nx][ny][d]) continue;
+
+                if (!map[nx][ny].getType().isWalkable()) continue;
+
+                visited[nx][ny][d] = true;
+                int newTurns = (p.dir == d) ? p.turns : p.turns + 1;
+                queue.offer(new WalkPoint(nx, ny, d, newTurns, p.dist + 1));
+            }
+        }
+
+        return new WalkResult(-1, -1); // no path
+    }
+
     public User getGameLoader() {
         return gameLoader;
     }
@@ -89,6 +198,10 @@ public class Game {
 
     public void setFutureWeather(Weather futureWeather) {
         this.futureWeather = futureWeather;
+    }
+
+    public void updateShowMap(){
+        
     }
 
     public void createFullMap() {
@@ -257,6 +370,7 @@ public void addShops(){
 
     public void setCurrentTurnPlayer(Player player) {
         this.currentTurnPlayer = player;
+        setCurrentFarm(player);//this is new
     }
 
 
@@ -268,10 +382,7 @@ public void addShops(){
         this.creator = creator;
     }
 
-    /**
-     * Adds a farm to the game
-     * @param farm The farm to add
-     */
+    
     public void addFarm(Farm farm) {
         if (farms == null) {
             farms = new ArrayList<>();

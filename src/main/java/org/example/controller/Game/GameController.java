@@ -51,6 +51,8 @@ public class GameController {
         updateWeather();
         updateFriendshipWithAnimal();
 
+        //foraging generation
+
 
     }
 
