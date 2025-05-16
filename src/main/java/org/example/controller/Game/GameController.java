@@ -34,235 +34,6 @@ public class GameController {
 
     }
 
-    ///  TOOLS
-
-    private boolean isInBlacksmith(){           ///  TODO
-
-        return true;
-
-    }
-
-    public Tool getToolByName(String name) {
-
-        for (Tool tool : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools()) {
-            if (tool.getName().equalsIgnoreCase(name)) {
-                return tool;
-            }
-        }
-
-        return null;
-
-    }
-
-    public Result showCurrentTool() {
-
-        Tool playerCurrentTool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
-
-        if (playerCurrentTool == null) {
-
-            return new Result(false, "You haven't equipped any tool yet.");
-        }
-
-        return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
-
-    }
-
-    public Result showAvailableTools() {
-
-        ArrayList<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
-
-        if ( tools.isEmpty() ) {
-
-            return new Result(false, "You don't have any tools.");
-
-        }
-
-        StringBuilder sb = new StringBuilder("Available tools are :\n");
-
-        for (Tool tool : tools) {
-
-            sb.append("- ").append(tool.getName()).append("\n");
-
-        }
-
-        return new Result(true, sb.toString().trim());
-
-    }
-
-    public Result equipTool(String toolName) {
-
-        Tool newTool = getToolByName(toolName);
-
-        if (newTool == null) {
-            return new Result(false, "You don't have this tool");
-        }
-
-        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setCurrentTool(newTool);
-        return new Result(false, "You are now equipped with : " + newTool.getName());
-
-    }
-
-    private Position neighborTile(Direction direction) {
-        return null;
-    }
-    private boolean canToolBeUsedHere(Position position, Tool tool) {
-        return false;
-    }
-
-
-    public Result useTool(String directionString) {
-
-        Direction direction = Direction.getDirectionByDisplayName(directionString);
-
-        if (direction == null) {
-            return new Result(false, "Invalid direction: " + directionString);
-        }
-
-        Position position = neighborTile(direction);
-
-        Tool tool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
-
-        if (tool == null) {
-            return new Result(false, "You have no tool equipped.");
-        }
-
-        if (canToolBeUsedHere(position, tool)) {
-
-            tool.useTool(direction);
-            return new Result(true, "Used " + tool.getItemName() + " in direction " + directionString);
-
-        }
-
-        return new Result(false, "You can't use that tool in that direction.");
-
-
-    }
-
-
-    public Result upgradeTool(String toolName) {
-
-        if ( !isInBlacksmith() ) {      ///  TODO: FUNC BLACK SMITH OK SHE
-
-            return new Result(false, "You should be inside the Blacksmith to upgrade tools.");
-
-        }
-
-        Tool toolToUpgrade = getToolByName(toolName);
-
-        if ( toolToUpgrade == null ) {
-
-            return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
-
-        }
-
-        if ( !toolToUpgrade.canUpgrade() ) {
-
-            return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
-
-        }
-
-        //we should actually upgrade the tool here
-
-        toolToUpgrade.upgrade();
-        //other things should be checked
-        return new Result(true, "You successfully upgraded "+toolName);
-
-    }
-    /// COOKING
-    public String handleRefrigerator(Matcher matcher) {
-        return " ";
-    }
-
-    public String showCookingRecipes() {
-        StringBuilder sb = new StringBuilder("Available cooking recipes:\n");
-
-        for (Food food : Food.values()) {
-            sb.append("- ").append(food.getName()).append(" | Ingredients: ");
-            boolean first = true;
-
-            for (Map.Entry<IngredientType, Integer> entry : food.getIngredients().entrySet()) {
-                if (!first) {
-                    sb.append(", ");
-                }
-                sb.append(entry.getValue()).append(" ").append(entry.getKey().getName());
-                first = false;
-                //dige avali nist
-            }
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
-
-
-    public String prepareRecipe(Matcher matcher) {
-        if (matcher == null || !matcher.matches()) {
-            return "Invalid recipe command format.";
-        }
-
-        String foodName = matcher.group("foodName");
-        Result result = cook(foodName);
-        return result.message();
-    }
-    public Result cook(String foodName) {
-        return new Result(true,"You are now cooking " + foodName);
-        //actually implement the logic for cooking
-    }
-
-
-
-
-
-
-    public String eatFood(Matcher matcher) {
-       Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
-        String foodName = matcher.group("foodName");
-        Food foodToEat = null;
-        for(Food food : Food.values()){
-            if ( foodName.equals(food.getName()) ) {
-                foodToEat = food;
-                break;
-            }
-        }
-        if ( foodToEat == null ) {
-            return "You don't have a food called " + foodName+ " to eat.";
-        }
-        Item foodItem = new FoodItem(foodToEat);
-        boolean removed  = false;
-        if (player.getInventory().getItemCount(foodItem) > 0) {
-            player.getInventory().removeFromInventory(foodItem, 1);
-            removed = true;
-        }
-        if ( !removed ) {
-            return "You don't have any " + foodName+ "to eat.";
-        }
-        //here energy of the player should be increased based on the food energy
-        player.increaseEnergy(foodToEat.getEnergy());
-        return "You have eaten "+foodToEat.getName();
-    }
-    // crafting
-    public String showCraftingRecipes() {
-        StringBuilder sb = new StringBuilder("Available crafting recipes:\n");
-
-        for (Craft craft : Craft.values()) {
-            sb.append("- ").append(craft.getName()).append(" | Ingredients: ");
-            boolean first = true;
-
-            for (Map.Entry<IngredientType, Integer> entry : craft.getIngredients().entrySet()) {
-                if (!first) {
-                    sb.append(", ");
-                }
-                sb.append(entry.getValue()).append(" ").append(entry.getKey().getName());
-                first = false;
-            }
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
-
-
-
 
     ///  TURN AND UPDATING GAME
 
@@ -441,6 +212,235 @@ public class GameController {
         return currentGame.getPlayers().get(nextIndex);
 
     }
+
+
+
+    ///     ----------------->  TOOLS
+
+    private boolean isInBlacksmith(){           ///  TODO
+
+        return true;
+
+    }
+
+    public Tool getToolByName(String name) {
+
+        for (Tool tool : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools()) {
+            if (tool.getName().equalsIgnoreCase(name)) {
+                return tool;
+            }
+        }
+
+        return null;
+
+    }
+
+    public Result showCurrentTool() {
+
+        Tool playerCurrentTool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
+
+        if (playerCurrentTool == null) {
+
+            return new Result(false, "You haven't equipped any tool yet.");
+        }
+
+        return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
+
+    }
+
+    public Result showAvailableTools() {
+
+        ArrayList<Tool> tools = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getTools();
+
+        if ( tools.isEmpty() ) {
+
+            return new Result(false, "You don't have any tools.");
+
+        }
+
+        StringBuilder sb = new StringBuilder("Available tools are :\n");
+
+        for (Tool tool : tools) {
+
+            sb.append("- ").append(tool.getName()).append("\n");
+
+        }
+
+        return new Result(true, sb.toString().trim());
+
+    }
+
+    public Result equipTool(String toolName) {
+
+        Tool newTool = getToolByName(toolName);
+
+        if (newTool == null) {
+            return new Result(false, "You don't have this tool");
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setCurrentTool(newTool);
+        return new Result(false, "You are now equipped with : " + newTool.getName());
+
+    }
+
+    private Position neighborTile(Direction direction) {
+        return null;
+    }
+
+    private boolean canToolBeUsedHere(Position position, Tool tool) {
+        return false;
+    }
+
+    public Result useTool(String directionString) {
+
+        Direction direction = Direction.getDirectionByDisplayName(directionString);
+
+        if (direction == null) {
+            return new Result(false, "Invalid direction: " + directionString);
+        }
+
+        Position position = neighborTile(direction);
+
+        Tool tool = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentTool();
+
+        if (tool == null) {
+            return new Result(false, "You have no tool equipped.");
+        }
+
+        if (canToolBeUsedHere(position, tool)) {
+
+            tool.useTool(direction);
+            return new Result(true, "Used " + tool.getItemName() + " in direction " + directionString);
+
+        }
+
+        return new Result(false, "You can't use that tool in that direction.");
+
+
+    }
+
+    public Result upgradeTool(String toolName) {
+
+        if ( !isInBlacksmith() ) {      ///  TODO: FUNC BLACK SMITH OK SHE
+
+            return new Result(false, "You should be inside the Blacksmith to upgrade tools.");
+
+        }
+
+        Tool toolToUpgrade = getToolByName(toolName);
+
+        if ( toolToUpgrade == null ) {
+
+            return new Result(false, "You don't have the tool '" + toolName + "' to upgrade.");
+
+        }
+
+        if ( !toolToUpgrade.canUpgrade() ) {
+
+            return new Result(false, "The tool '" + toolName + "' cannot be upgraded any further.");
+
+        }
+
+        //we should actually upgrade the tool here
+
+        toolToUpgrade.upgrade();
+        //other things should be checked
+        return new Result(true, "You successfully upgraded "+toolName);
+
+    }
+
+
+    ///     ----------------->  COOKING
+
+    public String handleRefrigerator(Matcher matcher) {
+        return " ";
+    }
+
+    public String showCookingRecipes() {
+        StringBuilder sb = new StringBuilder("Available cooking recipes:\n");
+
+        for (Food food : Food.values()) {
+            sb.append("- ").append(food.getName()).append(" | Ingredients: ");
+            boolean first = true;
+
+            for (Map.Entry<IngredientType, Integer> entry : food.getIngredients().entrySet()) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(entry.getValue()).append(" ").append(entry.getKey().getName());
+                first = false;
+                //dige avali nist
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public String prepareRecipe(Matcher matcher) {
+        if (matcher == null || !matcher.matches()) {
+            return "Invalid recipe command format.";
+        }
+
+        String foodName = matcher.group("foodName");
+        Result result = cook(foodName);
+        return result.message();
+    }
+
+    public Result cook(String foodName) {
+        return new Result(true,"You are now cooking " + foodName);
+        //actually implement the logic for cooking
+    }
+
+    public String eatFood(Matcher matcher) {
+       Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        String foodName = matcher.group("foodName");
+        Food foodToEat = null;
+        for(Food food : Food.values()){
+            if ( foodName.equals(food.getName()) ) {
+                foodToEat = food;
+                break;
+            }
+        }
+        if ( foodToEat == null ) {
+            return "You don't have a food called " + foodName+ " to eat.";
+        }
+        Item foodItem = new FoodItem(foodToEat);
+        boolean removed  = false;
+        if (player.getInventory().getItemCount(foodItem) > 0) {
+            player.getInventory().removeFromInventory(foodItem, 1);
+            removed = true;
+        }
+        if ( !removed ) {
+            return "You don't have any " + foodName+ "to eat.";
+        }
+        //here energy of the player should be increased based on the food energy
+        player.increaseEnergy(foodToEat.getEnergy());
+        return "You have eaten "+foodToEat.getName();
+    }
+
+
+    ///     ----------------->  Crafting
+
+    public String showCraftingRecipes() {
+        StringBuilder sb = new StringBuilder("Available crafting recipes:\n");
+
+        for (Craft craft : Craft.values()) {
+            sb.append("- ").append(craft.getName()).append(" | Ingredients: ");
+            boolean first = true;
+
+            for (Map.Entry<IngredientType, Integer> entry : craft.getIngredients().entrySet()) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(entry.getValue()).append(" ").append(entry.getKey().getName());
+                first = false;
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
 
 
     ///      ---------------------> TIME & DATE
