@@ -31,7 +31,7 @@ public class GameController {
         App.dataManager.setCurrentGame(null);
         App.dataManager.setCurrentMenu(Menu.PRE_GAME_MENU);
 
-        return new Result(true,"You have successfully exited the game.");
+        return new Result(true,"You have successfully exited the game.You are now in Pregame Menu.");
 
     }
 

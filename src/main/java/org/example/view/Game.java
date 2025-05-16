@@ -3,6 +3,7 @@ package org.example.view;
 
 import org.example.controller.Game.GameController;
 import org.example.models.App;
+import org.example.models.Player;
 import org.example.models.enums.commands.GameCommands;
 
 
