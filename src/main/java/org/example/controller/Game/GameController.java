@@ -12,6 +12,7 @@ import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 import org.example.models.inventory.Backpack;
+import org.example.models.inventory.Inventory;
 import org.example.models.tools.*;
 
 import java.util.*;
@@ -442,6 +443,28 @@ public class GameController {
 
         return sb.toString();
     }
+    public String cheatAddItem(Matcher matcher) {
+        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Inventory inventory = player.getInventory();
+
+        String itemName = matcher.group("itemName").trim();
+        int count = Integer.parseInt(matcher.group("count"));
+
+        Craft craft = Craft.getByName(itemName);
+        if (craft == null) {
+            return "You don't have an item called '" + itemName + "' to add.";
+        }
+
+        if (inventory.getRemainingCapacity() < count) {
+            return "Not enough space in inventory.";
+        }
+
+            inventory.CheatAddToInventory(craft, count);
+
+        return "Successfully added " + count + " x " + itemName + " to your inventory.";
+    }
+
+
 
 
 

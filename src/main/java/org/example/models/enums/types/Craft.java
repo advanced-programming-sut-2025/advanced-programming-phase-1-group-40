@@ -1,8 +1,10 @@
 package org.example.models.enums.types;
 
+import org.example.models.Item;
+
 import java.util.HashMap;
 
-public enum Craft {
+public enum Craft implements Item {
     CHERRY_BOMB("Cherry Bomb", createIngredientsMap(IngredientType.COPPER_ORE, 4, IngredientType.COAL, 1), "Mining Level 1", 50),
     BOMB("Bomb", createIngredientsMap(IngredientType.IRON_ORE, 4, IngredientType.COAL, 1), "Mining Level 2", 50),
     MEGA_BOMB("Mega Bomb", createIngredientsMap(IngredientType.GOLD_ORE, 4, IngredientType.COAL, 1), "Mining Level 3", 50),
@@ -40,6 +42,12 @@ public enum Craft {
     public String getName() {
         return name;
     }
+    public static Craft getByName(String name) {
+        for (Craft c : values()) {
+            if (c.name.equalsIgnoreCase(name)) return c;
+        }
+        return null;
+    }
 
     public HashMap<IngredientType, Integer> getIngredients() {
         return ingredients;
@@ -61,5 +69,10 @@ public enum Craft {
             }
         }
         return map;
+    }
+
+    @Override
+    public String getItemName() {
+        return "";
     }
 }

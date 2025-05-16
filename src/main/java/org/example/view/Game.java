@@ -54,6 +54,10 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_CRAFTING_RECIPES.getMatcher(input) != null) {
             System.out.println(gameController.showCraftingRecipes());
         }
+        else if (GameCommands.CHEAT_ADD_ITEM.getMatcher(input) != null) {
+            System.out.println(gameController.cheatAddItem(GameCommands.CHEAT_ADD_ITEM.getMatcher(input)));
+        }
+
 
 
         ///  TIME & DATE
