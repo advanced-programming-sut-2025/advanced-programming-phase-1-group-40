@@ -855,20 +855,21 @@ public class GameController {
 
     }
 
-//    public Result sellAnimal(Matcher input){
-//
-//        String animalName = input.group("animal");
-//
-//        Animal animal = findAnimalByName(animalName);
-//
-//        if ( animal == null ){
-//            return new Result(false,"Animal not found");
-//        }
-//
-//        App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).removeAnimal(animal);
-//        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setGold(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold()+calculateAnimalPrice(animal));
-//
-//    }
+    public Result sellAnimal(Matcher input){
+
+        String animalName = input.group("animal");
+
+        Animal animal = findAnimalByName(animalName);
+
+        if ( animal == null ){
+            return new Result(false,"Animal not found");
+        }
+
+        App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).removeAnimal(animal);
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setGold(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold()+calculateAnimalPrice(animal));
+        return new Result(true,"You sold " + animalName);
+
+    }
 
     private int calculateAnimalPrice(Animal animal){
 
@@ -876,6 +877,65 @@ public class GameController {
 
     }
 
+    public void showUncollectedProducts(){
+
+        System.out.println("Uncollected Products: ");
+
+        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces() ){
+
+            for ( Animal animal : animalLivingSpace.getAnimals() ){
+
+                System.out.println("    " + animal.getName() + "(" + animal.getAnimalType() + ")");
+
+                for ( AnimalProduct animalProduct : animal.getProducts() ){
+
+                    System.out.println("        " + animalProduct.getType().getDisplayName());
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public Result collectProducts(Matcher input){
+
+        Animal animal = findAnimalByName(input.group("name"));
+
+        if ( animal == null ){
+            return new Result(false,"Animal not found");
+        }
+
+        if (    animal.getAnimalType().equals(AnimalType.Cow) ||
+                animal.getAnimalType().equals(AnimalType.Goat) ||
+                animal.getAnimalType().equals(AnimalType.Sheep)
+        ){
+
+            if ( ! checkIfPlayerHasRequiredTool() ){
+                return new Result(false,"You don't have required tool to collect " + animal.getAnimalType().getName() + "'s products!");
+            }
+
+        }
+
+        if ( animal.getProducts().isEmpty() ){
+            return new Result(false,"There is no product to collect");
+        }
+
+        for ( AnimalProduct animalProduct : animal.getProducts() ){
+
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().addToInventory(animalProduct,1);
+            System.out.println(animalProduct.getType().getDisplayName()+ " collected and added to Inventory.");
+
+        }
+
+        return new Result(true,"Collected " + animal.getProducts().size() + " products");
+
+    }
+
+    private boolean checkIfPlayerHasRequiredTool(){             ///  TODO
+        return true;
+    }
 
     ///   -----------------------> FISH
 

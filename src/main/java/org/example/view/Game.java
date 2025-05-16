@@ -225,7 +225,7 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_UNCOLLECTED_PRODUCTS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            gameController.showUncollectedProducts();
 
 
         }
@@ -239,7 +239,7 @@ public class Game implements AppMenu {
         else if (GameCommands.SELL_ANIMAL.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.sellAnimal(GameCommands.SELL_ANIMAL.getMatcher(input)).message());
 
 
         }

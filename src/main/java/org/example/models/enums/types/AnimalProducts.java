@@ -4,29 +4,35 @@ package org.example.models.enums.types;
 public enum AnimalProducts {
 
 
-    EGG(50),
-    LARGE_EGG(95),
-    DUCK_EGG(95),
-    DUCK_FEATHER(250),
-    RABBIT_WOOL(340),
-    RABBIT_LEG(565),
-    DINOSAUR_EGG(350),
-    COW_MILK(125),
-    LARGE_COW_MILK(190),
-    GOAT_MILK(225),
-    LARGE_GOAT_MILK(345),
-    WOOL(340),
-    TRUFFLE(625);
+    EGG(50,"Egg"),
+    LARGE_EGG(95,"Large Egg"),
+    DUCK_EGG(95,"Duck Egg"),
+    DUCK_FEATHER(250,"Duck Feather"),
+    RABBIT_WOOL(340,"Rabbit wool"),
+    RABBIT_LEG(565,"Rabbit leg"),
+    DINOSAUR_EGG(350,"Dinosaur Egg"),
+    COW_MILK(125,"Cow Milk"),
+    LARGE_COW_MILK(190,"Large Cow Milk"),
+    GOAT_MILK(225,"Goat Milk"),
+    LARGE_GOAT_MILK(345,"Large Goat Milk"),
+    WOOL(340,"Wool"),
+    TRUFFLE(625,"Truffle");
 
 
     private final int price;
+    private final String displayName;
 
-    AnimalProducts(int price) {
+    AnimalProducts(int price,String displayName) {
         this.price = price;
+        this.displayName = displayName;
     }
 
     public int getPrice() {
         return price;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
 }

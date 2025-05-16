@@ -4,7 +4,7 @@ import org.example.models.Item;
 import org.example.models.enums.types.*;
 import org.example.models.enums.*;
 
-public class AnimalProduct  {
+public class AnimalProduct implements Item {
 
     private AnimalProducts type;
     private AnimalProductQuality quality;
@@ -30,5 +30,10 @@ public class AnimalProduct  {
 
     public void setQuality(AnimalProductQuality quality) {
         this.quality = quality;
+    }
+
+    @Override
+    public String getItemName() {
+        return "";
     }
 }
