@@ -966,18 +966,41 @@ public class GameController {
     }
 
     public Result meetNPC(String npcName) {
+
         Game game = getCurrentGame();
 
         NPC npc = game.getNPCByName(npcName);
-        if (npc == null) {
+        if ( npc == null ) {
+
             return new Result(false, "NPC not found.");
+
         }
 
-        if (closeTo(npc.getPosition(), App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition())) {
-            return new Result(false, "You must be close to the Npc in order to talk to them.");
+        // TODO
+//        if ( closeTo(npc.getPosition(), App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition()) ) {
+//
+//            return new Result(false, "You must be close to the Npc in order to talk to them.");
+//
+//        }
+
+        Situation situation = new Situation(
+
+                                            App.dataManager.getCurrentGame().getTime().getHour(),
+
+                                            App.dataManager.getCurrentGame().getTime().getSeason(),
+
+                                            App.dataManager.getCurrentGame().getWeather()
+
+                                            );
+
+        String dialog = npc.getType().getDialogBySituation(situation);
+
+        if (dialog == null) {
+            return new Result(false, npcName + " has no dialog right now.");
         }
 
-        return null;
+        return new Result(true, npcName + ": " + dialog);
+
     }
 
     public Result giftNPC(String npcName, String itemName) {
