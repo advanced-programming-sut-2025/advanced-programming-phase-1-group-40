@@ -22,7 +22,7 @@ public class Game {
     private ArrayList<Farm> farms;
     private HashMap<Player, Farm> playerFarms;
     private MapTile[][] map;
-
+    private User gameLoader;
     private Player currentTurnPlayer;
     private Player creator;
     private Time time;

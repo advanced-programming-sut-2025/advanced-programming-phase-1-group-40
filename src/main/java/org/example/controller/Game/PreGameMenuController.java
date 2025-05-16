@@ -8,6 +8,7 @@ import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
 
 import java.util.*;
+import java.util.regex.Matcher;
 
 
 public class PreGameMenuController {
@@ -77,8 +78,38 @@ public class PreGameMenuController {
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
-       // App.dataManager.setCurrentMenu(Menu.GAME);
+
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
+    }
+
+    public Result loadGame(){
+
+        Game game = getGameForCurrentUser();
+
+        if ( game == null ) {
+            return new Result(false, "No game found.");
+        }
+
+        App.dataManager.setCurrentGame(game);
+        App.dataManager.setCurrentMenu(Menu.GAME);
+        return new Result(true, "Game loaded successfully.");
+
+    }
+
+    private Game getGameForCurrentUser(){
+        for ( Game game : App.dataManager.getGames() ) {
+
+            for ( Player player : game.getPlayers() ) {
+
+                if ( player.getUsername().equals(App.dataManager.getCurrentUser().getUsername()) ) {
+                    return game;
+                }
+
+            }
+
+        }
+
+        return null;
     }
 
     private Result handleNewGame(Scanner scanner) {
@@ -268,51 +299,30 @@ public class PreGameMenuController {
     /**
      * Creates farms for all players based on their map selections
      */
-    // private void createFarmsForPlayers() {
-    //     FarmManager farmManager = FarmManager.getInstance();
+//    private void createFarmsForPlayers() {
+//        FarmManager farmManager = FarmManager.getInstance();
+//
+//        for (Player player : currentGame.getPlayers()) {
+//            //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
+//            Farm farm = farmManager.createFarmForUser(player, 0); // TODO
+//            currentGame.addFarm(farm);
+//
+//            // Set the player's current position to their farm's cabin
+//            if (farm.getCabin() != null) {
+//                player.setCurrentPosition(farm.getCabin().getPosition());
+//            }
+//        }
+//
+//        // Initialize game time
+//        currentGame.initializeTime();
+//
+//        // Set the first player as the current turn player
+//        currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
+//
+//        // Save the game state
+//        App.dataManager.saveGameData();
+//    }
 
-    //     for (Player player : currentGame.getPlayers()) {
-    //         //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
-    //         Farm farm = farmManager.createFarmForUser(player, 0); // TODO
-    //         currentGame.addFarm(farm);
-
-    //         // Set the player's current position to their farm's cabin
-    //         if (farm.getCabin() != null) {
-    //             player.setCurrentPosition(farm.getCabin().getPosition());
-    //         }
-    //     }
-
-    //     // Initialize game time
-    //     currentGame.initializeTime();
-
-    //     // Set the first player as the current turn player
-    //     currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
-
-    //     // Save the game state
-    //     App.dataManager.saveGameData();
-    // }
-
-
-    /**
-     * Loads a saved game
-     *
-     * @return Result indicating success or failure
-     */
-    public Result loadGame() {
-        Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
-
-        // Load the game and set it as current in DataManager
-        Game savedGame = App.dataManager.loadGameForPlayer(currentPlayer.getUsername());
-
-        if (savedGame == null) {
-            return new Result(false, "No saved game found for " + currentPlayer.getUsername());
-        }
-
-        // Set the current player in the game
-        savedGame.setCurrentTurnPlayer(currentPlayer);
-
-        return new Result(true, "Game loaded successfully. It's your turn!");
-    }
 
     /**
      * Exits the current game
