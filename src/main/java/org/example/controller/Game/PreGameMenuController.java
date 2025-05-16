@@ -268,29 +268,29 @@ public class PreGameMenuController {
     /**
      * Creates farms for all players based on their map selections
      */
-    private void createFarmsForPlayers() {
-        FarmManager farmManager = FarmManager.getInstance();
+    // private void createFarmsForPlayers() {
+    //     FarmManager farmManager = FarmManager.getInstance();
 
-        for (Player player : currentGame.getPlayers()) {
-            //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
-            Farm farm = farmManager.createFarmForUser(player, 0); // TODO
-            currentGame.addFarm(farm);
+    //     for (Player player : currentGame.getPlayers()) {
+    //         //int mapType = mapSelections.getOrDefault(player.getUsername(), 1); // Default to standard farm
+    //         Farm farm = farmManager.createFarmForUser(player, 0); // TODO
+    //         currentGame.addFarm(farm);
 
-            // Set the player's current position to their farm's cabin
-            if (farm.getCabin() != null) {
-                player.setCurrentPosition(farm.getCabin().getPosition());
-            }
-        }
+    //         // Set the player's current position to their farm's cabin
+    //         if (farm.getCabin() != null) {
+    //             player.setCurrentPosition(farm.getCabin().getPosition());
+    //         }
+    //     }
 
-        // Initialize game time
-        currentGame.initializeTime();
+    //     // Initialize game time
+    //     currentGame.initializeTime();
 
-        // Set the first player as the current turn player
-        currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
+    //     // Set the first player as the current turn player
+    //     currentGame.setCurrentTurnPlayer(currentGame.getPlayers().get(0));
 
-        // Save the game state
-        App.dataManager.saveGameData();
-    }
+    //     // Save the game state
+    //     App.dataManager.saveGameData();
+    // }
 
 
     /**
