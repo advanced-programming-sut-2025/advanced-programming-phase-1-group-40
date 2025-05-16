@@ -58,7 +58,6 @@ public enum Food {
     public HashMap<IngredientType, Integer> getIngredients() {
         return ingredients;
     }
-
     public int getEnergy() {
         return energy;
     }
@@ -75,7 +74,7 @@ public enum Food {
         return sellPrice;
     }
 
-    private static HashMap<IngredientType, Integer> createIngredientsMap(Object... items) {
+    static HashMap<IngredientType, Integer> createIngredientsMap(Object... items) {
         HashMap<IngredientType, Integer> map = new HashMap<>();
         for (int i = 0; i < items.length; i += 2) {
             if (items[i] instanceof IngredientType && items[i + 1] instanceof Integer) {

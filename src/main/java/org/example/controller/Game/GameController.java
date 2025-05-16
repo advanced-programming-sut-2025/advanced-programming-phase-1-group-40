@@ -172,7 +172,7 @@ public class GameController {
     }
 
     public String showCookingRecipes() {
-        StringBuilder sb = new StringBuilder("Available recipes:\n");
+        StringBuilder sb = new StringBuilder("Available cooking recipes:\n");
 
         for (Food food : Food.values()) {
             sb.append("- ").append(food.getName()).append(" | Ingredients: ");
@@ -209,6 +209,8 @@ public class GameController {
 
 
 
+
+
     public String eatFood(Matcher matcher) {
        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
         String foodName = matcher.group("foodName");
@@ -235,6 +237,27 @@ public class GameController {
         player.increaseEnergy(foodToEat.getEnergy());
         return "You have eaten "+foodToEat.getName();
     }
+    // crafting
+    public String showCraftingRecipes() {
+        StringBuilder sb = new StringBuilder("Available crafting recipes:\n");
+
+        for (Craft craft : Craft.values()) {
+            sb.append("- ").append(craft.getName()).append(" | Ingredients: ");
+            boolean first = true;
+
+            for (Map.Entry<IngredientType, Integer> entry : craft.getIngredients().entrySet()) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(entry.getValue()).append(" ").append(entry.getKey().getName());
+                first = false;
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
 
 
 
@@ -1132,20 +1155,20 @@ public class GameController {
         return new Result(true, "You fainted and woke up the next day with 150 energy.");
     }
 
-    public Result showLearntCookingRecipes() {
-        String learntRecipes = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getStringLearntCookingRecipes();
-        return new Result(true, learntRecipes);
-    }
+//    public Result showLearntCookingRecipes() {
+//        String learntRecipes = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getStringLearntCookingRecipes();
+//        return new Result(true, learntRecipes);
+//    }
 
-    public Result learnNewRecipe() {
+//    public Result learnNewRecipe() {
+//
+//        return null;
+//    }
 
-        return null;
-    }
-
-    public Result showLearntCraftRecipes() {
-        String learntRecipes = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getStringLearntCraftRecipes();
-        return new Result(true, learntRecipes);
-    }
+//    public Result showLearntCraftRecipes() {
+//        String learntRecipes = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getStringLearntCraftRecipes();
+//        return new Result(true, learntRecipes);
+//    }
 
 
     public Result inventoryShow() {

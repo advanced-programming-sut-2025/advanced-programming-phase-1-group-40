@@ -45,8 +45,10 @@ public class Game implements AppMenu {
         else if (GameCommands.EAT_FOOD.getMatcher(input) != null) {
             System.out.println(gameController.eatFood(GameCommands.EAT_FOOD.getMatcher(input)));
         }
-
-
+        /// CRAFTING
+        else if (GameCommands.SHOW_CRAFTING_RECIPES.getMatcher(input) != null) {
+            System.out.println(gameController.showCraftingRecipes());
+        }
 
 
         ///  TIME & DATE
@@ -124,7 +126,6 @@ public class Game implements AppMenu {
             System.out.println(gameController.cheatSetWeather(GameCommands.CHEAT_WEATHER_SET.getMatcher(input)).message());
 
         }
-        /// TOOLS
         /// TOOLS
         else if (GameCommands.TOOLS_EQUIP.getMatcher(input) != null) {
             String toolName = GameCommands.TOOLS_EQUIP.getMatcher(input).group("toolName");
