@@ -242,11 +242,11 @@ public class MapBuilder {
                     case STONE:
                         farm.addForagingMineral(position, tile.getStoneType());
                         break;
-                    case FORAGEABLE:
-                        // if (tile.getForageableItem() instanceof ForagingCrop) {
-                        //     farm.addForageable(position, tile.get);
-                        // }
-                        break;
+                    // case FORAGEABLE:
+                    //     if (tile.getForageableItem() instanceof ForagingCrop) {
+                    //         farm.addForageable(position, tile.getForageableItem());
+                    //     }
+                    //     break;
                     case CABIN:
                     if(isNewComponent(farm, new Cabin(position))){
                         //farm.addComponent(new Cabin(position));
@@ -300,6 +300,9 @@ public class MapBuilder {
                         farm.addComponent(new Lake(position, lakeWidth, lakeHeight));
                         farm.addLake(position, lakeWidth, lakeHeight);
                         }
+                        break;
+                    
+                    default:
                         break;
                     
                 }
