@@ -59,7 +59,6 @@ public class GameController {
         if (playerCurrentTool == null) {
 
             return new Result(false, "You haven't equipped any tool yet.");
-
         }
 
         return new Result(true, "Your current tool is: " + playerCurrentTool.getItemName());
@@ -221,7 +220,7 @@ public class GameController {
             }
         }
         if ( foodToEat == null ) {
-            return "You don't have a food called " + foodName+ "to eat.";
+            return "You don't have a food called " + foodName+ " to eat.";
         }
         Item foodItem = new FoodItem(foodToEat);
         boolean removed  = false;
