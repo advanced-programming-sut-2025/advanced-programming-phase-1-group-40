@@ -854,12 +854,34 @@ public class GameController {
 
     }
 
+//    public Result sellAnimal(Matcher input){
+//
+//        String animalName = input.group("animal");
+//
+//        Animal animal = findAnimalByName(animalName);
+//
+//        if ( animal == null ){
+//            return new Result(false,"Animal not found");
+//        }
+//
+//        App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).removeAnimal(animal);
+//        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setGold(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold()+calculateAnimalPrice(animal));
+//
+//    }
+
+    private int calculateAnimalPrice(Animal animal){
+
+        return (int)(animal.getAnimalType().getPrice() * ( (animal.getFriendshipWithOwner()/1000) + 0.3 ));
+
+    }
 
 
     ///   -----------------------> FISH
 
 
-    public Result fishing(String fishingPoleName) {
+    public Result fishing(Matcher input) {
+
+        String fishingPoleName = input.group("fishingPole");
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 

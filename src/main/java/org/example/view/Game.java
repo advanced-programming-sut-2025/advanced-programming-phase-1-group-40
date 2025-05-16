@@ -50,7 +50,10 @@ public class Game implements AppMenu {
         else if (GameCommands.EAT_FOOD.getMatcher(input) != null) {
             System.out.println(gameController.eatFood(GameCommands.EAT_FOOD.getMatcher(input)));
         }
+
+
         /// CRAFTING
+
         else if (GameCommands.SHOW_CRAFTING_RECIPES.getMatcher(input) != null) {
             System.out.println(gameController.showCraftingRecipes());
         }
@@ -135,7 +138,10 @@ public class Game implements AppMenu {
             System.out.println(gameController.cheatSetWeather(GameCommands.CHEAT_WEATHER_SET.getMatcher(input)).message());
 
         }
+
+
         /// TOOLS
+
         else if (GameCommands.TOOLS_EQUIP.getMatcher(input) != null) {
             String toolName = GameCommands.TOOLS_EQUIP.getMatcher(input).group("toolName");
             System.out.println(gameController.equipTool(toolName).message());
@@ -156,8 +162,8 @@ public class Game implements AppMenu {
         }
 
 
-
         ///  DAMDARI
+
         else if (GameCommands.BUILD.getMatcher(input) != null) {
 
 
@@ -230,24 +236,11 @@ public class Game implements AppMenu {
         else if (GameCommands.FISHING.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.fishing(GameCommands.FISHING.getMatcher(input)).message());
 
 
         }
-        else if (GameCommands.SELL_ANIMAL.getMatcher(input) != null) {
 
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.FISHING.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
 
         ///  ARTISAN
 

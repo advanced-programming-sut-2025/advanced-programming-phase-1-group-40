@@ -10,6 +10,7 @@ import org.example.models.tools.*;
 import org.example.models.*;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public enum ProfileCommands implements Command {
 
@@ -21,14 +22,20 @@ public enum ProfileCommands implements Command {
     GO_TO_MAIN_MENU("\\s*menu\\s+enter\\s+(m|M)ain(\\s+(M|m)enu)?\\s*"),
     SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*");
 
-    private final String regex;
+    private final String regexString;
 
-    ProfileCommands(String regex) {
-        this.regex = regex;
+    ProfileCommands(String regexString){
+        this.regexString = regexString;
     }
 
     @Override
     public Matcher getMatcher(String input) {
+
+        Matcher matcher = Pattern.compile(regexString).matcher(input);
+
+        if (matcher.matches()) return matcher;
+
         return null;
     }
+
 }
