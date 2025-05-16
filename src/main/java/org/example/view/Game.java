@@ -1,419 +1,377 @@
-package org.example.view;
-
+package org.example.models;
 
 import org.example.controller.Game.GameController;
-import org.example.models.App;
-import org.example.models.enums.commands.GameCommands;
+import org.example.models.Map.*;
+import org.example.models.enums.FriendshipLevel;
+import org.example.models.enums.Menu;
+import org.example.models.enums.enviroment.Time;
+import org.example.models.enums.enviroment.Weather;package org.example.models;
+
+import org.example.controller.Game.GameController;
+import org.example.models.Map.*;
+import org.example.models.enums.FriendshipLevel;
+import org.example.models.enums.Menu;
+import org.example.models.enums.enviroment.Time;
+import org.example.models.enums.enviroment.Weather;
+import org.example.models.enums.types.NPCType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.util.Arrays.asList;
 
 
-import java.util.Scanner;
+public class Game {
 
-public class Game implements AppMenu {
+    private final Integer gameID;
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Farm> farms;
+    private HashMap<Player, Farm> playerFarms;
+    private MapTile[][] map;
+    private User gameLoader;
+    private Player currentTurnPlayer;
+    private Player creator;
+    private Time time;
+    private Weather weather;
+    private Weather futureWeather;
+    private HashMap<String, Boolean> terminationVotes;
+    private ArrayList<NPC> npcs;
 
-    private final GameController gameController = new GameController();
-
-    @Override
-    public void getInput(String input, Scanner scanner) {
 
 
-        ///  GENERAL COMMANDS
+    public Game(Player creator, ArrayList<Player> players) {
 
-        if ( GameCommands.EXIT_GAME.getMatcher(input) != null ) {
 
-            System.out.println(gameController.exitGame().message());
 
+        this.gameID = App.dataManager.getGames().size() + 1;
+        this.players = players;
+        this.time = new Time();
+        this.map = new MapTile[110][];
+        this.farms = new ArrayList<>();
+        this.currentTurnPlayer = creator;
+        this.creator = creator;
+
+
+        this.npcs = new ArrayList<>();
+        HashMap<Human, FriendshipWithNPC> friendships = new HashMap<>();
+        for (Player player : players) {
+            friendships.put(player, new FriendshipWithNPC(0, FriendshipLevel.STRANGER));
         }
-        else if ( GameCommands.NEXT_TURN.getMatcher(input) != null ) {
-
-            System.out.printf("Moving on from " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + " to ");
-            App.dataManager.getCurrentGame().setCurrentTurnPlayer(gameController.nextTurn());
-            System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername());
-
+        for (NPCType npcType : NPCType.values()) {
+            NPC npc = new NPC(friendships, npcType);
+            npcs.add(npc);
         }
+        
+    }
 
-        ///  TIME & DATE
-
-        else if (GameCommands.SHOW_TIME.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.showTime());
-
-
+    public NPC getNPCByName(String name) {
+        for (NPC npc : npcs) {
+            if (npc.getName().equals(name)) {
+                return npc;
+            }
         }
-        else if (GameCommands.SHOW_DATE.getMatcher(input) != null) {
+        return null;
+    }
 
+    public Weather getFutureWeather() {
+        return futureWeather;
+    }
 
-            System.out.println(gameController.showDate());
+    public void setFutureWeather(Weather futureWeather) {
+        this.futureWeather = futureWeather;
+    }
 
+    public void createFullMap() {
+    // Determine offsets by the number of farms
+    int farmCount = farms.size();
+    ArrayList<int[]> offsets = new ArrayList<>();
 
+    if (farmCount == 2) {
+        this.map = new MapTile[110][60];
+        for(int x=0; x<110; x++){
+            for(int y=0; y<60; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
         }
-        else if (GameCommands.SHOW_DATETIME.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.showDateTime());
-
-
+        
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+    } else if (farmCount == 3) {
+        this.map = new MapTile[110][110];
+        for(int x=0; x<110; x++){
+            for(int y=0; y<110; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
         }
-        else if (GameCommands.SHOW_DAY_OF_THE_WEEK.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.showDayOfTheWeek());
-
-
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+        offsets.add(new int[]{0, 60});
+    } else if (farmCount == 4) {
+        this.map = new MapTile[110][110];
+        for(int x=0; x<110; x++){
+            for(int y=0; y<110; y++){
+                map[x][y] = new MapTile(new Position(x,y), TileType.GROUND);
+            }
         }
-        else if (GameCommands.CHEAT_ADVANCE_TIME.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.cheatAdvanceTime(GameCommands.CHEAT_ADVANCE_TIME.getMatcher(input).group("time")).message());
-
-
-        }
-        else if (GameCommands.CHEAT_ADVANCE_DATE.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.cheatAdvanceDate(GameCommands.CHEAT_ADVANCE_DATE.getMatcher(input).group("date")).message());
-
-
-        }
-        else if (GameCommands.SHOW_SEASON.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.showSeason());
-
-
-        }
-
-
-        ///  WEATHER
-
-        else if ( GameCommands.CHEAT_THOR.getMatcher(input) != null ) {
-
-            System.out.println(gameController.cheatThor(GameCommands.CHEAT_THOR.getMatcher(input)).message());
-
-        }
-        else if ( GameCommands.SHOW_WEATHER.getMatcher(input) != null ) {
-
-            System.out.println(gameController.showWeather());
-
-        }
-        else if ( GameCommands.SHOW_WEATHER_FORECAST.getMatcher(input) != null ) {
-
-            System.out.println(gameController.showWeatherForecast());
-
-        }
-        else if ( GameCommands.CHEAT_WEATHER_SET.getMatcher(input) != null ) {
-
-            System.out.println(gameController.cheatSetWeather(GameCommands.CHEAT_WEATHER_SET.getMatcher(input)).message());
-
-        }
-        /// TOOLS
-        else if (GameCommands.TOOLS_EQUIP.getMatcher(input) != null) {
-
-            String toolName = GameCommands.TOOLS_EQUIP.getMatcher(input).group("toolName");
-            System.out.println(gameController.equipTool(toolName).message());
-
-        }
-        else if (GameCommands.TOOLS_SHOW_CURRENT.getMatcher(input) != null) {
-            System.out.println(gameController.showCurrentTool());
-        }
-        else if (GameCommands.TOOLS_SHOW_AVAILABLE.getMatcher(input) != null) {
-            System.out.println(gameController.showAvailableTools());
-        }
-
-        else if (GameCommands.TOOLS_UPGRADE.getMatcher(input) != null) {
-            String toolName = GameCommands.TOOLS_UPGRADE.getMatcher(input).group("toolName");
-            System.out.println(gameController.upgradeTool(toolName).message());
-        }
-        else if (GameCommands.TOOLS_USE.getMatcher(input) != null) {
-            String direction = GameCommands.TOOLS_USE.getMatcher(input).group("direction");
-            System.out.println(gameController.useTool(direction).message());
-        }
-
-
-
-        ///  DAMDARI
-        else if (GameCommands.BUILD.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if ( GameCommands.BUY_ANIMAL.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.buyAnimal(GameCommands.BUY_ANIMAL.getMatcher(input)).message());
-
-
-        }
-        else if (GameCommands.PET.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.petAnimal(GameCommands.PET.getMatcher(input)).message());
-
-
-        }
-        else if (GameCommands.CHEAT_SET_FRIENDSHIP.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.cheatSetFriendship(GameCommands.CHEAT_SET_FRIENDSHIP.getMatcher(input)).message());
-
-
-        }
-        else if (GameCommands.SHOW_ANIMAL_INFO.getMatcher(input) != null) {
-
-
-            gameController.showAnimalInfo(GameCommands.SHOW_ANIMAL_INFO.getMatcher(input));
-
-        }
-        else if (GameCommands.SHEPHERD_ANIMALS.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.shepherd(GameCommands.SHEPHERD_ANIMALS.getMatcher(input)).message());
-
-
-        }
-        else if (GameCommands.FEED_HAY.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.feedWithHay(GameCommands.FEED_HAY.getMatcher(input)).message());
-
-
-        }
-        else if (GameCommands.SHOW_UNCOLLECTED_PRODUCTS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.COLLECT_PRODUCTS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.SELL_ANIMAL.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.FISHING.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.SELL_ANIMAL.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.FISHING.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
+        offsets.add(new int[]{0, 0});
+        offsets.add(new int[]{60, 0});
+        offsets.add(new int[]{0, 60});
+        offsets.add(new int[]{60, 60});
+    }
+
+    // Copy each farm's map into the main map
+    for (int i = 0; i < farms.size() && i < offsets.size(); i++) {
+        Farm farm = farms.get(i);
+        // Assuming each Farm has a method getMap() returning a 50x50 MapTile[][]
+        MapTile[][] farmMap = farm.getTiles();
+        int offsetX = offsets.get(i)[0];
+        int offsetY = offsets.get(i)[1];
+
+        for (int x = 0; x < 50; x++) {
+            for (int y = 0; y < 50; y++) {
+                // Overwrite the full map's tile with the farm's corresponding tile
+                map[offsetX + x][offsetY + y] = farmMap[x][y];
+            }
         }
 
-        ///  ARTISAN
+        addShops();
+    }
+}
 
-        else if (GameCommands.ARTISAN_USE.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
+public void addShops(){
+    for(int x = 53; x < 59; x++){
+        for(int y = 2; y < 8; y++){
+            map[x][y].setType(TileType.BLACKSMITH);
         }
-        else if (GameCommands.ARTISAN_GET.getMatcher(input) != null) {
+    }
 
-
-            System.out.println("build new building");
-
-
+    for(int x = 53; x < 59; x++){
+        for(int y = 12; y < 17; y++){
+            map[x][y].setType(TileType.JOJAMART);
         }
+    }
 
-        ///  SHOP
-
-        else if (GameCommands.SHOW_ALL_PRODUCTS_IN_STORE.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
+    for(int x = 53; x < 59; x++){
+        for(int y = 30; y < 36; y++){
+            map[x][y].setType(TileType.PIERRE_GENERAL_STORE);
         }
-        else if (GameCommands.SHOW_AVAILABLE_PRODUCTS_IN_STORE.getMatcher(input) != null) {
+    }
 
-
-            System.out.println("build new building");
-
-
+    for(int x = 5; x < 11; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.CARPENTER_SHOP);
         }
-        else if (GameCommands.PURCHASE_ITEM.getMatcher(input) != null) {
+    }
 
-
-            System.out.println("build new building");
-
-
+    for(int x = 30; x < 35; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.FISH_SHOP);
         }
-        else if (GameCommands.CHEAT_ADD_MONEY.getMatcher(input) != null) {
+    }
 
-
-            System.out.println("build new building");
-
-
+    for(int x = 70; x < 76; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.MARNIES_RANCH);
         }
-        else if (GameCommands.SELL_ITEM.getMatcher(input) != null) {
+    }
 
-
-            System.out.println("build new building");
-
-
+    for(int x = 90; x < 95; x++){
+        for(int y = 53; y < 59; y++){
+            map[x][y].setType(TileType.THE_STARDROP_SALOON);
         }
+    }
+}
 
 
-        /// TAAMOLAT VA RAVABET BA DIGAR BAZIKONAN
-
-        else if (GameCommands.SHOW_FRIENDSHIP.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
+    public void assignFarmToPlayer(Player player, Farm farm) {
+        if (playerFarms == null) {
+            playerFarms = new HashMap<>();
         }
-        else if (GameCommands.TALK_WITH_OTHERS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.SHOW_TALK_HISTORY.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.SHOW_RECEIVED_GIFTS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.RATE_GIFT.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.GIFT_HISTORY_WITH_USER.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.HUG_USER.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.FLOWER_USER.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.ASK_MARRIAGE.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.RESPOND_TO_MARRIAGE.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-
-        /// NPC
-
-        else if (GameCommands.MEET_NPC.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.meetNPC(GameCommands.MEET_NPC.getMatcher(input).group(1)).message());
-
-
-        }
-        else if (GameCommands.GIFT_NPC.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.SHOW_FRIENDSHIP_WITH_NPC.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.SHOW_QUESTS_LIST.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.FINISH_QUESTS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else{
-
-
-            System.out.println("Invalid input------------------");
-
-
-        }
-
-
-        if ( GameCommands.EXIT_GAME.getMatcher(input) == null ){
-            System.out.printf("It is " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn: ");
-        }
-
-
-
+        playerFarms.put(player, farm);
     }
 
 
+    public Integer getGameID() {
+        return gameID;
+    }
+
+    public void setFarms(ArrayList<Farm> farms) {
+        this.farms = farms;
+    }
+
+    public HashMap<Player, Farm> getPlayerFarms() {
+        return playerFarms;
+    }
+
+    public void setPlayerFarms(HashMap<Player, Farm> playerFarms) {
+        this.playerFarms = playerFarms;
+    }
+
+    public MapTile[][] getMap() {
+        return map;
+    }
+
+    public void setMap(MapTile[][] map) {
+        this.map = map;
+    }
 
 
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public Weather getWeather() {
+        return weather;
+    }
+
+    public void setWeather(Weather weather) {
+        this.weather = weather;
+    }
+
+
+    public Time getTime() {
+        return time;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public ArrayList<Farm> getFarms() {
+        return farms;
+    }
+
+    public Player getCurrentTurnPlayer() {
+        return currentTurnPlayer;
+    }
+
+    public void setCurrentTurnPlayer(Player player) {
+        this.currentTurnPlayer = player;
+    }
+
+
+    public Player getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Player creator) {
+        this.creator = creator;
+    }
+
+    /**
+     * Adds a farm to the game
+     * @param farm The farm to add
+     */
+    public void addFarm(Farm farm) {
+        if (farms == null) {
+            farms = new ArrayList<>();
+        }
+        farms.add(farm);
+    }
+
+    /**
+     * Gets the farm for a specific player
+     * @param player The player to get the farm for
+     * @return The player's farm, or null if not found
+     */
+    public Farm getFarmForPlayer(Player player) {
+        if (farms == null) {
+            return null;
+        }
+
+        for (Farm farm : farms) {
+            if (farm.getOwner() != null && farm.getOwner().getUsername().equals(player.getUsername())) {
+                return farm;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Initializes the game time
+     */
+    public void initializeTime() {
+        if (time == null) {
+            time = new Time();
+        }
+    }
+
+
+    /**
+     * Registers a player's vote for termination
+     * @param player The player voting
+     * @param vote true for yes, false for no
+     * @return true if all players have voted to terminate, false otherwise
+     */
+    public boolean voteForTermination(Player player, boolean vote) {
+        if (terminationVotes == null) {
+            terminationVotes = new HashMap<>();
+        }
+
+        terminationVotes.put(player.getUsername(), vote);
+
+        // Check if all players have voted yes
+        boolean allVotedYes = true;
+        for (Player p : players) {
+            Boolean playerVote = terminationVotes.get(p.getUsername());
+            if (playerVote == null || !playerVote) {
+                allVotedYes = false;
+                break;
+            }
+        }
+
+        return allVotedYes;
+    }///////ayohanaas dont forget this part
+
+
+    /**
+     * Checks if a player is part of this game
+     * @param username The username to check
+     * @return true if the player is in this game, false otherwise
+     */
+    public boolean hasPlayer(String username) {
+        for (Player player : players) {
+            if (player.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gets a player by username
+     * @param username The username to look for
+     * @return The player with the given username, or null if not found
+     */
+    public Player getPlayerByUsername(String username) {
+        for (Player player : players) {
+            if (player.getUsername().equals(username)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public FriendshipWithNPC getFriendship(Player player, Player otherPlayer) {
+        // TODO
+        return null;
+    }
+
+    public String getUserFriendship(Player player, Player targetPlayer) {
+        // TODO
+        return null;
+    }
+
+    public HashMap<Player, HashMap<Player, HashMap<String, Boolean>>> getTalkHistory() {
+        // TODO
+        return null;
+    }
+
+
+    public Player nextTurn() {
+        // TODO
+        return null;
+    }
 }
