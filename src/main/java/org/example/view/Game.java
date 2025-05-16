@@ -350,7 +350,7 @@ public class Game implements AppMenu {
         else if (GameCommands.MEET_NPC.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.meetNPC(GameCommands.MEET_NPC.getMatcher(input).group(1)));
 
 
         }
