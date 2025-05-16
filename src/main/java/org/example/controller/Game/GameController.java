@@ -170,6 +170,7 @@ public class GameController {
         updateWeather();
         updateFriendshipWithAnimal();
 
+
     }
 
     public void updateWeather(){
