@@ -25,15 +25,7 @@ public class Player extends User {
     private int gamesPlayed;
     private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
     private ArrayList<Tool> tools = new ArrayList<>();
-    public boolean hasEnoughEnergy(int energyCost) {
-        return energy >= energyCost;
-    }
-    public void consumeEnergy(int energyCost) {
-        this.energy -= energyCost;
-        if(energy <= 0) {
-            this.energy = 0;
-        }
-    }
+    private Integer gold;
 
     public Player(User user) {
 
@@ -47,11 +39,35 @@ public class Player extends User {
         this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
         this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
+
+        this.gold = 0;
+
     }
+
+
+    public Integer getGold() {
+        return gold;
+    }
+
+    public void setGold(Integer gold) {
+        this.gold = gold;
+    }
+
+    public boolean hasEnoughEnergy(int energyCost) {
+        return energy >= energyCost;
+    }
+
+    public void consumeEnergy(int energyCost) {
+        this.energy -= energyCost;
+        if(energy <= 0) {
+            this.energy = 0;
+        }
+    }
+
+
     public void increaseEnergy(int energyCost) {
         this.energy = Math.min(this.maxEnergy, this.energy + energyCost);
     }
-
 
 
     public ArrayList<Tool> getTools() {

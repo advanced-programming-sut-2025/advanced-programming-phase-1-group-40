@@ -617,7 +617,16 @@ public class GameController {
         }
 
         AnimalType animalType = parseAnimalType(input.group("animalType").trim());
+
+        if ( animalType == null ){
+            return new Result(false,"Invalid animal type");
+        }
+
         String animalName = input.group("animalName").trim();
+
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold() < animalType.getPrice() ){
+            return new Result(false,"You don't have enough money ):");
+        }
 
         AnimalLivingSpace targetLivingSpace = playerHasAnimalCapacity(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),animalType);
 
