@@ -4,6 +4,8 @@ package org.example.controller.Game;
 import org.example.models.*;
 import org.example.models.Animal.Animal;
 import org.example.models.Animal.AnimalLivingSpace;
+import org.example.models.Animal.AnimalProduct;
+import org.example.models.Animal.AnimalProductQuality;
 import org.example.models.Map.SecondaryMapComponents.ForagingSeed;
 import org.example.models.Map.TileType;
 import org.example.models.enums.types.*;
@@ -273,6 +275,9 @@ public class GameController {
     private void nextDayUpdate(){
 
         updateWeather();
+        animalProductUpdate();
+
+        updateWeather();
         updateFriendshipWithAnimal();
 
 
@@ -282,6 +287,65 @@ public class GameController {
 
         App.dataManager.getCurrentGame().setWeather(App.dataManager.getCurrentGame().getFutureWeather());
         App.dataManager.getCurrentGame().setFutureWeather(randomWeatherBasedOnSeason());
+
+    }
+
+    public void animalProductUpdate(){
+
+        for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
+
+            for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimals() ){
+
+                if ( (animal.getLastProductMade() + 1) == animal.getAnimalType().getProductCycle() ) {
+
+                    animal.setLastProductMade(0);
+
+                    if ( animal.isPetToday() || animal.isFedWithHayToday() ) {
+                        animal.addProduct(new AnimalProduct(getRandomAnimalProductType(animal),getRandomAnimalProductQuality(animal)));
+
+                    }
+
+
+                }
+                else{
+                    animal.setLastProductMade(animal.getLastProductMade()+1);
+                }
+
+            }
+
+        }
+
+    }
+
+    public AnimalProducts getRandomAnimalProductType(Animal animal){
+
+        if ( (animal.getAnimalType().getProducts().size() == 1) || (animal.getFriendshipWithOwner() <= 100) ) {
+            return animal.getAnimalType().getProducts().get(0);
+        }
+
+        double secondProductChance = (animal.getFriendshipWithOwner() + ( 150 * (0.5 + Math.random()) )) / 1500;
+
+        if ( Math.random() <= secondProductChance ) {
+            return animal.getAnimalType().getProducts().get(1);
+        }
+        return animal.getAnimalType().getProducts().get(0);
+
+    }
+
+    public AnimalProductQuality getRandomAnimalProductQuality(Animal animal){
+
+
+        Double quality = ( animal.getFriendshipWithOwner() / 1000 ) * ( 0.5 + Math.random()* 0.5 );
+
+        for ( AnimalProductQuality animalProductQuality : AnimalProductQuality.values() ) {
+
+            if ( animalProductQuality.getMinQuality() < quality  && animalProductQuality.getMaxQuality() >= quality ) {
+                return animalProductQuality;
+            }
+
+        }
+
+        return null;
 
     }
 
@@ -755,6 +819,8 @@ public class GameController {
 
 
     }
+
+
 
     ///   -----------------------> FISH
 

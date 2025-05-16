@@ -16,9 +16,10 @@ public class Animal {
     private boolean isOutside;
     private boolean ateGrass;
     private boolean fedWithHayToday;
-    private ArrayList<AnimalProducts> products;
+    private ArrayList<AnimalProduct> products;
     private FarmBuildingType animalLivingSpace;
     private Integer price;
+    private Integer lastProductMade;
 
 
 
@@ -33,12 +34,22 @@ public class Animal {
         this.fedWithHayToday = false;
         this.ateGrass = false;
         this.products = new ArrayList<>();
+        this.lastProductMade = 0;
+
 
         this.animalLivingSpace = animalType.getProperLivingSpace().get(0);          /// ino bayad fix koni!!!
         this.price = animalType.getPrice();
 
 
 
+    }
+
+    public Integer getLastProductMade() {
+        return lastProductMade;
+    }
+
+    public void setLastProductMade(Integer lastProductMade) {
+        this.lastProductMade = lastProductMade;
     }
 
     public boolean isAteGrass() {
@@ -113,12 +124,16 @@ public class Animal {
         this.fedWithHayToday = fedWithHayToday;
     }
 
-    public ArrayList<AnimalProducts> getProducts() {
+    public ArrayList<AnimalProduct> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<AnimalProducts> products) {
-        this.products = products;
+    public void addProduct(AnimalProduct product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(AnimalProduct product) {
+        this.products.remove(product);
     }
 
     public FarmBuildingType getAnimalLivingSpace() {
