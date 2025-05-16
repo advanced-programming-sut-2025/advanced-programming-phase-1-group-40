@@ -232,7 +232,7 @@ public class Game implements AppMenu {
         else if (GameCommands.COLLECT_PRODUCTS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.collectProducts(GameCommands.COLLECT_PRODUCTS.getMatcher(input)).message());
 
 
         }
