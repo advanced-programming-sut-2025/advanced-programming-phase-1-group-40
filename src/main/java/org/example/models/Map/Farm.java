@@ -63,6 +63,11 @@ public class Farm implements Serializable {
                 mapTiles[y][x] = new MapTile(new Position(x, y), TileType.GROUND);
             }
         }
+        this.cabin = new ArrayList<>();
+        this.greenhouse = new ArrayList<>();
+        this.quarry = new ArrayList<>();
+        this.lakes = new ArrayList<>();
+        this.plantedCrops = new ArrayList<>();
         this.components = new ArrayList<>();
         this.trees = new ArrayList<>();
         this.stones = new ArrayList<>();
