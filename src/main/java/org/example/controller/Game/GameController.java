@@ -51,6 +51,7 @@ public class GameController {
 
         updateWeather();
         updateFriendshipWithAnimal();
+        updatePlayersFriendship();
 
         //foraging generation
         
@@ -150,6 +151,43 @@ public class GameController {
             }
 
         }
+
+    }
+
+    public void updatePlayersFriendship(){
+
+        for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
+
+            for ( FriendshipWithPlayers friendshipWithPlayers : player.getFriendships() ){
+
+                if ( ! friendshipWithPlayers.hadInteraction() ){
+
+                    if ( friendshipWithPlayers.getFriendshipXP() < 10 ){
+
+                        if ( friendshipWithPlayers.getFriendshipLevel().equals(FriendshipLevel.STRANGER) ){
+                            friendshipWithPlayers.setFriendshipXP(0);
+                        }
+                        else{
+
+
+                            friendshipWithPlayers.setFriendshipLevel(FriendshipLevel.values()[friendshipWithPlayers.getFriendshipLevel().getLevel()-1]);
+                            friendshipWithPlayers.setFriendshipXP((friendshipWithPlayers.getFriendshipLevel().getLevel()+2)*100 + friendshipWithPlayers.getFriendshipXP() - 10 );
+
+                        }
+
+                    }
+                    else{
+                        friendshipWithPlayers.setFriendshipXP(friendshipWithPlayers.getFriendshipXP() - 10 );
+                    }
+
+                }
+
+                friendshipWithPlayers.setInteraction(false);
+
+            }
+
+        }
+
 
     }
 
