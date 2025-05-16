@@ -21,6 +21,8 @@ public class MapTile implements Serializable {
     private TreeType treeType;
     private ForagingMineralType foragingMineralType;
     private MapComponents mapComponents;
+    private ForagingCrop foragingCrop;
+    
     private boolean isEmpty;
     
     public MapTile(Position position, TileType type) {

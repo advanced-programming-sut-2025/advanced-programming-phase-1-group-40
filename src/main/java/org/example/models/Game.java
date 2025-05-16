@@ -56,6 +56,8 @@ public class Game {
         this.farms = new ArrayList<>();
         this.currentTurnPlayer = creator;
         this.creator = creator;
+        this.playerMapPosition = new Position(farms.get(0).getCabin().get(0).getPosition().getX(),
+         farms.get(0).getCabin().get(0).getPosition().getY());
 
 
         this.npcs = new ArrayList<>();

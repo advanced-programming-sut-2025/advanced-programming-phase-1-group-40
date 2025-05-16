@@ -175,19 +175,22 @@ public class MapBuilder {
                 ForagingType foragingType;
                 int foragingRoll = random.nextInt(100);
                 
-                if (foragingRoll < 30) {
-                    foragingType = ForagingType.WILD_BERRY;
-                } else if (foragingRoll < 60) {
-                    foragingType = ForagingType.MUSHROOM;
-                } else if (foragingRoll < 80) {
-                    foragingType = ForagingType.HERB;
-                } else if (foragingRoll < 95) {
-                    foragingType = ForagingType.FLOWER;
-                } else {
-                    foragingType = ForagingType.TRUFFLE;
-                }
+                // if (foragingRoll < 30) {
+                //     foragingType = ForagingType.WILD_BERRY;
+                // } else if (foragingRoll < 60) {
+                //     foragingType = ForagingType.MUSHROOM;
+                // } else if (foragingRoll < 80) {
+                //     foragingType = ForagingType.HERB;
+                // } else if (foragingRoll < 95) {
+                //     foragingType = ForagingType.FLOWER;
+                // } else {
+                //     foragingType = ForagingType.TRUFFLE;
+                // }
                 
                 // Create a foraging crop and set it on the tile
+                for(int j = 0; j < count/3; j++){
+                    
+                }
                 ForagingCrop foragingCrop = new ForagingCrop(new Position(x, y));
                 tiles[y][x].setForageableItem(foragingCrop);
             }
