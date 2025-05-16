@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 
 
 public class PreGameMenuController {
+
     private Game currentGame;
 
     public void setNewGameWeather(){
@@ -90,6 +91,7 @@ public class PreGameMenuController {
             return new Result(false, "No game found.");
         }
 
+        game.setGameLoader(App.dataManager.getCurrentUser());
         App.dataManager.setCurrentGame(game);
         App.dataManager.setCurrentMenu(Menu.GAME);
         return new Result(true, "Game loaded successfully.");

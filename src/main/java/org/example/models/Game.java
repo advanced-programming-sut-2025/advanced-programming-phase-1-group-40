@@ -67,6 +67,14 @@ public class Game {
         return null;
     }
 
+    public User getGameLoader() {
+        return gameLoader;
+    }
+
+    public void setGameLoader(User gameLoader) {
+        this.gameLoader = gameLoader;
+    }
+
     public Weather getFutureWeather() {
         return futureWeather;
     }

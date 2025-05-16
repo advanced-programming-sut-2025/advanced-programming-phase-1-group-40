@@ -20,6 +20,21 @@ import java.util.regex.Matcher;
 
 public class GameController {
 
+    ///  GENERAL COMMANDS
+
+    public Result exitGame(){
+
+        if ( ! App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername().equals(App.dataManager.getCurrentGame().getGameLoader().getUsername()) ){
+            return new Result(false,"Only the game loader can exit the game");
+        }
+
+        App.dataManager.setCurrentGame(null);
+        App.dataManager.setCurrentMenu(Menu.PRE_GAME_MENU);
+
+        return new Result(true,"You have successfully exited the game.");
+
+    }
+
     ///  TOOLS
 
     private boolean isInBlacksmith(){           ///  TODO

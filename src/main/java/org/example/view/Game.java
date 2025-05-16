@@ -16,10 +16,24 @@ public class Game implements AppMenu {
     public void getInput(String input, Scanner scanner) {
 
 
+        ///  GENERAL COMMANDS
+
+        if ( GameCommands.EXIT_GAME.getMatcher(input) != null ) {
+
+            System.out.println(gameController.exitGame().message());
+
+        }
+        else if ( GameCommands.NEXT_TURN.getMatcher(input) != null ) {
+
+            System.out.printf("Moving on from " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + " to ");
+            App.dataManager.getCurrentGame().setCurrentTurnPlayer(gameController.nextTurn());
+            System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername());
+
+        }
 
         ///  TIME & DATE
 
-        if (GameCommands.SHOW_TIME.getMatcher(input) != null) {
+        else if (GameCommands.SHOW_TIME.getMatcher(input) != null) {
 
 
             System.out.println(gameController.showTime());
@@ -385,15 +399,15 @@ public class Game implements AppMenu {
         else{
 
 
-            System.out.println("Invalid input");
+            System.out.println("Invalid input------------------");
 
 
         }
 
 
-
-        App.dataManager.getCurrentGame().setCurrentTurnPlayer(gameController.nextTurn());
-        System.out.printf("It's " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn:");
+        if ( GameCommands.EXIT_GAME.getMatcher(input) == null ){
+            System.out.printf("It is " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn: ");
+        }
 
 
 

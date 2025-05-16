@@ -16,6 +16,11 @@ import java.util.regex.Pattern;
 public enum GameCommands implements Command{
 
 
+    ///  GENERAL COMMANDS
+
+    NEXT_TURN("\\s*next\\s+turn\\s*"),
+    EXIT_GAME("\\s*exit\\s+game\\s*"),
+
 
     ///  COAMMND HAYE TIME&DATE
 

@@ -18,6 +18,7 @@ public class PreGameMenu implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
         Matcher matcher;
+
         if ( (matcher = PreGameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
 
             System.out.println(preGameMenuController.createNewGame(matcher.group("users"), scanner).message());
@@ -43,6 +44,7 @@ public class PreGameMenu implements AppMenu {
         else if ( PreGameMenuCommands.LOAD_GAME.getMatcher(input) != null ){
 
             System.out.println(preGameMenuController.loadGame().message());
+            System.out.printf("It is " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn: ");
 
         }
         else{
