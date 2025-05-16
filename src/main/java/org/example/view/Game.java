@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Game implements AppMenu {
 
     private final GameController gameController = new GameController();
+    private boolean exitingGame = false;
 
     @Override
     public void getInput(String input, Scanner scanner) {
@@ -21,6 +22,7 @@ public class Game implements AppMenu {
         if ( GameCommands.EXIT_GAME.getMatcher(input) != null ) {
 
             System.out.println(gameController.exitGame().message());
+            exitingGame = true;
 
         }
         else if ( GameCommands.NEXT_TURN.getMatcher(input) != null ) {
