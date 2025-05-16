@@ -24,6 +24,8 @@ public class Cabin extends MapComponents {
         this.hasBasement = false;
     }
     
+    
+    
     public int getUpgradeLevel() {
         return upgradeLevel;
     }

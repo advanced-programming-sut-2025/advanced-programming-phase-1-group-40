@@ -383,27 +383,32 @@ public class Farm implements Serializable {
         return null;
     }
     
+    
     // Method to add a cabin to the farm
-    public void addCabin(int x, int y) {
-        Cabin cabin = new Cabin(x, y);
-        addComponent(cabin);
+    public void addCabin(Position pos) {
+        Cabin cabin1 = new Cabin(pos);
+        cabin.add(cabin1);
+        addComponent(cabin1);
     }
     
     // Method to add a greenhouse to the farm
-    public void addGreenhouse(int x, int y) {
-        Greenhouse greenhouse = new Greenhouse(x, y);
-        addComponent(greenhouse);
+    public void addGreenhouse(Position pos) {
+        Greenhouse gr = new Greenhouse(pos);
+        greenhouse.add(gr);
+        addComponent(gr);
     }
     
     // Method to add a quarry to the farm
-    public void addQuarry(int x, int y, int width, int height) {
-        Quarry quarry = new Quarry(x, y, width, height);
-        addComponent(quarry);
+    public void addQuarry(Position pos, int width, int height) {
+        Quarry q = new Quarry(pos, width, height);
+        quarry.add(q);
+        addComponent(q);
     }
     
     // Method to add a lake to the farm
-    public void addLake(int x, int y, int width, int height) {
-        Lake lake = new Lake(x, y, width, height);
+    public void addLake(Position pos, int width, int height) {
+        Lake lake = new Lake(pos, width, height);
+        lakes.add(lake);
         addComponent(lake);
     }
 
@@ -416,59 +421,42 @@ public class Farm implements Serializable {
         }
     }
 
-    /**
-     * Adds a tree to the farm at the specified location
-     * @param position Position to add the tree
-     * @param treeType Type of tree to add
-     * @return true if successful, false otherwise
-     */
-    public boolean addTree(Position position, TreeType treeType) {
+    public void addTree(Position position, TreeType treeType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
-        if (tile != null && tile.getType() == TileType.GROUND) {
+        if (tile != null ) {
             Tree tree = new Tree(treeType,position);
+            trees.add(tree);
             addComponent(tree);
-            return true;
+       
         }
-        return false;
+      
     }
 
-    /**
-     * Adds a stone to the farm at the specified location
-     * @param position Position to add the stone
-     * @param foragingMineralType Type of stone to add
-     * @return true if successful, false otherwise
-     */
-    public boolean addForagingMineral(Position position, ForagingMineralType foragingMineralType) {
+  
+    public void addForagingMineral(Position position, ForagingMineralType foragingMineralType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
-        if (tile != null && tile.getType() == TileType.GROUND) {
+        if (tile != null ) {
             ForagingMineral stone = new ForagingMineral(position);
+            stones.add(stone);
             addComponent(stone);
-            return true;
+            
         }
-        return false;
+        
     }
 
-    /**
-     * Adds a forageable item to the farm at the specified location
-     * @param position Position to add the forageable item
-     * @param foragingType The type of forageable item to add
-     * @return true if successful, false otherwise
-     */
-    public boolean addForageable(Position position, ForagingType foragingType) {
+   
+    public void addForageable(Position position, ForagingType foragingType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
-        if (tile != null && tile.getType() == TileType.GROUND) {
+        if (tile != null ) {
             ForagingCrop foragingCrop = new ForagingCrop(position);
+            foragingItems.add(foragingCrop);
             addComponent(foragingCrop);
-            return true;
+            
         }
-        return false;
+       
     }
 
-    /**
-     * Chops down a tree at the specified location
-     * @param position Position of the tree
-     * @return The tree that was chopped, or null if no tree was present
-     */
+ 
     public Tree chopTree(Position position) {
         int x = position.getX();
         int y = position.getY();

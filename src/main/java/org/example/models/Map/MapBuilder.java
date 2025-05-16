@@ -237,30 +237,27 @@ public class MapBuilder {
                 
                 switch (tile.getType()) {
                     case TREE:
-                        farm.addComponent(new Tree(tile.getTreeType(),position));
-                        farm.getTrees().add(new Tree(tile.getTreeType(),position));
+                        farm.addTree(position, tile.getTreeType());
                         break;
                     case STONE:
-                        farm.addComponent(new ForagingMineral(position, tile.getStoneType()));
-                        farm.getForagingMinerals().add(new ForagingMineral(position, tile.getStoneType()));
+                        farm.addForagingMineral(position, tile.getStoneType());
                         break;
                     case FORAGEABLE:
-                        if (tile.getForageableItem() instanceof ForagingCrop) {
-                            farm.addComponent((ForagingCrop) tile.getForageableItem());
-                            farm.getForagingItems().add((ForagingCrop) tile.getForageableItem());
-                        }
+                        // if (tile.getForageableItem() instanceof ForagingCrop) {
+                        //     farm.addForageable(position, tile.get);
+                        // }
                         break;
                     case CABIN:
                     if(isNewComponent(farm, new Cabin(position))){
-                        farm.addComponent(new Cabin(position));
-                        farm.getCabin().add(new Cabin(position));
+                        //farm.addComponent(new Cabin(position));
+                        farm.addCabin(position);
                     }
                         break;
                     
                     case GREENHOUSE:
                     if(isNewComponent(farm, new Greenhouse(position))){
-                        farm.addComponent(new Greenhouse(x, y));
-                        farm.getGreenhouse().add(new Greenhouse(position));
+                        //farm.addComponent(new Greenhouse(x, y));
+                        farm.addGreenhouse(position);
                     }
                         break;
                     
@@ -280,7 +277,7 @@ public class MapBuilder {
                         }
                         if(isNewComponent(farm, new Quarry(position, quarryWidth, quarryHeight))){
                         farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
-                        farm.getQuarry().add(new Quarry(position, quarryWidth, quarryHeight));
+                        farm.addQuarry(position, quarryWidth, quarryHeight);
                         }
                         break;
                     case WATER:
@@ -301,7 +298,7 @@ public class MapBuilder {
                         }
                         if(isNewComponent(farm, new Lake(position, lakeWidth, lakeHeight))){
                         farm.addComponent(new Lake(position, lakeWidth, lakeHeight));
-                        farm.getLakes().add(new Lake(position, lakeWidth, lakeHeight));
+                        farm.addLake(position, lakeWidth, lakeHeight);
                         }
                         break;
                     
