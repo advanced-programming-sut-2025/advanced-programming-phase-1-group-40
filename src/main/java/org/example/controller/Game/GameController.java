@@ -168,6 +168,7 @@ public class GameController {
     private void nextDayUpdate(){
 
         updateWeather();
+        updateFriendshipWithAnimal();
 
     }
 
@@ -178,6 +179,34 @@ public class GameController {
 
     }
 
+    public void updateFriendshipWithAnimal(){
+
+        for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
+
+            for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimalLivingSpaces() ){
+
+                for ( Animal animal : animalLivingSpace.getAnimals() ) {
+
+                    if ( animal.isOutside() ){
+                        animal.setFriendshipWithOwner(animal.getFriendshipWithOwner()-20);
+                    }
+
+
+                    if ( ! animal.isPetToday() ){
+                        animal.setFriendshipWithOwner(animal.getFriendshipWithOwner()- (10-(animal.getFriendshipWithOwner()/200)) );
+                    }
+
+                    if ( ! ( animal.isAteGrass() || animal.isFedWithHayToday())  ){
+                        animal.setFriendshipWithOwner(animal.getFriendshipWithOwner()-20);
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
 
     public Player nextTurn() {
 
@@ -595,6 +624,7 @@ public class GameController {
 
         animal.setPosition(targetPosition);
         animal.setOutside(true);
+        animal.setAteGrass(true);
 
         return new Result(true,"Shepherd successfully");
 

@@ -94,8 +94,10 @@ public class Game implements AppMenu {
         }
         /// TOOLS
         else if (GameCommands.TOOLS_EQUIP.getMatcher(input) != null) {
+
             String toolName = GameCommands.TOOLS_EQUIP.getMatcher(input).group("toolName");
             System.out.println(gameController.equipTool(toolName).message());
+
         }
         else if (GameCommands.TOOLS_SHOW_CURRENT.getMatcher(input) != null) {
             System.out.println(gameController.showCurrentTool());

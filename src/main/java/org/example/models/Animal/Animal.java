@@ -13,11 +13,13 @@ public class Animal {
     private Integer friendshipWithOwner;
     private Position position;
     private boolean petToday;
-    private boolean isOutside;                      /// ----> Az Alaf biroon taghzie karde
+    private boolean isOutside;
+    private boolean ateGrass;
     private boolean fedWithHayToday;
     private ArrayList<AnimalProducts> products;
     private FarmBuildingType animalLivingSpace;
     private Integer price;
+
 
 
     public Animal(String name, AnimalType animalType){
@@ -29,7 +31,7 @@ public class Animal {
         this.petToday = false;
         this.isOutside = false;
         this.fedWithHayToday = false;
-
+        this.ateGrass = false;
         this.products = new ArrayList<>();
 
         this.animalLivingSpace = animalType.getProperLivingSpace().get(0);          /// ino bayad fix koni!!!
@@ -37,6 +39,14 @@ public class Animal {
 
 
 
+    }
+
+    public boolean isAteGrass() {
+        return ateGrass;
+    }
+
+    public void setAteGrass(boolean ateGrass) {
+        this.ateGrass = ateGrass;
     }
 
     public Position getPosition() {
