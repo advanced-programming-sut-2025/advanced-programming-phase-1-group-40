@@ -20,6 +20,9 @@ public class PreGameMenuController {
         App.dataManager.getCurrentGame().setFutureWeather(new GameController().randomWeatherBasedOnSeason());
     }
 
+    public void showCurrentMenu() {
+        System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
+    }
 
     public Result createNewGame(String usernamesString, Scanner scanner) {
         List<String> usernames = new ArrayList<>();
@@ -454,9 +457,7 @@ public class PreGameMenuController {
         return sb.toString();
     }
 
-    public void showCurrentMenu() {
-        // TODO
-    }
+
 }
 
 

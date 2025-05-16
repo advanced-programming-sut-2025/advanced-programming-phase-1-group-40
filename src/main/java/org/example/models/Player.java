@@ -68,7 +68,7 @@ public class Player extends User {
 
 
 
-    public int getHighestMoney() {
+    public int getHighestEarnedMoney() {
         return highestMoney;
     }
 

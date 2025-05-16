@@ -14,7 +14,7 @@ public class User extends Human {
     private SecurityQuestion securityQuestion;
     private String securityAnswer;
     private boolean stayLoggedInNextTime;
-    private int highestMoney; // TODO
+    private int highestEarnedMoney; // TODO
     private int gamesPlayed;
 
 
@@ -29,11 +29,19 @@ public class User extends Human {
         this.stayLoggedInNextTime = false;
         this.securityQuestion = securityQuestion;
         this.securityAnswer = securityAnswer;
-        this.highestMoney = 0;
+        this.highestEarnedMoney = 0;
         this.gamesPlayed = 0;
 
     }
 
+
+    public void setHighestEarnedMoney(int highestEarnedMoney) {
+        this.highestEarnedMoney = highestEarnedMoney;
+    }
+
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
+    }
 
     public String getUsername() {
         return username;
@@ -99,8 +107,8 @@ public class User extends Human {
         this.stayLoggedInNextTime = stayLoggedInNextTime;
     }
 
-    public int getHighestMoney() {
-        return highestMoney;
+    public int getHighestEarnedMoney() {
+        return highestEarnedMoney;
     }
 
     public int getGamesPlayed() {

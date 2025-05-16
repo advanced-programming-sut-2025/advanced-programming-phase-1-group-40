@@ -1,126 +1,210 @@
 package org.example.controller.User;
 
 import org.example.models.*;
+import org.example.models.enums.Menu;
 import org.example.models.enums.commands.LoginCommands;
+
+import java.util.regex.Matcher;
 
 public class ProfileController {
 
-    public Result changeUsername(String newUsername) {
-        User currentPlayer = App.dataManager.getCurrentUser();
-
-        if (currentPlayer == null) {
-            return new Result(false, "No user is currently logged in.");
-        }
-
-        // Check if username is the same as current
-        if (currentPlayer.getUsername().equals(newUsername)) {
-            return new Result(false, "The new username is the same as your current username.");
-        }
-
-        // Check if username is valid
-        if (LoginCommands.USERNAME_REGEX.getMatcher(newUsername) == null) {
-            return new Result(false, "Invalid username format. Username can only contain letters, numbers, and hyphens.");
-        }
-
-
-        // Check if username already exists
-        if (App.dataManager.getUserByUsername(newUsername) != null) {
-            return new Result(false, "Username already exists.");
-        }
-
-        currentPlayer.setUsername(newUsername);
-        return new Result(true, "Username successfully changed.");
+    public void showCurrentMenu() {
+        System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
     }
 
-    public Result changeNickname(String newNickname) {
-        User currentPlayer = App.dataManager.getCurrentUser();
+    public void goToMenu(Menu targetMenu){
 
-        if (currentPlayer == null) {
-            return new Result(false, "No user is currently logged in.");
-        }
+        App.dataManager.setCurrentMenu(targetMenu);
+        System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
 
-        // Check if nickname is the same as current
-        if (currentPlayer.getNickname().equals(newNickname)) {
-            return new Result(false, "The new nickname is the same as your current nickname.");
-        }
-
-        currentPlayer.setNickname(newNickname);
-        return new Result(true, "Nickname successfully changed.");
     }
 
-    public Result changeEmail(String newEmail) {
-        User currentPlayer = App.dataManager.getCurrentUser();
+    public void showUserInfo() {
 
-        if (currentPlayer == null) {
-            return new Result(false, "No user is currently logged in.");
-        }
-
-        // Check if email is the same as current
-        if (currentPlayer.getEmail().equals(newEmail)) {
-            return new Result(false, "The new email is the same as your current email.");
-        }
-
-        // Check if email is valid
-        if (LoginCommands.EMAIL_USER_REGEX.getMatcher(newEmail) == null) {
-            return new Result(false, "Invalid email format. Please enter a valid email address.");
-        }
+        System.out.println("Username: " + App.dataManager.getCurrentUser().getUsername());
+        System.out.println("Nickname: " + App.dataManager.getCurrentUser().getNickname());
+        System.out.println("Highest Earned Money: " + App.dataManager.getCurrentUser().getHighestEarnedMoney());
+        System.out.println("Number of Games: " + App.dataManager.getCurrentUser().getGamesPlayed());
 
 
-        // Check if email already exists
-        for (User user : App.dataManager.getAllUsers()) {
-            if (user.getEmail().equals(newEmail)) {
-                return new Result(false, "Email already in use.");
-            }
-        }
-
-        currentPlayer.setEmail(newEmail);
-        return new Result(true, "Email successfully changed.");
     }
 
-    public Result changePassword(String oldPassword, String newPassword) {
-        User currentPlayer = App.dataManager.getCurrentUser();
+    public Result changeUsername(Matcher input){
 
-        if (currentPlayer == null) {
-            return new Result(false, "No user is currently logged in.");
+        String newUsername = input.group("username");
+
+        if ( App.dataManager.getCurrentUser().getUsername().equals(newUsername) ) {
+            return new Result(false, "You have to choose a ***NEW*** username");
         }
 
-        // Check if old password is correct
-        if (!currentPlayer.getPassword().equals(oldPassword)) {
-            return new Result(false, "Old password is incorrect.");
+        if (  usernameAlreadyExists(newUsername)) {
+            return new Result(false, "Username already exists!");
         }
 
-        // Check if new password is the same as current
-        if (currentPlayer.getPassword().equals(newPassword)) {
-            return new Result(false, "The new password is the same as your current password.");
+
+        if ( ! isUsernameValid(newUsername) ) {
+            return new Result(false, "Invalid username format!");
         }
 
-        // Check if password is valid
-        if (LoginCommands.PASSWORD_REGEX.getMatcher(newPassword) == null) {
+        App.dataManager.getCurrentUser().setUsername(newUsername);
+        return new Result(true, "Successfully changed username!");
+
+    }
+
+    public Result changeNickname(Matcher input){
+
+        String newNickname = input.group("nickname");
+
+        if ( App.dataManager.getCurrentUser().getNickname().equals(newNickname) ) {
+            return new Result(false, "You have to choose a ***NEW*** nickname");
+        }
+
+        App.dataManager.getCurrentUser().setNickname(newNickname);
+        return new Result(true, "Successfully changed nickname!");
+
+
+
+    }
+
+    public Result changeEmail(Matcher input){
+
+        String newEmail = input.group("email");
+
+        if ( App.dataManager.getCurrentUser().getEmail().equals(newEmail) ) {
+            return new Result(false, "You have to choose a ***NEW*** email");
+        }
+
+        if ( ! isEmailValid(newEmail) ) {
+            return new Result(false, "Invalid email format!");
+        }
+
+        App.dataManager.getCurrentUser().setEmail(newEmail);
+        return new Result(true, "Successfully changed E-mail!");
+
+
+    }
+
+    public Result changePassword(Matcher input){
+
+        String oldPassword = input.group("oldPassword");
+        String newPassword = input.group("newPassword");
+
+        if ( ! App.dataManager.getCurrentUser().getPassword().equals(oldPassword) ) {
+            return new Result(false, "Wrong password!");
+        }
+
+        if ( oldPassword.equals(newPassword) ) {
+            return new Result(false, "You have to choose a ***NEW*** password");
+        }
+
+        if ( !isPasswordValid(newPassword) ) {
+
             return new Result(false, "Invalid password format.");
+
         }
 
+        if ( isPasswordWeak(newPassword) ) {
 
-        // Check if password is strong
-        if (newPassword.length() < 8) {
-            return new Result(false, "Password is too weak: must be at least 8 characters long.");
+            return new Result(false, "Password is weak!");
+
         }
 
-        boolean hasUpperCase = !newPassword.equals(newPassword.toLowerCase());
-        boolean hasLowerCase = !newPassword.equals(newPassword.toUpperCase());
-        boolean hasDigit = newPassword.matches(".*\\d.*");
-        boolean hasSpecial = newPassword.matches(".*[?<>,\"';:\\\\/|\\[\\]{}+=)(*&^%$#!].*");
+        App.dataManager.getCurrentUser().setPassword(newPassword);
+        return new Result(true, "Successfully changed password!");
 
-        if (!(hasUpperCase && hasLowerCase && hasDigit && hasSpecial)) {
-            StringBuilder reason = new StringBuilder("Password is too weak: must contain ");
-            if (!hasUpperCase) reason.append("uppercase letters, ");
-            if (!hasLowerCase) reason.append("lowercase letters, ");
-            if (!hasDigit) reason.append("digits, ");
-            if (!hasSpecial) reason.append("special characters, ");
-
-            return new Result(false, reason.substring(0, reason.length() - 2) + ".");
-        }
-
-        currentPlayer.setPassword(newPassword);
-        return new Result(true, "Password successfully changed.");
     }
+
+    public boolean usernameAlreadyExists(String username) {
+
+        for ( User user : App.dataManager.getAllUsers() ){
+
+            if ( user.getUsername().equals(username) ){
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    private boolean isUsernameValid(String username) {
+
+        return (LoginCommands.USERNAME_REGEX.getMatcher(username) != null);
+
+    }
+
+    private boolean isEmailValid(String email) {
+
+        if ( ! email.contains("@") ) {
+            return false;
+        }
+
+        String user = email.substring(0, email.indexOf("@"));
+        String domain = email.substring(email.indexOf("@") + 1);
+
+        if ( user.contains("@") || domain.contains("@") || (user.isEmpty()) || (domain.isEmpty()) ) {
+
+            return false;
+
+        }
+
+        if ( LoginCommands.EMAIL_USER_REGEX.getMatcher(user) == null ) {
+            return false;
+        }
+
+        if ( LoginCommands.EMAIL_DOMAIN_REGEX.getMatcher(domain) == null ) {
+            return false;
+        }
+
+        if ( email.contains(LoginCommands.EMAIL_SPECIAL_CHAR.getRegexString()) ) {
+            return false;
+        }
+
+
+        return true;
+
+
+    }
+
+    private boolean isPasswordValid(String password) {
+
+        return ( LoginCommands.PASSWORD_REGEX.getMatcher(password) != null );
+
+    }
+
+    private boolean isPasswordWeak(String password) {
+
+        if ( password.length() < 8 ) {
+
+            return true;
+
+        }
+
+        if ( password.toLowerCase().equals(password) || password.toUpperCase().equals(password) ) {
+            //  AGE HAMASH KOOCHIK YA BOZORG BASHE
+
+            return true;
+
+        }
+
+        if ( LoginCommands.PASSWORD_CONTAINS_DIGITS.getMatcher(password) == null ) {
+
+            return true;
+
+        }
+
+
+        if ( LoginCommands.PASSWORD_SPECIAL_CHAR.getMatcher(password) == null ) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
 }
