@@ -20,7 +20,7 @@ public enum MainMenuCommands implements Command{
     GO_TO_GAME_MENU("\\s*menu\\s+enter\\s+(g|G)ame(\\s+(M|m)enu)?\\s*"),
     GO_TO_AVATAR_MENU("\\s*menu\\s+enter\\s+(a|A)vater(\\s+(M|m)enu)?\\s*"),
     USER_LOGOUT("\\s*user\\s+logout\\s*"),
-    SHOW_CURRENT_MENU("\\s*menu\\s+show\\s+menu\\s*");
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*");
 
 
     private final String regexString;

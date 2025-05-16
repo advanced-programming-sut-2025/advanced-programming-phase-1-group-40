@@ -25,7 +25,7 @@ public enum LoginCommands implements Command {
 
 
     EXIT("\\s*menu\\s+exit\\s*"),
-    SHOW_CURRENT_MENU("\\s*menu\\s+show\\s+menu\\s*");
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*");
 
 
 
