@@ -1,10 +1,9 @@
 package org.example.view;
 
-import org.example.controller.Game.GameController;
 import org.example.controller.Game.PreGameMenuController;
 import org.example.models.App;
 import org.example.models.enums.Menu;
-import org.example.models.enums.commands.GameMenuCommands;
+import org.example.models.enums.commands.PreGameMenuCommands;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -19,26 +18,31 @@ public class PreGameMenu implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
         Matcher matcher;
-        if ( (matcher = GameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
+        if ( (matcher = PreGameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
 
             System.out.println(preGameMenuController.createNewGame(matcher.group("users"), scanner).message());
             preGameMenuController.setNewGameWeather();
-            System.out.printf("It's " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn:");
+
 
         }
-        else if (  GameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {
+        else if (  PreGameMenuCommands.SHOW_CURRENT_MENU.getMatcher(input) != null  ) {
 
             preGameMenuController.showCurrentMenu();
 
         }
 
-        else if ( GameMenuCommands.SHOW_MAP.getMatcher(input) != null ) {
+        else if ( PreGameMenuCommands.SHOW_MAP.getMatcher(input) != null ) {
             System.out.println(preGameMenuController.handleShowMap());
         }
 
-        else if ( GameMenuCommands.GO_TO_MAIN_MENU.getMatcher(input) != null  ) {
+        else if ( PreGameMenuCommands.GO_TO_MAIN_MENU.getMatcher(input) != null  ) {
 
             App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+
+        }
+        else if ( PreGameMenuCommands.LOAD_GAME.getMatcher(input) != null ){
+
+            System.out.println(preGameMenuController.loadGame().message());
 
         }
         else{
