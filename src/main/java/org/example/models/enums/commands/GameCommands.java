@@ -1,15 +1,6 @@
 package org.example.models.enums.commands;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
-
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -161,8 +152,15 @@ public enum GameCommands implements Command{
     SHOW_CRAFTING_RECIPES("\\s*crafting\\s+show\\s+recipes\\s*"),
     CRAFT_ITEM("\\s*crafting\\s+craft\\s+(?<itemName>.+)\\s*"),
     PLACE_ITEM("\\s*place\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-d\\s+(?<direction>.+)\\s*"),
-    CHEAT_ADD_ITEM("\\s*cheat\\s+add\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-c\\s+(?<count>\\d+)\\s*");
+    CHEAT_ADD_ITEM("\\s*cheat\\s+add\\s+item\\s+-n\\s+(?<itemName>.+)\\s+-c\\s+(?<count>\\d+)\\s*"),
 
+
+    // COMMANDS RELATED TO COOKING
+
+    COOKING_REFRIGERATOR("\\s*cooking\\s+refrigerator\\s+(?<action>put|pick)\\s+(?<item>.+)\\s*"),
+    COOKING_SHOW_RECIPES("\\s*cooking\\s+show\\s+recipes\\s*"),
+    COOKING_PREPARE("\\s*cooking\\s+prepare\\s+(?<recipeName>.+)\\s*"),
+    EAT_FOOD("\\s*eat\\s+(?<foodName>.+)\\s*");
 
 
 

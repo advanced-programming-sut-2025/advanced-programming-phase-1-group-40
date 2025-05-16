@@ -15,6 +15,7 @@ public class Player extends User {
 
 
     private int energy;
+    private int maxEnergy;
     private boolean isEnergyUnlimited;
     private Position currentPosition;
     private Tool currentTool;
@@ -46,6 +47,9 @@ public class Player extends User {
         this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
         this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
+    }
+    public void increaseEnergy(int energyCost) {
+        this.energy = Math.min(this.maxEnergy, this.energy + energyCost);
     }
 
 

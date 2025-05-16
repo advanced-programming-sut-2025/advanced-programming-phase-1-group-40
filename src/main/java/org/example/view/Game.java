@@ -32,6 +32,22 @@ public class Game implements AppMenu {
             System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername());
 
         }
+        ///  COOKING
+        else if (GameCommands.COOKING_REFRIGERATOR.getMatcher(input) != null) {
+            System.out.println(gameController.handleRefrigerator(GameCommands.COOKING_REFRIGERATOR.getMatcher(input)));
+        }
+        else if (GameCommands.COOKING_SHOW_RECIPES.getMatcher(input) != null) {
+            System.out.println(gameController.showCookingRecipes());
+        }
+        else if (GameCommands.COOKING_PREPARE.getMatcher(input) != null) {
+            System.out.println(gameController.prepareRecipe(GameCommands.COOKING_PREPARE.getMatcher(input)));
+        }
+        else if (GameCommands.EAT_FOOD.getMatcher(input) != null) {
+            System.out.println(gameController.eatFood(GameCommands.EAT_FOOD.getMatcher(input)));
+        }
+
+
+
 
         ///  TIME & DATE
 

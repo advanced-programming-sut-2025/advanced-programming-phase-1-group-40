@@ -12,10 +12,7 @@ import org.example.models.enums.*;
 import org.example.models.inventory.Backpack;
 import org.example.models.tools.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -170,6 +167,77 @@ public class GameController {
         return new Result(true, "You successfully upgraded "+toolName);
 
     }
+    /// COOKING
+    public String handleRefrigerator(Matcher matcher) {
+        return " ";
+    }
+
+    public String showCookingRecipes() {
+        StringBuilder sb = new StringBuilder("Available recipes:\n");
+
+        for (Food food : Food.values()) {
+            sb.append("- ").append(food.getName()).append(" | Ingredients: ");
+            boolean first = true;
+
+            for (Map.Entry<IngredientType, Integer> entry : food.getIngredients().entrySet()) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(entry.getValue()).append(" ").append(entry.getKey().getName());
+                first = false;
+                //dige avali nist
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+
+    public String prepareRecipe(Matcher matcher) {
+        if (matcher == null || !matcher.matches()) {
+            return "Invalid recipe command format.";
+        }
+
+        String foodName = matcher.group("foodName");
+        Result result = cook(foodName);
+        return result.message();
+    }
+    public Result cook(String foodName) {
+        return new Result(true,"You are now cooking " + foodName);
+        //actually implement the logic for cooking
+    }
+
+
+
+
+    public String eatFood(Matcher matcher) {
+       Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        String foodName = matcher.group("foodName");
+        Food foodToEat = null;
+        for(Food food : Food.values()){
+            if ( foodName.equals(food.getName()) ) {
+                foodToEat = food;
+                break;
+            }
+        }
+        if ( foodToEat == null ) {
+            return "You don't have a food called " + foodName+ "to eat.";
+        }
+        Item foodItem = new FoodItem(foodToEat);
+        boolean removed  = false;
+        if (player.getInventory().getItemCount(foodItem) > 0) {
+            player.getInventory().removeFromInventory(foodItem, 1);
+            removed = true;
+        }
+        if ( !removed ) {
+            return "You don't have any " + foodName+ "to eat.";
+        }
+        //here energy of the player should be increased based on the food energy
+        player.increaseEnergy(foodToEat.getEnergy());
+        return "You have eaten "+foodToEat.getName();
+    }
+
+
 
 
     ///  TURN AND UPDATING GAME
