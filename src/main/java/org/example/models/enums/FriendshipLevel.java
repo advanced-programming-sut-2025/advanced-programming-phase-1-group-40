@@ -11,6 +11,7 @@ import org.example.models.*;
 
 
 public enum FriendshipLevel {
+
     STRANGER(0),
     FRIEND(1),
     CLOSE_FRIEND(2),
@@ -37,5 +38,7 @@ public enum FriendshipLevel {
             default -> STRANGER;
         };
     }
+
+
 }
 

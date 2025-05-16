@@ -23,7 +23,8 @@ public class Player extends User {
     private Backpack backpack;
     private int highestMoney;
     private int gamesPlayed;
-    private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
+//    private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
+    private ArrayList<FriendshipWithPlayers> friendships;
     private ArrayList<Tool> tools = new ArrayList<>();
     private Integer gold;
 
@@ -41,9 +42,19 @@ public class Player extends User {
         this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
 
         this.gold = 0;
+        this.friendships = new ArrayList<>();
+
 
     }
 
+
+    public ArrayList<FriendshipWithPlayers> getFriendships() {
+        return friendships;
+    }
+
+    public void addFriendship(FriendshipWithPlayers friendship) {
+        this.friendships.add(friendship);
+    }
 
     public Integer getGold() {
         return gold;
@@ -113,13 +124,13 @@ public class Player extends User {
         this.gamesPlayed = gamesPlayed;
     }
 
-    public HashMap<Player, FriendshipWithNPC> getFriendships() {
-        return friendships;
-    }
-
-    public void setFriendships(Player targetPlayer, FriendshipWithNPC friendshipWithNPC) {
-        this.friendships.put(targetPlayer, friendshipWithNPC);
-    }
+//    public HashMap<Player, FriendshipWithNPC> getFriendships() {
+//        return friendships;
+//    }
+//
+//    public void setFriendships(Player targetPlayer, FriendshipWithNPC friendshipWithNPC) {
+//        this.friendships.put(targetPlayer, friendshipWithNPC);
+//    }
 
     public void setCurrentTool(Tool currentTool) {
         this.currentTool = currentTool;

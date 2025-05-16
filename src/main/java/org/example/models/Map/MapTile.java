@@ -1,6 +1,7 @@
 package org.example.models.Map;
 
 import org.example.models.Map.SecondaryMapComponents.Crop;
+import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Position;
 import org.example.models.enums.types.ForagingMineralType;
 import org.example.models.enums.types.TreeType;

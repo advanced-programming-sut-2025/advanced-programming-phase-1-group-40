@@ -1,16 +1,26 @@
 package org.example.models;
 
-import org.example.models.enums.*;
+import org.example.models.enums.FriendshipLevel;
 
-public class FriendshipWithNPC {
+public class FriendshipWithPlayers {
 
+    private Player targetPlayer;
     private Integer friendshipXP;
     private FriendshipLevel friendshipLevel;
 
 
-    public FriendshipWithNPC(Integer friendshipXP, FriendshipLevel friendshipLevel) {
+    public FriendshipWithPlayers(Player targetPlayer, Integer friendshipXP, FriendshipLevel friendshipLevel) {
+        this.targetPlayer = targetPlayer;
         this.friendshipXP = friendshipXP;
         this.friendshipLevel = friendshipLevel;
+    }
+
+    public Player getTargetPlayer() {
+        return targetPlayer;
+    }
+
+    public void setTargetPlayer(Player targetPlayer) {
+        this.targetPlayer = targetPlayer;
     }
 
     public Integer getFriendshipXP() {
@@ -28,6 +38,4 @@ public class FriendshipWithNPC {
     public void setFriendshipLevel(FriendshipLevel friendshipLevel) {
         this.friendshipLevel = friendshipLevel;
     }
-
-
 }

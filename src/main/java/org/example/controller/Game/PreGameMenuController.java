@@ -59,19 +59,19 @@ public class PreGameMenuController {
             players.add(new Player(user));
         }
 
-        for (Player player1 : players) {
-
-            for (Player player2 : players) {
-
-                if (!player1.equals(player2)) {
-
-                    player1.setFriendships(player2, new FriendshipWithNPC(0, FriendshipLevel.STRANGER));
-
-                }
-
-            }
-
-        }
+//        for (Player player1 : players) {
+//
+//            for (Player player2 : players) {
+//
+//                if (!player1.equals(player2)) {
+//
+//                    player1.setFriendships(player2, new FriendshipWithNPC(0, FriendshipLevel.STRANGER));
+//
+//                }
+//
+//            }
+//
+//        }
 
         // Create the game and set it as current in DataManager
         Game newGame = App.dataManager.createNewGame(players);
@@ -82,8 +82,27 @@ public class PreGameMenuController {
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
-
+        setFriendship(newGame);
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
+    }
+
+    private void setFriendship(Game game){
+
+        for ( Player player : game.getPlayers() ) {
+
+            for ( Player targetPlayer : game.getPlayers() ) {
+
+                if ( !player.equals(targetPlayer) ) {
+
+                    player.addFriendship(new FriendshipWithPlayers(targetPlayer,0,FriendshipLevel.STRANGER));
+
+                }
+
+            }
+
+        }
+
+
     }
 
     public Result loadGame(){
