@@ -171,7 +171,7 @@ public class GameController {
 
 
                             friendshipWithPlayers.setFriendshipLevel(FriendshipLevel.values()[friendshipWithPlayers.getFriendshipLevel().getLevel()-1]);
-                            friendshipWithPlayers.setFriendshipXP((friendshipWithPlayers.getFriendshipLevel().getLevel()+2)*100 + friendshipWithPlayers.getFriendshipXP() - 10 );
+                            friendshipWithPlayers.setFriendshipXP((friendshipWithPlayers.getFriendshipLevel().getLevel()+1)*100 + friendshipWithPlayers.getFriendshipXP() - 10 );
 
                         }
 
@@ -254,7 +254,6 @@ public class GameController {
         return currentGame.getPlayers().get(nextIndex);
 
     }
-
 
 
     ///     ----------------->  TOOLS
@@ -1080,6 +1079,115 @@ public class GameController {
     }
 
 
+    ///        ----------------------->  Taamolat ba Other Players
+
+    public void showFriendships(){
+
+        System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s friends are:");
+
+        for ( FriendshipWithPlayers friendship : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getFriendships() ){
+
+            System.out.println("    " + friendship.getTargetPlayer().getUsername() + "(" + friendship.getFriendshipLevel().getDisplayName() + " with: " + friendship.getFriendshipXP() + " xp)");
+
+        }
+
+    }
+
+    public Result talk(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+        String message = input.group("message");
+
+        if ( targetPlayer == null ){
+            return new Result(false, "Target player not found");
+        }
+
+        showMessage(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer, message);
+
+        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isTalk() ){
+
+            updateFriendshipTalk(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
+
+        }
+
+
+        return new Result(true,"Message sent.");
+    }
+
+    private void updateFriendshipTalk(Player player1, Player player2){
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+
+        if ( ! friendship1.isTalk() ){
+
+            friendship1.setTalk(true);
+            friendship2.setTalk(true);
+            friendship1.setInteraction(true);
+            friendship2.setInteraction(true);
+
+            if ( (friendship1.getFriendshipXP() + 20) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+
+                if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
+
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
+
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
+
+                }
+                else{
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                }
+
+            }
+            else{
+                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 20);
+                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 20);
+
+            }
+
+        }
+
+    }
+
+    private FriendshipWithPlayers getFriendshipWithPlayers(Player player1, Player player2){
+
+        for ( FriendshipWithPlayers friendship : player1.getFriendships() ){
+
+            if ( friendship.getTargetPlayer().equals(player2) ){
+                return friendship;
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private void showMessage(Player messageSender, Player targetPlayer, String message){
+
+        int lines = (int)Math.floor((double) message.length() /50) +1;
+
+        System.out.println("************************************************************");
+        System.out.println("*Dear" + targetPlayer.getUsername() + ", Here is a message from " + messageSender.getUsername() + ":");
+        for ( int i = 0 ; i < lines; i++ ){
+            System.out.println("*    " + message.substring(i*50, (i+1)*50) + "    *");
+        }
+        System.out.println("************************************************************");
+
+    }
+
+    private Player getPlayerByUsername(String username) {
+        for (Player player : App.dataManager.getCurrentGame().getPlayers()) {
+            if (player.getUsername().equals(username)) {
+                return player;
+            }
+        }
+        return null;
+    }
 
     ///        ----------------------->
 
@@ -1089,24 +1197,7 @@ public class GameController {
         return App.dataManager.getCurrentGame();
     }
 
-    public Result showFriendshipLevels() {
-        Game game = getCurrentGame();
-        if (game == null) {
-            return new Result(false, "You are not currently in a game.");
-        }
 
-        StringBuilder message = new StringBuilder("Friendship w other Players:\n");
-        for (Player otherPlayer : game.getPlayers()) {
-            if (! App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(otherPlayer)) {
-                FriendshipWithNPC friendshipWithNPC = game.getFriendship(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), otherPlayer);
-                message.append(otherPlayer.getUsername()).append(":\n")
-                        .append("Friendship Level: ").append(friendshipWithNPC.getFriendshipLevel()).append("\n")
-                        .append("XP: ").append(friendshipWithNPC.getFriendshipXP()).append("\n\n");
-            }
-        }
-
-        return new Result(true, message.toString().trim());
-    }
 
     public Result talk(String username, String message) {
         Game game = getCurrentGame();

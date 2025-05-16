@@ -313,14 +313,14 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_FRIENDSHIP.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            gameController.showFriendships();
 
 
         }
         else if (GameCommands.TALK_WITH_OTHERS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.talk(GameCommands.TALK_WITH_OTHERS.getMatcher(input)));
 
 
         }

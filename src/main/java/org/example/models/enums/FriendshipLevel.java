@@ -12,24 +12,27 @@ import org.example.models.*;
 
 public enum FriendshipLevel {
 
-    STRANGER(0),
-    FRIEND(1),
-    CLOSE_FRIEND(2),
-    BEST_FRIEND(3),
-    MARRIED(4);
+    STRANGER("Stranger",0),
+    FRIEND("Friend",1),
+    CLOSE_FRIEND("Close friend",2),
+    BEST_FRIEND("Best friend",3),
+    MARRIED("Married",4);
 
     private final int level;
+    private final String displayName;
 
-    FriendshipLevel(int level) {
+    FriendshipLevel(String displayName,int level) {
         this.level = level;
+        this.displayName = displayName;
     }
 
     public int getLevel() {
         return level;
     }
 
-
-
+    public String getDisplayName() {
+        return displayName;
+    }
 
 }
 

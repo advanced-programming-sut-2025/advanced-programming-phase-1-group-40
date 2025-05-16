@@ -76,7 +76,7 @@ public enum GameCommands implements Command{
     /// COMMAND HAYE TAAMOLAT VA RAVABET BA BAZIKONAYE DIGE
 
 
-    SHOW_FRIENDSHIP("\\s*friendship\\s*"),
+    SHOW_FRIENDSHIP("\\s*friendships\\s*"),
     TALK_WITH_OTHERS("\\s*talk\\s+-u\\s+(?<username>.+)\\s+-m\\s+(?<message>.+)\\s*"),
     SHOW_TALK_HISTORY("\\s*talk\\s+history\\s+-u\\s+(?<username>.+)\\s*"),
     GIVE_GIFT_TO_OTHERS("\\s*gift\\s+-u\\s+(?<username>.+)\\s+-i\\s+(?<item>.+)\\s+-a\\s+(?<amount>.+)\\s*"),

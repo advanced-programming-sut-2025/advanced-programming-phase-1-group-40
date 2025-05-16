@@ -8,6 +8,11 @@ public class FriendshipWithPlayers {
     private Integer friendshipXP;
     private FriendshipLevel friendshipLevel;
     private boolean interaction;
+    private boolean talk;
+    private boolean trade;
+    private boolean gift;
+    private boolean hug;
+    private boolean flower;
 
 
     public FriendshipWithPlayers(Player targetPlayer, Integer friendshipXP, FriendshipLevel friendshipLevel) {
@@ -15,6 +20,51 @@ public class FriendshipWithPlayers {
         this.friendshipXP = friendshipXP;
         this.friendshipLevel = friendshipLevel;
         this.interaction = false;
+        this.talk = false;
+        this.trade = false;
+        this.gift = false;
+        this.hug = false;
+        this.flower = false;
+    }
+
+    public boolean isFlower() {
+        return flower;
+    }
+
+    public void setFlower(boolean flower) {
+        this.flower = flower;
+    }
+
+    public boolean isHug() {
+        return hug;
+    }
+
+    public void setHug(boolean hug) {
+        this.hug = hug;
+    }
+
+    public boolean isGift() {
+        return gift;
+    }
+
+    public void setGift(boolean gift) {
+        this.gift = gift;
+    }
+
+    public boolean isTrade() {
+        return trade;
+    }
+
+    public void setTrade(boolean trade) {
+        this.trade = trade;
+    }
+
+    public boolean isTalk() {
+        return talk;
+    }
+
+    public void setTalk(boolean talk) {
+        this.talk = talk;
     }
 
     public boolean hadInteraction() {
