@@ -365,7 +365,7 @@ public class Game implements AppMenu {
         else if (GameCommands.MEET_NPC.getMatcher(input) != null) {
 
 
-            System.out.println(gameController.meetNPC(GameCommands.MEET_NPC.getMatcher(input).group(1)));
+            System.out.println(gameController.meetNPC(GameCommands.MEET_NPC.getMatcher(input).group(1)).message());
 
 
         }

@@ -11,7 +11,6 @@ import java.util.HashMap;
 
 public enum NPCType {
     CLINT(
-            Role.BLACKSMITH,
             new HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>>() {{
                 put(new HashMap<Item, Integer>() {{
                         put(ShopItemTypes.IRON_ORE, 50);
@@ -54,7 +53,8 @@ public enum NPCType {
                         new Situation(19, Season.WINTER, Weather.SNOWY));
             }}
     ),
-    MORRIS(Role.SHOPKEEPER, new HashMap<>(), new ArrayList<>(),
+    MORRIS(
+            new HashMap<>(), new ArrayList<>(),
             new HashMap<>() {{
                 put("A beautiful spring morning! Perfect for a fresh start—perhaps with a Joja Membership?",
                         new Situation(10, Season.SPRING, Weather.SUNNY));
@@ -84,7 +84,8 @@ public enum NPCType {
                         new Situation(19, Season.WINTER, Weather.SNOWY));
             }}
     ),
-    PIERRE(Role.SHOPKEEPER, new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
+    PIERRE(
+            new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
         put("Morning! Fresh produce today—better than anything you'd find at that soulless JojaMart!",
                 new Situation(10, Season.SPRING, Weather.SUNNY));
         put("Rain’s good for the crops, but not for customers. Guess I’ll have to rely on my regulars.",
@@ -113,7 +114,8 @@ public enum NPCType {
                 new Situation(19, Season.WINTER, Weather.SNOWY));
     }}
     ),
-    ROBIN(Role.SHOPKEEPER, new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
+    ROBIN(
+            new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
         put("Morning! Got any building projects in mind? Nothing like starting the day with fresh lumber!",
                 new Situation(10, Season.SPRING, Weather.SUNNY));
         put("Rainy mornings are perfect for indoor projects. Ever thought about upgrading your house?",
@@ -142,7 +144,8 @@ public enum NPCType {
                 new Situation(19, Season.WINTER, Weather.SNOWY));
     }}
     ),
-    WILLY(Role.SHOPKEEPER, new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
+    WILLY(
+            new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
         put("Mornin’! Good time to set sail—the fish are biting!", new Situation(10, Season.SPRING, Weather.SUNNY));
         put("Rain’s good for fishin’. They’re more active when the water’s movin’.", new Situation(10, Season.SUMMER, Weather.RAINY));
         put("Storm’s rollin’ in—dangerous waters. Best stay on land today.", new Situation(10, Season.FALL, Weather.STORMY));
@@ -150,7 +153,8 @@ public enum NPCType {
     }}
     ),
 
-    MARNIE(Role.SHOPKEEPER, new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
+    MARNIE(
+            new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
         put("Morning, dear! The animals are happy today. Must be the sunshine.", new Situation(10, Season.SPRING, Weather.SUNNY));
         put("Rainy days mean extra work cleaning the barn. But the animals don’t seem to mind.", new Situation(10, Season.SUMMER, Weather.RAINY));
         put("Storm’s brewing... better make sure the barn doors are shut tight.", new Situation(10, Season.FALL, Weather.STORMY));
@@ -158,7 +162,8 @@ public enum NPCType {
     }}
     ),
 
-    GUS(Role.SHOPKEEPER, new HashMap<>(), new ArrayList<>(),
+    GUS(
+            new HashMap<>(), new ArrayList<>(),
             new HashMap<>() {{
                 put("Good morning! Fresh coffee brewing—want a cup?", new Situation(10, Season.SPRING, Weather.SUNNY));
                 put("Rainy days make the saloon feel extra cozy. Perfect for a warm meal.", new Situation(10, Season.SUMMER, Weather.RAINY));
@@ -167,7 +172,8 @@ public enum NPCType {
             }}
     ),
 
-    SEBASTIAN(Role.VILLAGER, new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
+    SEBASTIAN(
+            new HashMap<>(), new ArrayList<>(), new HashMap<>() {{
         put("Morning? Ugh... I’m not awake yet.", new Situation(10, Season.SPRING, Weather.SUNNY));
         put("Rain is nice. Means I don’t have to make excuses to stay inside.", new Situation(10, Season.SUMMER, Weather.RAINY));
         put("Stormy weather’s kinda cool. Makes the whole town feel different.", new Situation(10, Season.FALL, Weather.STORMY));
@@ -175,7 +181,8 @@ public enum NPCType {
     }}
     ),
 
-    ABIGAIL(Role.VILLAGER, new HashMap<>(), new ArrayList<>(),
+    ABIGAIL(
+            new HashMap<>(), new ArrayList<>(),
             new HashMap<>() {{
                 put("Morning! Feels like a great day for an adventure.", new Situation(10, Season.SPRING, Weather.SUNNY));
                 put("Rain makes everything look mysterious. I kinda love it.", new Situation(10, Season.SUMMER, Weather.RAINY));
@@ -184,7 +191,8 @@ public enum NPCType {
             }}
     ),
 
-    HARVEY(Role.VILLAGER, new HashMap<>(), new ArrayList<>(),
+    HARVEY(
+            new HashMap<>(), new ArrayList<>(),
             new HashMap<>() {{
                 put("Good morning! Taking care of your health is just as important as taking care of your farm.", new Situation(10, Season.SPRING, Weather.SUNNY));
                 put("Rainy days mean more colds. Be sure to stay dry!", new Situation(10, Season.SUMMER, Weather.RAINY));
@@ -193,7 +201,8 @@ public enum NPCType {
             }}
     ),
 
-    LEA(Role.VILLAGER, new HashMap<>(), new ArrayList<>(),
+    LEA(
+            new HashMap<>(), new ArrayList<>(),
             new HashMap<>() {{
                 put("Morning! A day like this makes me want to go outside and sketch nature.", new Situation(10, Season.SPRING, Weather.SUNNY));
                 put("Rain is beautiful in its own way. I love how it makes everything glisten.", new Situation(10, Season.SUMMER, Weather.RAINY));
@@ -202,25 +211,18 @@ public enum NPCType {
             }}
     );
 
-    private final Role role;
     private final HashMap<HashMap<Item, Integer>, // requests
             HashMap<Item, Integer> // rewards
             > quests;
     private final ArrayList<Item> favorites;
     private final HashMap<String, Situation> dialog;
 
-    NPCType(Role role, HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> quests, ArrayList<Item> favorites,
+    NPCType(HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> quests, ArrayList<Item> favorites,
             HashMap<String, Situation> dialog) {
-        this.role = role;
         this.quests = quests;
         this.favorites = favorites;
         this.dialog = dialog;
     }
-
-    public Role getRole() {
-        return role;
-    }
-
     public HashMap<HashMap<Item, Integer>, // requests
             HashMap<Item, Integer> // rewards
             > getQuests() {
@@ -233,5 +235,22 @@ public enum NPCType {
 
     public HashMap<String, Situation> getDialog() {
         return dialog;
+    }
+
+    public String getName() {
+        return this.toString().toLowerCase();
+    }
+
+    public String getDialogBySituation(Situation situation) {
+        ArrayList<String> strings = new ArrayList<>(dialog.keySet());
+        ArrayList<Situation> situations = new ArrayList<>(dialog.values());
+
+        for (Situation s: situations) {
+            if (s.equals(situation)) {
+                return strings.get(situations.indexOf(s));
+            }
+        }
+
+        return null;
     }
 }
