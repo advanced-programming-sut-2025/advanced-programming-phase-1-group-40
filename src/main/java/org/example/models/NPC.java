@@ -15,6 +15,8 @@ public class NPC extends Human {
     private  HashMap<String, Situation> dialog;
     private  HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> quests;
     private  ArrayList<Item> favorites;
+    private  HashMap<User, Boolean> hasBeenGiftedToday;
+    private  HashMap<User, Integer> friendships;
 
     public NPC(HashMap<Human, FriendshipWithNPC> friendshipLevel, NPCType type) {
 
@@ -23,6 +25,9 @@ public class NPC extends Human {
         this.name = type.getName();
         this.position = new Position(0,0); // TODO
         this.dialog = type.getDialog();
+        this.quests = type.getQuests();
+        this.friendships = new HashMap<>();
+        this.hasBeenGiftedToday = new HashMap<>();
 
     }
 
@@ -47,8 +52,6 @@ public class NPC extends Human {
     }
 
 
-
-
     public HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> getQuests() {
         return quests;
     }
@@ -57,11 +60,6 @@ public class NPC extends Human {
         return favorites;
     }
 
-    /*public void giveGift(Item item) {
-        if (favorites.contains(item)) {
-            increaseFriendshipXP(200);
-        }
-    }*/
 
     public void viewQuests() {
         for (Map.Entry<HashMap<Item, Integer>, HashMap<Item, Integer>> quest : quests.entrySet()) {
@@ -70,7 +68,41 @@ public class NPC extends Human {
         }
     }
 
-    private void increaseFriendshipXP(int xp) {
-        System.out.println("Increased friendship XP by " + xp);
+    public void increaseFriendshipXP(Player player, int xp) {
+
+        Integer previousXP = friendships.get(player);
+
+        if ( previousXP == null ) {
+
+            previousXP = 0;
+
+        }
+
+        this.friendships.put(player, previousXP + xp);
+
+        System.out.println("Increased " + player.getUsername() + "'s friendship with " + this.name + " XP by " + xp);
+
+    }
+
+    public boolean hasBeenGiftedTody(Player player) {
+
+        if ( this.hasBeenGiftedToday.get(player) == null ) {
+
+            this.hasBeenGiftedToday.put(player, false);
+
+        }
+
+        return this.hasBeenGiftedToday.get(player);
+
+    }
+
+    public void setHasBeenGiftedToday(Player player, boolean value) {
+
+        this.hasBeenGiftedToday.put(player, value);
+
+    }
+
+    public int getFriendshipXP(Player player) {
+        return this.friendships.get(player);
     }
 }
