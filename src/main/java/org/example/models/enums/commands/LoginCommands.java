@@ -6,7 +6,8 @@ public enum LoginCommands implements Command {
 
     ///  REGISTER
 
-    REGISTER("\\s*register\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)\\s+(?<repeatPassword>\\S+)\\s+-n\\s+(?<nickname>\\S+)\\s+-e\\s+(?<email>\\S+)\\s+-g\\s+(?<gender>\\S+)\\s*"),
+  //  REGISTER("\\s*register\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)\\s+(?<repeatPassword>\\S+)\\s+-n\\s+(?<nickname>\\S+)\\s+-e\\s+(?<email>\\S+)\\s+-g\\s+(?<gender>\\S+)\\s*"),
+    REGISTER("\\s*register\\s+-u\\s+(?<username>\\S+)\\s+-p\\s+(?<password>\\S+)(?:\\s+(?<repeatPassword>\\S+))?\\s+-n\\s+(?<nickname>\\S+)\\s+-e\\s+(?<email>\\S+)\\s+-g\\s+(?<gender>\\S+)\\s*"),
     USERNAME_REGEX("[A-Za-z0-9-]+"),
     EMAIL_USER_REGEX("(?!.*\\.\\.)[a-zA-Z0-9](?:[a-zA-Z0-9._-]*[a-zA-Z0-9])?"),
     EMAIL_DOMAIN_REGEX("(?=[a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]$)(?=.*\\.)[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"),

@@ -34,7 +34,10 @@ public class Game implements AppMenu {
 
         }
         else if( GameCommands.WALK.getMatcher(input) != null){
-            App.dataManager.getCurrentGame().handleWalk(input);
+            App.dataManager.getCurrentGame().handleWalk(input,scanner);
+        }
+        else if( GameCommands.TELEPORT.getMatcher(input) != null){
+            App.dataManager.getCurrentGame().teleport(input);
         }
         else if( GameCommands.PRINT_MAP.getMatcher(input) != null){
             App.dataManager.getCurrentGame().showMapPartly(input);

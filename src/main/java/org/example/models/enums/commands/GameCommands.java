@@ -16,6 +16,7 @@ public enum GameCommands implements Command{
     PRINT_MAP("^\\s*print\\s+map\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s+-s\\s+(?<size>\\d+)\\s*$"),
     HELP_READING_MAP("\\s*help\\s+reading\\s+map\\s*"),
     SHOW_MAP("\\s*show\\s+map\\s*"),
+    TELEPORT("\\s*teleport\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s*"),
 
 
     ///  COAMMND HAYE TIME&DATE
@@ -51,9 +52,9 @@ public enum GameCommands implements Command{
     SHEPHERD_ANIMALS("\\s*shepherd\\s+animals\\s+-n\\s+(?<animalName>.+)\\s+-l\\s+(?<x>\\S+)\\s+(?<y>\\S+)\\s*"),
     FEED_HAY("\\s*feed\\s+hay\\s+-n\\s+(?<animalName>.+)\\s*"),
     SHOW_UNCOLLECTED_PRODUCTS("\\s+produces\\s*"),
-    COLLECT_PRODUCTS("\\s*collect\\s+produce\\s+n-\\s+(?<name>.+)\\s*"),
+    COLLECT_PRODUCTS("\\s*collect\\s+produce\\s+-n\\s+(?<name>.+)\\s*"),
     SELL_ANIMAL("\\s*sell\\s+animal\\s+n-\\s+(?<name>.+)\\s*"),
-    FISHING("\\s*fishing\\s+p-\\s+(?<fishingPole>.+)\\s*"),
+    FISHING("\\s*fishing\\s+-p\\s+(?<fishingPole>.+)\\s*"),
 
 
 
