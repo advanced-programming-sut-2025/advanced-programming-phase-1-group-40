@@ -20,7 +20,8 @@ public enum ProfileCommands implements Command {
     CHANGE_PASSWORD("\\s*change\\s+password\\s+-p\\s+(?<oldPassword>\\S+)\\s+-o\\s+(?<newPassword>\\S+)\\s*"),
     SHOW_USER_INFO("\\s*user\\s+info\\s*"),
     GO_TO_MAIN_MENU("\\s*menu\\s+enter\\s+(m|M)ain(\\s+(M|m)enu)?\\s*"),
-    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*");
+    SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*"),
+    EXIT_MENU("\\s*menu\\s+exit\\s*"),;
 
     private final String regexString;
 
