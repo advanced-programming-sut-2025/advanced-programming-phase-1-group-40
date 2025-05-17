@@ -10,12 +10,16 @@ public class ForagingTree extends Tree implements Item {
 
     private final TreeType treeType;
 
-    ForagingTree(Position position) {
+    public ForagingTree(Position position) {
 
 
         super(TreeType.values()[ 8 + (new Random().nextInt(5))],position);
         this.treeType = super.getTreeType();
 
+    }
+    public ForagingTree(Position position, TreeType treeType) {
+        super(TreeType.values()[ 8 + (new Random().nextInt(5))],position);
+        this.treeType = treeType;
     }
 
     @Override

@@ -199,8 +199,8 @@ public class MapBuilder {
                 tiles[x][y].setForageableItem(foragingSeed);
                 }
                 else if(i<count){
-                    // ForagingTree foragingTree = new ForagingTree(new Position(x, y));
-                    // tiles[x][y].setTreeType(foragingTree);
+                    ForagingTree foragingTree = new ForagingTree(new Position(x, y));
+                    tiles[x][y].setTreeType(foragingTree.getTreeType());
                     /////foraging tree ro ok kooooooooonnnnnnnnn
                 }
             }
@@ -257,13 +257,13 @@ public class MapBuilder {
                         break;
                     case FORAGEABLE:
                         if (tile.getForageableItem() instanceof ForagingCrop) {
-                            farm.addForagingCrop(position, (ForagingCrop)tile.getForageableItem());
+                            farm.addForagingCrop(position, ((ForagingCrop)tile.getForageableItem()).getType());
                         }
                         else if (tile.getForageableItem() instanceof ForagingSeed){
-                            farm.addForagingSeed(position, (ForagingSeed)tile.getForageableItem());
+                            farm.addForagingSeed(position, ((ForagingSeed)tile.getForageableItem()).getSeedType());
                         }
                         else if (tile.getForageableItem() instanceof ForagingTree){
-                            ///implement ittttttttttttttttttt
+                            farm.addForagingTree(position, ((ForagingTree)tile.getForageableItem()).getTreeType());
                         }
                         break;
                     case CABIN:

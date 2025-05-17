@@ -6,9 +6,7 @@ import org.example.models.FarmBuilding;
 import org.example.models.Map.SecondaryMapComponents.*;
 import org.example.models.Player;
 import org.example.models.enums.enviroment.Season;
-import org.example.models.enums.types.ForagingType;
-import org.example.models.enums.types.ForagingMineralType;
-import org.example.models.enums.types.TreeType;
+import org.example.models.enums.types.*;
 import org.example.models.Position;
 import org.example.models.Map.SecondaryMapComponents.Tree;
 
@@ -455,27 +453,35 @@ public class Farm implements Serializable {
       
     }
 
-    public void addForagingSeed(Position position, ForagingSeed foragingSeed) {
+    public void addForagingSeed(Position position, ForagingSeedType foragingSeedType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null ) {
-            //ForagingSeed fs = new ForagingSeed(position, tile.getForageableItem());
-            // foragingSeeds.add(fs);
-            // addComponent(fs);
+            ForagingSeed fs = new ForagingSeed(position, foragingSeedType);
+            foragingSeeds.add(fs);
+            addComponent(fs);
        
         }
       
     }
-    public void addForagingCrop(Position position, ForagingCrop foragingCrop){
+    public void addForagingCrop(Position position, ForagingCropType foragingCropType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
-        // ForagingCrop fc = new 
+        ForagingCrop fc = new ForagingCrop(position, foragingCropType);
+        foragingCrops.add(fc);
+        addComponent(fc);
     }
     //     public void addForagingSeed(ForagingSeed foragingSeed) {
     //     this.foragingSeeds.add(foragingSeed);
     // }
 
-    // public void addForagingTree(ForagingTree foragingTree) {
-    //     this.foragingTrees.add(foragingTree);
-    // }
+    public void addForagingTree(Position position,ForagingTree foragingTree) {
+        MapTile tile = getTileAt(position.getX(), position.getY());
+        if (tile != null ) {
+            ForagingTree ft = new ForagingTree(position, foragingTree.getTreeType());
+            foragingTrees.add(ft);
+            addComponent(ft);
+        }
+        
+    }
     
 
   
