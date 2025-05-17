@@ -1815,22 +1815,68 @@ public class GameController {
 
     }
 
-    public Result giftNPC(String npcName, String itemName) {
-        Game game = getCurrentGame();
+    public Result giveGift(Matcher input,Scanner scanner) {
 
-        NPC npc = game.getNPCByName(npcName);
-        if (npc == null) {
+        String npcName = input.group("npcName");
+        String itemName = input.group("item");
+
+
+        NPC npc = App.dataManager.getCurrentGame().getNPCByName(npcName);
+
+        if ( npc == null ) {
+
             return new Result(false, "NPC not found.");
+
         }
 
-        return new Result(true, "");
+
+        Item item = getItemByItemName(itemName);
+
+        if ( item == null ) {
+
+            return new Result(false, "Item not found.");
+
+        }
+
+
+        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+
+        if ( npc.hasBeenGiftedTody(player) ) {
+
+            if (npc.getFavorites().contains(item)) {
+
+                npc.increaseFriendshipXP(player, 200);
+
+            }
+
+            else {
+
+                npc.increaseFriendshipXP(player, 50);
+
+            }
+
+
+        }
+
+        npc.setHasBeenGiftedToday(player, true);
+
+        return new Result(true, "You gave a " + itemName + " to " + npcName);
     }
 
     public Result showFriendshipNPCList() {
-        Game game = getCurrentGame();
 
 
-        return new Result(true, "");
+        StringBuilder message = new StringBuilder("NPC Friendship List:\n");
+
+        for ( NPC npc : App.dataManager.getCurrentGame().getNpcs()) {
+
+            message.append(npc.getName()).append(": ")
+
+                    .append(npc.getFriendshipXP(App.dataManager.getCurrentGame().getCurrentTurnPlayer())).append("\n");
+
+        }
+
+        return new Result(true, message.toString());
     }
 
     public Result showQuestsList() {
