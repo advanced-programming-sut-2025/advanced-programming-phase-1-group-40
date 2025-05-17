@@ -1,9 +1,8 @@
 package org.example.models.Map;
 
-import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
-import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
+
 import org.example.models.Position;
-import org.example.models.Map.SecondaryMapComponents.Tree;
+import org.example.models.Map.SecondaryMapComponents.*;
 import org.example.models.enums.enviroment.Season;
 import org.example.models.enums.types.ForagingType;
 import org.example.models.enums.types.ForagingMineralType;
@@ -22,6 +21,7 @@ public class MapBuilder {
     private int height;
     private MapTile[][] tiles;
     private Random random;
+
     
     public MapBuilder() {
         this.random = new Random();
@@ -164,12 +164,13 @@ public class MapBuilder {
     }
     
     public MapBuilder randomlyPlaceForagingItems(int count, Season season) {
+        int j1=0;
         for (int i = 0; i < count; i++) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
             
-            if (isValidPosition(x, y) && tiles[y][x].getType() == TileType.GROUND) {
-                tiles[y][x] = new MapTile(new Position(x, y), TileType.FORAGEABLE);
+            if (isValidPosition(x, y) && tiles[x][y].getType() == TileType.GROUND) {
+                tiles[x][y] = new MapTile(new Position(x, y), TileType.FORAGEABLE);
                 
                 // Set foraging type based on season
                 ForagingType foragingType;
@@ -188,11 +189,20 @@ public class MapBuilder {
                 // }
                 
                 // Create a foraging crop and set it on the tile
-                for(int j = 0; j < count/3; j++){
-                    
-                }
+                if(i<count/3){
                 ForagingCrop foragingCrop = new ForagingCrop(new Position(x, y));
-                tiles[y][x].setForageableItem(foragingCrop);
+                tiles[x][y].setForageableItem(foragingCrop);
+            
+                }
+                else if(i<(count/3)*2){
+                ForagingSeed foragingSeed = new ForagingSeed(new Position(x, y));
+                tiles[x][y].setForageableItem(foragingSeed);
+                }
+                else if(i<count){
+                    // ForagingTree foragingTree = new ForagingTree(new Position(x, y));
+                    // tiles[x][y].setTreeType(foragingTree);
+                    /////foraging tree ro ok kooooooooonnnnnnnnn
+                }
             }
         }
         return this;
@@ -245,11 +255,17 @@ public class MapBuilder {
                     case STONE:
                         farm.addForagingMineral(position, tile.getStoneType());
                         break;
-                    // case FORAGEABLE:
-                    //     if (tile.getForageableItem() instanceof ForagingCrop) {
-                    //         farm.addForageable(position, tile.getForageableItem());
-                    //     }
-                    //     break;
+                    case FORAGEABLE:
+                        if (tile.getForageableItem() instanceof ForagingCrop) {
+                            //farm.addForagingCrop(position, tile.getForageableItem());
+                        }
+                        else if (tile.getForageableItem() instanceof ForagingSeed){
+                            //farm.addForagingSeed(position, tile.getForageableItem());
+                        }
+                        else if (tile.getForageableItem() instanceof ForagingTree){
+                            ///implement ittttttttttttttttttt
+                        }
+                        break;
                     case CABIN:
                     if(isNewComponent(farm, new Cabin(position))){
                         //farm.addComponent(new Cabin(position));
@@ -505,3 +521,4 @@ public class MapBuilder {
 
 
 }
+

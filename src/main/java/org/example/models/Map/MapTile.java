@@ -1,6 +1,6 @@
 package org.example.models.Map;
 
-import org.example.models.Map.SecondaryMapComponents.Crop;
+import org.example.models.Map.SecondaryMapComponents.*;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Position;
 import org.example.models.enums.types.ForagingMineralType;
@@ -22,7 +22,9 @@ public class MapTile implements Serializable {
     private TreeType treeType;
     private ForagingMineralType foragingMineralType;
     private MapComponents mapComponents;
-    private ForagingCrop foragingCrop;
+    // private ForagingCrop foragingCrop;
+    // private ForagingTree foragingTree;
+    // private ForagingSeed foragingSeed;
     
     private boolean isEmpty;
     
@@ -36,6 +38,7 @@ public class MapTile implements Serializable {
         this.foragingMineralType = null;
         this.mapComponents = null;
         this.isEmpty = true;
+
     }
 
     public MapComponents getMapComponents() {

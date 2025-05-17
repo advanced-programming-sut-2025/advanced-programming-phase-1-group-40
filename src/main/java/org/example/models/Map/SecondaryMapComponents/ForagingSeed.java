@@ -18,6 +18,11 @@ public class ForagingSeed extends MapComponents implements Item {
 
     }
 
+    // public ForagingSeed(Position position, ForagingSeedType seedType) {
+    //     super(position, 1, 1);
+    //     this.seedType = seedType;
+    // }
+
     public ForagingSeedType getSeedType() {
         return seedType;
     }
@@ -31,5 +36,6 @@ public class ForagingSeed extends MapComponents implements Item {
     public String getItemName() {
         return "Foraging Seed";
     }
+
 
 }

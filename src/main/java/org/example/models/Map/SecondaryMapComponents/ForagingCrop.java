@@ -18,6 +18,10 @@ public class ForagingCrop extends MapComponents implements Item {
         this.type = ForagingCropType.values()[(new Random()).nextInt(ForagingCropType.values().length)];
 
     }
+    // public ForagingCrop(Position position, ForagingCrop foragingCrop){
+    //     super(position, 1, 1);
+    //     this.type
+    // }
 
     public ForagingCropType getType() {
         return type;
