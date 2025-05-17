@@ -38,11 +38,33 @@ public class LoginController {
             return new Result(false, "Invalid email format.");
         }
 
-        if ( password.trim().equals("random") ) {
-
+        if (password.trim().equalsIgnoreCase("random")) {
             password = generateRandomPassword();
 
+            System.out.println("Generated password: " + password);
+            System.out.print("Do you want to use this password? (yes/no): ");
+            String confirmation = scanner.nextLine().trim().toLowerCase();
+
+            if (confirmation.equals("yes")) {
+                repeatPassword = password;
+            } else {
+                System.out.println("You chose not to use the generated password.");
+                System.out.println("1. Enter a new password manually");
+                System.out.println("2. Cancel registration");
+                System.out.print("Your choice: ");
+                String choice = scanner.nextLine().trim();
+
+                if (choice.equals("1")) {
+                    System.out.print("Enter password: ");
+                    password = scanner.nextLine();
+                    System.out.print("Repeat password: ");
+                    repeatPassword = scanner.nextLine();
+                } else {
+                    return new Result(false, "Registration cancelled.");
+                }
+            }
         }
+
 
 
         else {
@@ -96,6 +118,26 @@ public class LoginController {
         }
 
     }
+//    public Result registerUser(Matcher matcher, Scanner scanner, String generatedPassword) {
+//        String username = matcher.group("username");
+//        String password = generatedPassword != null ? generatedPassword : matcher.group("password");
+//        String repeatPassword = generatedPassword != null ? generatedPassword : matcher.group("repeatPassword");
+//        String nickname = matcher.group("nickname");
+//        String email = matcher.group("email");
+//        String gender = matcher.group("gender");
+//
+//        return register(username, password, repeatPassword, nickname, email, gender);
+//    }
+//    private Result register(String username, String password, String repeatPassword, String nickname, String email, String gender) {
+//
+//        if (!password.equals(repeatPassword)) {
+//            return new Result(false, "Passwords do not match.");
+//        }
+//        return new Result(true, "User registered successfully!");
+//    }
+//
+
+
 
     private Matcher handleSecurityQuestion(Scanner scanner) {
 
@@ -226,7 +268,7 @@ public class LoginController {
 
     }
 
-    private String generateRandomPassword() {                       ///  TODO: BAYAD CHECK BESHE K PASS GENERATE SHODE OK BASHE!!!
+    public String generateRandomPassword() {                       ///  TODO: BAYAD CHECK BESHE K PASS GENERATE SHODE OK BASHE!!!
 
         int length = new Random().nextInt(13) + 8;
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789?><,';:/|][}{+=)(*&^%$#!";

@@ -4,6 +4,7 @@ import org.example.controller.User.LoginController;
 import org.example.models.enums.commands.LoginCommands;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class LoginMenu implements AppMenu {
 
@@ -18,6 +19,8 @@ public class LoginMenu implements AppMenu {
             System.out.println(loginController.registerUser(LoginCommands.REGISTER.getMatcher(input),scanner).message());
 
         }
+
+
 
 
         else if ( LoginCommands.LOGIN.getMatcher(input) != null ) {
@@ -54,7 +57,7 @@ public class LoginMenu implements AppMenu {
 
 
     }
-    
+
 
 
 }
