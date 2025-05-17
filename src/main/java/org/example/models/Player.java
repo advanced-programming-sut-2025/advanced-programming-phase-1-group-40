@@ -188,6 +188,9 @@ public class Player extends User {
 
     public void setEnergyUnlimited(boolean unlimitedEnergy) {
         this.isEnergyUnlimited = unlimitedEnergy;
+        if(unlimitedEnergy){
+            this.energy = 200;
+        }
     }
 
     public void faint() {
