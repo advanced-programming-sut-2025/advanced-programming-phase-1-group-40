@@ -207,4 +207,12 @@ public class ProfileController {
 
     }
 
+    public Result exitMenu() {
+
+        App.dataManager.setCurrentMenu(Menu.MAIN_MENU);
+
+        return new Result(true, "Exiting Profile Menu");
+
+    }
+
 }
