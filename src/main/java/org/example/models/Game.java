@@ -75,6 +75,22 @@ public class Game {
     }
 
 
+    public Farm getCurrentFarm() {
+        return currentFarm;
+    }
+
+    public Position getPlayerMapPosition() {
+        return playerMapPosition;
+    }
+
+    public HashMap<String, Boolean> getTerminationVotes() {
+        return terminationVotes;
+    }
+
+    public ArrayList<NPC> getNpcs() {
+        return npcs;
+    }
+
     public ArrayList<Trade> getTrades() {
         return trades;
     }
