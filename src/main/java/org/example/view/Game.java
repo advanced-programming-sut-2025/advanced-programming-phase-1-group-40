@@ -434,7 +434,7 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_FRIENDSHIP_WITH_NPC.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.showFriendshipNPCList().message());
 
 
         }
