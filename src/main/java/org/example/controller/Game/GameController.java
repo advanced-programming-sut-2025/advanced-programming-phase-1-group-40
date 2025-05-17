@@ -8,6 +8,7 @@ import org.example.models.Animal.AnimalProduct;
 import org.example.models.Animal.AnimalProductQuality;
 import org.example.models.Map.SecondaryMapComponents.ForagingSeed;
 import org.example.models.Map.TileType;
+import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
@@ -1389,6 +1390,10 @@ public class GameController {
             return new Result(false,"User not found.");
         }
 
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(targetPlayer) ){
+            return new Result(false,"You cant hug yourself. You gonna die alone.");
+        }
+
         FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer);
         FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer());
 
@@ -1461,6 +1466,10 @@ public class GameController {
             return new Result(false,"User not found.");
         }
 
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(targetPlayer) ){
+            return new Result(false,"You cant flower yourself habibi ;)");
+        }
+
         FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer);
         FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer());
 
@@ -1521,12 +1530,37 @@ public class GameController {
 
     }
 
-    public Result askMarriage(Matcher input){
+    private boolean responseToPropose(Player targetPlayer,Scanner scanner){
+
+        System.out.println("----- Dear " + targetPlayer.getUsername() + " will you marry this idiot? " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername());
+
+        String input = scanner.nextLine().trim();
+
+        while (GameCommands.RESPOND_TO_MARRIAGE.getMatcher(input) == null) {
+
+            System.out.println("Invalid response. Try again...");
+            input = scanner.nextLine().trim();
+
+        }
+
+        if ( GameCommands.RESPOND_TO_MARRIAGE.getMatcher(input).group("response").trim().equals("accept") ){
+            return true;
+        }
+        return false;
+
+
+    }
+
+    public Result askMarriage(Matcher input,Scanner scanner){
 
         Player targetPlayer = getPlayerByUsername(input.group("username"));
 
         if ( targetPlayer == null ){
             return new Result(false,"User not found.");
+        }
+
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(targetPlayer) ){
+            return new Result(false,"You cant marry yourself you SUSSY BAKA!");
         }
 
         Item ring = getItemByItemName(input.group("ring"));
@@ -1552,6 +1586,10 @@ public class GameController {
 
             return new Result(false,"Why are you gay?");
 
+        }
+
+        if ( ! responseToPropose(targetPlayer,scanner) ){
+            return new Result(false,"HAHAHAHA she said no. You are just a loser");
         }
 
         App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(ring,1);
