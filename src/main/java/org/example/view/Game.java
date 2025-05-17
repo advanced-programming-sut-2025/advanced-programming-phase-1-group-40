@@ -7,6 +7,7 @@ import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.commands.PreGameMenuCommands;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class Game implements AppMenu {
 
@@ -48,7 +49,7 @@ public class Game implements AppMenu {
             App.dataManager.getCurrentGame().showCurrentMenu();
         }
 
-        
+
 
 
 
@@ -261,20 +262,18 @@ public class Game implements AppMenu {
 
         ///  ARTISAN
 
-        else if (GameCommands.ARTISAN_USE.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.ARTISAN_GET.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
+//        else if (GameCommands.ARTISAN_USE.getMatcher(input) != null) {
+//            Matcher matcher = GameCommands.ARTISAN_USE.getMatcher(input);
+//            System.out.println(gameController.useArtisan(matcher));
+//        }
+//
+//        else if (GameCommands.ARTISAN_GET.getMatcher(input) != null) {
+//
+//
+//            System.out.println("build new building");
+//
+//
+//        }
 
         ///  SHOP
 
@@ -317,20 +316,20 @@ public class Game implements AppMenu {
 
         /// TAAMOLAT VA RAVABET BA DIGAR BAZIKONAN
 
-        else if (GameCommands.SHOW_FRIENDSHIP.getMatcher(input) != null) {
-
-
-            gameController.showFriendships();
-
-
-        }
-        else if (GameCommands.TALK_WITH_OTHERS.getMatcher(input) != null) {
-
-
-            System.out.println(gameController.talk(GameCommands.TALK_WITH_OTHERS.getMatcher(input)));
-
-
-        }
+//        else if (GameCommands.SHOW_FRIENDSHIP.getMatcher(input) != null) {
+//
+//
+//            gameController.showFriendships();
+//
+//
+//        }
+//        else if (GameCommands.TALK_WITH_OTHERS.getMatcher(input) != null) {
+//
+//
+//            System.out.println(gameController.talk(GameCommands.TALK_WITH_OTHERS.getMatcher(input)));
+//
+//
+//        }
         else if (GameCommands.SHOW_TALK_HISTORY.getMatcher(input) != null) {
 
 

@@ -119,6 +119,16 @@ public abstract class Inventory {
         return contents;
 
     }
+    public Item removeFromInventory(String itemName) {
+        for (Item item : items) {
+            if (item.getItemName().equalsIgnoreCase(itemName)) {
+                items.remove(item);
+                return item;
+            }
+        }
+        return null;
+    }
+
 
     public void transferAllItemsTo(Inventory targetInventory) {
 

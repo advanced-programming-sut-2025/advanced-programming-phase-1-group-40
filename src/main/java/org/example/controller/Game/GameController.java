@@ -53,7 +53,7 @@ public class GameController {
         updatePlayersFriendship();
 
         //foraging generation
-        
+
 
 
     }
@@ -427,8 +427,20 @@ public class GameController {
     }
 
     public Result cook(String foodName) {
-        return new Result(true,"You are now cooking " + foodName);
+        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Food recipe = null;
+        for (Food food : Food.values()) {
+            if (food.getName().equals(foodName)) {
+                recipe = food;
+                break;
+            }
+        }
+        if (recipe == null) {
+            return new Result(false, "Recipe not found.");
+        }
+        return new Result(true,"You have successfully cooked " + foodName+".");
         //actually implement the logic for cooking
+
     }
 
     public String eatFood(Matcher matcher) {
