@@ -164,7 +164,7 @@ public class MapBuilder {
     }
     
     public MapBuilder randomlyPlaceForagingItems(int count, Season season) {
-        int j1=0;
+      
         for (int i = 0; i < count; i++) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
@@ -257,10 +257,10 @@ public class MapBuilder {
                         break;
                     case FORAGEABLE:
                         if (tile.getForageableItem() instanceof ForagingCrop) {
-                            //farm.addForagingCrop(position, tile.getForageableItem());
+                            farm.addForagingCrop(position, (ForagingCrop)tile.getForageableItem());
                         }
                         else if (tile.getForageableItem() instanceof ForagingSeed){
-                            //farm.addForagingSeed(position, tile.getForageableItem());
+                            farm.addForagingSeed(position, (ForagingSeed)tile.getForageableItem());
                         }
                         else if (tile.getForageableItem() instanceof ForagingTree){
                             ///implement ittttttttttttttttttt
@@ -295,7 +295,7 @@ public class MapBuilder {
                             quarryHeight++;
                         }
                         if(isNewComponent(farm, new Quarry(position, quarryWidth, quarryHeight))){
-                        farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
+                        //farm.addComponent(new Quarry(position, quarryWidth, quarryHeight));
                         farm.addQuarry(position, quarryWidth, quarryHeight);
                         }
                         break;
@@ -316,7 +316,7 @@ public class MapBuilder {
                             lakeHeight++;
                         }
                         if(isNewComponent(farm, new Lake(position, lakeWidth, lakeHeight))){
-                        farm.addComponent(new Lake(position, lakeWidth, lakeHeight));
+                        //farm.addComponent(new Lake(position, lakeWidth, lakeHeight));
                         farm.addLake(position, lakeWidth, lakeHeight);
                         }
                         break;

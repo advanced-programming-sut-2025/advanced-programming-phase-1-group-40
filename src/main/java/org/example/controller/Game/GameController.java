@@ -671,7 +671,7 @@ public class GameController {
 
         if ( App.dataManager.getCurrentGame().getMap()
                 [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()]
-                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()].getType()
+                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY()].getType()
                 != TileType.MARNIES_RANCH)
         {
 
