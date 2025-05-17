@@ -16,6 +16,7 @@ public enum GameCommands implements Command{
     PRINT_MAP("^\\s*print\\s+map\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s+-s\\s+(?<size>\\d+)\\s*$"),
     HELP_READING_MAP("\\s*help\\s+reading\\s+map\\s*"),
     SHOW_MAP("\\s*show\\s+map\\s*"),
+    TELEPORT("\\s*teleport\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s*"),
 
 
     ///  COAMMND HAYE TIME&DATE

@@ -46,6 +46,7 @@ public class Player extends User {
         this.gold = 0;
         this.friendships = new ArrayList<>();
         this.talkHistory = new HashMap<>();
+        this.energy = 200;
 
 
     }

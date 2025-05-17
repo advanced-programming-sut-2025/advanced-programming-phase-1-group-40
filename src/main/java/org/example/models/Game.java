@@ -16,11 +16,7 @@ import org.example.models.enums.enviroment.Time;
 import org.example.models.enums.enviroment.Weather;
 import org.example.models.enums.types.NPCType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 
@@ -93,7 +89,7 @@ public class Game {
         }
     }
 
-    public void handleWalk(String input){
+    public void handleWalk(String input, Scanner scanner){
         String[] parts = input.split("\\s+");
         int x = Integer.parseInt(parts[2]);
         int y = Integer.parseInt(parts[3]);
@@ -109,6 +105,12 @@ public class Game {
             //
             //
             //
+            int energyNeeded = (walkResult.getDistance() + 10*walkResult.getTurns())/20;
+            System.out.println("Energy needed to go to your destination is" + energyNeeded);
+            System.out.println("Do you want to go there? (yes/no)");
+            String answer = scanner.nextLine();
+            if(answer.equals("yes")){
+                currentTurnPlayer.consumeEnergy(energyNeeded);
         if(players.indexOf(currentTurnPlayer) == 0 && x<50 && y<50){
             currentTurnPlayer.setCurrentPosition(new Position(x, y));
             currentTurnPlayer.setFarmPosition(new Position(x, y));
@@ -125,15 +127,52 @@ public class Game {
             currentTurnPlayer.setCurrentPosition(new Position(x, y));
             currentTurnPlayer.setFarmPosition(new Position(x-60, y-60));
         }
-        else if(y>=110 && x>=110){
+        else if(y>=110 || x>=110){
             System.out.println("The position you entered is out of bounds.");
         }
         else{
             currentTurnPlayer.setCurrentPosition(new Position(x, y));
         }
+        System.out.println("Done");
+    }
+    else{
+        System.out.println("OK");
+        return;
+    }
+        
 
     }
 
+    }
+
+
+    public void teleport(String input){
+        String[] parts = input.split("\\s+");
+        int x = Integer.parseInt(parts[2]);
+        int y = Integer.parseInt(parts[3]);
+            if(players.indexOf(currentTurnPlayer) == 0 && x<50 && y<50){
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x, y));
+        }
+        else if(players.indexOf(currentTurnPlayer) == 1 && x<110 && x >= 60 && y<50){
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x-60, y));
+        }
+        else if(players.indexOf(currentTurnPlayer) == 2 && y<110 && y >= 60 && x<50){
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x, y-60));
+        }
+        else if(players.indexOf(currentTurnPlayer) == 3 && y<110 && y >= 60 && x<110 && x >= 60){
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x-60, y-60));
+        }
+        else if(y>=110 || x>=110){
+            System.out.println("The position you entered is out of bounds.");
+        }
+        else{
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+        }
+        System.out.println("Done");
     }
 
     public void helpReadingMap(){
