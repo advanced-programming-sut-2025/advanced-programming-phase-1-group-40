@@ -18,11 +18,11 @@ public class PreGameMenu implements AppMenu {
     @Override
     public void getInput(String input, Scanner scanner) {
         Matcher matcher;
-        System.err.println("GAME OBJECT IS " + App.dataManager.getCurrentGame());
+//        System.err.println("GAME OBJECT IS " + App.dataManager.getCurrentGame());
         if ( (matcher = PreGameMenuCommands.NEW_GAME.getMatcher(input)) != null ) {
 
             System.out.println(preGameMenuController.createNewGame(matcher.group("users"), scanner).message());
-            preGameMenuController.setNewGameWeather();
+            preGameMenuController.setUpNewGame();
 
 
         }
@@ -52,7 +52,7 @@ public class PreGameMenu implements AppMenu {
             System.out.println("Invalid input");
 
         }
-        System.err.println("GAME OBJECT IS " + App.dataManager.getCurrentGame());
+//        System.err.println("GAME OBJECT IS " + App.dataManager.getCurrentGame());
 
     }
 

@@ -16,18 +16,23 @@ public class PreGameMenuController {
 
     private Game currentGame;
 
-    public void setNewGameWeather(){
+    public void setUpNewGame(){
+        setNewGameWeather();
+        setFriendship(App.dataManager.getCurrentGame());
+    }
+
+    private void setNewGameWeather(){
         App.dataManager.getCurrentGame().setWeather(new GameController().randomWeatherBasedOnSeason());
         App.dataManager.getCurrentGame().setFutureWeather(new GameController().randomWeatherBasedOnSeason());
-        setFriendship(App.dataManager.getCurrentGame());
+//        setFriendship(App.dataManager.getCurrentGame());
     }
 
     private void setFriendship(Game game){
 
 //        System.out.println("number of players are: " + game.getPlayers().size());
-        System.out.println("pre game control game is: " + game.getCurrentTurnPlayer());
+//        System.out.println("pre game control game is: " + game.getCurrentTurnPlayer());
         for ( Player player : game.getPlayers() ) {
-            System.err.println("Player object: " + player);
+//            System.err.println("Player object: " + player);
 
             for ( Player targetPlayer : game.getPlayers() ) {
 
@@ -86,7 +91,7 @@ public class PreGameMenuController {
             players.add(new Player(user));
         }
 
-        System.err.println("PLAYERS ARE " + players);
+//        System.err.println("PLAYERS ARE " + players);
 
         // Create the game and set it as current in DataManager
         Game newGame = App.dataManager.createNewGame(players);

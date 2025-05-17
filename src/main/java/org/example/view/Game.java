@@ -330,24 +330,23 @@ public class Game implements AppMenu {
 
         /// TAAMOLAT VA RAVABET BA DIGAR BAZIKONAN
 
-//        else if (GameCommands.SHOW_FRIENDSHIP.getMatcher(input) != null) {
-//
-//
-//            gameController.showFriendships();
-//
-//
-//        }
-//        else if (GameCommands.TALK_WITH_OTHERS.getMatcher(input) != null) {
-//
-//
-//            System.out.println(gameController.talk(GameCommands.TALK_WITH_OTHERS.getMatcher(input)));
-//
-//
-//        }
+        else if (GameCommands.SHOW_FRIENDSHIP.getMatcher(input) != null) {
+
+
+            gameController.showFriendships();
+
+
+        }
+        else if (GameCommands.TALK_WITH_OTHERS.getMatcher(input) != null) {
+
+
+            System.out.println(gameController.talk(GameCommands.TALK_WITH_OTHERS.getMatcher(input)).message());
+
+
+        }
         else if (GameCommands.SHOW_TALK_HISTORY.getMatcher(input) != null) {
 
-
-            System.out.println("build new building");
+            gameController.showTalkHistory(GameCommands.SHOW_TALK_HISTORY.getMatcher(input));
 
 
         }
@@ -448,7 +447,7 @@ public class Game implements AppMenu {
         else{
 
 
-            System.out.println("Invalid input------------------");
+            System.out.println("Invalid input");
 
 
         }

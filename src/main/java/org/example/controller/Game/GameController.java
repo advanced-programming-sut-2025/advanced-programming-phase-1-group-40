@@ -1093,8 +1093,9 @@ public class GameController {
     ///        ----------------------->  Taamolat ba Other Players
 
     public void showFriendships(){
-        System.err.println("SHOW FRIENDSHIP: PLAYERs OBJECT IS: "  + App.dataManager.getCurrentGame().getPlayers());
-        System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s friends are:");
+//        System.err.println("SHOW FRIENDSHIP: PLAYERs OBJECT IS: "  + App.dataManager.getCurrentGame().getPlayers());
+//        System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s friends are:");
+        System.out.println();
         for ( FriendshipWithPlayers friendship : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getFriendships() ){
 
             System.out.println("    " + friendship.getTargetPlayer().getUsername() + "(" + friendship.getFriendshipLevel().getDisplayName() + " with: " + friendship.getFriendshipXP() + " xp)");
@@ -1110,6 +1111,10 @@ public class GameController {
 
         if ( targetPlayer == null ){
             return new Result(false, "Target player not found");
+        }
+
+        if ( targetPlayer.equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ){
+            return new Result(false, "You can't talk to yourself (:");
         }
 
         showMessage(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer, message);
@@ -1189,33 +1194,53 @@ public class GameController {
         int lines = (int)Math.floor((double) message.length() /50) +1;
 
         System.out.println("************************************************************");
-        System.out.println("*Dear" + targetPlayer.getUsername() + ", Here is a message from " + messageSender.getUsername() + ":");
+        System.out.println("*                                                          *");
+        String firstText = "* Dear " + targetPlayer.getUsername() + ", Here is a message from " + messageSender.getUsername() + ":                                                                    ";
+        char[] chars = firstText.toCharArray();
+        chars[59] = '*';
+        firstText = new String(chars);
+        System.out.println(firstText);
         for ( int i = 0 ; i < lines-1; i++ ){
             System.out.println("*    " + message.substring(i*50, (i+1)*50) + "    *");
         }
-        System.out.println("*    " + message.substring((lines-1)*50) + "    *");        /// CHECK
+
+
+        String lastLine = "*    " + message.substring((lines-1)*50) + "                                                                        ";
+        chars = lastLine.toCharArray();
+        chars[59] = '*';
+        lastLine = new String(chars);
+
+        System.out.println(lastLine);        /// CHECK
+        System.out.println("*                                                          *");
         System.out.println("************************************************************");
 
     }
 
     private Player getPlayerByUsername(String username) {
         for (Player player : App.dataManager.getCurrentGame().getPlayers()) {
-            if (player.getUsername().equals(username)) {
+//            System.err.println("user is:" + player.getUsername());
+            if (player.getUsername().trim().equals(username.trim())) {
                 return player;
             }
         }
         return null;
     }
 
-    private Result showTalkHistory(Matcher input){
+    public  void showTalkHistory(Matcher input){
 
         Player targetPlayer = getPlayerByUsername(input.group("username"));
 
-        if ( targetPlayer != null ){
-            return new Result(false,"User not found.");
+        if ( targetPlayer == null ){
+            System.out.println("User not found.");
+            return;
         }
 
-        return new Result(true,"User not found.");
+        System.out.println("Talk History between: " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + " and " + targetPlayer.getUsername());
+        for ( String message : getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).getTalkHistory() ){
+            System.out.println("*   " + message);
+        }
+
+
 
 
     }
