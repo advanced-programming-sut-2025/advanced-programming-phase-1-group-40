@@ -114,6 +114,7 @@ public enum GameCommands implements Command{
     SHOW_ENERGY("\\s*energy\\s+show\\s*"),
     SET_ENERGY("\\s*energy\\s+set\\s+-v\\s+(?<value>\\d+)\\s*"),
     SET_UNLIMITED_ENERGY("\\s*energy\\s+unlimited\\s*"),
+    SKILL_XP_GAIN("\\s*skill\\s+xp\\s+gain\\s+-s\\s+(?<skillName>.+)\\s+-v\\s+(?<value>\\d+)\\s*"),
 
 
     //  COMMAND HAYE INVENTORY

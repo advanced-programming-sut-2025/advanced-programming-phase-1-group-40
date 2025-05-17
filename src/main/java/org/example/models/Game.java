@@ -402,6 +402,17 @@ public class Game {
         
     }
 
+    public boolean pickUpGroundItem() {
+    MapTile tile = map[currentTurnPlayer.getCurrentPosition().getX()][currentTurnPlayer.getCurrentPosition().getY()];
+    if (tile.getMapComponents() != null) {
+        MapComponents item = tile.getForageableItem();
+        // addItemToInventory(item, 1);
+        // tile.removeForageableItem();
+        return true;
+    }
+    return false;
+}
+
     public void createFullMap() {
     // Determine offsets by the number of farms
     int farmCount = farms.size();

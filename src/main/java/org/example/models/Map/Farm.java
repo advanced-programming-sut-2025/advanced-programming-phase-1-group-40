@@ -473,10 +473,10 @@ public class Farm implements Serializable {
     //     this.foragingSeeds.add(foragingSeed);
     // }
 
-    public void addForagingTree(Position position,ForagingTree foragingTree) {
+    public void addForagingTree(Position position,TreeType foragingTreeType) {
         MapTile tile = getTileAt(position.getX(), position.getY());
         if (tile != null ) {
-            ForagingTree ft = new ForagingTree(position, foragingTree.getTreeType());
+            ForagingTree ft = new ForagingTree(position, foragingTreeType);
             foragingTrees.add(ft);
             addComponent(ft);
         }

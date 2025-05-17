@@ -21,7 +21,7 @@ public class Player extends User {
     private Position currentPosition;
     private Position farmPosition;
     private Tool currentTool;
-    private HashMap<Skill, SkillLevel> skillLevels = new HashMap<>(); // Changed from SkillLevels to SkillLevel
+    private ArrayList<SkillLevel> skillLevels = new ArrayList<>(); // Changed from SkillLevels to SkillLevel
     private Backpack backpack;
     private int highestMoney;
     private int gamesPlayed;
@@ -41,10 +41,10 @@ public class Player extends User {
         this.backpack = new Backpack(InventoryType.INITIAL);
 
         // Initialize skill levels
-        this.skillLevels.put(Skill.FARMING, new SkillLevel(Skill.FARMING));
-        this.skillLevels.put(Skill.MINING, new SkillLevel(Skill.MINING));
-        this.skillLevels.put(Skill.FORAGING, new SkillLevel(Skill.FORAGING));
-        this.skillLevels.put(Skill.FISHING, new SkillLevel(Skill.FISHING));
+        this.skillLevels.add(new SkillLevel(Skill.FARMING));
+        this.skillLevels.add(new SkillLevel(Skill.MINING));
+        this.skillLevels.add(new SkillLevel(Skill.FORAGING));
+        this.skillLevels.add(new SkillLevel(Skill.FISHING));
 
         this.gold = 0;
         this.friendships = new ArrayList<>();
@@ -158,7 +158,7 @@ public class Player extends User {
         this.currentTool = currentTool;
     }
 
-    public void setSkillLevels(HashMap<Skill, SkillLevel> skillLevels) {
+    public void setSkillLevels(ArrayList<SkillLevel> skillLevels) {
         this.skillLevels = skillLevels;
     }
 
@@ -179,7 +179,7 @@ public class Player extends User {
         return currentPosition;
     }
 
-    public HashMap<Skill, SkillLevel> getSkillLevels() {
+    public ArrayList<SkillLevel> getSkillLevels() {
         return skillLevels;
     }
 
@@ -247,9 +247,14 @@ public class Player extends User {
 
     // Get skill level for a specific skill
     public SkillLevel getSkillLevel(Skill skill) {
+        
+
+        for( SkillLevel skillLevel : skillLevels ){
+            if ( skillLevel.getSkillType().equals(skill) ){
+                return skillLevel;
+            }
+        }
         return null;
-        // TODO
-        //return skillLevels.getOrDefault(skill, SkillLevels.LEVEL_ZERO);
     }
 
     // Add XP to a specific skill
@@ -290,13 +295,13 @@ public class Player extends User {
     }
 
     // Get a formatted string with all skill levels
-    public String getSkillLevelsString() {
-        StringBuilder sb = new StringBuilder("Skill Levels:\n");
-        for (Map.Entry<Skill, SkillLevel> entry : skillLevels.entrySet()) {
-            sb.append(entry.getValue().toString()).append("\n");
-        }
-        return sb.toString();
-    }
+    // public String getSkillLevelsString() {
+    //     StringBuilder sb = new StringBuilder("Skill Levels:\n");
+    //     for (Map.Entry<Skill, SkillLevel> entry : skillLevels.entrySet()) {
+    //         sb.append(entry.getValue().toString()).append("\n");
+    //     }
+    //     return sb.toString();
+    // }
 
     // Getter for backpack
     public Backpack getBackpack() {

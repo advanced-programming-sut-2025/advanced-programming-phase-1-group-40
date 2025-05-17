@@ -681,7 +681,7 @@ public class GameController {
 
     public void thor(Position position){
 
-        ///  TODO
+        
 
     }
 
@@ -1079,7 +1079,7 @@ public class GameController {
 
                 if ( fishType.isLegendary() ){
 
-                    if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel() == SkillLevels.LEVEL_THREE ){
+                    if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevel(Skill.FISHING).getLevel() == SkillLevels.LEVEL_THREE ){
 
                         if ( fishingRod.getFishTypes().contains(fishType) ){
                             candidateFishTypes.add(fishType);
@@ -1110,13 +1110,13 @@ public class GameController {
 
     private int calculateFishQuality(FishingRodType fishingRod) {
 
-        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
+        return (int) ((new Random().nextInt(2)) * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevel(Skill.FISHING).getLevel().getIntLevel() + 2) * fishingRod.getPoleCoefficient() / (7 - App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient()));
 
     }
 
     private int numberOfCaughtFish() {
 
-        return Math.min(6,(int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevels().get(Skill.FISHING).getLevel().getIntLevel() + 2)));
+        return Math.min(6,(int) ((new Random().nextInt(2)) * App.dataManager.getCurrentGame().getWeather().getWeatherCoEfficient() * (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getSkillLevel(Skill.FISHING).getLevel().getIntLevel() + 2)));
 
     }
 
@@ -2275,26 +2275,27 @@ public class GameController {
         return Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1;
     }
 
-    public void handleSkillXPGain(Skill skill) {
+    public void handleSkillXPGain(Skill skill, int amount) {
         boolean leveledUp = false;
 
         switch (skill) {
             case FARMING:
-                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FARMING, 5);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FARMING, amount);
                 break;
             case MINING:
-                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.MINING, 10);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.MINING, amount);
                 break;
             case FORAGING:
-                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FORAGING, 10);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FORAGING, amount);
                 break;
             case FISHING:
-                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING, 5);
+                leveledUp = App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING, amount);
                 break;
         }
 
         // If player leveled up, we could notify them or apply effects
         if (leveledUp) {
+            System.out.println("Your" + skill.toString() + "skill leveled up!");
             // Could send a notification or apply immediate effects
         }
     }

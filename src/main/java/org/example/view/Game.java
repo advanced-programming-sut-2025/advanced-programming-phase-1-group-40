@@ -3,6 +3,7 @@ package org.example.view;
 
 import org.example.controller.Game.GameController;
 import org.example.models.App;
+import org.example.models.enums.Skill;
 import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.commands.PreGameMenuCommands;
 
@@ -172,6 +173,13 @@ public class Game implements AppMenu {
         }
         else if(GameCommands.SET_UNLIMITED_ENERGY.getMatcher(input) != null){
             System.out.println(gameController.setUnlimitedEnergy().message());
+        }
+        else if( GameCommands.SKILL_XP_GAIN.getMatcher(input) != null){
+
+            String stringValue = GameCommands.SKILL_XP_GAIN.getMatcher(input).group("skillName");
+            Skill skill = Skill.valueOf(stringValue.toUpperCase());
+            int amount = Integer.parseInt(GameCommands.SKILL_XP_GAIN.getMatcher(input).group("value"));
+            gameController.handleSkillXPGain(skill, amount);
         }
 
 

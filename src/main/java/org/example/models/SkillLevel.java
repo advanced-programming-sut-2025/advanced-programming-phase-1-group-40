@@ -16,7 +16,7 @@ public class SkillLevel {
     public SkillLevel(Skill skillType) {
         this.skillType = skillType;
         this.currentXP = 0;
-        this.skillLevel = SkillLevels.LEVEL_THREE;
+        this.skillLevel = SkillLevels.LEVEL_ZERO;
     }
 
     public int getCurrentXP() {
@@ -45,7 +45,7 @@ public class SkillLevel {
         currentXP += xpAmount;
 
         while (currentXP >= getXPForNextLevel() && skillLevel.getIntLevel() < 3) { // Max level is 3
-            currentXP -= getXPForNextLevel();
+            currentXP -= XP_MULTIPLIER;
             setSkillLevel(SkillLevels.values()[skillLevel.getIntLevel()+1]);
             leveledUp = true;
         }

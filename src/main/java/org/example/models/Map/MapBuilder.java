@@ -263,7 +263,7 @@ public class MapBuilder {
                             farm.addForagingSeed(position, ((ForagingSeed)tile.getForageableItem()).getSeedType());
                         }
                         else if (tile.getForageableItem() instanceof ForagingTree){
-                            farm.addForagingTree(position, ((ForagingTree)tile.getForageableItem()).getTreeType());
+                            farm.addForagingTree(position, ((ForagingTree) tile.getForageableItem()).getTreeType());
                         }
                         break;
                     case CABIN:
