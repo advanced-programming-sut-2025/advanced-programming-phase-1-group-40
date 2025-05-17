@@ -7,6 +7,7 @@ import org.example.models.Map.MapTile;
 import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,32 @@ public class PreGameMenuController {
     public void setNewGameWeather(){
         App.dataManager.getCurrentGame().setWeather(new GameController().randomWeatherBasedOnSeason());
         App.dataManager.getCurrentGame().setFutureWeather(new GameController().randomWeatherBasedOnSeason());
+        setFriendship(App.dataManager.getCurrentGame());
+    }
+
+    private void setFriendship(Game game){
+
+//        System.out.println("number of players are: " + game.getPlayers().size());
+        System.out.println("pre game control game is: " + game.getCurrentTurnPlayer());
+        for ( Player player : game.getPlayers() ) {
+            System.err.println("Player object: " + player);
+
+            for ( Player targetPlayer : game.getPlayers() ) {
+
+//                System.out.println(player);
+//                System.out.println(targetPlayer);
+                if ( !player.equals(targetPlayer) ) {
+                    player.addFriendship(new FriendshipWithPlayers(targetPlayer,0,FriendshipLevel.STRANGER));
+                }
+
+            }
+
+//            System.out.println(App.dataManager.getCurrentGame().equals(game));
+//            System.out.println(player.getFriendships().size());
+
+        }
+
+
     }
 
     public void showCurrentMenu() {
@@ -59,71 +86,24 @@ public class PreGameMenuController {
             players.add(new Player(user));
         }
 
-//        for (Player player1 : players) {
-//
-//            for (Player player2 : players) {
-//
-//                if (!player1.equals(player2)) {
-//
-//                    player1.setFriendships(player2, new FriendshipWithNPC(0, FriendshipLevel.STRANGER));
-//
-//                }
-//
-//            }
-//
-//        }
+        System.err.println("PLAYERS ARE " + players);
 
         // Create the game and set it as current in DataManager
         Game newGame = App.dataManager.createNewGame(players);
         currentGame = newGame;
 
-        Player creator = new Player(App.dataManager.getCurrentUser());
+        Player creator = players.get(0);
         newGame.setCreator(creator);//we should be careful in the casting here
         newGame.setCurrentTurnPlayer(creator);
         App.dataManager.addGame(newGame);
         App.dataManager.setCurrentGame(newGame);
-        setFriendship(newGame);
+
 
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
     }
 
-//    private void setTalkHistory(){
-//
-//        for ( Player player1 : App.dataManager.getCurrentGame().getPlayers() ) {
-//
-//            for ( Player player2 : App.dataManager.getCurrentGame().getPlayers() ) {
-//
-//                if ( ! player1.equals(player2) ) {
-//
-//                    player1.
-//
-//                }
-//
-//
-//            }
-//
-//        }
-//
-//    }
-
-    private void setFriendship(Game game){
-
-        for ( Player player : game.getPlayers() ) {
-
-            for ( Player targetPlayer : game.getPlayers() ) {
-
-                if ( !player.equals(targetPlayer) ) {
-
-                    player.addFriendship(new FriendshipWithPlayers(targetPlayer,0,FriendshipLevel.STRANGER));
-
-                }
-
-            }
-
-        }
 
 
-    }
 
     public Result loadGame(){
 

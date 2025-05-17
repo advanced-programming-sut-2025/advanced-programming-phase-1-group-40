@@ -49,7 +49,6 @@ public class GameController {
         updateWeather();
         animalProductUpdate();
 
-        updateWeather();
         updateFriendshipWithAnimal();
         updatePlayersFriendship();
 
@@ -1082,9 +1081,8 @@ public class GameController {
     ///        ----------------------->  Taamolat ba Other Players
 
     public void showFriendships(){
-
+        System.err.println("SHOW FRIENDSHIP: PLAYERs OBJECT IS: "  + App.dataManager.getCurrentGame().getPlayers());
         System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s friends are:");
-
         for ( FriendshipWithPlayers friendship : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getFriendships() ){
 
             System.out.println("    " + friendship.getTargetPlayer().getUsername() + "(" + friendship.getFriendshipLevel().getDisplayName() + " with: " + friendship.getFriendshipXP() + " xp)");
@@ -1103,6 +1101,13 @@ public class GameController {
         }
 
         showMessage(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer, message);
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(targetPlayer ,App.dataManager.getCurrentGame().getCurrentTurnPlayer());
+
+        friendship1.addTalkHistory(message);
+        friendship2.addTalkHistory(message);
+
 
         if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isTalk() ){
 
@@ -1173,9 +1178,10 @@ public class GameController {
 
         System.out.println("************************************************************");
         System.out.println("*Dear" + targetPlayer.getUsername() + ", Here is a message from " + messageSender.getUsername() + ":");
-        for ( int i = 0 ; i < lines; i++ ){
+        for ( int i = 0 ; i < lines-1; i++ ){
             System.out.println("*    " + message.substring(i*50, (i+1)*50) + "    *");
         }
+        System.out.println("*    " + message.substring((lines-1)*50) + "    *");        /// CHECK
         System.out.println("************************************************************");
 
     }
@@ -1189,18 +1195,18 @@ public class GameController {
         return null;
     }
 
-//    private Result showTalkHistory(Matcher input){
-//
-//        Player targetPlayer = getPlayerByUsername(input.group("username"));
-//
-//        if ( targetPlayer != null ){
-//            return new Result(false,"User not found.");
-//        }
-//
-//
-//
-//
-//    }
+    private Result showTalkHistory(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        if ( targetPlayer != null ){
+            return new Result(false,"User not found.");
+        }
+
+        return new Result(true,"User not found.");
+
+
+    }
 
     ///        ----------------------->
 

@@ -17,7 +17,7 @@ public class Player extends User {
     private int energy;
     private int maxEnergy;
     private boolean isEnergyUnlimited;
-    private Position currentPosition;
+    private Position currentPosition;///kam kos sher begoo
     private Position farmPosition;
     private Tool currentTool;
     private HashMap<Skill, SkillLevel> skillLevels = new HashMap<>(); // Changed from SkillLevels to SkillLevel
@@ -28,7 +28,6 @@ public class Player extends User {
     private ArrayList<FriendshipWithPlayers> friendships;
     private ArrayList<Tool> tools = new ArrayList<>();
     private Integer gold;
-    private HashMap<Player,ArrayList<String>> talkHistory;
 
     public Player(User user) {
 
@@ -45,7 +44,6 @@ public class Player extends User {
 
         this.gold = 0;
         this.friendships = new ArrayList<>();
-        this.talkHistory = new HashMap<>();
 
 
     }

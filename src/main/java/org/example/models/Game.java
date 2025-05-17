@@ -499,6 +499,16 @@ public void addShops(){
     }
 
     public void setCurrentTurnPlayer(Player player) {
+        boolean found = false;
+        for (Player player1: getPlayers()) {
+            if (player1.equals(player)) {
+                found = true;
+            }
+        }
+        if (!found) {
+            throw new IllegalArgumentException("Player not found.");
+        }
+
         this.currentTurnPlayer = player;
         setCurrentFarm(player);//this is new
     }

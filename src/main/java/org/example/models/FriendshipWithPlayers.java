@@ -2,6 +2,9 @@ package org.example.models;
 
 import org.example.models.enums.FriendshipLevel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class FriendshipWithPlayers {
 
     private Player targetPlayer;
@@ -13,6 +16,7 @@ public class FriendshipWithPlayers {
     private boolean gift;
     private boolean hug;
     private boolean flower;
+    private ArrayList<String> talkHistory = new ArrayList<>();
 
 
     public FriendshipWithPlayers(Player targetPlayer, Integer friendshipXP, FriendshipLevel friendshipLevel) {
@@ -25,6 +29,15 @@ public class FriendshipWithPlayers {
         this.gift = false;
         this.hug = false;
         this.flower = false;
+//        this.talkHistory;
+    }
+
+    public ArrayList<String> getTalkHistory() {
+        return talkHistory;
+    }
+
+    public void addTalkHistory(String message) {
+        this.talkHistory.add(message);
     }
 
     public boolean isFlower() {
