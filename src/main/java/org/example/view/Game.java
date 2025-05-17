@@ -158,6 +158,20 @@ public class Game implements AppMenu {
         }
 
 
+        ///ENERGY
+        
+        
+        else if( GameCommands.SHOW_ENERGY.getMatcher(input) != null){
+            System.out.println(gameController.showPlayerEnergy().message());
+        }
+        else if( GameCommands.SET_ENERGY.getMatcher(input) != null){
+            System.out.println(gameController.setPlayerEnergy(GameCommands.SET_ENERGY.getMatcher(input)).message());
+        }
+        else if(GameCommands.SET_UNLIMITED_ENERGY.getMatcher(input) != null){
+            System.out.println(gameController.setUnlimitedEnergy().message());
+        }
+
+
         /// TOOLS
 
         else if (GameCommands.TOOLS_EQUIP.getMatcher(input) != null) {

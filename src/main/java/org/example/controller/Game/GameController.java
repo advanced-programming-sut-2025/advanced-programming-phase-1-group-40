@@ -1468,12 +1468,12 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public Result showPlayerEnergy() {
-        int playerEnergy = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy();
-        return new Result(true, "Your energy is: " + playerEnergy);
-    }
 
-    public Result crowAttack() {
+
+
+
+
+        public Result crowAttack() {
 
         return null;
 
@@ -1483,6 +1483,26 @@ public class GameController {
 
         return 0;
 
+    }
+
+    //----------------------> ENERGY
+
+    public Result showPlayerEnergy() {
+        int playerEnergy = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy();
+        return new Result(true, "Your energy is: " + playerEnergy);
+    }
+
+    public Result setPlayerEnergy(Matcher input){
+            Integer amount;
+        try{
+            amount = Integer.parseInt(input.group("value"));
+        }
+        catch (Exception e){
+            return new Result(false,"Invalid coordinate");
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().setEnergy(amount);
+        return new Result(true,"Thor cheat successfully applied");
     }
 
 
