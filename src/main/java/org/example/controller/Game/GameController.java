@@ -1104,6 +1104,7 @@ public class GameController {
 
     }
 
+
     public Result talk(Matcher input){
 
         Player targetPlayer = getPlayerByUsername(input.group("username"));
@@ -1115,6 +1116,13 @@ public class GameController {
 
         if ( targetPlayer.equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ){
             return new Result(false, "You can't talk to yourself (:");
+        }
+
+
+        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+
+            return new Result(false,"Target Player is too far away");
+
         }
 
         showMessage(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer, message);
