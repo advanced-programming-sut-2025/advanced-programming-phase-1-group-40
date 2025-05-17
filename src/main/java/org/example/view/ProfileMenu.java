@@ -57,6 +57,11 @@ public class ProfileMenu implements AppMenu {
             profileController.showCurrentMenu();
 
         }
+        else if ( ProfileCommands.EXIT_MENU.getMatcher(input) != null ) {
+
+            System.out.println(profileController.exitMenu().message());
+
+        }
         else{
 
             System.out.println("Invalid input");
