@@ -87,24 +87,24 @@ public class PreGameMenuController {
         return new Result(true, "New game created successfully with " + players.size() + " players." + handleNewGame(scanner).message());
     }
 
-    private void setTalkHistory(){
-
-        for ( Player player1 : App.dataManager.getCurrentGame().getPlayers() ) {
-
-            for ( Player player2 : App.dataManager.getCurrentGame().getPlayers() ) {
-
-                if ( ! player1.equals(player2) ) {
-
-                    player1.
-
-                }
-
-
-            }
-
-        }
-
-    }
+//    private void setTalkHistory(){
+//
+//        for ( Player player1 : App.dataManager.getCurrentGame().getPlayers() ) {
+//
+//            for ( Player player2 : App.dataManager.getCurrentGame().getPlayers() ) {
+//
+//                if ( ! player1.equals(player2) ) {
+//
+//                    player1.
+//
+//                }
+//
+//
+//            }
+//
+//        }
+//
+//    }
 
     private void setFriendship(Game game){
 
