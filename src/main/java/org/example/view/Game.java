@@ -398,7 +398,7 @@ public class Game implements AppMenu {
         else if (GameCommands.ASK_MARRIAGE.getMatcher(input) != null) {
 
 
-            System.out.println(gameController.askMarriage(GameCommands.ASK_MARRIAGE.getMatcher(input)).message());
+            System.out.println(gameController.askMarriage(GameCommands.ASK_MARRIAGE.getMatcher(input),scanner).message());
 
 
         }
