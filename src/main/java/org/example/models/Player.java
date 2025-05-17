@@ -5,6 +5,7 @@ import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
 import org.example.models.inventory.Inventory;
 import org.example.models.inventory.Backpack;
+import org.example.models.inventory.Refrigerator;
 import org.example.models.tools.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class Player extends User {
     private Backpack backpack;
     private int highestMoney;
     private int gamesPlayed;
+    private Refrigerator refrigerator;
+    private Inventory inventory;
 //    private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
     private ArrayList<FriendshipWithPlayers> friendships;
     private ArrayList<Tool> tools = new ArrayList<>();
@@ -348,4 +351,7 @@ public class Player extends User {
     }
 
 
+    public Inventory getRefrigerator() {
+        return refrigerator;
+    }
 }

@@ -394,7 +394,47 @@ public class GameController {
     ///     ----------------->  COOKING
 
     public String handleRefrigerator(Matcher matcher) {
-        return " ";
+        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Inventory mainInventory = player.getInventory();
+        Inventory refrigerator = player.getRefrigerator();
+
+        String action = matcher.group("action").toLowerCase();
+        String itemName = matcher.group("item");
+
+        Item itemToHandle = null;
+        for (Item item : mainInventory.getItems()) {
+            if (item.getItemName().equalsIgnoreCase(itemName)) {
+                itemToHandle = item;
+                break;
+            }
+        }
+
+        if ("put".equals(action)) {
+            if (itemToHandle == null || mainInventory.getItemCount(itemToHandle) == 0) {
+                return "You don't have " + itemName + " in your inventory to put into the refrigerator.";
+            }
+            mainInventory.removeFromInventory(itemToHandle, 1);
+            refrigerator.addToInventory(itemToHandle, 1);
+            return "You put " + itemName + " into the refrigerator.";
+        }
+        else if ("pick".equals(action)) {
+            Item itemInFridge = null;
+            for (Item item : refrigerator.getItems()) {
+                if (item.getItemName().equalsIgnoreCase(itemName)) {
+                    itemInFridge = item;
+                    break;
+                }
+            }
+            if (itemInFridge == null || refrigerator.getItemCount(itemInFridge) == 0) {
+                return "You don't have " + itemName + " in the refrigerator to pick.";
+            }
+            refrigerator.removeFromInventory(itemInFridge, 1);
+            mainInventory.addToInventory(itemInFridge, 1);
+            return "You picked " + itemName + " from the refrigerator.";
+        }
+        else {
+            return "Unknown action: " + action;
+        }
     }
 
     public String showCookingRecipes() {
