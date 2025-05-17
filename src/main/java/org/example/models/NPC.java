@@ -103,6 +103,12 @@ public class NPC extends Human {
     }
 
     public int getFriendshipXP(Player player) {
+
+        if (this.friendships.get(player) == null ) {
+            return 0;
+        }
+
         return this.friendships.get(player);
+
     }
 }
