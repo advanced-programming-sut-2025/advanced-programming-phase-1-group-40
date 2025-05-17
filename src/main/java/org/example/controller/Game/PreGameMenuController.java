@@ -171,13 +171,16 @@ public class PreGameMenuController {
 
                 if (mapInput.matches("\\d+")) {
                     int mapNumber = Integer.parseInt(mapInput);
-
+                    Player currentPlayer = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+                    App.dataManager.getCurrentGame().setCurrentTurnPlayer(player);
                     Result mapResult = selectMap(mapNumber, App.dataManager.getCurrentGame().getCurrentTurnPlayer());
                     System.out.println(mapResult.message());
+                    App.dataManager.getCurrentGame().setCurrentTurnPlayer(currentPlayer);
                     if (mapResult.success()) {
                         break;
                     }
-                    /////be careful kiaaaaaaaasha/////////////////////////////////////
+                    
+                    /////be careful kiaaaaaaaasha////////////////////////////////////////
                 }
                 System.out.println("Invalid map selection. Please choose the right map number.");
 

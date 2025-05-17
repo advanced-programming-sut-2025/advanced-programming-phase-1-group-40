@@ -57,6 +57,13 @@ public class Game {
         this.currentTurnPlayer = creator;
         this.creator = creator;
         this.playerMapPosition = new Position(0, 0);
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            if (i == 0) player.setCurrentPosition(0, 0);
+            else if (i == 1) player.setCurrentPosition(60, 0);
+            else if (i == 2) player.setCurrentPosition(0, 60);
+            else if (i == 3) player.setCurrentPosition(60, 60);
+        }
 
 
         this.npcs = new ArrayList<>();
@@ -103,26 +110,26 @@ public class Game {
             //
             //
         if(players.indexOf(currentTurnPlayer) == 0 && x<50 && y<50){
-            setPlayerMapPosition(new Position(x, y));
-            currentTurnPlayer.setCurrentPosition(x, y);
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x, y));
         }
         else if(players.indexOf(currentTurnPlayer) == 1 && x<110 && x >= 60 && y<50){
-            setPlayerMapPosition(new Position(x, y));
-            currentTurnPlayer.setCurrentPosition(x-60, y);
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x-60, y));
         }
-        else if(players.indexOf(currentTurnPlayer) == 1 && y<110 && y >= 60 && x<50){
-            setPlayerMapPosition(new Position(x, y));
-            currentTurnPlayer.setCurrentPosition(x, y-60);
+        else if(players.indexOf(currentTurnPlayer) == 2 && y<110 && y >= 60 && x<50){
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x, y-60));
         }
-        else if(players.indexOf(currentTurnPlayer) == 1 && y<110 && y >= 60 && x<110 && x >= 60){
-            setPlayerMapPosition(new Position(x, y));
-            currentTurnPlayer.setCurrentPosition(x-60, y-60);
+        else if(players.indexOf(currentTurnPlayer) == 3 && y<110 && y >= 60 && x<110 && x >= 60){
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
+            currentTurnPlayer.setFarmPosition(new Position(x-60, y-60));
         }
         else if(y>=110 && x>=110){
             System.out.println("The position you entered is out of bounds.");
         }
         else{
-            setPlayerMapPosition(new Position(x, y));
+            currentTurnPlayer.setCurrentPosition(new Position(x, y));
         }
 
     }

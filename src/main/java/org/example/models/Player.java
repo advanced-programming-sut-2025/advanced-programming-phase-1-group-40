@@ -18,6 +18,7 @@ public class Player extends User {
     private int maxEnergy;
     private boolean isEnergyUnlimited;
     private Position currentPosition;
+    private Position farmPosition;
     private Tool currentTool;
     private HashMap<Skill, SkillLevel> skillLevels = new HashMap<>(); // Changed from SkillLevels to SkillLevel
     private Backpack backpack;
@@ -56,6 +57,14 @@ public class Player extends User {
 //    public void addTalkHistory(Player player, String text) {
 //        this.talkHistory.put(player, text);
 //    }
+
+    public void setFarmPosition(Position farmPosition) {
+        this.farmPosition = farmPosition;
+    }
+
+    public Position getFarmPosition() {
+        return farmPosition;
+    }
 
     public ArrayList<FriendshipWithPlayers> getFriendships() {
         return friendships;
