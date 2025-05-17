@@ -2,25 +2,24 @@ package org.example.models.Animal;
 
 import org.example.models.Item;
 import org.example.models.enums.types.*;
-import org.example.models.enums.*;
 
 public class AnimalProduct implements Item {
 
-    private AnimalProducts type;
+    private AnimalProductType type;
     private AnimalProductQuality quality;
     private final Integer price;
 
-    public AnimalProduct(AnimalProducts type, AnimalProductQuality quality) {
+    public AnimalProduct(AnimalProductType type, AnimalProductQuality quality) {
         this.type = type;
         this.quality = quality;
         this.price = (int) Math.floor(type.getPrice() * quality.getPriceCoEfficient());
     }
 
-    public AnimalProducts getType() {
+    public AnimalProductType getType() {
         return type;
     }
 
-    public void setType(AnimalProducts type) {
+    public void setType(AnimalProductType type) {
         this.type = type;
     }
 

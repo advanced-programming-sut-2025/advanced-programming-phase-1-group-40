@@ -24,25 +24,25 @@ public enum ForagingMineralType implements Item {
     IRIDIUM("Iridium",100),
     COAL("Coal",15);
 
-    private final String name;
+    private final String displayName;
     private final int sellPrice;
 
-    ForagingMineralType(String name, int sellPrice) {
+    ForagingMineralType(String displayName, int sellPrice) {
         this.sellPrice = sellPrice;
-        this.name = name;
+        this.displayName = displayName;
     }
 
     public int getSellPrice() {
         return sellPrice;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
     @Override
     public String getItemName() {
 
-        return this.getName();
+        return this.getDisplayName();
     }
 }

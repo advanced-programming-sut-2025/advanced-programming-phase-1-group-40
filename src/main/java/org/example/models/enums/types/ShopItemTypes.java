@@ -114,7 +114,7 @@ public enum ShopItemTypes implements Item {
         this.availableSeasons = availableSeasons;
     }
 
-    public String getName() {
+    public String getDisplayName() {
         return name;
     }
 

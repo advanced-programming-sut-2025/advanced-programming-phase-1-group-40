@@ -402,13 +402,18 @@ public class Game implements AppMenu {
 
 
         }
-        else if (GameCommands.RESPOND_TO_MARRIAGE.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+        ///  TRADE
+
+        else if (GameCommands.START_TRADE.getMatcher(input) != null) {
+
+
+           gameController.startTradeMenu();
 
 
         }
+
 
         /// NPC
 

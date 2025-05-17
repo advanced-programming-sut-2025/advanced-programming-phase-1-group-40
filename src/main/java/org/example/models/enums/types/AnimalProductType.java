@@ -1,7 +1,9 @@
 package org.example.models.enums.types;
 
 
-public enum AnimalProducts {
+import org.example.models.Item;
+
+public enum AnimalProductType implements Item {
 
 
     EGG(50,"Egg"),
@@ -22,7 +24,7 @@ public enum AnimalProducts {
     private final int price;
     private final String displayName;
 
-    AnimalProducts(int price,String displayName) {
+    AnimalProductType(int price, String displayName) {
         this.price = price;
         this.displayName = displayName;
     }
@@ -34,5 +36,12 @@ public enum AnimalProducts {
     public String getDisplayName() {
         return displayName;
     }
+
+
+    @Override
+    public String getItemName() {
+        return this.displayName;
+    }
+
 
 }

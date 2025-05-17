@@ -117,13 +117,13 @@ public enum CropType implements Item {
         return canBecomeGiant;
     }
 
-    public String getName() {
+    public String getDisplayName() {
         return name;
     }
 
     @Override
     public String getItemName(){
-        return this.getName();
+        return this.name;
     }
 
 }

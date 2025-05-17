@@ -6,7 +6,6 @@ import org.example.models.Position;
 import org.example.models.enums.types.CropType;
 import org.example.models.enums.types.ForagingMineralType;
 
-import java.io.Serializable;
 import java.util.Random;
 
 public class Crop extends MapComponents implements Item{
@@ -37,7 +36,7 @@ public class Crop extends MapComponents implements Item{
 
     @Override
     public String getItemName() {
-        return this.getCropType().getName();
+        return this.getCropType().getDisplayName();
     }
 
 }

@@ -38,13 +38,13 @@ public class Game {
     private Weather futureWeather;
     private HashMap<String, Boolean> terminationVotes;
     private ArrayList<NPC> npcs;
-
+    private ArrayList<Trade> trades;
 
 
     public Game(Player creator, ArrayList<Player> players) {
 
 
-
+        this.trades = new ArrayList<>();
         this.gameID = App.dataManager.getGames().size() + 1;
         this.players = players;
         this.time = new Time();
@@ -72,6 +72,19 @@ public class Game {
             npcs.add(npc);
         }
         
+    }
+
+
+    public ArrayList<Trade> getTrades() {
+        return trades;
+    }
+
+    public void addTrade(Trade trade) {
+        this.trades.add(trade);
+    }
+
+    public void removeTrade(Trade trade) {
+        this.trades.remove(trade);
     }
 
     public NPC getNPCByName(String name) {

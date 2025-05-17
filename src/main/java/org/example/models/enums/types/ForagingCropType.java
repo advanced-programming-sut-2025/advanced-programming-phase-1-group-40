@@ -32,13 +32,13 @@ public enum ForagingCropType implements Item {
     SNOW_YAM("Snow Yam",Season.WINTER, 100, 30),
     WINTER_ROOT("Winter Root",Season.WINTER, 70, 25);
 
-    private final String name;
+    private final String displayName;
     private final Season availabeSeason;
     private final int price;
     private final int energy;
 
-    ForagingCropType(String name,Season availabeSeason, int price, int energy) {
-        this.name = name;
+    ForagingCropType(String displayName, Season availabeSeason, int price, int energy) {
+        this.displayName = displayName;
         this.availabeSeason = availabeSeason;
         this.price = price;
         this.energy = energy;
@@ -57,14 +57,14 @@ public enum ForagingCropType implements Item {
     }
 
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
 
     @Override
     public String getItemName() {
-        return this.name;
+        return this.displayName;
     }
 
 }

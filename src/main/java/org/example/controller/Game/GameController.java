@@ -6,6 +6,9 @@ import org.example.models.Animal.Animal;
 import org.example.models.Animal.AnimalLivingSpace;
 import org.example.models.Animal.AnimalProduct;
 import org.example.models.Animal.AnimalProductQuality;
+import org.example.models.Map.SecondaryMapComponents.Crop;
+import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
+import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
 import org.example.models.Map.SecondaryMapComponents.ForagingSeed;
 import org.example.models.Map.TileType;
 import org.example.models.enums.commands.GameCommands;
@@ -93,7 +96,7 @@ public class GameController {
 
     }
 
-    public AnimalProducts getRandomAnimalProductType(Animal animal){
+    public AnimalProductType getRandomAnimalProductType(Animal animal){
 
         if ( (animal.getAnimalType().getProducts().size() == 1) || (animal.getFriendshipWithOwner() <= 100) ) {
             return animal.getAnimalType().getProducts().get(0);
@@ -1294,11 +1297,57 @@ public class GameController {
 
     }
 
-//    private Item getItemByName(String name){
-//
-//        for (  )
-//
-//    }
+    private Item getItemByName(String name){
+
+        for ( Item item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
+
+            if ( item instanceof AnimalProduct ){
+
+                if ( ((AnimalProduct) item).getType().getDisplayName().equals(name) ){
+                    return item;
+                }
+
+            }
+
+            if ( item instanceof ForagingMineral){
+
+                if ( ((ForagingMineral) item).getMineralType().getDisplayName().equals(name) ){
+                    return item;
+                }
+
+            }
+
+            if ( item instanceof ForagingCrop){
+
+                if ( ((ForagingCrop) item).getType().getDisplayName().equals(name) ){
+                    return item;
+                }
+
+            }
+
+            if ( item instanceof Crop){
+
+                if ( ((Crop) item).getCropType().getDisplayName().equals(name) ){
+                    return item;
+                }
+
+            }
+
+            if ( item instanceof ShopItem ){
+
+                if ( ((ShopItem) item).getType().getDisplayName().equals(name) ){
+                    return item;
+                }
+
+            }
+
+        }
+        return null;
+
+    }
+
+
+
 //
 //    public Result giveGift(Matcher input,Scanner scanner) {
 //
@@ -1310,7 +1359,7 @@ public class GameController {
 //            amount = Integer.parseInt(input.group("amount"));
 //        }
 //        catch (NumberFormatException e){
-//            return new Result(false,"Invalid amount formet");
+//            return new Result(false,"Invalid amount format");
 //        }
 //
 //        if ( targetPlayer == null ){
@@ -1671,6 +1720,31 @@ public class GameController {
     }
 
 
+
+
+    public void startTradeMenu(){
+        App.dataManager.setCurrentMenu(Menu.TRADE_MENU);
+        System.out.println("You are now in trade menu");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     ///        ----------------------->
 
 
@@ -1681,41 +1755,6 @@ public class GameController {
 
 
 
-
-    public Result askMarriage(String username, Object ring) {
-        Game game = getCurrentGame();
-        Player targetPlayer = game.getPlayerByUsername(username);
-
-        if (targetPlayer == null) {
-            return new Result(false, "User not found.");
-        }
-
-        if (!isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
-            return new Result(false, "You must get near to " + username + " to propose to them.\n");
-        }
-        if (App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGender().equals(targetPlayer.getGender())) {
-            return new Result(false, "You are not allowed to marry a person of the same gender.");
-        }
-        boolean hasRing = false;
-        if (!hasRing) {
-            return new Result(false, "You do not have a ring to propose with:(");
-        }
-//        if(){
-//            return new Result(false,"Your friendship level must be at least three in order to porpose.");
-//        }
-        // call the method for sending the marriage request.
-        return new Result(true, "Your marriage proposal has been successfully sent to "+username+".");
-    }
-
-    public Result marriageResponse(String response, String username) {
-        Game game = getCurrentGame();
-
-        User Proposer = game.getPlayerByUsername(username);
-        if (Proposer == null) {
-            return new Result(false, "User not found.");
-        }
-        return null;
-    }
 
     public Result showTradeList(String targetUsername, String type, String itemName, int amount, int price) {
         Game game = getCurrentGame();

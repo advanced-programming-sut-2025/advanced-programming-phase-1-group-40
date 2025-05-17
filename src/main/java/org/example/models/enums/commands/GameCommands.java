@@ -95,11 +95,7 @@ public enum GameCommands implements Command{
 
 
     START_TRADE("\\s*start\\s+trade\\s*"),
-    TRADE_WITH_MONEY("\\s*trade\\s+-u\\s+(?<username>.+)\\s+-t\\s+(?<type>.+)\\s+-i\\s+(?<item>.+)\\s+-a\\s+(?<amount>.+)\\s+-p\\s+(?<price>.+)\\s*"),
-    TRADE_WITH_ITEM("\\s*trade\\s+-u\\s+(?<username>.+)\\s+-t\\s+(?<type>.+)\\s+-i\\s+(?<item>.+)\\s+-a\\s+(?<amount>.+)\\s+-ti\\s+(?<targetItem>.+)\\s+-ta\\s+(?<targetItem>.+)\\s*"),
-    SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
-    RESPOND_TO_TRADE("\\s*trade\\s+response\\s+(-accept|-reject)\\s+-i\\s+(?<id>.+)\\s*"),
-    SHOW_TRADE_HISTORY("\\s*trade\\s+history\\s*"),
+
 
 
     ///  COMMAND HAYE NPC
