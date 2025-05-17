@@ -10,7 +10,7 @@ public enum PreGameMenuCommands implements Command {
     SELECT_MAP("\\s*game\\s+map\\s+(?<mapNumber>\\S+)\\s*"),
     SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*"),
     LOAD_GAME("\\s*load\\s+game\\s*"),
-    SHOW_MAP("show map");
+    SHOW_MAP("\\s*show\\s+map\\s*");
 
     private final String regexString;
 

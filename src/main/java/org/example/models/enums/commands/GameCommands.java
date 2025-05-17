@@ -15,6 +15,7 @@ public enum GameCommands implements Command{
     SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*"),
     PRINT_MAP("^\\s*print\\s+map\\s+-l\\s+(?<x>\\d+)\\s+(?<y>\\d+)\\s+-s\\s+(?<size>\\d+)\\s*$"),
     HELP_READING_MAP("\\s*help\\s+reading\\s+map\\s*"),
+    SHOW_MAP("\\s*show\\s+map\\s*"),
 
 
     ///  COAMMND HAYE TIME&DATE

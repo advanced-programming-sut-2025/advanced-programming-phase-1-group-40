@@ -443,6 +443,93 @@ public void addShops(){
         playerFarms.put(player, farm);
     }
 
+        public void showCurrentMenu() {
+        System.out.println("You are now in: " + App.dataManager.getCurrentMenu().getDisplayName());
+    }
+
+        public String handleShowMap() {
+        Game currentGame = App.dataManager.getCurrentGame();
+
+        StringBuilder sb = new StringBuilder();
+        int height;
+        int width;
+        MapTile[][] map = currentGame.getMap();
+        if (currentGame.getFarms().size() == 2) {
+            height = 60;
+            width = 110;
+        } else {
+            height = 110;
+            width = 110;
+        }
+
+        final String RESET = "\u001B[0m";
+        final String BLUE = "\u001B[34m";
+        final String YELLOW = "\u001B[33m";
+        final String CYAN = "\u001B[36m";
+        final String GREEN = "\u001B[32m";
+        final String RED = "\u001B[31m";
+        final String BG_BLUE = "\u001B[44m";
+        final String BG_GREEN = "\u001B[42m";
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                MapTile tile = map[x][y];
+                switch (tile.getType()) {
+                    case GROUND:
+                        sb.append(".");
+                        break;
+                    case TILLED_SOIL:
+                        sb.append(YELLOW).append(".").append(RESET);
+                        break;
+                    case WATERED_SOIL:
+                        sb.append(BLUE).append(".").append(RESET);
+                        break;
+                    case PLANTED_SOIL:
+                        if (tile.isWatered()) {
+                            sb.append(GREEN).append("w").append(RESET);
+                        } else {
+                            sb.append(RED).append("p").append(RESET);
+                        }
+                        break;
+                    case WATER:
+                        sb.append(BG_BLUE).append("W").append(RESET);//////////////////////////////
+                        break;
+                    case CABIN:
+                        sb.append("C");
+                        break;
+                    case GREENHOUSE:
+                        sb.append("G");
+                        break;
+                    case BARN: // TODO
+                        sb.append(YELLOW).append("B").append(RESET);
+                        break;
+                    case QUARRY:
+                        sb.append("Q");
+                        break;
+                    case TREE:
+                        sb.append(GREEN).append("T").append(RESET);
+                        break;
+                    case STONE:
+                        sb.append(YELLOW).append("S").append(RESET);
+                        break;
+                    case FORAGEABLE:
+                        sb.append(GREEN).append("F").append(RESET);
+                        break;
+                    case PATH:
+                        sb.append("#");
+                        break;
+                    default:
+                        sb.append("?");
+                }
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+
+
+    }
+
 
     public Integer getGameID() {
         return gameID;

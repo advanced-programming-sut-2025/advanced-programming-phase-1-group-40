@@ -4,7 +4,7 @@ package org.example.view;
 import org.example.controller.Game.GameController;
 import org.example.models.App;
 import org.example.models.enums.commands.GameCommands;
-
+import org.example.models.enums.commands.PreGameMenuCommands;
 
 import java.util.Scanner;
 
@@ -41,6 +41,13 @@ public class Game implements AppMenu {
         else if( GameCommands.HELP_READING_MAP.getMatcher(input) != null){
             App.dataManager.getCurrentGame().helpReadingMap();
         }
+        else if ( GameCommands.SHOW_MAP.getMatcher(input) != null ) {
+            System.out.println(App.dataManager.getCurrentGame().handleShowMap());
+        }
+        else if( GameCommands.SHOW_CURRENT_MENU.getMatcher(input) != null){
+            App.dataManager.getCurrentGame().showCurrentMenu();
+        }
+
         
 
 
