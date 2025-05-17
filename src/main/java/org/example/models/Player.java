@@ -27,6 +27,7 @@ public class Player extends User {
     private ArrayList<FriendshipWithPlayers> friendships;
     private ArrayList<Tool> tools = new ArrayList<>();
     private Integer gold;
+    private HashMap<Player,ArrayList<String>> talkHistory;
 
     public Player(User user) {
 
@@ -43,10 +44,18 @@ public class Player extends User {
 
         this.gold = 0;
         this.friendships = new ArrayList<>();
+        this.talkHistory = new HashMap<>();
 
 
     }
 
+//    public HashMap<Player, ArrayList<String>> getTalkHistory() {
+//        return talkHistory;
+//    }
+//
+//    public void addTalkHistory(Player player, String text) {
+//        this.talkHistory.put(player, text);
+//    }
 
     public ArrayList<FriendshipWithPlayers> getFriendships() {
         return friendships;

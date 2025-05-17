@@ -1189,6 +1189,19 @@ public class GameController {
         return null;
     }
 
+    private Result showTalkHistory(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        if ( targetPlayer != null ){
+            return new Result(false,"User not found.");
+        }
+
+        
+
+
+    }
+
     ///        ----------------------->
 
 
