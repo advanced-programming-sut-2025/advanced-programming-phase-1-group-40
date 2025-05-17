@@ -20,7 +20,7 @@ public class WateringCan extends Tool {
 
     @Override
     public String getItemName() {
-        return material == null ? "Watering Can (Unupgraded)" : "Watering Can (" + material.name() + ")";
+        return "Watering Can";
     }
 
     @Override

@@ -14,13 +14,23 @@ import org.example.models.*;
 import java.util.HashMap;
 
 public enum ProcessedItemType implements Item {
-    IRON_BAR,
-    COPPER_BAR,
-    GOLD_BAR;
+    IRON_BAR("Iron Bar"),
+    COPPER_BAR("Copper Bar"),
+    GOLD_BAR("Gold Bar");
+
+    private final String name;
+
+    ProcessedItemType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     @Override
     public String getItemName() {
-        // TODO
-        return "";
+        return this.name;
     }
+
 }

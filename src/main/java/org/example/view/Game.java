@@ -353,7 +353,7 @@ public class Game implements AppMenu {
         else if (GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println("give to others");
 
 
         }
@@ -374,28 +374,28 @@ public class Game implements AppMenu {
         else if (GameCommands.GIFT_HISTORY_WITH_USER.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            gameController.showGiftHistory(GameCommands.GIFT_HISTORY_WITH_USER.getMatcher(input));
 
 
         }
         else if (GameCommands.HUG_USER.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.hugPlayer(GameCommands.HUG_USER.getMatcher(input)).message());
 
 
         }
         else if (GameCommands.FLOWER_USER.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.flowerPlayer(GameCommands.FLOWER_USER.getMatcher(input)).message());
 
 
         }
         else if (GameCommands.ASK_MARRIAGE.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.askMarriage(GameCommands.ASK_MARRIAGE.getMatcher(input)).message());
 
 
         }

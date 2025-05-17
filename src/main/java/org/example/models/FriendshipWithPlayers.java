@@ -16,7 +16,9 @@ public class FriendshipWithPlayers {
     private boolean gift;
     private boolean hug;
     private boolean flower;
+    private boolean propose;
     private ArrayList<String> talkHistory = new ArrayList<>();
+    private ArrayList<Item> giftHistory = new ArrayList<>();
 
 
     public FriendshipWithPlayers(Player targetPlayer, Integer friendshipXP, FriendshipLevel friendshipLevel) {
@@ -29,8 +31,28 @@ public class FriendshipWithPlayers {
         this.gift = false;
         this.hug = false;
         this.flower = false;
+        this.propose = false;
 //        this.talkHistory;
     }
+
+
+    public boolean isPropose() {
+        return propose;
+    }
+
+    public void setPropose(boolean propose) {
+        this.propose = propose;
+    }
+
+    public ArrayList<Item> getGiftHistory() {
+        return giftHistory;
+    }
+
+
+    public void addGiftHistory(Item item) {
+        this.giftHistory.add(item);
+    }
+
 
     public ArrayList<String> getTalkHistory() {
         return talkHistory;

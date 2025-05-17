@@ -12,9 +12,8 @@ public class FoodItem implements Item {
 
     @Override
     public String getItemName() {
-        return food.getName();
+        return this.getFood().getName();
     }
-
     public Food getFood() {
         return food;
     }

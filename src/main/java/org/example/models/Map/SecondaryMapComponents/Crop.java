@@ -37,7 +37,7 @@ public class Crop extends MapComponents implements Item{
 
     @Override
     public String getItemName() {
-        return "Crop";
+        return this.getCropType().getName();
     }
 
 }

@@ -123,7 +123,7 @@ public enum CropType implements Item {
 
     @Override
     public String getItemName(){
-        return this.name;
+        return this.getName();
     }
 
 }

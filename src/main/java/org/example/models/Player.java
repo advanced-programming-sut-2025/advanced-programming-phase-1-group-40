@@ -24,11 +24,9 @@ public class Player extends User {
     private Backpack backpack;
     private int highestMoney;
     private int gamesPlayed;
-//    private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
     private ArrayList<FriendshipWithPlayers> friendships;
     private ArrayList<Tool> tools = new ArrayList<>();
     private Integer gold;
-    private HashMap<Player,ArrayList<String>> talkHistory;
 
     public Player(User user) {
 
@@ -45,7 +43,6 @@ public class Player extends User {
 
         this.gold = 0;
         this.friendships = new ArrayList<>();
-        this.talkHistory = new HashMap<>();
 
 
     }

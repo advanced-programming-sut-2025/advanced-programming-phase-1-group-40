@@ -14,7 +14,7 @@ public class Scythe extends Tool {
 
     @Override
     public String getItemName() {
-        return material == null ? "Scythe (Unupgraded)" : "Scythe (" + material.name() + ")";
+        return "Scythe";
     }
 
     @Override

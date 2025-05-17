@@ -1168,8 +1168,8 @@ public class GameController {
 
                 }
                 else{
-                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
-                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
                 }
 
             }
@@ -1253,6 +1253,346 @@ public class GameController {
 
     }
 
+//    private Item getItemByName(String name){
+//
+//        for (  )
+//
+//    }
+//
+//    public Result giveGift(Matcher input,Scanner scanner) {
+//
+//        Player targetPlayer = getPlayerByUsername(input.group("username"));
+//
+//        int amount;
+//
+//        try{
+//            amount = Integer.parseInt(input.group("amount"));
+//        }
+//        catch (NumberFormatException e){
+//            return new Result(false,"Invalid amount formet");
+//        }
+//
+//        if ( targetPlayer == null ){
+//            return new Result(false,"User not found.");
+//        }
+//
+//
+//
+//        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+//
+//            return new Result(false,"Target Player is too far away");
+//
+//        }
+//
+//        int amountInBackpack = itemCountInBackpack(input.group("item"));
+//
+//        if ( amountInBackpack == 0 ){
+//            return new Result(false,"You dont have that Item");
+//        }
+//        if ( amountInBackpack < amount ){
+//            return new Result(false,"You dont have enough of that Item");
+//        }
+//
+//        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(giftItem,amount);
+//        targetPlayer.getBackpack().addToInventory(giftItem,amount);
+//
+//        getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).setGift(true);
+//        getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer()).setGift(true);
+//
+//        showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,giftItem);
+//
+//
+//        return new Result(true,"Gift sent");
+//    }
+//
+//    private void showMessageToGiftReceiver(Player giftSender, Player targetPlayer, Item giftItem){
+//        System.out.println("Dear " + targetPlayer.getUsername() + " you just received a " + giftItem.getItemName() +" gift from " + giftSender.getUsername());
+//        System.out.println("Please rate it from 1 to 5");
+//
+//    }
+//
+//
+//    private void updateFriendshipGift(Player player1, Player player2){
+//
+//        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+//        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+//
+//        if ( ! friendship1.isGift() ){
+//
+//            friendship1.setGift(true);
+//            friendship2.setGift(true);
+//            friendship1.setInteraction(true);
+//            friendship2.setInteraction(true);
+//
+//            if ( (friendship1.getFriendshipXP() + 20) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+//
+//                if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
+//
+//                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+//                    friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
+//
+//                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+//                    friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
+//
+//                }
+//                else{
+//                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+//                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+//                }
+//
+//            }
+//            else{
+//                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 20);
+//                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 20);
+//
+//            }
+//
+//        }
+//
+//    }
+//
+//    private int itemCountInBackpack(Item giftItem) {
+//
+//        int count = 0;
+//        for ( Item item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
+//            if ( item.equals(giftItem) ){
+//                count++;
+//            }
+//        }
+//
+//        return count;
+//    }
+
+
+    public  void showGiftHistory(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        if ( targetPlayer == null ){
+            System.out.println("User not found.");
+            return;
+        }
+
+        System.out.println("Gift History between: " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + " and " + targetPlayer.getUsername());
+        for ( Item item : getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).getGiftHistory() ){
+            System.out.println("*   " + item.getItemName());
+        }
+
+
+    }
+
+    public Result hugPlayer(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        if ( targetPlayer == null ){
+            return new Result(false,"User not found.");
+        }
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer());
+
+        if ( friendship1.getFriendshipLevel().getLevel() <= 2 ){
+            return new Result(false,"Your friendship level must be at least 2.");
+        }
+
+        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+
+            return new Result(false,"Target Player is too far away");
+
+        }
+
+
+        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isGift() ){
+
+            updateFriendshipHug(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
+
+        }
+
+
+        return new Result(true,"You hugged " + targetPlayer.getUsername() + " successfully.");
+
+    }
+
+    private void updateFriendshipHug(Player player1, Player player2){
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+
+        if ( ! friendship1.isHug() ){
+
+            friendship1.setHug(true);
+            friendship2.setHug(true);
+            friendship1.setInteraction(true);
+            friendship2.setInteraction(true);
+
+            if ( (friendship1.getFriendshipXP() + 60) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+
+                if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
+
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 60) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
+
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 60) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
+
+                }
+                else{
+                    friendship1.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                }
+
+            }
+            else{
+                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 60);
+                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 60);
+
+            }
+
+        }
+
+    }
+
+    public Result flowerPlayer(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        if ( targetPlayer == null ){
+            return new Result(false,"User not found.");
+        }
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer());
+
+        if ( !(friendship1.getFriendshipLevel().getLevel() == 2 && friendship1.getFriendshipXP()==300) ){
+            return new Result(false,"You have to be at level 2 and 300 xp to give flower and level up your friendship");
+        }
+
+        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+
+            return new Result(false,"Target Player is too far away");
+
+        }
+
+        Item flower = getFlowerFromPlayerInventory();
+
+        if ( flower == null ){
+            return new Result(false,"Flower not found.");
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(flower,1);
+        targetPlayer.getBackpack().addToInventory(flower,1);
+
+        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isFlower() ){
+
+            updateFriendshipFlower(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
+
+        }
+
+
+        return new Result(true,"You gave flower to " + targetPlayer.getUsername() + ".");
+
+    }
+
+    private Item getFlowerFromPlayerInventory(){         ///  TODDO
+        return null;
+    }
+
+    private void updateFriendshipFlower(Player player1, Player player2){
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+
+        friendship1.setFlower(true);
+        friendship2.setFlower(true);
+        friendship1.setInteraction(true);
+        friendship1.setInteraction(true);
+
+
+
+        friendship1.setFriendshipXP(0);
+        friendship2.setFriendshipXP(0);
+
+        friendship1.setFriendshipLevel(FriendshipLevel.BEST_FRIEND);
+        friendship2.setFriendshipLevel(FriendshipLevel.BEST_FRIEND);
+
+
+
+
+    }
+
+    public Result askMarriage(Matcher input){
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        if ( targetPlayer == null ){
+            return new Result(false,"User not found.");
+        }
+
+        Item ring = getItemByItemName(input.group("ring"));
+
+        if ( ring == null ){
+            return new Result(false,"You don't have the chosen ring");
+        }
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer());
+
+        if ( !(friendship1.getFriendshipLevel().getLevel() == 3 && friendship1.getFriendshipXP() == 400)){
+            return new Result(false,"You must be at level 3 and 400 xp to get married.");
+        }
+
+        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+
+            return new Result(false,"Target Player is too far away");
+
+        }
+
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGender().equals(targetPlayer.getGender()) ){
+
+            return new Result(false,"Why are you gay?");
+
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(ring,1);
+        targetPlayer.getBackpack().addToInventory(ring,1);
+
+        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isPropose() ){
+
+            updateFriendshipMarriage(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
+
+        }
+
+
+        return new Result(true,"Badaa Badaa Mobaraak Badaaaaaaa <3");
+
+    }
+
+
+    private void updateFriendshipMarriage(Player player1, Player player2){
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+
+        friendship1.setPropose(true);
+        friendship2.setPropose(true);
+        friendship1.setInteraction(true);
+        friendship1.setInteraction(true);
+
+
+
+        friendship1.setFriendshipXP(0);
+        friendship2.setFriendshipXP(0);
+
+        friendship1.setFriendshipLevel(FriendshipLevel.MARRIED);
+        friendship2.setFriendshipLevel(FriendshipLevel.MARRIED);
+
+
+
+
+    }
+
+
     ///        ----------------------->
 
 
@@ -1263,117 +1603,6 @@ public class GameController {
 
 
 
-    public Result talk(String username, String message) {
-        Game game = getCurrentGame();
-        if (message == null || message.isEmpty()) {
-            return new Result(false, "Message is empty.");
-        }
-        Player targetPlayer = game.getPlayerByUsername(username);
-        if (targetPlayer == null) {
-            return new Result(false, "User not found.");
-        }
-        if (isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
-            //all conditions passed for sending the message
-            //game error
-
-            return new Result(true, "You have successfully sent a message to: "
-                    + targetPlayer.getUsername() + ". Your current friendship level with them is "
-                    + game.getUserFriendship(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer));
-        }
-        return new Result(false, "You must stand next to " + targetPlayer.getUsername() + "to be able to talk to them.");
-    }
-
-    public Result showTalkHistoryWithUser(String username) {
-        Game game = getCurrentGame();
-        User targetPlayer = game.getPlayerByUsername(username);
-        if (targetPlayer == null) {
-            return new Result(false, "User not found.");
-        }
-        StringBuilder historyMessage = new StringBuilder("Your talk history with " + username + ": ");
-        HashMap<String, Boolean> sentMessages = game.getTalkHistory().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).get(targetPlayer);
-        historyMessage.append("You: ").append(sentMessages).append("\n");
-        HashMap<String, Boolean> receivedMessages = game.getTalkHistory().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).get(targetPlayer);
-        historyMessage.append(username).append(": \n").append(receivedMessages).append("\n");
-        return new Result(true, historyMessage.toString().trim());
-    }
-
-    public Result giveGift(String username, String itemName, int amount) {
-        Game game = getCurrentGame();
-
-
-        Player targetPlayer = game.getPlayerByUsername(username);
-        if (targetPlayer == null) {
-            return new Result(false, "User not found.");
-        }
-        if (!isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
-            return new Result(false, "You must get near to " + username + " to be able to give them a gift.");
-        }
-        Item item = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItemFromInventoryByName(itemName);
-        //get item from backpack
-        if (item == null) {
-            return new Result(false, "Item not found.");
-        }
-
-        return new Result(true, "You give " + itemName + " from " + username + ".");
-    }
-
-    public Result giftList() {
-        Game game = getCurrentGame();
-
-        StringBuilder giftListMessage = new StringBuilder("Gift List: \n");
-        for (Gift gift : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGift()) {
-            giftListMessage.append(gift.getId()).append('\n').append(gift.getItem()).append(" (x").append(gift.getAmount()).append(") given by").append(gift.getSender().getUsername()).append("\n");
-            if (gift.getRating() == 0) {
-                giftListMessage.append("You have not rated this gift yet!");
-            } else {
-                giftListMessage.append("the rate you have given to this gift is: ").append(gift.getRating()).append("\n");
-            }
-
-        }
-        return new Result(true, giftListMessage.toString());
-    }
-
-    public Result giftRate(int giftNumber, int rate) {
-        Game game = getCurrentGame();
-        return new Result(true, "");
-    }
-
-    public Result hug(String username) {
-        Game game = getCurrentGame();
-        return new Result(true, "");
-    }
-
-    public FlowerType getFlowerTypeByName(String flowerName) {
-
-        for ( FlowerType flowerType : FlowerType.values() ) {
-
-            if ( flowerType.getItem().getItemName().equalsIgnoreCase(flowerName) ) {
-                return flowerType;
-            }
-        }
-        return null;
-    }
-
-    public Result giveFlowerToUser(String username, String flowerName) {
-
-        Game game = getCurrentGame();
-        Player targetPlayer = game.getPlayerByUsername(username);
-
-        if (targetPlayer == null) {
-            return new Result(false, "User not found.");
-        }
-
-        FlowerType flowerType = getFlowerTypeByName(flowerName);
-
-        if (flowerType == null) {
-            return new Result(false, "Flower not found.");
-        }
-        if (!isNear(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(), targetPlayer.getCurrentPosition())) {
-            return new Result(false, "You must get near to " + username + " to be able to give them a flower.\n");
-        }
-        return new Result(true, "");
-
-    }
 
     public Result askMarriage(String username, Object ring) {
         Game game = getCurrentGame();

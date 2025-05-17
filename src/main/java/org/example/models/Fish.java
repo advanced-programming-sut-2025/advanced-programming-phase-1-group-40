@@ -25,6 +25,10 @@ public class Fish implements Item {
         this.fishQuality = fishQuality;
     }
 
+    public FishType getType() {
+        return type;
+    }
+
     public int getFishQuality() {
         return fishQuality;
     }
@@ -63,6 +67,6 @@ public class Fish implements Item {
 
     @Override
     public String getItemName() {
-        return this.type.getName();
+        return this.getType().getName();
     }
 }

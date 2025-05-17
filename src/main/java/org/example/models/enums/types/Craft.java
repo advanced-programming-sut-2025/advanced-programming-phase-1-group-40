@@ -73,6 +73,6 @@ public enum Craft implements Item {
 
     @Override
     public String getItemName() {
-        return "";
+        return this.getName();
     }
 }

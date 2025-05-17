@@ -34,6 +34,6 @@ public class AnimalProduct implements Item {
 
     @Override
     public String getItemName() {
-        return "";
+        return this.type.getDisplayName();
     }
 }

@@ -26,5 +26,11 @@ public class IridiumRod extends FishingRod{
     }
 
 
+    @Override
+    public String getItemName() {
+        return "Iridium Rod";
+    }
+
+
 }
 

@@ -15,7 +15,7 @@ public class Axe extends Tool {
 
     @Override
     public String getItemName() {
-        return material == null ? "Axe (Unupgraded)" : "Axe (" + material.name() + ")";
+        return "Axe";
     }
 
     @Override
@@ -40,4 +40,7 @@ public class Axe extends Tool {
             System.out.println("Cannot chop this tile: " + type);
         }
     }
+
+
+
 }

@@ -8,6 +8,7 @@ import org.example.models.enums.Skill;
 import org.example.models.enums.enviroment.Direction;
 
 public class FishingRod extends Tool {
+
     protected int energyCost;
     protected int requiredSkillLevel;
 
@@ -36,7 +37,7 @@ public class FishingRod extends Tool {
 
     @Override
     public String getItemName() {
-        return material == null ? "Fishing Rod (Unupgraded)" : "Fishing Rod (" + material.name() + ")";
+        return "Fishing Rod";
     }
 
     @Override

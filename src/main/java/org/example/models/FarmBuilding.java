@@ -55,7 +55,7 @@ public class FarmBuilding extends MapComponents implements Item{
 
     @Override
     public String getItemName() {
-        return "";
+        return "Farm Building";
     }
 
 

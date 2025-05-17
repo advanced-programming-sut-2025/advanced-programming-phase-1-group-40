@@ -19,7 +19,7 @@ public class Hoe extends Tool {
 
     @Override
     public String getItemName() {//material ro ham mige
-        return material == null ? "Hoe (Unupgraded)" : "Hoe (" + material.name() + ")";
+        return "Hoe";
     }
 
     @Override

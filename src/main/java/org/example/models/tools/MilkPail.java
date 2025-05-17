@@ -40,7 +40,7 @@ public class MilkPail extends Tool {
 
     @Override
     public String getItemName() {
-        return material == null ? "Milk Pail (Unupgraded)" : "Milk Pail (" + material.name() + ")";
+        return "Milk Pail";
     }
 
     @Override

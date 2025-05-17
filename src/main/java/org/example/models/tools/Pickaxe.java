@@ -15,7 +15,7 @@ public class Pickaxe extends Tool {
 
     @Override
     public String getItemName() {
-        return material == null ? "Pickaxe (Unupgraded)" : "Pickaxe (" + material.name() + ")";
+        return "Pickaxe";
     }
 
     @Override

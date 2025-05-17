@@ -35,4 +35,7 @@ public class AnimalLivingSpace extends FarmBuilding {
     public ArrayList<Animal> getAnimals() {
         return animals;
     }
+
+
+
 }

@@ -65,7 +65,7 @@ public enum FishingRodType implements Item{
 
     @Override
     public String getItemName() {
-        return "";
+        return this.getPoleName();
     }
 
 

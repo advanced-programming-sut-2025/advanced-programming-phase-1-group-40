@@ -22,4 +22,9 @@ public class ForagingTree extends Tree implements Item {
     public TreeType getTreeType() {
         return treeType;
     }
+
+    @Override
+    public String getItemName() {
+        return "Foraging Tree";
+    }
 }
