@@ -10,7 +10,7 @@ public enum TradeMenuCommands implements Command{
     SHOW_TRADE_LIST("\\s*trade\\s+list\\s*"),
     RESPOND_TO_TRADE("\\s*trade\\s+response\\s+(-accept|-reject)\\s+-i\\s+(?<id>.+)\\s*"),
     SHOW_TRADE_HISTORY("\\s*trade\\s+history\\s*"),
-    EXIT_TRADE("\\s*exit\\s+trade\\s"),
+    EXIT_TRADE("\\s*exit\\s+trade\\s*"),
     SHOW_CURRENT_MENU("\\s*show\\s+current\\s+menu\\s*");
 
     private final String regexString;

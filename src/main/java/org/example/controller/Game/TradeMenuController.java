@@ -6,6 +6,8 @@ import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
 import org.example.models.enums.Menu;
+import org.example.models.enums.commands.GameCommands;
+import org.example.models.enums.commands.TradeMenuCommands;
 import org.example.models.enums.types.TradeType;
 import org.example.models.inventory.Inventory;
 
@@ -100,12 +102,19 @@ public class TradeMenuController {
 
             sender = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
             receiver = getPlayerByUsername(input.group("username"));
+            newTrade.setSenderAccepted(true);
+            newTrade.setReceiverAccepted(false);
+            newTrade.setTargetPlayer(receiver);
 
         }
         else{
 
             receiver = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
             sender = getPlayerByUsername(input.group("username"));
+            newTrade.setSenderAccepted(false);
+            newTrade.setReceiverAccepted(true);
+            newTrade.setTargetPlayer(sender);
+
 
         }
 
@@ -147,6 +156,8 @@ public class TradeMenuController {
         newTrade.setAmount1(amount);
         newTrade.setPrice(price);
 
+        App.dataManager.getCurrentGame().addTrade(newTrade);
+
         return new Result(true,"Trade Listed successfully");
 
     }
@@ -179,12 +190,19 @@ public class TradeMenuController {
 
             sender = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
             receiver = getPlayerByUsername(input.group("username"));
+            newTrade.setSenderAccepted(true);
+            newTrade.setReceiverAccepted(false);
+            newTrade.setTargetPlayer(receiver);
 
         }
         else{
 
             receiver = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
             sender = getPlayerByUsername(input.group("username"));
+            newTrade.setSenderAccepted(false);
+            newTrade.setReceiverAccepted(true);
+            newTrade.setTargetPlayer(sender);
+
 
         }
 
@@ -201,7 +219,7 @@ public class TradeMenuController {
 
 
         Item item1 = getItemByName(sender,input.group("item"));
-        Item item2 = getItemByName(sender,input.group("targetItem"));
+        Item item2 = getItemByName(receiver,input.group("targetItem"));
 
         if ( item1 == null || item2 == null ){
             return new Result(false,"Item does not exist");
@@ -224,48 +242,39 @@ public class TradeMenuController {
         newTrade.setAmount1(amount1);
         newTrade.setAmount2(amount2);
 
+        App.dataManager.getCurrentGame().addTrade(newTrade);
+
         return new Result(true,"Trade Listed successfully");
 
     }
 
 
-    public Result trade(String username, String typeStr, String itemName, String amountStr, String priceStr,
-                        String targetItemName, String targetAmountStr) {
-        User player = App.dataManager.getCurrentUser();
-        if (username.equals(player.getUsername())) {
-            return new Result(false, "You can't trade with yourself.");
-        }
 
-        Game game = App.dataManager.getCurrentGame();
 
-        User targetUser = game.getPlayerByUsername(username);
-        if (targetUser == null) {
-            return new Result(false, "User not found.");
-        }
+    public void showTradeList() {
 
-        if (!amountStr.matches("\\d+")) {
-            return new Result(false, "Invalid amount.");
-        }
-        int amount = Integer.parseInt(amountStr);
+        for ( Trade trade : App.dataManager.getCurrentGame().getTrades() ){
 
-        // TODO: Item item = ...
-//        if (item == null) {
-//            return new Result(false, "Item not found.");
-//        }
-
-        boolean isOffer = typeStr.equals("offer");
-        if (priceStr != null) {
-            int price = Integer.parseInt(priceStr);
-            if (targetItemName != null) {
-                return new Result(false, "You can only trade with money or item and not both.");
+            if ( ! trade.isTargetAlert() ){
+                if ( trade.getTargetPlayer().equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ){
+                    System.out.println("***** You have new Trade Offers *****");
+                    trade.setTargetAlert(true);
+                }
             }
-            // TODO
-        }
-        return new Result(true, "");
-    }
 
-    public Result showTradeList() {
-        return new Result(true, "");
+        }
+
+        System.out.println("----------TRADE LIST----------");
+
+        for ( Trade trade : App.dataManager.getCurrentGame().getTrades() ){
+
+            System.out.println(trade.getTradeID()+". " + trade.getReceiver().getUsername()+" wants ("
+                    + trade.getAmount1() + " * " + trade.getItem1().getItemName() + ") from " + trade.getSender().getUsername());
+
+        }
+
+        System.out.println("------------------------------");
+
     }
 
     public Result tradeResponse(String response, String idStr) {
@@ -281,5 +290,8 @@ public class TradeMenuController {
         App.dataManager.setCurrentMenu(Menu.GAME);
         System.out.println("You are back to the game");
     }
+
+
+
 
 }

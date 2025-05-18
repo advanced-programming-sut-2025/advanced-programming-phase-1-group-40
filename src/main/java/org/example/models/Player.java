@@ -1,5 +1,7 @@
 package org.example.models;
 
+import org.example.models.Animal.AnimalProduct;
+import org.example.models.Animal.AnimalProductQuality;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
 import org.example.models.enums.*;
@@ -39,6 +41,7 @@ public class Player extends User {
 
         // Initialize backpack with default type
         this.backpack = new Backpack(InventoryType.INITIAL);
+        this.backpack.addToInventory(new AnimalProduct(AnimalProductType.EGG, AnimalProductQuality.NORMAL),1);
 
         // Initialize skill levels
         this.skillLevels.add(new SkillLevel(Skill.FARMING));

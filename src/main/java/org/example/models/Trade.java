@@ -6,10 +6,13 @@ import org.example.models.inventory.Inventory;
 public class Trade {
 
     private final int tradeID;
-
+    private boolean tradeIsOpen;
     private Player sender;
     private Player receiver;
-
+    private boolean targetAlert;
+    private boolean senderAccepted;
+    private boolean receiverAccepted;
+    private Player targetPlayer;
     private TradeType type1;
     private TradeType type2;
 
@@ -25,6 +28,48 @@ public class Trade {
 
     public Trade(){
         this.tradeID = App.dataManager.getCurrentGame().getTrades().size() + 1;
+        this.tradeIsOpen = true;
+        this.targetAlert = false;
+    }
+
+    public Player getTargetPlayer() {
+        return targetPlayer;
+    }
+
+    public void setTargetPlayer(Player targetPlayer) {
+        this.targetPlayer = targetPlayer;
+    }
+
+    public boolean isTargetAlert() {
+        return targetAlert;
+    }
+
+    public void setTargetAlert(boolean targetAlert) {
+        this.targetAlert = targetAlert;
+    }
+
+    public boolean isSenderAccepted() {
+        return senderAccepted;
+    }
+
+    public void setSenderAccepted(boolean senderAccepted) {
+        this.senderAccepted = senderAccepted;
+    }
+
+    public boolean isReceiverAccepted() {
+        return receiverAccepted;
+    }
+
+    public void setReceiverAccepted(boolean receiverAccepted) {
+        this.receiverAccepted = receiverAccepted;
+    }
+
+    public void closeTrade(){
+        this.tradeIsOpen = false;
+    }
+
+    public boolean isTradeOpen(){
+        return this.tradeIsOpen;
     }
 
     public int getTradeID() {
