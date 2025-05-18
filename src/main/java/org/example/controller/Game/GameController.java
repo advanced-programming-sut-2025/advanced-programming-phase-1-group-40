@@ -1522,11 +1522,11 @@ public class GameController {
 
 
 
-        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
-
-            return new Result(false,"Target Player is too far away");
-
-        }
+//        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+//
+//            return new Result(false,"Target Player is too far away");
+//
+//        }
 
         Item item = getItemByNameForCheat(input.group("item"));
 
@@ -1630,14 +1630,15 @@ public class GameController {
         while ( GameCommands.RATE_GIFT.getMatcher(input) == null || rate == null){
 
             try{
-                rate = Integer.parseInt(input);
+                rate = Integer.parseInt(GameCommands.RATE_GIFT.getMatcher(input).group("rate"));
             }
             catch (NumberFormatException e){
                 rate = null;
+                input = scanner.nextLine().trim();
             }
 
         }
-
+        System.out.println("rateeeee is : " + rate);
         return ((rate-3) * 30) + 15;
 
 

@@ -389,7 +389,7 @@ public class Game implements AppMenu {
         else if (GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input) != null) {
 
 
-            System.out.println("give to others");
+            System.out.println(gameController.giveGift(GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input),scanner).message());
 
 
         }
@@ -400,13 +400,7 @@ public class Game implements AppMenu {
 
 
         }
-        else if (GameCommands.RATE_GIFT.getMatcher(input) != null) {
 
-
-            System.out.println("build new building");
-
-
-        }
         else if (GameCommands.GIFT_HISTORY_WITH_USER.getMatcher(input) != null) {
 
 
