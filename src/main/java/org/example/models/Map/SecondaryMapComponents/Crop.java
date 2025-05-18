@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Crop extends MapComponents implements Item{
 
-    private final CropType cropType;
+    private CropType cropType;
 
     public Crop(Position position) {
 
@@ -19,9 +19,15 @@ public class Crop extends MapComponents implements Item{
 
     }
 
+    public void setCropType(CropType cropType) {
+        this.cropType = cropType;
+    }
+
     public CropType getCropType() {
         return cropType;
     }
+
+
 
     @Override
     public void update() {

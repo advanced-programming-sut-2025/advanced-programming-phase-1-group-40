@@ -4,7 +4,7 @@ import org.example.models.Item;
 
 import java.util.HashMap;
 
-public enum Craft implements Item {
+public enum CraftTypes implements Item {
     CHERRY_BOMB("Cherry Bomb", createIngredientsMap(IngredientType.COPPER_ORE, 4, IngredientType.COAL, 1), "Mining Level 1", 50),
     BOMB("Bomb", createIngredientsMap(IngredientType.IRON_ORE, 4, IngredientType.COAL, 1), "Mining Level 2", 50),
     MEGA_BOMB("Mega Bomb", createIngredientsMap(IngredientType.GOLD_ORE, 4, IngredientType.COAL, 1), "Mining Level 3", 50),
@@ -32,7 +32,7 @@ public enum Craft implements Item {
     private final String source;
     private final int sellPrice;
 
-    Craft(String name, HashMap<IngredientType, Integer> ingredients, String source, int sellPrice) {
+    CraftTypes(String name, HashMap<IngredientType, Integer> ingredients, String source, int sellPrice) {
         this.name = name;
         this.ingredients = ingredients;
         this.source = source;
@@ -42,8 +42,8 @@ public enum Craft implements Item {
     public String getName() {
         return name;
     }
-    public static Craft getByName(String name) {
-        for (Craft c : values()) {
+    public static CraftTypes getByName(String name) {
+        for (CraftTypes c : values()) {
             if (c.name.equalsIgnoreCase(name)) return c;
         }
         return null;

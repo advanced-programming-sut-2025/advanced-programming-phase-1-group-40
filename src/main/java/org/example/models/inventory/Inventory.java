@@ -14,6 +14,17 @@ public abstract class Inventory {
         this.capacity = capacity;
     }
 
+
+    public void showInventory() {
+
+        System.out.println("\nInventory Items are:");
+        for (Item item : items) {
+            System.out.println(item.getItemName());
+        }
+        System.out.println();
+
+    }
+
     public void addToInventory(Item item, int n) {
 
 
@@ -21,7 +32,9 @@ public abstract class Inventory {
 
         if ( this.getItems().size()  + n <= this.capacity ) {
 
-            this.items.add(item);
+            for ( int i = 0; i < n; i++ ) {
+                this.items.add(item);
+            }
 
         }
 

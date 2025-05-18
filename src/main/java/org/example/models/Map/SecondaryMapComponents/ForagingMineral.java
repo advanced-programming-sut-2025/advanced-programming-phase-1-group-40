@@ -10,13 +10,18 @@ import java.util.Random;
 
 public class ForagingMineral extends MapComponents implements Item {
 
-    private final ForagingMineralType mineralType;
+    private ForagingMineralType mineralType;
 
     public ForagingMineral(Position position) {
 
         super(position, 1, 1);
         this.mineralType = ForagingMineralType.values()[(new Random()).nextInt(ForagingMineralType.values().length)];
 
+    }
+
+
+    public void setMineralType(ForagingMineralType mineralType) {
+        this.mineralType = mineralType;
     }
 
     public ForagingMineral(Position position, ForagingMineralType mineralType) {

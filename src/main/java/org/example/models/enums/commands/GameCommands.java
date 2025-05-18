@@ -6,6 +6,12 @@ import java.util.regex.Pattern;
 
 public enum GameCommands implements Command{
 
+    ///  CHEAT ADD ITEM
+
+    CHEAT_ADD_ITEM2("cheat\\s+add\\s+(?<item>.+)\\s+-n\\s+(?<count>.+)\\s*"),
+    SHOW_INVENTORY2("show inventory"),
+    SHOW_MONEY("show money"),
+
 
     ///  GENERAL COMMANDS
 

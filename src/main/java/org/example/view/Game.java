@@ -28,6 +28,19 @@ public class Game implements AppMenu {
             exitingGame = true;
 
         }
+        else if ( GameCommands.CHEAT_ADD_ITEM2.getMatcher(input) != null ){
+
+            System.out.println(gameController.cheatAddItemToInventory(GameCommands.CHEAT_ADD_ITEM2.getMatcher(input)).message());
+
+        }
+        else if ( GameCommands.SHOW_INVENTORY2.getMatcher(input) != null ){
+
+            gameController.showInventory();
+
+        }
+        else if ( GameCommands.SHOW_MONEY.getMatcher(input) != null ){
+            System.out.println(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold());
+        }
         else if ( GameCommands.NEXT_TURN.getMatcher(input) != null ) {
 
             System.out.printf("Moving on from " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + " to ");
@@ -461,6 +474,7 @@ public class Game implements AppMenu {
 
 
         }
+
         else{
 
 
@@ -474,9 +488,9 @@ public class Game implements AppMenu {
             System.out.printf("It is " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn: ");
         }
 
-        for(Player player : App.dataManager.getCurrentGame().getPlayers()){
-            System.out.println(player.getUsername() + " has " + player.getGold());
-        }
+//        for(Player player : App.dataManager.getCurrentGame().getPlayers()){
+//            System.out.println(player.getUsername() + " has " + player.getGold());
+//        }
 
 
     }

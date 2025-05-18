@@ -24,7 +24,87 @@ import java.util.regex.Matcher;
 
 public class GameController {
 
+
     ///  GENERAL COMMANDS
+
+    private Item getItemByNameForCheat(String name){
+
+        for ( CraftTypes craftType : CraftTypes.values() ){
+            if ( craftType.getName().equals(name) ){
+                return new Craft(craftType);
+            }
+        }
+
+        for ( AnimalProductType animalProductType : AnimalProductType.values() ){
+            if ( animalProductType.getDisplayName().equals(name) ){
+                return new AnimalProduct(animalProductType,AnimalProductQuality.NORMAL);
+            }
+        }
+
+        for ( ForagingMineralType foragingMineralType : ForagingMineralType.values() ){
+            if ( foragingMineralType.getDisplayName().equals(name) ){
+                return new ForagingMineral(new Position(0,0), foragingMineralType);     /// POSITION PLAYER MITOONE BASHE
+            }
+        }
+
+        for ( ForagingCropType foragingCropType : ForagingCropType.values() ){
+            if ( foragingCropType.getDisplayName().equals(name) ){
+                return new ForagingCrop(new Position(0,0), foragingCropType);
+            }
+        }
+
+        for ( CropType cropType : CropType.values() ){
+            if ( cropType.getDisplayName().equals(name) ){
+                Crop newCrop = new Crop(new Position(0,0));
+                newCrop.setCropType(cropType);
+                return newCrop;
+            }
+        }
+
+        for ( ShopItemTypes shopItemType : ShopItemTypes.values() ){
+            if ( shopItemType.getDisplayName().equals(name) ){
+                return new ShopItem(shopItemType);
+            }
+        }
+
+        return null;
+
+    }
+
+    public Result cheatAddItemToInventory(Matcher input) {
+
+        Item item = getItemByNameForCheat(input.group("item"));
+
+        if ( item == null ){
+            return new Result(false, "Item not found");
+        }
+
+        int amount;
+        try{
+            amount = Integer.parseInt(input.group("count"));
+        }
+        catch (NumberFormatException e){
+            return new Result(false, "Not a number");
+        }
+
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getRemainingCapacity() < amount ){
+            return new Result(false, "Not enough space");
+        }
+
+        for ( int i = 0; i < amount; i++ ){
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().addToInventory(item, 1);
+        }
+
+        return new Result(true,"Added successfully");
+
+    }
+
+    public void showInventory(){
+        System.out.println("\nInventory:");
+        for ( Item  item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
+            System.out.println(item.getItemName());
+        }
+    }
 
     public Result exitGame(){
 
@@ -518,9 +598,10 @@ public class GameController {
     ///     ----------------->  Crafting
 
     public String showCraftingRecipes() {
+
         StringBuilder sb = new StringBuilder("Available crafting recipes:\n");
 
-        for (Craft craft : Craft.values()) {
+        for (CraftTypes craft : CraftTypes.values()) {
             sb.append("- ").append(craft.getName()).append(" | Ingredients: ");
             boolean first = true;
 
@@ -536,14 +617,20 @@ public class GameController {
 
         return sb.toString();
     }
+
+
+
     public String cheatAddItem(Matcher matcher) {
+
         Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
-        Inventory inventory = player.getInventory();
+        Inventory inventory = player.getBackpack();
 
         String itemName = matcher.group("itemName").trim();
+
         int count = Integer.parseInt(matcher.group("count"));
 
-        Craft craft = Craft.getByName(itemName);
+
+        CraftTypes craft = CraftTypes.getByName(itemName);
         if (craft == null) {
             return "You don't have an item called '" + itemName + "' to add.";
         }
@@ -555,6 +642,9 @@ public class GameController {
             inventory.CheatAddToInventory(craft, count);
 
         return "Successfully added " + count + " x " + itemName + " to your inventory.";
+
+
+
     }
 
 

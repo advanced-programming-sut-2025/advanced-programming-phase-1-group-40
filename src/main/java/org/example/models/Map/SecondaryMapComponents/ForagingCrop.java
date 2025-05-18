@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class ForagingCrop extends MapComponents implements Item {
 
-    private final ForagingCropType type;
+    private ForagingCropType type;
 
     public ForagingCrop(Position position) {
 
@@ -21,6 +21,10 @@ public class ForagingCrop extends MapComponents implements Item {
     public ForagingCrop(Position position, ForagingCropType foragingCropType){
         super(position, 1, 1);
         this.type = foragingCropType;
+    }
+
+    public void setType(ForagingCropType type) {
+        this.type = type;
     }
 
     public ForagingCropType getType() {
