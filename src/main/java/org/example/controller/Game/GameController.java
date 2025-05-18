@@ -1969,11 +1969,27 @@ public class GameController {
         return new Result(true, message.toString());
     }
 
-    public Result showQuestsList() {
-        Game game = getCurrentGame();
+        public Result showQuestsList() {
 
+        StringBuilder message = new StringBuilder("Quest List:\n\n");
 
-        return new Result(true, "");
+        for ( Quest quest : App.dataManager.getCurrentGame().getQuests() ) {
+
+//            if ( App.dataManager.getCurrentGame().getNPCByNPCType(quest.getNpc()).getFriendshipXP(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) > 0 ) {
+
+                if ( !quest.isCompleted() ) {
+
+                    message.append(quest.toString()).append("\n");
+
+                }
+
+                message.append("\n");
+
+//            }
+
+        }
+
+        return new Result(true, message.toString());
     }
 
     public Result finishQuest(int index) {
