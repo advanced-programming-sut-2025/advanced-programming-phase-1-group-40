@@ -1482,7 +1482,7 @@ public class GameController {
     }
 
 
-
+//
 //
 //    public Result giveGift(Matcher input,Scanner scanner) {
 //
@@ -1509,14 +1509,13 @@ public class GameController {
 //
 //        }
 //
-//        int amountInBackpack = itemCountInBackpack(input.group("item"));
+//        Item item = getItemByNameForCheat(input.group("item"));
 //
-//        if ( amountInBackpack == 0 ){
-//            return new Result(false,"You dont have that Item");
+//        if ( item == null ){
+//            return new Result(false,"Item does not exist");
 //        }
-//        if ( amountInBackpack < amount ){
-//            return new Result(false,"You dont have enough of that Item");
-//        }
+//
+//        int amount =
 //
 //        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(giftItem,amount);
 //        targetPlayer.getBackpack().addToInventory(giftItem,amount);
@@ -1529,6 +1528,10 @@ public class GameController {
 //
 //        return new Result(true,"Gift sent");
 //    }
+
+
+
+
 //
 //    private void showMessageToGiftReceiver(Player giftSender, Player targetPlayer, Item giftItem){
 //        System.out.println("Dear " + targetPlayer.getUsername() + " you just received a " + giftItem.getItemName() +" gift from " + giftSender.getUsername());
@@ -1576,17 +1579,6 @@ public class GameController {
 //
 //    }
 //
-//    private int itemCountInBackpack(Item giftItem) {
-//
-//        int count = 0;
-//        for ( Item item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
-//            if ( item.equals(giftItem) ){
-//                count++;
-//            }
-//        }
-//
-//        return count;
-//    }
 
 
     public  void showGiftHistory(Matcher input){

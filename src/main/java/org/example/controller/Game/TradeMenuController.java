@@ -2,13 +2,14 @@ package org.example.controller.Game;
 
 import org.example.models.*;
 import org.example.models.Animal.AnimalProduct;
+import org.example.models.Animal.AnimalProductQuality;
 import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
 import org.example.models.enums.Menu;
 import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.commands.TradeMenuCommands;
-import org.example.models.enums.types.TradeType;
+import org.example.models.enums.types.*;
 import org.example.models.inventory.Inventory;
 
 import java.util.regex.Matcher;
@@ -23,6 +24,50 @@ public class TradeMenuController {
             }
         }
         return null;
+    }
+
+    private Item getItemByNameForCheat(String name){
+
+        for ( CraftTypes craftType : CraftTypes.values() ){
+            if ( craftType.getName().equals(name) ){
+                return new Craft(craftType);
+            }
+        }
+
+        for ( AnimalProductType animalProductType : AnimalProductType.values() ){
+            if ( animalProductType.getDisplayName().equals(name) ){
+                return new AnimalProduct(animalProductType, AnimalProductQuality.NORMAL);
+            }
+        }
+
+        for ( ForagingMineralType foragingMineralType : ForagingMineralType.values() ){
+            if ( foragingMineralType.getDisplayName().equals(name) ){
+                return new ForagingMineral(new Position(0,0), foragingMineralType);     /// POSITION PLAYER MITOONE BASHE
+            }
+        }
+
+        for ( ForagingCropType foragingCropType : ForagingCropType.values() ){
+            if ( foragingCropType.getDisplayName().equals(name) ){
+                return new ForagingCrop(new Position(0,0), foragingCropType);
+            }
+        }
+
+        for ( CropType cropType : CropType.values() ){
+            if ( cropType.getDisplayName().equals(name) ){
+                Crop newCrop = new Crop(new Position(0,0));
+                newCrop.setCropType(cropType);
+                return newCrop;
+            }
+        }
+
+        for ( ShopItemTypes shopItemType : ShopItemTypes.values() ){
+            if ( shopItemType.getDisplayName().equals(name) ){
+                return new ShopItem(shopItemType);
+            }
+        }
+
+        return null;
+
     }
 
 
@@ -130,10 +175,16 @@ public class TradeMenuController {
 
 
 
-        Item item = getItemByName(sender,input.group("item"));
+        Item item = getItemByNameForCheat(input.group("item"));
 
         if ( item == null ){
             return new Result(false,"Item does not exist");
+        }
+
+        item = getItemByName(sender,input.group("item"));
+
+        if ( item == null ){
+            return new Result(false,"Sender does not have this item");
         }
 
         int amount;
@@ -142,6 +193,10 @@ public class TradeMenuController {
         }
         catch (NumberFormatException e){
             return new Result(false, "Amount is not a number");
+        }
+
+        if ( sender.getBackpack().getItemCount(item) < amount ){
+            return new Result(false,"Sender does not have enough of this item");
         }
 
         int price;
@@ -183,7 +238,7 @@ public class TradeMenuController {
 
 
 
-        Player sender;
+        Player sender;      // ITEM AVALO MIFRESTE
         Player receiver;
 
         if ( newTrade.getType1() == TradeType.OFFER ) {
@@ -218,12 +273,37 @@ public class TradeMenuController {
 
 
 
-        Item item1 = getItemByName(sender,input.group("item"));
-        Item item2 = getItemByName(receiver,input.group("targetItem"));
+        Item item1 = getItemByNameForCheat(input.group("item"));
+        Item item2 = getItemByNameForCheat(input.group("targetItem"));
 
         if ( item1 == null || item2 == null ){
             return new Result(false,"Item does not exist");
         }
+
+        if ( newTrade.getType1() == TradeType.OFFER ) {
+            item1 = getItemByName(sender,input.group("item"));
+            if ( item1 == null ){
+                return new Result(false,"Sender does not have this item");
+            }
+            item2 = getItemByName(receiver,input.group("targetItem"));
+            if ( item2 == null ){
+                return new Result(false,"Receiver does not have this item");
+            }
+        }
+        else{
+
+            item1 = getItemByName(receiver, input.group("item"));
+            if (item1 == null) {
+                return new Result(false, "Receiver does not have this item");
+            }
+            item2 = getItemByName(receiver, input.group("targetItem"));
+            if (item2 == null) {
+                return new Result(false, "Sender does not have this item");
+            }
+
+        }
+
+
 
         int amount1;
         int amount2;
@@ -235,6 +315,12 @@ public class TradeMenuController {
             return new Result(false, "Amount is not a number");
         }
 
+        if ( sender.getBackpack().getItemCount(item1) < amount1 ){
+            return new Result(false,"Sender does not have enough of this item");
+        }
+        if ( sender.getBackpack().getItemCount(item2) < amount2 ){
+            return new Result(false,"Receiver does not have enough of this item");
+        }
 
 
         newTrade.setItem1(item1);

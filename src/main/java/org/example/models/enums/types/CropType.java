@@ -22,7 +22,7 @@ public enum CropType implements Item {
     TULIP("Tulip",ForagingSeedType.TULIP_BULB, new ArrayList<>(List.of(1, 1, 2, 2)), 6, true, null, 30, true, 45, new ArrayList<>(List.of(Season.SPRING)), false),
     UNMILLED_RICE("Unmilled Rice",ForagingSeedType.RICE_SHOOT, new ArrayList<>(List.of(1, 2, 2, 3)), 8, true, null, 30, true, 3, new ArrayList<>(List.of(Season.SPRING)), false),
     BLUEBERRY("Blueberry",ForagingSeedType.BLUEBERRY_SEEDS, new ArrayList<>(List.of(1, 3, 3, 4, 2)), 13, false, 4, 50, true, 25, new ArrayList<>(List.of(Season.SUMMER)), false),
-    CORN("Conr",ForagingSeedType.CORN_SEEDS, new ArrayList<>(List.of(2, 3, 3, 3, 3)), 14, false, 4, 50, true, 25, new ArrayList<>(List.of(Season.SUMMER,Season.FALL)), false),
+    CORN("Corn",ForagingSeedType.CORN_SEEDS, new ArrayList<>(List.of(2, 3, 3, 3, 3)), 14, false, 4, 50, true, 25, new ArrayList<>(List.of(Season.SUMMER,Season.FALL)), false),
     HOPS("Hops",ForagingSeedType.HOPS_STARTER, new ArrayList<>(List.of(1, 1, 2, 3, 4)), 11, false, 1, 25, true, 45, new ArrayList<>(List.of(Season.SUMMER)), false),
     HOT_PEPPER("Hot Pepper",ForagingSeedType.PEPPER_SEEDS, new ArrayList<>(List.of(1, 1, 1, 1, 1)), 5, false, 3, 40, true, 13, new ArrayList<>(List.of(Season.SUMMER)), false),
     MELON("Melon",ForagingSeedType.MELON_SEEDS, new ArrayList<>(List.of(1, 2, 3, 3, 3)), 12, true, null, 250, true, 113, new ArrayList<>(List.of(Season.SUMMER)), true),
