@@ -595,7 +595,7 @@ public class GameController {
     }
 
     public String eatFood(Matcher matcher) {
-       Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
         String foodName = matcher.group("foodName");
         Food foodToEat = null;
         for(Food food : Food.values()){
@@ -666,7 +666,7 @@ public class GameController {
             return "Not enough space in inventory.";
         }
 
-            inventory.CheatAddToInventory(craft, count);
+        inventory.CheatAddToInventory(craft, count);
 
         return "Successfully added " + count + " x " + itemName + " to your inventory.";
 
@@ -798,7 +798,7 @@ public class GameController {
 
     public void thor(Position position){
 
-        
+
 
     }
 
@@ -1187,13 +1187,13 @@ public class GameController {
 
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().addToInventory(
                     caughtFish,
-                            Math.min(
+                    Math.min(
                             numberOfFishes,
                             App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getRemainingCapacity())
-                    );
+            );
 
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING,5);        /// BA HAR BAR MAHI GIRI
-                                                                                                                 ///  FISHING SKILL +5
+            ///  FISHING SKILL +5
 
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().setEnergy(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy() - fishingRod.getEnergyCost());
 
@@ -1564,7 +1564,7 @@ public class GameController {
             }
 
         }
-
+        return newBackpack;
     }
 
 
@@ -1962,13 +1962,13 @@ public class GameController {
 
         Situation situation = new Situation(
 
-                                            App.dataManager.getCurrentGame().getTime().getHour(),
+                App.dataManager.getCurrentGame().getTime().getHour(),
 
-                                            App.dataManager.getCurrentGame().getTime().getSeason(),
+                App.dataManager.getCurrentGame().getTime().getSeason(),
 
-                                            App.dataManager.getCurrentGame().getWeather()
+                App.dataManager.getCurrentGame().getWeather()
 
-                                            );
+        );
 
         String dialog = npc.getType().getDialogBySituation(situation);
 
@@ -1980,7 +1980,7 @@ public class GameController {
 
     }
 
-    public Result giveGift(Matcher input,Scanner scanner) {
+    public Result giveGiftToNPC(Matcher input,Scanner scanner) {
 
         String npcName = input.group("npcName");
         String itemName = input.group("item");
@@ -2063,7 +2063,7 @@ public class GameController {
 
 
 
-        public Result crowAttack() {
+    public Result crowAttack() {
 
         return null;
 
@@ -2083,7 +2083,7 @@ public class GameController {
     }
 
     public Result setPlayerEnergy(Matcher input){
-            Integer amount;
+        Integer amount;
         try{
             amount = Integer.parseInt(input.group("value"));
         }
@@ -2209,7 +2209,7 @@ public class GameController {
         if (currentType == InventoryType.DELUXE ||
                 (currentType == InventoryType.LARGE && newType == InventoryType.INITIAL)) {
             return new Result(false, "You cannot downgrade your backpack.");
-       }
+        }
 
         // Check if it's the same type (no change)
         if (currentType == newType) {
@@ -2253,7 +2253,7 @@ public class GameController {
     //ALL THE METHODS RELATED TO TOOLS
 
 
-//
+    //
     public Result placeItem(Item item, Direction direction) {
         Position position = neighborTile(direction);
         if (canItemBePlacedHere(position, item)) {
