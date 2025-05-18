@@ -39,6 +39,7 @@ public class Game {
     private HashMap<String, Boolean> terminationVotes;
     private ArrayList<NPC> npcs;
     private ArrayList<Trade> trades;
+    private ArrayList<Quest> quests;
 
 
 public Game(Player creator, ArrayList<Player> players) {
@@ -102,10 +103,9 @@ public Game(Player creator, ArrayList<Player> players) {
         
     }
 
-        public ArrayList<Quest> getQuests() {
+    public ArrayList<Quest> getQuests() {
         return quests;
     }
-
 
     public Farm getCurrentFarm() {
         return currentFarm;
@@ -135,6 +135,15 @@ public Game(Player creator, ArrayList<Player> players) {
         this.trades.remove(trade);
     }
 
+    public NPC getNPCByNPCType(NPCType npcType) {
+        for (NPC npc : npcs) {
+            if (npc.getType() == npcType) {
+                return npc;
+            }
+        }
+        return null;
+    }
+
     public NPC getNPCByName(String name) {
         for (NPC npc : npcs) {
             if (npc.getName().equals(name)) {
@@ -161,7 +170,7 @@ public Game(Player creator, ArrayList<Player> players) {
             System.out.println("Cannot reach this position.");
         }
         else{
-          
+
             int energyNeeded = (walkResult.getDistance() + 10*walkResult.getTurns())/20;
             System.out.println("Energy needed to go to your destination is" + energyNeeded);
             System.out.println("Do you want to go there? (yes/no)");
