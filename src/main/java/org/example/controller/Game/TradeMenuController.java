@@ -248,8 +248,94 @@ public class TradeMenuController {
 
     }
 
+    private Trade getTradeByID(int tradeID){
+        for ( Trade trade : App.dataManager.getCurrentGame().getTrades() ){
+            if ( trade.getTradeID() == tradeID ){
+                return trade;
+            }
+        }
+        return null;
+    }
+
+    public Result responseToTrade(Matcher input){
+
+        String answer = input.group("answer");
+
+        int tradeID;
+
+        try{
+            tradeID = Integer.parseInt(input.group("id"));
+        }
+        catch (NumberFormatException e){
+            return new Result(false, "Trade ID is not a number");
+        }
+
+        Trade selectedTrade = getTradeByID(tradeID);
+
+        if ( selectedTrade == null ){
+            return new Result(false,"Trade does not exist");
+        }
+
+        if ( ! App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(selectedTrade.getTargetPlayer()) ){
+            return new Result(false,"You are not the target player");
+        }
+
+        if ( ! selectedTrade.isTradeOpen() ){
+            return new Result(false,"Trade is not open");
+        }
+
+        if ( answer.trim().toLowerCase().equals("reject") ) {
+
+            if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(selectedTrade.getSender()) ){
+                selectedTrade.setSenderAccepted(false);
+            }
+            else{
+                selectedTrade.setReceiverAccepted(false);
+            }
+
+            selectedTrade.closeTrade();
+            return new Result(false,"Trade rejected successfully");
+        }
+
+        if ( selectedTrade.getType2() == TradeType.MONEY ) {
+
+            if ( selectedTrade.getSender().getBackpack().hasItem(selectedTrade.getItem1()) < selectedTrade.getAmount1()){
+                return new Result(false,"Sender does not have item");
+            }
+            if ( selectedTrade.getReceiver().getGold() < selectedTrade.getPrice() ){
+                return new Result(false,"Receiver does not have enough gold");
+            }
+
+            selectedTrade.getSender().setGold(selectedTrade.getSender().getGold() + selectedTrade.getPrice());
+            selectedTrade.getSender().getBackpack().removeFromInventory(selectedTrade.getItem1(),selectedTrade.getAmount1());
+
+            selectedTrade.getReceiver().setGold(selectedTrade.getReceiver().getGold() - selectedTrade.getPrice());
+            selectedTrade.getReceiver().getBackpack().addToInventory(selectedTrade.getItem1(),selectedTrade.getAmount1());
 
 
+        }
+        else {
+
+            if ( selectedTrade.getSender().getBackpack().hasItem(selectedTrade.getItem1()) < selectedTrade.getAmount1()){
+                return new Result(false,"Sender does not have item");
+            }
+            if ( selectedTrade.getReceiver().getBackpack().hasItem(selectedTrade.getItem2()) < selectedTrade.getAmount2()){
+                return new Result(false,"Receiver does not have item");
+            }
+
+            selectedTrade.getSender().getBackpack().removeFromInventory(selectedTrade.getItem1(),selectedTrade.getAmount1());
+            selectedTrade.getSender().getBackpack().addToInventory(selectedTrade.getItem2(),selectedTrade.getAmount2());
+
+            selectedTrade.getReceiver().getBackpack().removeFromInventory(selectedTrade.getItem2(),selectedTrade.getAmount2());
+            selectedTrade.getReceiver().getBackpack().addToInventory(selectedTrade.getItem1(),selectedTrade.getAmount1());
+
+
+        }
+
+        selectedTrade.closeTrade();
+        return new Result(true,"Trade accepted successfully");
+
+    }
 
     public void showTradeList() {
 
@@ -277,12 +363,33 @@ public class TradeMenuController {
 
     }
 
-    public Result tradeResponse(String response, String idStr) {
-        return new Result(true, "");
-    }
+    public void showTradeHistory() {
 
-    public Result showTradeHistory() {
-        return new Result(true, "");
+        for ( Trade trade : App.dataManager.getCurrentGame().getTrades() ){
+
+            if ( ! trade.isTradeOpen() && trade.getSender().equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer())){
+
+                if ( trade.isSenderAccepted()){
+                    System.out.println("You accepted trade from " + trade.getReceiver().getUsername());
+                }
+                else{
+                    System.out.println("You declined trade from " + trade.getReceiver().getUsername());
+                }
+
+            }
+            else if ( ! trade.isTradeOpen() && trade.getReceiver().equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer())){
+
+                if ( trade.isReceiverAccepted()){
+                    System.out.println("You accepted trade from " + trade.getReceiver().getUsername());
+                }
+                else{
+                    System.out.println("You declined trade from " + trade.getReceiver().getUsername());
+                }
+
+            }
+
+
+        }
 
     }
 

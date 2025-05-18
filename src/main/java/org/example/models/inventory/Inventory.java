@@ -81,8 +81,16 @@ public abstract class Inventory {
     }
 
 
-    public boolean hasItem(Item item) {
-        return this.items.contains(item);
+    public int hasItem(Item item) {
+
+        int count = 0;
+        for ( Item itemInBackPack : this.items ){
+            if ( itemInBackPack.equals(item) ){
+                count ++;
+            }
+        }
+
+        return count;
     }
 
 

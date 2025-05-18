@@ -1038,7 +1038,7 @@ public class GameController {
 
         FishingRodType fishingRod = getFishingPoleByName(fishingPoleName);
 
-        if ( ! App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().hasItem(fishingRod) ){
+        if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().hasItem(fishingRod) == 0 ){
             return new Result(false,"You dont have this fishing rod");
         }
 
@@ -1994,7 +1994,7 @@ public class GameController {
 
         Backpack playerBackpack = App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack();
 
-        if (!playerBackpack.hasItem(item)) {
+        if (playerBackpack.hasItem(item) == 0) {
             return new Result(false, "You don't have any " + item.toString() + " in your inventory.");
         }
 

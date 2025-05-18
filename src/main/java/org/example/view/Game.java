@@ -3,6 +3,7 @@ package org.example.view;
 
 import org.example.controller.Game.GameController;
 import org.example.models.App;
+import org.example.models.Player;
 import org.example.models.enums.Skill;
 import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.commands.PreGameMenuCommands;
@@ -473,6 +474,9 @@ public class Game implements AppMenu {
             System.out.printf("It is " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn: ");
         }
 
+        for(Player player : App.dataManager.getCurrentGame().getPlayers()){
+            System.out.println(player.getUsername() + " has " + player.getGold());
+        }
 
 
     }

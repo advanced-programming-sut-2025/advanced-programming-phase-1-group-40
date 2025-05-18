@@ -29,7 +29,6 @@ public class Player extends User {
     private int gamesPlayed;
     private Refrigerator refrigerator;
     private Inventory inventory;
-//    private HashMap<Player, FriendshipWithNPC> friendships = new HashMap<>();
     private ArrayList<FriendshipWithPlayers> friendships;
     private ArrayList<Tool> tools = new ArrayList<>();
     private Integer gold;
@@ -49,21 +48,13 @@ public class Player extends User {
         this.skillLevels.add(new SkillLevel(Skill.FORAGING));
         this.skillLevels.add(new SkillLevel(Skill.FISHING));
 
-        this.gold = 0;
+        this.gold = 1000;
         this.friendships = new ArrayList<>();
         this.talkHistory = new HashMap<>();
         this.energy = 200;
 
 
     }
-
-//    public HashMap<Player, ArrayList<String>> getTalkHistory() {
-//        return talkHistory;
-//    }
-//
-//    public void addTalkHistory(Player player, String text) {
-//        this.talkHistory.put(player, text);
-//    }
 
     public void setFarmPosition(Position farmPosition) {
         this.farmPosition = farmPosition;
@@ -344,7 +335,7 @@ public class Player extends User {
 
     // Method to check if user has a specific item
     public boolean hasItem(Item item) {
-        return backpack != null && backpack.hasItem(item);
+        return backpack != null && (backpack.hasItem(item) != 0);
     }
 
     // Method to get quantity of a specific item

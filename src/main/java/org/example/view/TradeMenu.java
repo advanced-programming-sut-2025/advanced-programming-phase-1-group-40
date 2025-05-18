@@ -41,14 +41,14 @@ public class TradeMenu implements AppMenu {
         else if (TradeMenuCommands.RESPOND_TO_TRADE.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(tradeMenuController.responseToTrade(TradeMenuCommands.RESPOND_TO_TRADE.getMatcher(input)).message());
 
 
         }
         else if (TradeMenuCommands.SHOW_TRADE_HISTORY.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            tradeMenuController.showTradeHistory();
 
 
         }
