@@ -41,6 +41,10 @@ public abstract class Inventory {
 
     }
 
+    public void updateInventory(ArrayList<Item> items) {
+        this.items = items;
+    }
+
     public void CheatAddToInventory(Item item, int n) {
 
         if ( this.getItems().size()  + n <= this.capacity ) {

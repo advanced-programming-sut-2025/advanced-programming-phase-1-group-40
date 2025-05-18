@@ -1482,62 +1482,100 @@ public class GameController {
     }
 
 
-//
-//
-//    public Result giveGift(Matcher input,Scanner scanner) {
-//
-//        Player targetPlayer = getPlayerByUsername(input.group("username"));
-//
-//        int amount;
-//
-//        try{
-//            amount = Integer.parseInt(input.group("amount"));
-//        }
-//        catch (NumberFormatException e){
-//            return new Result(false,"Invalid amount format");
-//        }
-//
-//        if ( targetPlayer == null ){
-//            return new Result(false,"User not found.");
-//        }
-//
-//
-//
-//        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
-//
-//            return new Result(false,"Target Player is too far away");
-//
-//        }
-//
-//        Item item = getItemByNameForCheat(input.group("item"));
-//
-//        if ( item == null ){
-//            return new Result(false,"Item does not exist");
-//        }
-//
-//        int amount =
-//
-//        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(giftItem,amount);
-//        targetPlayer.getBackpack().addToInventory(giftItem,amount);
-//
-//        getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).setGift(true);
-//        getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer()).setGift(true);
-//
-//        showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,giftItem);
-//
-//
-//        return new Result(true,"Gift sent");
-//    }
+    private int itemCountInBackpack(String name){
+
+        int count = 0;
+        for ( Item item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
+            if (item.getItemName().toLowerCase().trim().equals(name.toLowerCase().trim())){
+                count++;
+            }
+        }
+        return count;
+
+    }
+
+    public Result giveGift(Matcher input,Scanner scanner) {
+
+        Player targetPlayer = getPlayerByUsername(input.group("username"));
+
+        int amount;
+
+        try{
+            amount = Integer.parseInt(input.group("amount"));
+        }
+        catch (NumberFormatException e){
+            return new Result(false,"Invalid amount format");
+        }
+
+        if ( targetPlayer == null ){
+            return new Result(false,"User not found.");
+        }
 
 
 
 
+
+        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+
+            return new Result(false,"Target Player is too far away");
+
+        }
+
+        Item item = getItemByNameForCheat(input.group("item"));
+
+        if ( item == null ){
+            return new Result(false,"Item does not exist");
+        }
+
+        String name = input.group("item");
+
+        if ( itemCountInBackpack(name) == 0 ){
+            return new Result(false,"You dont have this item");
+        }
+        else if ( itemCountInBackpack(name) < amount ){
+            return new Result(false,"You dont have enough of this item");
+        }
+
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().updateInventory(updateInventories(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer,name,amount));
+
+
+        getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).setGift(true);
+        getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer()).setGift(true);
+
+        showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,name,amount);
+
+
+        return new Result(true,"Gift sent");
+    }
+
+    private ArrayList<Item> updateInventories(Player sender, Player receiver, String name, int amount){
+
+        ArrayList<Item> newBackpack = new ArrayList<>();
+        int removed = 0;
+        for ( Item item : sender.getBackpack().getItems() ){
+
+            if ( ! item.getItemName().toLowerCase().trim().equals(name.toLowerCase().trim()) || (removed >= amount) ){
+                newBackpack.add(item);
+            }
+            else{
+                removed++;
+                receiver.getBackpack().addToInventory(item,1);
+            }
+
+        }
+
+    }
+
+
+
+
+    private void showMessageToGiftReceiver(Player giftSender, Player targetPlayer, String name, int amount){
+        System.out.println("Dear " + targetPlayer.getUsername() + " you just received a " + amount + "*"+name +" gift from " + giftSender.getUsername());
+        System.out.println("Please rate it from 1 to 5");
+
+    }
 //
-//    private void showMessageToGiftReceiver(Player giftSender, Player targetPlayer, Item giftItem){
-//        System.out.println("Dear " + targetPlayer.getUsername() + " you just received a " + giftItem.getItemName() +" gift from " + giftSender.getUsername());
-//        System.out.println("Please rate it from 1 to 5");
-//
-//    }
 //
 //
 //    private void updateFriendshipGift(Player player1, Player player2){
