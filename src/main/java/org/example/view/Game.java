@@ -468,7 +468,7 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_QUESTS_LIST.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.showQuestsList().message());
 
 
         }
