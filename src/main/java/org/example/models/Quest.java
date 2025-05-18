@@ -39,6 +39,10 @@ public class Quest {
         return id;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public NPCType getNpc() {
         return npc;
     }
@@ -65,5 +69,13 @@ public class Quest {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    @Override
+    public String toString() {
+        return id + ". " +
+                " " + npc.getName() + ":\n" +
+                "   Request: " + request + " (*" + requestQuantity + ")\n" +
+                "   Reward: " + reward + " (*" + rewardQuantity + ")";
     }
 }
