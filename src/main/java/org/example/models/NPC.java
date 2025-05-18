@@ -13,7 +13,6 @@ public class NPC extends Human {
     private  Position position;
     private  Role role;
     private  HashMap<String, Situation> dialog;
-    private  HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> quests;
     private  ArrayList<Item> favorites;
     private  HashMap<User, Boolean> hasBeenGiftedToday;
     private  HashMap<User, Integer> friendships;
@@ -25,7 +24,6 @@ public class NPC extends Human {
         this.name = type.getName();
         this.position = new Position(0,0); // TODO
         this.dialog = type.getDialog();
-        this.quests = type.getQuests();
         this.friendships = new HashMap<>();
         this.hasBeenGiftedToday = new HashMap<>();
 
@@ -51,21 +49,8 @@ public class NPC extends Human {
         return dialog;
     }
 
-
-    public HashMap<HashMap<Item, Integer>, HashMap<Item, Integer>> getQuests() {
-        return quests;
-    }
-
     public ArrayList<Item> getFavorites() {
         return favorites;
-    }
-
-
-    public void viewQuests() {
-        for (Map.Entry<HashMap<Item, Integer>, HashMap<Item, Integer>> quest : quests.entrySet()) {
-            System.out.println("Request: " + quest.getKey());
-            System.out.println("Reward: " + quest.getValue());
-        }
     }
 
     public void increaseFriendshipXP(Player player, int xp) {
