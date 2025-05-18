@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public enum ArtisanType {
+public enum ArtisanType implements Item {
 
     HONEY(75, 96, List.of(
         List.of()
@@ -142,6 +142,11 @@ public enum ArtisanType {
 
     public Integer getSellPrice() {
         return sellPrice;
+    }
+
+    @Override
+    public String getItemName() {
+        return "";
     }
 }
 
