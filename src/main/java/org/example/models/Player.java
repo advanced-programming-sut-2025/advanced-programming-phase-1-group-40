@@ -80,6 +80,10 @@ public class Player extends User {
         this.gold = gold;
     }
 
+    public void changeGold(Integer amount) {
+        this.gold += gold;
+    }
+
     public boolean hasEnoughEnergy(int energyCost) {
         return energy >= energyCost;
     }

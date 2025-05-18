@@ -39,9 +39,10 @@ public class Game {
     private HashMap<String, Boolean> terminationVotes;
     private ArrayList<NPC> npcs;
     private ArrayList<Trade> trades;
+    private ArrayList<Quest> quests;
 
 
-    public Game(Player creator, ArrayList<Player> players) {
+public Game(Player creator, ArrayList<Player> players) {
 
 
         this.trades = new ArrayList<>();
@@ -67,13 +68,44 @@ public class Game {
         for (Player player : players) {
             friendships.put(player, new FriendshipWithNPC(0, FriendshipLevel.STRANGER));
         }
-        for (NPCType npcType : NPCType.values()) {
+
+        quests = new ArrayList<>();
+
+        for ( NPCType npcType : NPCType.values() ) {
             NPC npc = new NPC(friendships, npcType);
             npcs.add(npc);
+
+            for ( Quest questType : npcType.getQuests() ) {
+
+                Quest quest = new Quest(
+
+                        quests.size() + 1,
+
+                        questType.getNumber(),
+
+                        npcType,
+
+                        questType.getRequest(),
+
+                        questType.getRequestQuantity(),
+
+                        questType.getReward(),
+
+                        questType.getRewardQuantity()
+
+                );
+
+                quests.add(quest);
+
+            }
+
         }
         
     }
 
+    public ArrayList<Quest> getQuests() {
+        return quests;
+    }
 
     public Farm getCurrentFarm() {
         return currentFarm;
@@ -103,6 +135,15 @@ public class Game {
         this.trades.remove(trade);
     }
 
+    public NPC getNPCByNPCType(NPCType npcType) {
+        for (NPC npc : npcs) {
+            if (npc.getType() == npcType) {
+                return npc;
+            }
+        }
+        return null;
+    }
+
     public NPC getNPCByName(String name) {
         for (NPC npc : npcs) {
             if (npc.getName().equals(name)) {
@@ -129,11 +170,7 @@ public class Game {
             System.out.println("Cannot reach this position.");
         }
         else{
-            //we have to ask and handle the energy part here,,,
-            //
-            //
-            //
-            //
+
             int energyNeeded = (walkResult.getDistance() + 10*walkResult.getTurns())/20;
             System.out.println("Energy needed to go to your destination is" + energyNeeded);
             System.out.println("Do you want to go there? (yes/no)");
@@ -300,7 +337,7 @@ public class Game {
                         }
                         break;
                     case WATER:
-                        sb.append(BG_BLUE).append("W").append(RESET);//////////////////////////////
+                        sb.append(BG_BLUE).append(" ").append(RESET);//////////////////////////////
                         break;
                     case CABIN:
                         sb.append("C");
@@ -405,8 +442,8 @@ public class Game {
     public boolean pickUpGroundItem() {
     MapTile tile = map[currentTurnPlayer.getCurrentPosition().getX()][currentTurnPlayer.getCurrentPosition().getY()];
     if (tile.getMapComponents() != null) {
-        MapComponents item = tile.getForageableItem();
-        //addItemToInventory(item, 1);
+        Item item = (Item)tile.getForageableItem();
+        currentTurnPlayer.getBackpack().addToInventory(item, 1);
         tile.removeForageableItem();
         return true;
     }

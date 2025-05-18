@@ -194,10 +194,10 @@ public enum NPCType {
             new ArrayList<>(asList(
                     new Quest(1,
                             ProcessedItemType.GOLD_BAR, 1,
-                            null, 1),
+                            RewardType.FRIENDSHIP_LEVEL, 1),
                     new Quest(2,
                             CropType.PUMPKIN, 1,
-                            null, 500),
+                            RewardType.COIN, 500),
                     new Quest(3,
                             CropType.WHEAT, 50,
                             ToolTypes.WATERING_CAN, 1)
@@ -304,11 +304,4 @@ public enum NPCType {
         return null;
     }
 
-    public String getQuestsString() {
-        String questsString = this.getName();
-
-
-
-        return questsString;
-    }
 }

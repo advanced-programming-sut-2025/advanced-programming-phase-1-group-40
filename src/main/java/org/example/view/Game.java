@@ -177,6 +177,17 @@ public class Game implements AppMenu {
         }
 
 
+
+
+        else if( GameCommands.PICKUP.getMatcher(input) != null){
+            if(App.dataManager.getCurrentGame().pickUpGroundItem()){
+                System.out.println("Item picked up successfully");
+            }
+            else{
+                System.out.println("Ummm no no");
+            }
+        }
+
         ///ENERGY
         
         
@@ -378,11 +389,18 @@ public class Game implements AppMenu {
         else if (GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input) != null) {
 
 
-            System.out.println(gameController.giveGift(GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input),scanner).message());
+            System.out.println("give to others");
 
 
         }
         else if (GameCommands.SHOW_RECEIVED_GIFTS.getMatcher(input) != null) {
+
+
+            System.out.println("build new building");
+
+
+        }
+        else if (GameCommands.RATE_GIFT.getMatcher(input) != null) {
 
 
             System.out.println("build new building");

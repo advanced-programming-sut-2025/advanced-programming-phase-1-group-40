@@ -134,7 +134,7 @@ public class GameController {
 
         updateFriendshipWithAnimal();
         updatePlayersFriendship();
-        updateAnimal();
+
         //foraging generation
 
 
@@ -2069,13 +2069,37 @@ public class GameController {
     }
 
     public Result showQuestsList() {
-        Game game = getCurrentGame();
 
+        StringBuilder message = new StringBuilder("Quest List:\n");
 
-        return new Result(true, "");
+        boolean hasAnyQuests = false;
+
+        for ( Quest quest : App.dataManager.getCurrentGame().getQuests() ) {
+
+            if ( !quest.isCompleted() ) {
+
+                if ( App.dataManager.getCurrentGame().getNPCByNPCType(quest.getNpc()).getFriendshipXP(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) > 0 ) {
+
+                    message.append(quest.toString());
+
+                    hasAnyQuests = true;
+
+                }
+
+            }
+
+            message.append("\n\n");
+
+        }
+
+        if ( !hasAnyQuests ) {
+            return new Result(true, "You don't have any quests yet. Meet NPCs to unlock them");
+        }
+
+        return new Result(true, message.toString());
     }
 
-    public Result finishQuest(int index) {
+    public Result finishQuest(String index) {
         Game game = getCurrentGame();
 
 
@@ -2399,7 +2423,7 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public Result build(FarmBuildingType farmBuildingType, Position position) {
+    public Result build(Matcher matcher) {
         return new Result(true, "");
     }
 
@@ -2437,19 +2461,20 @@ public class GameController {
         return new Result(true, "");
     }
 
-    public Result purchase(String productName, Integer count) {
+    public Result purchase(String productName, String count) {
         if (count == null) {
-            count = 1;
         }
         Item product = getItemByItemName(productName);
         return new Result(true, "");
     }
 
-    public Result cheatAddDollars(int amount) {
-        return new Result(true, "");
+    public Result cheatAddDollars(String amountString) {
+        int amount = Integer.parseInt(amountString);
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().changeGold(amount);
+        return new Result(true, "You now have " + amount + " g.");
     }
 
-    public Result sell(String productName, Integer count) {
+    public Result sell(String productName, String count) {
         if (count == null) {
         }
         return new Result(true, "");

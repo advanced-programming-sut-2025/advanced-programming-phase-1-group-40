@@ -106,6 +106,17 @@ public class MapTile implements Serializable {
             type = TileType.TILLED_SOIL;
         }
     }
+
+    public void thor(){
+        if(mapComponents instanceof Tree){
+            ((Tree) mapComponents).setBurnt(true);
+            setType(TileType.COAL);
+        }
+        else{
+            setType(TileType.COAL);
+        }
+
+    }
     
     public boolean isFertilized() {
         return isFertilized;
