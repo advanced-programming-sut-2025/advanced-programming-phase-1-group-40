@@ -107,6 +107,15 @@ public Game(Player creator, ArrayList<Player> players) {
         return quests;
     }
 
+    public Quest getQuestById(int questID) {
+        for (Quest quest : quests) {
+            if (quest.getId() == questID) {
+                return quest;
+            }
+        }
+        return null;
+    }
+
     public Farm getCurrentFarm() {
         return currentFarm;
     }
