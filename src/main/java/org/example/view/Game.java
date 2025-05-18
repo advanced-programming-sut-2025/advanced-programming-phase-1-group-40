@@ -378,18 +378,11 @@ public class Game implements AppMenu {
         else if (GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input) != null) {
 
 
-            System.out.println("give to others");
+            System.out.println(gameController.giveGift(GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input),scanner).message());
 
 
         }
         else if (GameCommands.SHOW_RECEIVED_GIFTS.getMatcher(input) != null) {
-
-
-            System.out.println("build new building");
-
-
-        }
-        else if (GameCommands.RATE_GIFT.getMatcher(input) != null) {
 
 
             System.out.println("build new building");

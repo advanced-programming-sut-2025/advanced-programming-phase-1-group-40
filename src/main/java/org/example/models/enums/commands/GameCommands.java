@@ -89,7 +89,7 @@ public enum GameCommands implements Command{
     SHOW_TALK_HISTORY("\\s*talk\\s+history\\s+-u\\s+(?<username>.+)\\s*"),
     GIVE_GIFT_TO_OTHERS("\\s*gift\\s+-u\\s+(?<username>.+)\\s+-i\\s+(?<item>.+)\\s+-a\\s+(?<amount>.+)\\s*"),
     SHOW_RECEIVED_GIFTS("\\s*gift\\s+list\\s*"),
-    RATE_GIFT("\\s*gift\\s+rate\\s+-i\\s+(?<giftNumber>.+)\\s+-r\\s+(?<rate>.+)\\s*"),
+    RATE_GIFT("\\s*gift\\s+rate\\s+-r\\s+(?<rate>.+)\\s*"),
     GIFT_HISTORY_WITH_USER("\\s*gift\\s+history\\s+-u\\s+(?<username>.+)\\s*"),
     HUG_USER("\\s*hug\\s+-u\\s+(?<username>.+)\\s*"),
     FLOWER_USER("\\s*flower\\s+-u\\s+(?<username>.+)\\s*"),

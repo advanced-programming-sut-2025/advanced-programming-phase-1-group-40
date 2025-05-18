@@ -10,7 +10,6 @@ import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
 import org.example.models.Map.SecondaryMapComponents.ForagingSeed;
-import org.example.models.Map.TileType;
 import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.types.*;
 import org.example.models.enums.enviroment.*;
@@ -141,6 +140,8 @@ public class GameController {
 
 
     }
+
+
 
     public void updateWeather(){
 
@@ -293,6 +294,12 @@ public class GameController {
                 }
 
                 friendshipWithPlayers.setInteraction(false);
+                friendshipWithPlayers.setTalk(false);
+                friendshipWithPlayers.setGift(false);
+                friendshipWithPlayers.setHug(false);
+                friendshipWithPlayers.setFlower(false);
+                friendshipWithPlayers.setPropose(false);
+                friendshipWithPlayers.setTrade(false);
 
             }
 
@@ -1542,13 +1549,7 @@ public class GameController {
 
         showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,name,amount);
 
-
-        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isGift() ){
-
-            updateFriendshipGift(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
-
-        }
-
+        updateFriendshipGift(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer,getRateAndCalculateIncrement(scanner));
 
         return new Result(true,"Gift sent");
     }
@@ -1582,7 +1583,7 @@ public class GameController {
 
 
 
-    private void updateFriendshipGift(Player player1, Player player2){
+    private void updateFriendshipGift(Player player1, Player player2,int friendshipXpIncrement){
 
         FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
         FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
@@ -1594,26 +1595,26 @@ public class GameController {
             friendship1.setInteraction(true);
             friendship2.setInteraction(true);
 
-            if ( (friendship1.getFriendshipXP() + 20) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+            if ( (friendship1.getFriendshipXP() + friendshipXpIncrement) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
 
                 if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
 
-                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + friendshipXpIncrement) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
                     friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
 
-                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + friendshipXpIncrement) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
                     friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
 
                 }
                 else{
-                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
-                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
                 }
 
             }
             else{
-                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 20);
-                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 20);
+                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + friendshipXpIncrement);
+                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + friendshipXpIncrement);
 
             }
 
@@ -1621,7 +1622,26 @@ public class GameController {
 
     }
 
+    private int getRateAndCalculateIncrement(Scanner scanner){
 
+        String input = scanner.nextLine().trim();
+        Integer rate = null;
+
+        while ( GameCommands.RATE_GIFT.getMatcher(input) == null || rate == null){
+
+            try{
+                rate = Integer.parseInt(input);
+            }
+            catch (NumberFormatException e){
+                rate = null;
+            }
+
+        }
+
+        return ((rate-3) * 30) + 15;
+
+
+    }
 
     public  void showGiftHistory(Matcher input){
 
