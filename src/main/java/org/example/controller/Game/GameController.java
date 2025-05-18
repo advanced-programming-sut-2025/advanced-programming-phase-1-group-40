@@ -218,7 +218,7 @@ public class GameController {
 
     public AnimalProductQuality getRandomAnimalProductQuality(Animal animal){
 
-
+//
 //        Double quality = ( animal.getFriendshipWithOwner() / 1000 ) * ( 0.5 + Math.random()* 0.5 );
 //
 //        for ( AnimalProductQuality animalProductQuality : AnimalProductQuality.values() ) {
@@ -1075,7 +1075,7 @@ public class GameController {
 
     public Result sellAnimal(Matcher input){
 
-        String animalName = input.group("animal");
+        String animalName = input.group("name");
 
         Animal animal = findAnimalByName(animalName);
 

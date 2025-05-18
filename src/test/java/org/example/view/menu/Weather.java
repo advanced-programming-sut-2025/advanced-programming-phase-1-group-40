@@ -3,7 +3,6 @@ package org.example.view.menu;
 import org.example.controller.Game.GameController;
 import org.example.models.*;
 import org.example.models.enums.SecurityQuestion;
-import org.example.models.enums.enviroment.Time;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TimeTest {
-//    private static Time time;
+public class Weather {
+
+    //    private static Time time;
 
     private static GameController gameController = new GameController();
     private static Game game;
+
+    private void setNewGameWeather(){
+        App.dataManager.getCurrentGame().setWeather(new GameController().randomWeatherBasedOnSeason());
+        App.dataManager.getCurrentGame().setFutureWeather(new GameController().randomWeatherBasedOnSeason());
+//        setFriendship(App.dataManager.getCurrentGame());
+    }
+
     @BeforeAll
     static void setUp() {
         Player creator = new Player(new User("username1","password1","nickname1","email1","male", SecurityQuestion.FIRST_PET,"firstpet1"));
@@ -94,7 +102,6 @@ public class TimeTest {
 
     }
 
-    
 
 
 }
