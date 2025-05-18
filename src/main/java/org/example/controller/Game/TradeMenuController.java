@@ -418,6 +418,8 @@ public class TradeMenuController {
 
         }
 
+        selectedTrade.setReceiverAccepted(true);
+        selectedTrade.setSenderAccepted(true);
         selectedTrade.closeTrade();
         return new Result(true,"Trade accepted successfully");
 
@@ -427,7 +429,7 @@ public class TradeMenuController {
 
         for ( Trade trade : App.dataManager.getCurrentGame().getTrades() ){
 
-            if ( ! trade.isTargetAlert() ){
+            if ( ! trade.isTargetAlert() && trade.isTradeOpen() ){
                 if ( trade.getTargetPlayer().equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ){
                     System.out.println("***** You have new Trade Offers *****");
                     trade.setTargetAlert(true);
@@ -440,8 +442,11 @@ public class TradeMenuController {
 
         for ( Trade trade : App.dataManager.getCurrentGame().getTrades() ){
 
-            System.out.println(trade.getTradeID()+". " + trade.getReceiver().getUsername()+" wants ("
-                    + trade.getAmount1() + " * " + trade.getItem1().getItemName() + ") from " + trade.getSender().getUsername());
+           if ( trade.isTradeOpen() ){
+               System.out.println(trade.getTradeID()+". " + trade.getReceiver().getUsername()+" wants ("
+                       + trade.getAmount1() + " * " + trade.getItem1().getItemName() + ") from " + trade.getSender().getUsername());
+
+           }
 
         }
 
@@ -455,7 +460,7 @@ public class TradeMenuController {
 
             if ( ! trade.isTradeOpen() && trade.getSender().equals(App.dataManager.getCurrentGame().getCurrentTurnPlayer())){
 
-                if ( trade.isSenderAccepted()){
+                if ( trade.isSenderAccepted() && trade.isReceiverAccepted()){
                     System.out.println("You accepted trade from " + trade.getReceiver().getUsername());
                 }
                 else{
