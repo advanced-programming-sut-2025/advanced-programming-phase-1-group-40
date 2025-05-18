@@ -1,16 +1,10 @@
 package org.example.models.enums.types;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
+import org.example.models.Item;
 
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
 import java.util.HashMap;
 
-public enum Food {
+public enum Food implements Item {
     FRIED_EGG("Fried Egg", createIngredientsMap(IngredientType.EGG, 1), 50, "", "Starter", 35),
     BAKED_FISH("Baked Fish", createIngredientsMap(IngredientType.SARDINE, 1, IngredientType.SALMON, 1, IngredientType.WHEAT, 1), 75, "", "Starter", 100),
     SALAD("Salad", createIngredientsMap(IngredientType.LEEK, 1, IngredientType.DANDELION, 1), 113, "", "Starter", 110),
@@ -82,5 +76,10 @@ public enum Food {
             }
         }
         return map;
+    }
+
+    @Override
+    public String getItemName() {
+        return name;
     }
 }
