@@ -1,10 +1,11 @@
 package org.example.models.enums.types;
 
 
+import org.example.models.Item;
 import org.example.models.enums.enviroment.*;
 
 
-public enum FishType {
+public enum FishType implements Item {
 
     SALMON("Salmon", 75, Season.FALL, false),
     SARDINE ("Sardine", 40, Season.FALL, false),
@@ -57,4 +58,8 @@ public enum FishType {
     }
 
 
+    @Override
+    public String getItemName() {
+        return name;
+    }
 }
