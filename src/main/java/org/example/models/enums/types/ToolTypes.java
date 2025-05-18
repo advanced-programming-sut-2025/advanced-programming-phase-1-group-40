@@ -1,16 +1,8 @@
 package org.example.models.enums.types;
 
-import org.example.models.*;
-import org.example.models.enums.types.*;
-import org.example.models.enums.enviroment.*;
-import org.example.models.enums.*;
+import org.example.models.Item;
 
-import org.example.models.inventory.*;
-import org.example.models.tools.*;
-import org.example.models.*;
-
-
-public enum ToolTypes {
+public enum ToolTypes implements Item {
     HOE,
     PICKAXE,
     AXE,
@@ -21,5 +13,10 @@ public enum ToolTypes {
     SHEARS,
     BACKPACK,
     TRASH_CAN;
+
+    @Override
+    public String getItemName() {
+        return this.toString().toLowerCase();
+    }
 }
 
