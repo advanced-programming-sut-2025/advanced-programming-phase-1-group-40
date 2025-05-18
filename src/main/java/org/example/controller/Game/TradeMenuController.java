@@ -6,6 +6,7 @@ import org.example.models.Animal.AnimalProductQuality;
 import org.example.models.Map.SecondaryMapComponents.Crop;
 import org.example.models.Map.SecondaryMapComponents.ForagingCrop;
 import org.example.models.Map.SecondaryMapComponents.ForagingMineral;
+import org.example.models.enums.FriendshipLevel;
 import org.example.models.enums.Menu;
 import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.commands.TradeMenuCommands;
@@ -380,6 +381,7 @@ public class TradeMenuController {
             }
 
             selectedTrade.closeTrade();
+
             return new Result(false,"Trade rejected successfully");
         }
 
@@ -420,8 +422,63 @@ public class TradeMenuController {
 
         selectedTrade.setReceiverAccepted(true);
         selectedTrade.setSenderAccepted(true);
+        updateFriendshipTrade(selectedTrade.getSender(),selectedTrade.getReceiver(),true);
         selectedTrade.closeTrade();
         return new Result(true,"Trade accepted successfully");
+
+    }
+
+    private FriendshipWithPlayers getFriendshipWithPlayers(Player player1, Player player2){
+
+        for ( FriendshipWithPlayers friendship : player1.getFriendships() ){
+
+            if ( friendship.getTargetPlayer().equals(player2) ){
+                return friendship;
+            }
+
+        }
+
+        return null;
+
+    }
+
+
+    private void updateFriendshipTrade(Player player1, Player player2, boolean tradeDone){
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+
+        if ( ! friendship1.isHug() ){
+
+            friendship1.setHug(true);
+            friendship2.setHug(true);
+            friendship1.setInteraction(true);
+            friendship2.setInteraction(true);
+
+            if ( (friendship1.getFriendshipXP() + 60) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+
+                if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
+
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 60) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
+
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 60) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
+
+                }
+                else{
+                    friendship1.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP(((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                }
+
+            }
+            else{
+                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 60);
+                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 60);
+
+            }
+
+        }
 
     }
 

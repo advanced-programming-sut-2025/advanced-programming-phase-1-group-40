@@ -1540,10 +1540,14 @@ public class GameController {
         App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().updateInventory(updateInventories(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer,name,amount));
 
 
-        getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).setGift(true);
-        getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer()).setGift(true);
-
         showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,name,amount);
+
+
+        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isGift() ){
+
+            updateFriendshipGift(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
+
+        }
 
 
         return new Result(true,"Gift sent");
@@ -1575,48 +1579,48 @@ public class GameController {
         System.out.println("Please rate it from 1 to 5");
 
     }
-//
-//
-//
-//    private void updateFriendshipGift(Player player1, Player player2){
-//
-//        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
-//        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
-//
-//        if ( ! friendship1.isGift() ){
-//
-//            friendship1.setGift(true);
-//            friendship2.setGift(true);
-//            friendship1.setInteraction(true);
-//            friendship2.setInteraction(true);
-//
-//            if ( (friendship1.getFriendshipXP() + 20) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
-//
-//                if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
-//
-//                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
-//                    friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
-//
-//                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
-//                    friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
-//
-//                }
-//                else{
-//                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
-//                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
-//                }
-//
-//            }
-//            else{
-//                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 20);
-//                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 20);
-//
-//            }
-//
-//        }
-//
-//    }
-//
+
+
+
+    private void updateFriendshipGift(Player player1, Player player2){
+
+        FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
+        FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
+
+        if ( ! friendship1.isGift() ){
+
+            friendship1.setGift(true);
+            friendship2.setGift(true);
+            friendship1.setInteraction(true);
+            friendship2.setInteraction(true);
+
+            if ( (friendship1.getFriendshipXP() + 20) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+
+                if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
+
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
+
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
+
+                }
+                else{
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 20) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 20) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                }
+
+            }
+            else{
+                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 20);
+                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 20);
+
+            }
+
+        }
+
+    }
+
 
 
     public  void showGiftHistory(Matcher input){
@@ -1662,7 +1666,7 @@ public class GameController {
         }
 
 
-        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isGift() ){
+        if ( ! getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer).isHug() ){
 
             updateFriendshipHug(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer);
 
