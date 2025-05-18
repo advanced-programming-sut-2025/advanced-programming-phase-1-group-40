@@ -57,7 +57,7 @@ public enum GameCommands implements Command{
     SHOW_ANIMAL_INFO("\\s*animals\\s*"),
     SHEPHERD_ANIMALS("\\s*shepherd\\s+animals\\s+-n\\s+(?<animalName>.+)\\s+-l\\s+(?<x>\\S+)\\s+(?<y>\\S+)\\s*"),
     FEED_HAY("\\s*feed\\s+hay\\s+-n\\s+(?<animalName>.+)\\s*"),
-    SHOW_UNCOLLECTED_PRODUCTS("\\s+produces\\s*"),
+    SHOW_UNCOLLECTED_PRODUCTS("\\s*produces\\s*"),
     COLLECT_PRODUCTS("\\s*collect\\s+produce\\s+-n\\s+(?<name>.+)\\s*"),
     SELL_ANIMAL("\\s*sell\\s+animal\\s+n-\\s+(?<name>.+)\\s*"),
     FISHING("\\s*fishing\\s+-p\\s+(?<fishingPole>.+)\\s*"),

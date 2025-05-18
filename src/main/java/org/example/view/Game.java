@@ -7,6 +7,7 @@ import org.example.models.Player;
 import org.example.models.enums.Skill;
 import org.example.models.enums.commands.GameCommands;
 import org.example.models.enums.commands.PreGameMenuCommands;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -285,7 +286,6 @@ public class Game implements AppMenu {
         }
         else if (GameCommands.SELL_ANIMAL.getMatcher(input) != null) {
 
-
             System.out.println(gameController.sellAnimal(GameCommands.SELL_ANIMAL.getMatcher(input)).message());
 
 
@@ -487,11 +487,6 @@ public class Game implements AppMenu {
         if ( GameCommands.EXIT_GAME.getMatcher(input) == null ){
             System.out.printf("It is " + App.dataManager.getCurrentGame().getCurrentTurnPlayer().getUsername() + "'s turn: ");
         }
-
-//        for(Player player : App.dataManager.getCurrentGame().getPlayers()){
-//            System.out.println(player.getUsername() + " has " + player.getGold());
-//        }
-
 
     }
 

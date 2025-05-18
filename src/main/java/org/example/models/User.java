@@ -2,6 +2,10 @@ package org.example.models;
 
 import org.example.models.enums.SecurityQuestion;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.HashMap;
 
 public class User extends Human {
@@ -16,6 +20,7 @@ public class User extends Human {
     private boolean stayLoggedInNextTime;
     private int highestEarnedMoney; // TODO
     private int gamesPlayed;
+    private String hashedPassword;
 
 
     public User(String username, String password, String nickname, String email, String gender,SecurityQuestion securityQuestion, String securityAnswer) {
@@ -31,9 +36,19 @@ public class User extends Human {
         this.securityAnswer = securityAnswer;
         this.highestEarnedMoney = 0;
         this.gamesPlayed = 0;
+        this.hashedPassword = hashPassword(password);
 
     }
 
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hashBytes);
+        } catch(NoSuchAlgorithmException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     public void setHighestEarnedMoney(int highestEarnedMoney) {
         this.highestEarnedMoney = highestEarnedMoney;

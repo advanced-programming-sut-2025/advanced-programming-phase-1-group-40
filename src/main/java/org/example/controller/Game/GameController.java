@@ -135,7 +135,7 @@ public class GameController {
 
         updateFriendshipWithAnimal();
         updatePlayersFriendship();
-
+        updateAnimal();
         //foraging generation
 
 
@@ -149,25 +149,50 @@ public class GameController {
 
     }
 
+    private void updateAnimal(){
+
+        for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
+
+            for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimalLivingSpaces() ){
+
+                for ( Animal animal : animalLivingSpace.getAnimals() ){
+
+                    animal.setPetToday(false);
+                    animal.setAteGrass(false);
+                    animal.setFedWithHayToday(false);
+
+
+                }
+
+            }
+
+        }
+
+    }
+
     public void animalProductUpdate(){
 
         for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
 
-            for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimals() ){
+            for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimalLivingSpaces() ){
 
-                if ( (animal.getLastProductMade() + 1) == animal.getAnimalType().getProductCycle() ) {
+                for ( Animal animal : animalLivingSpace.getAnimals() ){
 
-                    animal.setLastProductMade(0);
+                    if ( (animal.getLastProductMade() + 1) == animal.getAnimalType().getProductCycle() ) {
 
-                    if ( animal.isPetToday() || animal.isFedWithHayToday() ) {
-                        animal.addProduct(new AnimalProduct(getRandomAnimalProductType(animal),getRandomAnimalProductQuality(animal)));
+                        animal.setLastProductMade(0);
+
+                        if ( animal.isPetToday() || animal.isFedWithHayToday() || animal.isAteGrass()) {
+                            animal.addProduct(new AnimalProduct(getRandomAnimalProductType(animal),getRandomAnimalProductQuality(animal)));
+
+                        }
+
 
                     }
+                    else{
+                        animal.setLastProductMade(animal.getLastProductMade()+1);
+                    }
 
-
-                }
-                else{
-                    animal.setLastProductMade(animal.getLastProductMade()+1);
                 }
 
             }
@@ -194,17 +219,19 @@ public class GameController {
     public AnimalProductQuality getRandomAnimalProductQuality(Animal animal){
 
 
-        Double quality = ( animal.getFriendshipWithOwner() / 1000 ) * ( 0.5 + Math.random()* 0.5 );
+//        Double quality = ( animal.getFriendshipWithOwner() / 1000 ) * ( 0.5 + Math.random()* 0.5 );
+//
+//        for ( AnimalProductQuality animalProductQuality : AnimalProductQuality.values() ) {
+//
+//            if ( animalProductQuality.getMinQuality() < quality  && animalProductQuality.getMaxQuality() >= quality ) {
+//                return animalProductQuality;
+//            }
+//
+//        }
+//
+//        return null;
 
-        for ( AnimalProductQuality animalProductQuality : AnimalProductQuality.values() ) {
-
-            if ( animalProductQuality.getMinQuality() < quality  && animalProductQuality.getMaxQuality() >= quality ) {
-                return animalProductQuality;
-            }
-
-        }
-
-        return null;
+        return AnimalProductQuality.NORMAL;
 
     }
 
@@ -814,23 +841,23 @@ public class GameController {
 
     public Result buyAnimal(Matcher input) {                            ///  TODO: CHECK IF PLAYER IS IN MARNIE SHOP
 
-        if ( App.dataManager.getCurrentGame().getMap()
-                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()]
-                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY()].getType()
-                != TileType.MARNIES_RANCH)
-        {
+//        if ( App.dataManager.getCurrentGame().getMap()
+//                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()]
+//                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY()].getType()
+//                != TileType.MARNIES_RANCH)
+//        {
+//
+//            return new Result(false,"You can only buy animals if you are in Marnie's Ranch");
+//
+//        }
 
-            return new Result(false,"You can only buy animals if you are in Marnie's Ranch");
-
-        }
-
-        AnimalType animalType = parseAnimalType(input.group("animalType").trim());
+        AnimalType animalType = parseAnimalType(input.group("animalName").trim());
 
         if ( animalType == null ){
             return new Result(false,"Invalid animal type");
         }
 
-        String animalName = input.group("animalName").trim();
+        String animalName = input.group("name").trim();
 
         if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold() < animalType.getPrice() ){
             return new Result(false,"You don't have enough money ):");
@@ -879,7 +906,11 @@ public class GameController {
 
         }
 
-        return null;
+        AnimalLivingSpace newHome = new AnimalLivingSpace(FarmBuildingType.COOP,new Position(0,0));
+        App.dataManager.getCurrentGame().getPlayerFarms().get(player).addFarmBuildings(newHome);
+        return newHome;
+
+//        return null;
 
     }
 
@@ -936,12 +967,14 @@ public class GameController {
 
     private Animal findAnimalByName(String name){
 
-        for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimals()  ){
+        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces()  ){
 
-            if ( animal.getName().equals(name) ){
+            for ( Animal animal : animalLivingSpace.getAnimals() ){
+                if ( animal.getName().equals(name) ){
 
-                return animal;
+                    return animal;
 
+                }
             }
 
         }
@@ -973,10 +1006,13 @@ public class GameController {
 
         int count = 1;
 
-        for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimals()  ){
+        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces()  ){
 
-            System.out.println(count + ". Your friendship with: " +animal.getName() + "(" + animal.getAnimalType() + ") is:" + animal.getFriendshipWithOwner());
-            count ++;
+
+            for ( Animal animal : animalLivingSpace.getAnimals() ){
+                System.out.println(count + ". Your friendship with: " +animal.getName() + "(" + animal.getAnimalType() + ") is:" + animal.getFriendshipWithOwner());
+                count ++;
+            }
 
         }
 
@@ -1047,7 +1083,14 @@ public class GameController {
             return new Result(false,"Animal not found");
         }
 
-        App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).removeAnimal(animal);
+        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces()  ){
+
+            if ( animalLivingSpace.getAnimals().contains(animal) ){
+                animalLivingSpace.removeAnimal(animal);
+            }
+
+
+        }
         App.dataManager.getCurrentGame().getCurrentTurnPlayer().setGold(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold()+calculateAnimalPrice(animal));
         return new Result(true,"You sold " + animalName);
 
@@ -1111,7 +1154,9 @@ public class GameController {
 
         }
 
-        return new Result(true,"Collected " + animal.getProducts().size() + " products");
+        animal.getProducts().clear();
+
+        return new Result(true,"Collected products");
 
     }
 
