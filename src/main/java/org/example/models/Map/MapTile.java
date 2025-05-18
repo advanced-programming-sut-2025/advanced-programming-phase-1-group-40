@@ -57,6 +57,23 @@ public class MapTile implements Serializable {
         this.foragingMineralType = foragingMineralType;
     }
 
+    public void removeForageableItem(){
+        this.mapComponents = null;
+        this.crop = null;
+        this.treeType = null;
+        this.foragingMineralType = null;
+        this.isEmpty = true;
+        if(type.equals(TileType.WATERED_SOIL) || isWatered == true){
+            isWatered = true;
+        }
+        else if (type.equals(TileType.STONE)){
+            type = TileType.GROUND;
+        }
+        else if (type.equals(TileType.FORAGEABLE)){
+            type = TileType.GROUND;
+        }
+    }
+
     public boolean isEmpty() {
         return isEmpty;
     }
