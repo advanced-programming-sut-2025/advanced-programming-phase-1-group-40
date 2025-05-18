@@ -2045,10 +2045,34 @@ public class GameController {
     }
 
     public Result showQuestsList() {
-        Game game = getCurrentGame();
 
+        StringBuilder message = new StringBuilder("Quest List:\n");
 
-        return new Result(true, "");
+        boolean hasAnyQuests = false;
+
+        for ( Quest quest : App.dataManager.getCurrentGame().getQuests() ) {
+
+            if ( !quest.isCompleted() ) {
+
+                if ( App.dataManager.getCurrentGame().getNPCByNPCType(quest.getNpc()).getFriendshipXP(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) > 0 ) {
+
+                    message.append(quest.toString());
+
+                    hasAnyQuests = true;
+
+                }
+
+            }
+
+            message.append("\n\n");
+
+        }
+
+        if ( !hasAnyQuests ) {
+            return new Result(true, "You don't have any quests yet. Meet NPCs to unlock them");
+        }
+
+        return new Result(true, message.toString());
     }
 
     public Result finishQuest(String index) {
