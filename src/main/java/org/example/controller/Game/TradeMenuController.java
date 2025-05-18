@@ -371,6 +371,8 @@ public class TradeMenuController {
             return new Result(false,"Trade is not open");
         }
 
+
+
         if ( answer.trim().toLowerCase().equals("reject") ) {
 
             if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().equals(selectedTrade.getSender()) ){
@@ -422,7 +424,7 @@ public class TradeMenuController {
 
         selectedTrade.setReceiverAccepted(true);
         selectedTrade.setSenderAccepted(true);
-        updateFriendshipTrade(selectedTrade.getSender(),selectedTrade.getReceiver(),true);
+        updateFriendshipTradeAccepted(selectedTrade.getSender(),selectedTrade.getReceiver());
         selectedTrade.closeTrade();
         return new Result(true,"Trade accepted successfully");
 
@@ -443,26 +445,28 @@ public class TradeMenuController {
     }
 
 
-    private void updateFriendshipTrade(Player player1, Player player2, boolean tradeDone){
+    private void updateFriendshipTradeAccepted(Player player1, Player player2){
 
         FriendshipWithPlayers friendship1 = getFriendshipWithPlayers(player1, player2);
         FriendshipWithPlayers friendship2 = getFriendshipWithPlayers(player2, player1);
 
-        if ( ! friendship1.isHug() ){
 
-            friendship1.setHug(true);
-            friendship2.setHug(true);
+
+        if ( ! friendship1.isTrade() ){
+
+            friendship1.setTrade(true);
+            friendship2.setTrade(true);
             friendship1.setInteraction(true);
             friendship2.setInteraction(true);
 
-            if ( (friendship1.getFriendshipXP() + 60) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
+            if ( (friendship1.getFriendshipXP() + 50) > ((friendship1.getFriendshipLevel().getLevel()+1) * 100) ){
 
                 if ( friendship1.getFriendshipLevel().getLevel() < 4 ){
 
-                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 60) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship1.setFriendshipXP((friendship1.getFriendshipXP() + 50) - ((friendship1.getFriendshipLevel().getLevel()+1) * 100));
                     friendship1.setFriendshipLevel(FriendshipLevel.values()[(friendship1.getFriendshipLevel().getLevel()+1)]);
 
-                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 60) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
+                    friendship2.setFriendshipXP((friendship2.getFriendshipXP() + 50) - ((friendship2.getFriendshipLevel().getLevel()+1) * 100));
                     friendship2.setFriendshipLevel(FriendshipLevel.values()[(friendship2.getFriendshipLevel().getLevel()+1)]);
 
                 }
@@ -473,14 +477,17 @@ public class TradeMenuController {
 
             }
             else{
-                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 60);
-                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 60);
+                friendship1.setFriendshipXP(friendship1.getFriendshipXP() + 50);
+                friendship2.setFriendshipXP(friendship2.getFriendshipXP() + 50);
 
             }
 
         }
 
     }
+
+
+
 
     public void showTradeList() {
 
