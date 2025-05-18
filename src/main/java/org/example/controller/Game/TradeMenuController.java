@@ -72,7 +72,7 @@ public class TradeMenuController {
     }
 
 
-    private Item getItemByName(Player player ,String name) {
+    public static Item getItemByName(Player player ,String name) {
 
         for (Item item : player.getBackpack().getItems()) {
 
