@@ -2079,13 +2079,15 @@ public class GameController {
 
             if ( !quest.isCompleted() ) {
 
-                if ( App.dataManager.getCurrentGame().getNPCByNPCType(quest.getNpc()).getFriendshipXP(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) > 0 ) {
+
+                if ( quest.isUnlocked(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ) {
 
                     message.append(quest.toString());
 
                     hasAnyQuests = true;
 
                 }
+
 
             }
 
@@ -2100,17 +2102,52 @@ public class GameController {
         return new Result(true, message.toString());
     }
 
-    public Result finishQuest(String index) {
-        Game game = getCurrentGame();
+    public Result finishQuest(String idString) {
+        int id = Integer.parseInt(idString);
 
+        Quest quest = App.dataManager.getCurrentGame().getQuestById(id);
+        if (quest == null) {
 
-        return new Result(true, "");
+            return new Result(false, "Quest not found.");
+
+        }
+
+        if ( !quest.isUnlocked(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ) {
+
+            return new Result(false, "You have not unlocked this quest yet.");
+
+        }
+
+        if ( quest.isCompleted() ) {
+
+            return new Result(false, "Quest is already completed.");
+
+        }
+
+        Item item = TradeMenuController.getItemByName(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), quest.getRequest().getItemName());
+        if ( item == null ) {
+            return new Result(false, "You do not have the requested item.");
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(item.getItemName());
+
+        if ( quest.getReward() == RewardType.FRIENDSHIP_LEVEL ) {
+
+            // TODO: increase friendship by quest.getRewardQuantity() * 200
+
+        }
+
+        if ( quest.getReward() == RewardType.COIN ) {
+
+            App.dataManager.getCurrentGame().getCurrentTurnPlayer().changeGold(quest.getRewardQuantity());
+
+        }
+
+        App.dataManager.getCurrentGame().getCurrentTurnPlayer().addItemToInventory(quest.getReward(), quest.getRewardQuantity());
+
+        quest.setCompleted(true);
+        return new Result(true, "You successfully finished the quest and received rewards.");
     }
-
-
-
-
-
 
     public Result crowAttack() {
 
