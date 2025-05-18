@@ -135,7 +135,7 @@ public class GameController {
 
         updateFriendshipWithAnimal();
         updatePlayersFriendship();
-        updateAnimal();
+
         //foraging generation
 
 
@@ -149,50 +149,25 @@ public class GameController {
 
     }
 
-    private void updateAnimal(){
-
-        for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
-
-            for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimalLivingSpaces() ){
-
-                for ( Animal animal : animalLivingSpace.getAnimals() ){
-
-                    animal.setPetToday(false);
-                    animal.setAteGrass(false);
-                    animal.setFedWithHayToday(false);
-
-
-                }
-
-            }
-
-        }
-
-    }
-
     public void animalProductUpdate(){
 
         for ( Player player : App.dataManager.getCurrentGame().getPlayers() ) {
 
-            for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimalLivingSpaces() ){
+            for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(player).getAnimals() ){
 
-                for ( Animal animal : animalLivingSpace.getAnimals() ){
+                if ( (animal.getLastProductMade() + 1) == animal.getAnimalType().getProductCycle() ) {
 
-                    if ( (animal.getLastProductMade() + 1) == animal.getAnimalType().getProductCycle() ) {
+                    animal.setLastProductMade(0);
 
-                        animal.setLastProductMade(0);
-
-                        if ( animal.isPetToday() || animal.isFedWithHayToday() || animal.isAteGrass()) {
-                            animal.addProduct(new AnimalProduct(getRandomAnimalProductType(animal),getRandomAnimalProductQuality(animal)));
-
-                        }
-
+                    if ( animal.isPetToday() || animal.isFedWithHayToday() ) {
+                        animal.addProduct(new AnimalProduct(getRandomAnimalProductType(animal),getRandomAnimalProductQuality(animal)));
 
                     }
-                    else{
-                        animal.setLastProductMade(animal.getLastProductMade()+1);
-                    }
 
+
+                }
+                else{
+                    animal.setLastProductMade(animal.getLastProductMade()+1);
                 }
 
             }
@@ -218,20 +193,18 @@ public class GameController {
 
     public AnimalProductQuality getRandomAnimalProductQuality(Animal animal){
 
-//
-//        Double quality = ( animal.getFriendshipWithOwner() / 1000 ) * ( 0.5 + Math.random()* 0.5 );
-//
-//        for ( AnimalProductQuality animalProductQuality : AnimalProductQuality.values() ) {
-//
-//            if ( animalProductQuality.getMinQuality() < quality  && animalProductQuality.getMaxQuality() >= quality ) {
-//                return animalProductQuality;
-//            }
-//
-//        }
-//
-//        return null;
 
-        return AnimalProductQuality.NORMAL;
+        Double quality = ( animal.getFriendshipWithOwner() / 1000 ) * ( 0.5 + Math.random()* 0.5 );
+
+        for ( AnimalProductQuality animalProductQuality : AnimalProductQuality.values() ) {
+
+            if ( animalProductQuality.getMinQuality() < quality  && animalProductQuality.getMaxQuality() >= quality ) {
+                return animalProductQuality;
+            }
+
+        }
+
+        return null;
 
     }
 
@@ -595,7 +568,7 @@ public class GameController {
     }
 
     public String eatFood(Matcher matcher) {
-        Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
+       Player player = App.dataManager.getCurrentGame().getCurrentTurnPlayer();
         String foodName = matcher.group("foodName");
         Food foodToEat = null;
         for(Food food : Food.values()){
@@ -666,7 +639,7 @@ public class GameController {
             return "Not enough space in inventory.";
         }
 
-        inventory.CheatAddToInventory(craft, count);
+            inventory.CheatAddToInventory(craft, count);
 
         return "Successfully added " + count + " x " + itemName + " to your inventory.";
 
@@ -798,7 +771,7 @@ public class GameController {
 
     public void thor(Position position){
 
-
+        
 
     }
 
@@ -841,23 +814,23 @@ public class GameController {
 
     public Result buyAnimal(Matcher input) {                            ///  TODO: CHECK IF PLAYER IS IN MARNIE SHOP
 
-//        if ( App.dataManager.getCurrentGame().getMap()
-//                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()]
-//                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY()].getType()
-//                != TileType.MARNIES_RANCH)
-//        {
-//
-//            return new Result(false,"You can only buy animals if you are in Marnie's Ranch");
-//
-//        }
+        if ( App.dataManager.getCurrentGame().getMap()
+                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getX()]
+                [App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition().getY()].getType()
+                != TileType.MARNIES_RANCH)
+        {
 
-        AnimalType animalType = parseAnimalType(input.group("animalName").trim());
+            return new Result(false,"You can only buy animals if you are in Marnie's Ranch");
+
+        }
+
+        AnimalType animalType = parseAnimalType(input.group("animalType").trim());
 
         if ( animalType == null ){
             return new Result(false,"Invalid animal type");
         }
 
-        String animalName = input.group("name").trim();
+        String animalName = input.group("animalName").trim();
 
         if ( App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold() < animalType.getPrice() ){
             return new Result(false,"You don't have enough money ):");
@@ -906,11 +879,7 @@ public class GameController {
 
         }
 
-        AnimalLivingSpace newHome = new AnimalLivingSpace(FarmBuildingType.COOP,new Position(0,0));
-        App.dataManager.getCurrentGame().getPlayerFarms().get(player).addFarmBuildings(newHome);
-        return newHome;
-
-//        return null;
+        return null;
 
     }
 
@@ -967,14 +936,12 @@ public class GameController {
 
     private Animal findAnimalByName(String name){
 
-        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces()  ){
+        for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimals()  ){
 
-            for ( Animal animal : animalLivingSpace.getAnimals() ){
-                if ( animal.getName().equals(name) ){
+            if ( animal.getName().equals(name) ){
 
-                    return animal;
+                return animal;
 
-                }
             }
 
         }
@@ -1006,13 +973,10 @@ public class GameController {
 
         int count = 1;
 
-        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces()  ){
+        for ( Animal animal : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimals()  ){
 
-
-            for ( Animal animal : animalLivingSpace.getAnimals() ){
-                System.out.println(count + ". Your friendship with: " +animal.getName() + "(" + animal.getAnimalType() + ") is:" + animal.getFriendshipWithOwner());
-                count ++;
-            }
+            System.out.println(count + ". Your friendship with: " +animal.getName() + "(" + animal.getAnimalType() + ") is:" + animal.getFriendshipWithOwner());
+            count ++;
 
         }
 
@@ -1075,7 +1039,7 @@ public class GameController {
 
     public Result sellAnimal(Matcher input){
 
-        String animalName = input.group("name");
+        String animalName = input.group("animal");
 
         Animal animal = findAnimalByName(animalName);
 
@@ -1083,14 +1047,7 @@ public class GameController {
             return new Result(false,"Animal not found");
         }
 
-        for ( AnimalLivingSpace animalLivingSpace : App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).getAnimalLivingSpaces()  ){
-
-            if ( animalLivingSpace.getAnimals().contains(animal) ){
-                animalLivingSpace.removeAnimal(animal);
-            }
-
-
-        }
+        App.dataManager.getCurrentGame().getPlayerFarms().get(App.dataManager.getCurrentGame().getCurrentTurnPlayer()).removeAnimal(animal);
         App.dataManager.getCurrentGame().getCurrentTurnPlayer().setGold(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getGold()+calculateAnimalPrice(animal));
         return new Result(true,"You sold " + animalName);
 
@@ -1154,9 +1111,7 @@ public class GameController {
 
         }
 
-        animal.getProducts().clear();
-
-        return new Result(true,"Collected products");
+        return new Result(true,"Collected " + animal.getProducts().size() + " products");
 
     }
 
@@ -1187,13 +1142,13 @@ public class GameController {
 
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().addToInventory(
                     caughtFish,
-                    Math.min(
+                            Math.min(
                             numberOfFishes,
                             App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getRemainingCapacity())
-            );
+                    );
 
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().addSkillXP(Skill.FISHING,5);        /// BA HAR BAR MAHI GIRI
-            ///  FISHING SKILL +5
+                                                                                                                 ///  FISHING SKILL +5
 
             App.dataManager.getCurrentGame().getCurrentTurnPlayer().setEnergy(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getEnergy() - fishingRod.getEnergyCost());
 
@@ -1482,100 +1437,59 @@ public class GameController {
     }
 
 
-    private int itemCountInBackpack(String name){
 
-        int count = 0;
-        for ( Item item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
-            if (item.getItemName().toLowerCase().trim().equals(name.toLowerCase().trim())){
-                count++;
-            }
-        }
-        return count;
-
-    }
-
-    public Result giveGift(Matcher input,Scanner scanner) {
-
-        Player targetPlayer = getPlayerByUsername(input.group("username"));
-
-        int amount;
-
-        try{
-            amount = Integer.parseInt(input.group("amount"));
-        }
-        catch (NumberFormatException e){
-            return new Result(false,"Invalid amount format");
-        }
-
-        if ( targetPlayer == null ){
-            return new Result(false,"User not found.");
-        }
-
-
-
-
-
-        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
-
-            return new Result(false,"Target Player is too far away");
-
-        }
-
-        Item item = getItemByNameForCheat(input.group("item"));
-
-        if ( item == null ){
-            return new Result(false,"Item does not exist");
-        }
-
-        String name = input.group("item");
-
-        if ( itemCountInBackpack(name) == 0 ){
-            return new Result(false,"You dont have this item");
-        }
-        else if ( itemCountInBackpack(name) < amount ){
-            return new Result(false,"You dont have enough of this item");
-        }
-
-
-        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().updateInventory(updateInventories(App.dataManager.getCurrentGame().getCurrentTurnPlayer(), targetPlayer,name,amount));
-
-
-        getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).setGift(true);
-        getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer()).setGift(true);
-
-        showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,name,amount);
-
-
-        return new Result(true,"Gift sent");
-    }
-
-    private ArrayList<Item> updateInventories(Player sender, Player receiver, String name, int amount){
-
-        ArrayList<Item> newBackpack = new ArrayList<>();
-        int removed = 0;
-        for ( Item item : sender.getBackpack().getItems() ){
-
-            if ( ! item.getItemName().toLowerCase().trim().equals(name.toLowerCase().trim()) || (removed >= amount) ){
-                newBackpack.add(item);
-            }
-            else{
-                removed++;
-                receiver.getBackpack().addToInventory(item,1);
-            }
-
-        }
-        return newBackpack;
-    }
-
-
-
-
-    private void showMessageToGiftReceiver(Player giftSender, Player targetPlayer, String name, int amount){
-        System.out.println("Dear " + targetPlayer.getUsername() + " you just received a " + amount + "*"+name +" gift from " + giftSender.getUsername());
-        System.out.println("Please rate it from 1 to 5");
-
-    }
 //
+//    public Result giveGift(Matcher input,Scanner scanner) {
+//
+//        Player targetPlayer = getPlayerByUsername(input.group("username"));
+//
+//        int amount;
+//
+//        try{
+//            amount = Integer.parseInt(input.group("amount"));
+//        }
+//        catch (NumberFormatException e){
+//            return new Result(false,"Invalid amount format");
+//        }
+//
+//        if ( targetPlayer == null ){
+//            return new Result(false,"User not found.");
+//        }
+//
+//
+//
+//        if ( ! closeTo(App.dataManager.getCurrentGame().getCurrentTurnPlayer().getCurrentPosition(),targetPlayer.getCurrentPosition()) ){           ///     INJA CHECK MISHE DOORAN YA NA
+//
+//            return new Result(false,"Target Player is too far away");
+//
+//        }
+//
+//        int amountInBackpack = itemCountInBackpack(input.group("item"));
+//
+//        if ( amountInBackpack == 0 ){
+//            return new Result(false,"You dont have that Item");
+//        }
+//        if ( amountInBackpack < amount ){
+//            return new Result(false,"You dont have enough of that Item");
+//        }
+//
+//        App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().removeFromInventory(giftItem,amount);
+//        targetPlayer.getBackpack().addToInventory(giftItem,amount);
+//
+//        getFriendshipWithPlayers(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer).setGift(true);
+//        getFriendshipWithPlayers(targetPlayer,App.dataManager.getCurrentGame().getCurrentTurnPlayer()).setGift(true);
+//
+//        showMessageToGiftReceiver(App.dataManager.getCurrentGame().getCurrentTurnPlayer(),targetPlayer,giftItem);
+//
+//
+//        return new Result(true,"Gift sent");
+//    }
+//
+//    private void showMessageToGiftReceiver(Player giftSender, Player targetPlayer, Item giftItem){
+//        System.out.println("Dear " + targetPlayer.getUsername() + " you just received a " + giftItem.getItemName() +" gift from " + giftSender.getUsername());
+//        System.out.println("Please rate it from 1 to 5");
+//
+//    }
 //
 //
 //    private void updateFriendshipGift(Player player1, Player player2){
@@ -1617,6 +1531,17 @@ public class GameController {
 //
 //    }
 //
+//    private int itemCountInBackpack(Item giftItem) {
+//
+//        int count = 0;
+//        for ( Item item : App.dataManager.getCurrentGame().getCurrentTurnPlayer().getBackpack().getItems() ){
+//            if ( item.equals(giftItem) ){
+//                count++;
+//            }
+//        }
+//
+//        return count;
+//    }
 
 
     public  void showGiftHistory(Matcher input){
@@ -1962,13 +1887,13 @@ public class GameController {
 
         Situation situation = new Situation(
 
-                App.dataManager.getCurrentGame().getTime().getHour(),
+                                            App.dataManager.getCurrentGame().getTime().getHour(),
 
-                App.dataManager.getCurrentGame().getTime().getSeason(),
+                                            App.dataManager.getCurrentGame().getTime().getSeason(),
 
-                App.dataManager.getCurrentGame().getWeather()
+                                            App.dataManager.getCurrentGame().getWeather()
 
-        );
+                                            );
 
         String dialog = npc.getType().getDialogBySituation(situation);
 
@@ -1980,7 +1905,7 @@ public class GameController {
 
     }
 
-    public Result giveGiftToNPC(Matcher input,Scanner scanner) {
+    public Result giveGift(Matcher input,Scanner scanner) {
 
         String npcName = input.group("npcName");
         String itemName = input.group("item");
@@ -2063,7 +1988,7 @@ public class GameController {
 
 
 
-    public Result crowAttack() {
+        public Result crowAttack() {
 
         return null;
 
@@ -2083,7 +2008,7 @@ public class GameController {
     }
 
     public Result setPlayerEnergy(Matcher input){
-        Integer amount;
+            Integer amount;
         try{
             amount = Integer.parseInt(input.group("value"));
         }
@@ -2209,7 +2134,7 @@ public class GameController {
         if (currentType == InventoryType.DELUXE ||
                 (currentType == InventoryType.LARGE && newType == InventoryType.INITIAL)) {
             return new Result(false, "You cannot downgrade your backpack.");
-        }
+       }
 
         // Check if it's the same type (no change)
         if (currentType == newType) {
@@ -2253,7 +2178,7 @@ public class GameController {
     //ALL THE METHODS RELATED TO TOOLS
 
 
-    //
+//
     public Result placeItem(Item item, Direction direction) {
         Position position = neighborTile(direction);
         if (canItemBePlacedHere(position, item)) {

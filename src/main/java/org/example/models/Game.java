@@ -129,11 +129,7 @@ public class Game {
             System.out.println("Cannot reach this position.");
         }
         else{
-            //we have to ask and handle the energy part here,,,
-            //
-            //
-            //
-            //
+          
             int energyNeeded = (walkResult.getDistance() + 10*walkResult.getTurns())/20;
             System.out.println("Energy needed to go to your destination is" + energyNeeded);
             System.out.println("Do you want to go there? (yes/no)");
@@ -300,7 +296,7 @@ public class Game {
                         }
                         break;
                     case WATER:
-                        sb.append(BG_BLUE).append("W").append(RESET);//////////////////////////////
+                        sb.append(BG_BLUE).append(" ").append(RESET);//////////////////////////////
                         break;
                     case CABIN:
                         sb.append("C");
@@ -405,8 +401,8 @@ public class Game {
     public boolean pickUpGroundItem() {
     MapTile tile = map[currentTurnPlayer.getCurrentPosition().getX()][currentTurnPlayer.getCurrentPosition().getY()];
     if (tile.getMapComponents() != null) {
-        MapComponents item = tile.getForageableItem();
-        //addItemToInventory(item, 1);
+        Item item = (Item)tile.getForageableItem();
+        currentTurnPlayer.getBackpack().addToInventory(item, 1);
         tile.removeForageableItem();
         return true;
     }

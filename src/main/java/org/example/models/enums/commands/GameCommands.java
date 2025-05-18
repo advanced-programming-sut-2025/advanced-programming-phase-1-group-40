@@ -145,6 +145,9 @@ public enum GameCommands implements Command{
 
     SHOW_PRODUCT_DETAIL("\\s*craftino\\s+-n\\s+(?<craft_name>.+)\\s*"),
 
+    PICKUP("\\s*pickup\\s*"),
+    
+
 
     // COMMAND HAYE AGRICULTURE
 

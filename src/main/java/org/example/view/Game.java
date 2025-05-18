@@ -177,6 +177,17 @@ public class Game implements AppMenu {
         }
 
 
+
+
+        else if( GameCommands.PICKUP.getMatcher(input) != null){
+            if(App.dataManager.getCurrentGame().pickUpGroundItem()){
+                System.out.println("Item picked up successfully");
+            }
+            else{
+                System.out.println("Ummm no no");
+            }
+        }
+
         ///ENERGY
         
         

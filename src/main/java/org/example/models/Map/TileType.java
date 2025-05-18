@@ -48,7 +48,9 @@ public enum TileType {
     GREENHOUSE,     // Greenhouse for year-round growing
     QUARRY,         // Mining area
     PATH,           // Decorative path
+    COAL,
     FENCE;          // Fence to keep out animals
+    
     
     /**
      * Check if this tile type can be walked on by the player
