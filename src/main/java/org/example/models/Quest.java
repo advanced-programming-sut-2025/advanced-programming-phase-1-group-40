@@ -13,6 +13,7 @@ public class Quest {
     private final Item reward;
     private final int rewardQuantity;
     private boolean completed;
+    private ArrayList<Player> unlockedPlayers;
 
     public Quest(int id, int number, NPCType npc, Item request, int requestQuantity, Item reward, int rewardQuantity) {
         this.id = id;
@@ -23,6 +24,7 @@ public class Quest {
         this.reward = reward;
         this.rewardQuantity = rewardQuantity;
         this.completed = false;
+        this.unlockedPlayers = new ArrayList<>();
     }
 
     public Quest(int number, Item request, int requestQuantity, Item reward, int rewardQuantity) {
@@ -33,6 +35,14 @@ public class Quest {
         this.requestQuantity = requestQuantity;
         this.reward = reward;
         this.rewardQuantity = rewardQuantity;
+    }
+
+    public void unlockForPlayer(Player player) {
+        this.unlockedPlayers.add(player);
+    }
+
+    public boolean isUnlocked(Player player) {
+        return this.unlockedPlayers.contains(player);
     }
 
     public int getId() {
