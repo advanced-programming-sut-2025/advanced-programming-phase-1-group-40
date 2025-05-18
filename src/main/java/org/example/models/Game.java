@@ -41,7 +41,7 @@ public class Game {
     private ArrayList<Trade> trades;
 
 
-    public Game(Player creator, ArrayList<Player> players) {
+public Game(Player creator, ArrayList<Player> players) {
 
 
         this.trades = new ArrayList<>();
@@ -67,11 +67,43 @@ public class Game {
         for (Player player : players) {
             friendships.put(player, new FriendshipWithNPC(0, FriendshipLevel.STRANGER));
         }
-        for (NPCType npcType : NPCType.values()) {
+
+        quests = new ArrayList<>();
+
+        for ( NPCType npcType : NPCType.values() ) {
             NPC npc = new NPC(friendships, npcType);
             npcs.add(npc);
+
+            for ( Quest questType : npcType.getQuests() ) {
+
+                Quest quest = new Quest(
+
+                        quests.size() + 1,
+
+                        questType.getNumber(),
+
+                        npcType,
+
+                        questType.getRequest(),
+
+                        questType.getRequestQuantity(),
+
+                        questType.getReward(),
+
+                        questType.getRewardQuantity()
+
+                );
+
+                quests.add(quest);
+
+            }
+
         }
         
+    }
+
+        public ArrayList<Quest> getQuests() {
+        return quests;
     }
 
 
