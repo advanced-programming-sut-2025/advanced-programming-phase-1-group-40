@@ -236,7 +236,7 @@ public class Game implements AppMenu {
         else if (GameCommands.BUILD.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.build(GameCommands.BUILD.getMatcher(input)).message());
 
 
         }
@@ -330,35 +330,35 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_ALL_PRODUCTS_IN_STORE.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.showAllProducts().message());
 
 
         }
         else if (GameCommands.SHOW_AVAILABLE_PRODUCTS_IN_STORE.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.showAvailableProducts().message());
 
 
         }
         else if (GameCommands.PURCHASE_ITEM.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.purchase(GameCommands.PURCHASE_ITEM.getMatcher(input).group(1), GameCommands.PURCHASE_ITEM.getMatcher(input).group(2)));
 
 
         }
         else if (GameCommands.CHEAT_ADD_MONEY.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.cheatAddDollars(GameCommands.CHEAT_ADD_MONEY.getMatcher(input).group(1)));
 
 
         }
         else if (GameCommands.SELL_ITEM.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.sell(GameCommands.SELL_ITEM.getMatcher(input).group(1), GameCommands.SELL_ITEM.getMatcher(input).group(2)).message());
 
 
         }
@@ -389,21 +389,21 @@ public class Game implements AppMenu {
         else if (GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input) != null) {
 
 
-            System.out.println("give to others");
+            System.out.println(gameController.giveGift(GameCommands.GIVE_GIFT_TO_OTHERS.getMatcher(input), scanner));
 
 
         }
         else if (GameCommands.SHOW_RECEIVED_GIFTS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println("show received gifts");
 
 
         }
         else if (GameCommands.RATE_GIFT.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println("rate gift");
 
 
         }
@@ -460,7 +460,7 @@ public class Game implements AppMenu {
         else if (GameCommands.GIFT_NPC.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.giveGiftToNPC(GameCommands.GIFT_NPC.getMatcher(input), scanner));
 
 
         }
@@ -474,14 +474,14 @@ public class Game implements AppMenu {
         else if (GameCommands.SHOW_QUESTS_LIST.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.showQuestsList().message());
 
 
         }
         else if (GameCommands.FINISH_QUESTS.getMatcher(input) != null) {
 
 
-            System.out.println("build new building");
+            System.out.println(gameController.finishQuest(GameCommands.FINISH_QUESTS.getMatcher(input).group(1)).message());
 
 
         }
