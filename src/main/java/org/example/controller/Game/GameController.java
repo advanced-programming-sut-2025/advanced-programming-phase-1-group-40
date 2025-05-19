@@ -2080,6 +2080,7 @@ public class GameController {
             if ( !quest.isCompleted() ) {
 
 
+
                 if ( quest.isUnlocked(App.dataManager.getCurrentGame().getCurrentTurnPlayer()) ) {
 
                     message.append(quest.toString());
